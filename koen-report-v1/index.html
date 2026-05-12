@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KoPASS IBT 기획문서 v1</title>
+<title>MaroPass IBT 기획문서 v1</title>
 <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <style>
   :root {
@@ -301,12 +301,11 @@
 
 <header class="cover">
   <div class="cover-inner">
-    <div class="label" data-i18n="cover_label">KOPASS IBT · 기획문서 v1</div>
+    <div class="label" data-i18n="cover_label">MAROPASS IBT · 기획문서 v1</div>
     <h1 data-i18n-html="cover_title">일본 시장을 위한<br>한국어 말하기 IBT 플랫폼</h1>
     <p class="lede" data-i18n="cover_lede">학습 1~2년 미만의 일본인 학습자가 자신의 말하기 실력을 객관적으로 진단할 수 있는 온라인 시험. 결제부터 인증서까지 한 플로우으로 설계된 1차 오픈 기획 초안입니다.</p>
     <div class="cover-meta">
       <span class="pill" data-i18n="pill_draft">v1 초안</span>
-      <span class="pill" data-i18n="pill_audience">KOEN 보고용</span>
     </div>
   </div>
 </header>
@@ -317,11 +316,11 @@
   <h2><span class="n">00 / Summary</span><span data-i18n="sec_summary">한눈에 보기</span></h2>
   <p class="lede-sm" data-i18n="summary_lede">사업의 윤곽 — 무엇을 누구에게 어떤 방식으로 제공하는지.</p>
   <table>
-    <tr><th data-i18n="row_name">사업명</th><td>KoPASS IBT (Korean Proficiency Assessment, Internet Based Test)</td></tr>
+    <tr><th data-i18n="row_name">사업명</th><td data-i18n="row_name_v">MaroPass(마로파스) IBT</td></tr>
     <tr><th data-i18n="row_position">포지셔닝</th><td data-i18n-html="row_position_v">TOPIK의 대체가 아닌, 일본인 학습자의 <strong>말하기 진단·모의고사</strong></td></tr>
     <tr><th data-i18n="row_scope">1차 오픈 범위</th><td data-i18n-html="row_scope_v"><strong>말하기 단독</strong>. 쓰기·듣기·읽기는 본 문서 범위 외</td></tr>
     <tr><th data-i18n="row_mode">응시 방식</th><td data-i18n-html="row_mode_v">온라인 전용. <strong>데스크탑·모바일 웹</strong>. 응시는 터치클래스 사용자 web이 새 창으로 열림 (앱은 라운드 2)</td></tr>
-    <tr><th data-i18n="row_period">응시 기간</th><td data-i18n-html="row_period_v">결제일로부터 <strong>14일 이내</strong>, 24시간 언제든 응시 <span class="tbd">1차 적용 검토 중</span></td></tr>
+    <tr><th data-i18n="row_period">응시 기간</th><td data-i18n-html="row_period_v">결제일로부터 <strong>14일 이내</strong>, 24시간 언제든 응시<br><span style="font-size:13px;color:#b91c1c;display:inline-block;margin-top:6px;line-height:1.55;">※ <strong style="color:#b91c1c;">24시간 언제든 응시</strong>는 1차 적용 가능. <strong style="color:#b91c1c;">결제일 14일 이내 응시 윈도우</strong>(자동 만료·D-day 카운트·리마인더)는 개발 공수가 커 1차 오픈에는 부담 — 1차 적용 여부는 추후 협의로 확정.</span></td></tr>
     <tr><th data-i18n="row_payment">결제</th><td data-i18n="row_payment_v">일본 PG 1개사. 신용카드 + QR 결제. 단건 결제</td></tr>
     <tr><th data-i18n="row_stage">진행 단계</th><td data-i18n="row_stage_v">기획 초안 → 디자인 → 개발 → 베타 → 정식 개시 (날짜 별도 합의)</td></tr>
   </table>
@@ -333,9 +332,8 @@
 
   <h3 data-i18n="h3_benefits">학습자가 받는 것</h3>
   <ul>
-    <li data-i18n-html="b1">발음·유창성·어휘·문법·내용 구성 <strong>5개 영역의 점수표</strong></li>
-    <li data-i18n="b3">문항별 AI 피드백 — 답안과 STT 비교, 추천 연습 안내</li>
-    <li data-i18n="b4">1급~6급 진단 등급과 종합 코멘트</li>
+    <li data-i18n="b3">문항별 피드백 — 모범 답안과 STT 텍스트 비교(평가자 코멘트 포함)</li>
+    <li data-i18n="b4">시험 결과 점수와 종합 코멘트</li>
     <li data-i18n="b5">결과지 PDF와 인증서 PDF, 위변조 검증 URL 포함</li>
   </ul>
 
@@ -343,13 +341,13 @@
   <table>
     <tr><th data-i18n="row_time">시험 시간</th><td data-i18n="row_time_v">약 25분 (23문항)</td></tr>
     <tr><th data-i18n="row_areas">5개 영역</th><td data-i18n="row_areas_v">발음 · 유창성 · 어휘 · 문법 · 내용 구성</td></tr>
-    <tr><th data-i18n="row_grading">채점</th><td data-i18n="row_grading_v">AI 1차 자동 채점. 시험 종료 직후 처리. 운영자 보정 가능</td></tr>
+    <tr><th data-i18n="row_grading">채점</th><td data-i18n="row_grading_v">1차 자동 채점. 시험 종료 직후 처리. 운영자 보정 가능</td></tr>
     <tr><th data-i18n="row_publish">결과 공개</th><td data-i18n="row_publish_v">운영자가 관리자 콘솔에서 공개 처리 (정책 5)</td></tr>
   </table>
 
   <h3 data-i18n="h3_topik">TOPIK과의 관계</h3>
   <div class="note" data-i18n-html="topik_note">
-    KoPASS는 TOPIK의 <strong>대체가 아닙니다.</strong> TOPIK 말하기 시험을 보완하는 진단·모의고사 포지션이며, 학습자가 자신의 말하기 실력을 객관적으로 점검할 수 있도록 돕습니다. 메인 페이지와 약관에 본 포지셔닝을 명시합니다.
+    MaroPass는 TOPIK의 <strong>대체가 아닙니다.</strong> TOPIK 말하기 시험을 보완하는 진단·모의고사 포지션이며, 학습자가 자신의 말하기 실력을 객관적으로 점검할 수 있도록 돕습니다. 메인 페이지와 약관에 본 포지셔닝을 명시합니다.
   </div>
 </section>
 
@@ -360,8 +358,8 @@
   <div class="sysmap">
     <div class="sysmap-row">
       <div class="sysmap-box">
-        <span class="sb-tag" data-i18n="map_sys1_tag">서비스 사이트 (KoPASS)</span>
-        <div class="sb-title" data-i18n="map_sys1_title">KoPASS 본 사이트</div>
+        <span class="sb-tag" data-i18n="map_sys1_tag">서비스 사이트 (MaroPass)</span>
+        <div class="sb-title" data-i18n="map_sys1_title">MaroPass 본 사이트</div>
         <ul class="sb-list">
           <li data-i18n="map_sys1_1">가입 · 로그인</li>
           <li data-i18n="map_sys1_2">시험 목록 · 상세 · 결제</li>
@@ -378,7 +376,7 @@
           <li data-i18n="map_sys2_2">응시 본인 확인</li>
           <li data-i18n="map_sys2_3">환경 점검 게이트</li>
           <li data-i18n="map_sys2_4">응시 클라이언트</li>
-          <li data-i18n="map_sys2_5">응시 결과 (점수표·AI 피드백)</li>
+          <li data-i18n="map_sys2_5">응시 결과 (점수 · 피드백)</li>
         </ul>
       </div>
       <div class="sysmap-box dark">
@@ -406,7 +404,7 @@
     <div class="sysmap-vline"></div>
 
     <div class="sysmap-center">
-      <span class="sc-tag" data-i18n="map_ai_tag">AI 엔진</span>
+      <span class="sc-tag" data-i18n="map_ai_tag">채점 엔진</span>
       <span class="sc-desc" data-i18n="map_ai_desc">출제 보조 · STT · 채점 · 피드백</span>
     </div>
 
@@ -420,10 +418,10 @@
 
   <div class="roles">
     <div class="role">
-      <span class="tag" data-i18n="sys1_tag">서비스 사이트 (KoPASS)</span>
+      <span class="tag" data-i18n="sys1_tag">서비스 사이트 (MaroPass)</span>
       <div class="role-name" data-i18n="sys1_role">회원 · 결제 · 마이페이지</div>
       <ul>
-        <li data-i18n="sys1_1">가입 · 로그인 (이메일, LINE·Google·Apple)</li>
+        <li data-i18n="sys1_1">가입 · 로그인 (이메일, Google)</li>
         <li data-i18n="sys1_2">시험 목록 · 시험 상세 · 결제</li>
         <li data-i18n-html="sys1_3">마이페이지 — <strong>응시하기 버튼</strong>(새창으로 사용자 web)</li>
         <li data-i18n="sys1_4">마이페이지 — 결제 내역(영수증 PDF)</li>
@@ -439,7 +437,7 @@
         <li data-i18n="sys2_2">응시 본인 확인</li>
         <li data-i18n="sys2_3">환경 점검 게이트</li>
         <li data-i18n="sys2_4">응시 클라이언트 (시험 진행)</li>
-        <li data-i18n="sys2_5">응시 결과 확인 (점수표 · AI 피드백)</li>
+        <li data-i18n="sys2_5">응시 결과 확인 (점수 · 피드백)</li>
         <li data-i18n="sys2_6">서비스 사이트에서 "응시하기" 클릭 시 새 창으로 진입</li>
       </ul>
     </div>
@@ -450,7 +448,7 @@
         <li data-i18n="sys3_1">기존 솔루션 메뉴 (시험 관리·평가/채점·통계·시스템 설정)</li>
         <li data-i18n-html="sys3_2"><strong>회원 목록 (신규 메뉴)</strong> — 서비스 사이트에서 수집된 회원가입·결제 데이터 모음</li>
         <li data-i18n="sys3_3">응시자별 답안·녹음·STT 조회</li>
-        <li data-i18n="sys3_4">AI 채점 점수 보정 · 결과 공개</li>
+        <li data-i18n="sys3_4">자동 채점 점수 보정 · 결과 공개</li>
         <li data-i18n="sys3_5">1:1 문의 답변 · 환불 승인</li>
         <li data-i18n="sys3_6">★ 문제 만들기 (향후 핵심)</li>
       </ul>
@@ -461,6 +459,27 @@
     <strong>응시 진입 정책.</strong> 서비스 사이트 마이페이지의 "응시하기" 버튼은 <strong>새 창</strong>으로 터치클래스 사용자 web home을 엽니다. home에는 학습자가 결제한 시험 목록이 표시되며 거기서 응시·결과 확인을 진행합니다. 결제 내역(영수증)·인증서·결과지 PDF는 본 사이트 마이페이지에 남아 있어, 응시 창과 본 사이트가 동시에 떠 있어도 동선이 겹치지 않습니다.<br><br>
     <strong>회원·결제 데이터 흐름.</strong> 서비스 사이트에서 발생한 가입·결제·환불 데이터는 터치클래스 관리자 web의 <strong>회원 목록</strong> 메뉴에 모입니다. 운영자는 단일 화면에서 회원 정보·결제 이력·응시 이력을 함께 확인합니다.
   </div>
+
+  <h3 data-i18n="h3_device">디바이스별 진입 방식</h3>
+  <p data-i18n-html="device_lede"><strong>1차 오픈 디바이스</strong>: 데스크탑·모바일 <strong>웹</strong>만. iOS/Android 네이티브 앱과 푸시 알림은 라운드 2 이후 도입.</p>
+  <table>
+    <tr>
+      <th data-i18n="device_col_1">디바이스</th>
+      <td data-i18n="device_col_2">진입</td>
+    </tr>
+    <tr><th data-i18n="device_desktop">데스크탑 (Win/Mac)</th><td data-i18n="device_desktop_v">브라우저 (Chrome / Safari / Edge) — 2단 뷰포트(좌: 문제, 우: 응시)</td></tr>
+    <tr><th data-i18n="device_mobile">모바일 웹</th><td data-i18n="device_mobile_v">모바일 Safari / Chrome — 1단 스택 뷰포트</td></tr>
+    <tr><th data-i18n="device_app">iOS·Android 앱</th><td data-i18n="device_app_v">라운드 2 이후 App Store / Play Store 배포</td></tr>
+  </table>
+
+  <h3 data-i18n="h3_result_pdf">결과 · PDF 위치 분리</h3>
+  <p data-i18n="result_pdf_lede">결과 확인과 PDF 다운로드를 시스템별로 분리해 학습자 동선이 겹치지 않게 합니다.</p>
+  <table>
+    <tr><th data-i18n="result_pdf_col_1">항목</th><td data-i18n="result_pdf_col_2">위치 · 이유</td></tr>
+    <tr><th data-i18n="result_pdf_r1_t">응시 결과 확인 (점수·피드백)</th><td data-i18n-html="result_pdf_r1_v"><strong>터치클래스 사용자 web</strong> · 응시 직후 같은 컨텍스트에서 즉시 확인</td></tr>
+    <tr><th data-i18n="result_pdf_r2_t">인증서 PDF · 결과지 PDF 다운로드</th><td data-i18n-html="result_pdf_r2_v"><strong>서비스 사이트 마이페이지</strong> · 학습자 보관 자료(영수증·인증서·결과지)를 한 곳에 일원화</td></tr>
+    <tr><th data-i18n="result_pdf_r3_t">영수증 PDF 다운로드</th><td data-i18n-html="result_pdf_r3_v"><strong>서비스 사이트 마이페이지 → 결제 내역</strong> · 결제가 발생한 곳에서 영수증</td></tr>
+  </table>
 </section>
 
 <section>
@@ -475,7 +494,7 @@
       </div>
       <div>
         <div class="stage-name" data-i18n="step1_name">가입 · 로그인</div>
-        <p class="stage-desc" data-i18n="step1_desc">이메일 인증 가입 또는 LINE·Google·Apple 소셜 가입. 일본 시장 표준 3종만 지원(카카오·네이버 미지원). 약관 동의와 최소 개인정보 수집.</p>
+        <p class="stage-desc" data-i18n="step1_desc">이메일 인증 가입 또는 Google 소셜 가입. (LINE·Apple·카카오·네이버 등은 1차 미포함). 약관 동의와 최소 개인정보 수집.</p>
       </div>
     </div>
     <div class="stage">
@@ -505,7 +524,7 @@
       </div>
       <div>
         <div class="stage-name" data-i18n="step4_name">응시 — 본인 확인 → 환경 점검 → 시험 (터치클래스 사용자 web)</div>
-        <p class="stage-desc" data-i18n="step4_desc">터치클래스 사용자 web의 결제된 시험 목록에서 시험 시작 → ① 본인 확인(이름·이메일·시험명 표시), ② 환경 점검 게이트(마이크·네트워크·브라우저), ③ 응시 클라이언트 진입 순으로 진행되며 종료 직후 AI가 자동 채점합니다.</p>
+        <p class="stage-desc" data-i18n="step4_desc">터치클래스 사용자 web의 결제된 시험 목록에서 시험 시작 → ① 본인 확인(이름·이메일·시험명 표시), ② 환경 점검 게이트(마이크·음량·녹음 재생), ③ 응시 클라이언트 진입 순으로 진행되며 종료 직후 자동 채점됩니다.</p>
       </div>
     </div>
     <div class="stage">
@@ -515,7 +534,7 @@
       </div>
       <div>
         <div class="stage-name" data-i18n="step5_name">결과 · 인증서</div>
-        <p class="stage-desc" data-i18n-html="step5_desc">운영자가 결과를 공개하면 <strong>결과 확인은 터치클래스 사용자 web</strong>에서 — 점수표, 1급~6급 등급, 문항별 AI 피드백. <strong>인증서 PDF · 결과지 PDF 다운로드는 서비스 사이트 마이페이지</strong>에서. 학습자의 보관 자료(영수증·인증서·결과지)는 본 사이트로 일원화됩니다.</p>
+        <p class="stage-desc" data-i18n-html="step5_desc">운영자가 결과를 공개하면 <strong>결과 확인은 터치클래스 사용자 web</strong>에서 — 점수, 문항별 피드백(모범 답안 vs STT 비교 + 평가자 코멘트). <strong>인증서 PDF · 결과지 PDF 다운로드는 서비스 사이트 마이페이지</strong>에서. 학습자의 보관 자료(영수증·인증서·결과지)는 본 사이트로 일원화됩니다.</p>
       </div>
     </div>
   </div>
@@ -534,7 +553,7 @@
     <li data-i18n-html="w1">응시 가능 기간 — <strong>결제 후 14일 이내</strong> <span class="tbd" data-i18n="tbd_label">1차 적용 검토 중</span></li>
     <li data-i18n-html="w2">만료 알림 — D-1과 D-day에 자동 메일 발송 <span class="tbd" data-i18n="tbd_label_round2">1차 미적용 가능 · 라운드 2 후보</span></li>
     <li data-i18n="w3">만료 후 — 자동 만료 처리(응시 시작 시점 체크). 환불은 제공되지 않으며 재응시도 불가</li>
-    <li data-i18n="w4">예외 — 시스템·네트워크 장애로 응시 진행이 불가했음이 확인된 경우 운영자 수동 검토 후 재응시 티켓 발급</li>
+    <li data-i18n="w4">예외 — 시스템 장애로 응시 진행이 불가했음이 확인된 경우 운영자 수동 검토 후 재응시 기능 제공</li>
     <li data-i18n-html="w5"><strong>참고.</strong> 마스터 문서상 14일 윈도우는 *임시 운영 방식*이며 라운드 2 이후 회차 운영(3·6·9·12월 2주씩)으로 전환 예정. 1차 적용 범위와 메일 리마인더 인프라 도입 여부는 합의 후 확정.</li>
   </ul>
 
@@ -542,7 +561,7 @@
   <ul>
     <li data-i18n="r1">응시 전 미사용 환불 신청은 마이페이지 1:1 문의로 접수. 운영팀 검토 후 영업일 3~5일 이내 환원</li>
     <li data-i18n="r2">응시 후 변심·결과 불만족은 환불 불가</li>
-    <li data-i18n="r3">시스템 장애로 응시 진행 불가 시 자동 환불 또는 재응시 티켓 발행 — 운영자 판단</li>
+    <li data-i18n="r3">시스템 장애로 응시 진행 불가 시 자동 환불 또는 재응시 기능 제공 — 운영자 판단</li>
   </ul>
 
   <h3 data-i18n="h3_window2">응시 진입 — 새 창 정책</h3>
@@ -552,15 +571,15 @@
   <p data-i18n="identity_text">응시 시작 직전 본인 확인 화면에서 이름·이메일·시험명을 표시합니다. 학습자가 본인임을 체크박스로 확인한 뒤 환경 점검 게이트로 진입합니다. 카메라·SMS 검증은 추후 도입 예정.</p>
 
   <h3 data-i18n="h3_envcheck">환경 점검 게이트</h3>
-  <p data-i18n-html="envcheck_text">본인 확인을 통과한 직후 마이크 권한, 녹음 재생, 네트워크, 브라우저 4개 항목을 자동 점검합니다. 통과 시에만 응시 클라이언트에 진입할 수 있습니다. <strong>결제 시점과 분리되어 있어 결제는 환경과 무관하게 진행됩니다.</strong></p>
+  <p data-i18n-html="envcheck_text">본인 확인을 통과한 직후 마이크 권한·음량·5초 녹음 재생 3개 항목을 자동 점검합니다. 통과 시에만 응시 클라이언트에 진입할 수 있습니다. <strong>결제 시점과 분리되어 있어 결제는 환경과 무관하게 진행됩니다.</strong></p>
 
   <h3 data-i18n="h3_incident">응시 중 사고 대응</h3>
   <ul>
-    <li data-i18n="i1">네트워크 끊김 — 자동 재연결, 시간 보존</li>
+    <li data-i18n="i1">접속 끊김 — 자동 재연결, 시간 보존</li>
     <li data-i18n="i2">마이크 권한 회수 — 알림과 재허가 가이드</li>
     <li data-i18n="i3">타이머 — 카운트다운 후 답안 자동 제출</li>
     <li data-i18n="i4">이탈 차단 — 응시 중 페이지 닫기·뒤로가기 시 경고</li>
-    <li data-i18n="i5">지속적 오류 — 운영팀에 자동 로그 전송, 재응시 티켓 검토</li>
+    <li data-i18n="i5">지속적 오류 — 운영팀에 자동 로그 전송, 재응시 기능 검토</li>
   </ul>
 
   <h3 data-i18n="h3_mail">시스템 알림 메일</h3>
@@ -590,9 +609,9 @@
       <div class="role-name" data-i18n="newin_role">시스템 개발 · 운영 · 유지보수</div>
       <ul>
         <li data-i18n="n1">웹과 앱 시스템 개발</li>
-        <li data-i18n="n2">AI 출제 엔진</li>
-        <li data-i18n="n3">AI 채점 엔진 (STT·점수 산출)</li>
-        <li data-i18n="n4">AI 피드백 엔진</li>
+        <li data-i18n="n2">출제 엔진</li>
+        <li data-i18n="n3">자동 채점 엔진 (STT·점수 산출)</li>
+        <li data-i18n="n4">피드백 시스템 (STT 비교 + 평가자 코멘트 입력 도구)</li>
         <li data-i18n="n5">인증서 PDF + 위변조 검증 시스템</li>
         <li data-i18n="n6">결제 PG 연동·정산</li>
         <li data-i18n="n7">장애 대응·인프라 운영</li>
@@ -608,7 +627,7 @@
         <li data-i18n="k3">응시료 관리·정산 수령</li>
         <li data-i18n="k4">학습 콘텐츠 제작 (시험 안내·FAQ·공지)</li>
         <li data-i18n="k5">환불 요청 검토·승인</li>
-        <li data-i18n="k6">재응시 티켓 발행 판단</li>
+        <li data-i18n="k6">재응시 기능 제공 판단</li>
         <li data-i18n="k7">운영자 결과 공개 처리</li>
         <li data-i18n="k8">채점 보정 (필요 시)</li>
       </ul>
@@ -674,7 +693,7 @@
     </div>
     <div class="future-item">
       <div class="ft-title" data-i18n="f2_title">운영 통계 확장</div>
-      <div class="ft-desc" data-i18n="f2_desc">응시자 분석(평균 발화 길이·이탈률), 문항별 응답 시간 분포, AI 채점 vs 운영자 보정 차이 분석.</div>
+      <div class="ft-desc" data-i18n="f2_desc">응시자 분석(평균 발화 길이·이탈률), 문항별 응답 시간 분포, 자동 채점 vs 운영자 보정 차이 분석.</div>
     </div>
     <div class="future-item">
       <div class="ft-title" data-i18n="f3_title">문제 만들기 깊이</div>
@@ -710,7 +729,7 @@
 
 <footer>
   <div class="footer-inner">
-    <div><strong data-i18n="footer_title">KoPASS IBT 기획문서 v1 초안</strong></div>
+    <div><strong data-i18n="footer_title">MaroPass IBT 기획문서 v1 초안</strong></div>
     <div data-i18n="footer_from">Newin 기획팀 → KOEN</div>
   </div>
 </footer>
@@ -720,49 +739,48 @@
 <script>
 const i18n = {
   ko: {
-    cover_label: 'KOPASS IBT · 기획문서 v1',
+    cover_label: 'MAROPASS IBT · 기획문서 v1',
     cover_title: '일본 시장을 위한<br>한국어 말하기 IBT 플랫폼',
     cover_lede: '학습 1~2년 미만의 일본인 학습자가 자신의 말하기 실력을 객관적으로 진단할 수 있는 온라인 시험. 결제부터 인증서까지 한 플로우으로 설계된 1차 오픈 기획 초안입니다.',
-    pill_draft: 'v1 초안', pill_audience: 'KOEN 보고용',
+    pill_draft: 'v1 초안',
 
     sec_summary: '한눈에 보기',
     summary_lede: '사업의 윤곽 — 무엇을 누구에게 어떤 방식으로 제공하는지.',
-    row_name: '사업명',
+    row_name: '사업명', row_name_v: 'MaroPass(마로파스) IBT',
     row_position: '포지셔닝', row_position_v: 'TOPIK의 대체가 아닌, 일본인 학습자의 <strong>말하기 진단·모의고사</strong>',
     row_scope: '1차 오픈 범위', row_scope_v: '<strong>말하기 단독</strong>. 쓰기·듣기·읽기는 본 문서 범위 외',
     row_mode: '응시 방식', row_mode_v: '온라인 전용. <strong>데스크탑·모바일 웹</strong>. 응시는 터치클래스 사용자 web이 새 창으로 열림 (앱은 라운드 2)',
-    row_period: '응시 기간', row_period_v: '결제일로부터 <strong>14일 이내</strong>, 24시간 언제든 응시 <span class="tbd">1차 적용 검토 중</span>',
+    row_period: '응시 기간', row_period_v: '결제일로부터 <strong>14일 이내</strong>, 24시간 언제든 응시<br><span style="font-size:13px;color:#b91c1c;display:inline-block;margin-top:6px;line-height:1.55;">※ <strong style="color:#b91c1c;">24시간 언제든 응시</strong>는 1차 적용 가능. <strong style="color:#b91c1c;">결제일 14일 이내 응시 윈도우</strong>(자동 만료·D-day 카운트·리마인더)는 개발 공수가 커 1차 오픈에는 부담 — 1차 적용 여부는 추후 협의로 확정.</span>',
     row_payment: '결제', row_payment_v: '일본 PG 1개사. 신용카드 + QR 결제. 단건 결제',
     row_stage: '진행 단계', row_stage_v: '기획 초안 → 디자인 → 개발 → 베타 → 정식 개시 (날짜 별도 합의)',
 
     sec_product: '서비스 개요',
     product_lede: '학습자가 받게 되는 가치와 시험의 구조.',
     h3_benefits: '학습자가 받는 것',
-    b1: '발음·유창성·어휘·문법·내용 구성 <strong>5개 영역의 점수표</strong>',
-    b3: '문항별 AI 피드백 — 답안과 STT 비교, 추천 연습 안내',
-    b4: '1급~6급 진단 등급과 종합 코멘트',
+    b3: '문항별 피드백 — 모범 답안과 STT 텍스트 비교(평가자 코멘트 포함)',
+    b4: '시험 결과 점수와 종합 코멘트',
     b5: '결과지 PDF와 인증서 PDF, 위변조 검증 URL 포함',
 
     sec_structure: '시스템 구조 (3개 영역)',
     structure_lede: '기능별로 3개 시스템이 분담합니다. 학습자는 영역 사이를 단일 로그인으로 자연스럽게 이동합니다.',
-    map_sys1_tag: '서비스 사이트 (KoPASS)', map_sys1_title: 'KoPASS 본 사이트',
+    map_sys1_tag: '서비스 사이트 (MaroPass)', map_sys1_title: 'MaroPass 본 사이트',
     map_sys1_1: '가입 · 로그인', map_sys1_2: '시험 목록 · 상세 · 결제',
     map_sys1_3: '마이페이지 (응시하기 ↗)', map_sys1_4: '영수증 · 인증서 · 결과지 PDF',
     map_sys1_5: '환불 · 1:1 문의 · FAQ',
     map_sys2_tag: '터치클래스 사용자 web', map_sys2_title: '새 창 — 응시 전용',
     map_sys2_1: 'home (결제된 시험 목록)', map_sys2_2: '응시 본인 확인',
     map_sys2_3: '환경 점검 게이트', map_sys2_4: '응시 클라이언트',
-    map_sys2_5: '응시 결과 (점수표·AI 피드백)',
+    map_sys2_5: '응시 결과 (점수 · 피드백)',
     map_sys3_tag: '터치클래스 관리자 web', map_sys3_title: '운영자 전용',
     map_sys3_1: '시험 관리 · 문제 은행', map_sys3_2: '평가/채점 · 결과 공개',
     map_sys3_3: '통계 · 시스템 설정', map_sys3_4: '1:1 문의 · 환불 처리',
     map_sys3_5: '★ 회원 목록 (신규)',
     map_new_window: '↗ 응시하기 클릭 시 새 창',
     map_api_tag: '공통 백엔드 API', map_api_desc: '3개 시스템이 공유하는 데이터·인증 레이어',
-    map_ai_tag: 'AI 엔진', map_ai_desc: '출제 보조 · STT · 채점 · 피드백',
+    map_ai_tag: '채점 엔진', map_ai_desc: '출제 보조 · STT · 채점 · 피드백',
     map_pg_tag: '외부 일본 PG (1개사)', map_pg_desc: '신용카드 + QR',
-    sys1_tag: '서비스 사이트 (KoPASS)', sys1_role: '회원 · 결제 · 마이페이지',
-    sys1_1: '가입 · 로그인 (이메일, LINE·Google·Apple)',
+    sys1_tag: '서비스 사이트 (MaroPass)', sys1_role: '회원 · 결제 · 마이페이지',
+    sys1_1: '가입 · 로그인 (이메일, Google)',
     sys1_2: '시험 목록 · 시험 상세 · 결제',
     sys1_3: '마이페이지 — <strong>응시하기 버튼</strong>(새창으로 사용자 web)',
     sys1_4: '마이페이지 — 결제 내역(영수증 PDF)',
@@ -771,21 +789,35 @@ const i18n = {
     sys2_tag: '터치클래스 사용자 web (새창)', sys2_role: '결제된 시험 응시 · 결과 확인',
     sys2_1: '<strong>home — 결제된 시험 목록</strong> (응시 대기 + 응시 완료)',
     sys2_2: '응시 본인 확인', sys2_3: '환경 점검 게이트',
-    sys2_4: '응시 클라이언트 (시험 진행)', sys2_5: '응시 결과 확인 (점수표 · AI 피드백)',
+    sys2_4: '응시 클라이언트 (시험 진행)', sys2_5: '응시 결과 확인 (점수 · 피드백)',
     sys2_6: '서비스 사이트에서 "응시하기" 클릭 시 새 창으로 진입',
     sys3_tag: '터치클래스 관리자 web', sys3_role: '시험 운영 · 채점 · 회원 관리',
     sys3_1: '기존 솔루션 메뉴 (시험 관리·평가/채점·통계·시스템 설정)',
     sys3_2: '<strong>회원 목록 (신규 메뉴)</strong> — 서비스 사이트에서 수집된 회원가입·결제 데이터 모음',
-    sys3_3: '응시자별 답안·녹음·STT 조회', sys3_4: 'AI 채점 점수 보정 · 결과 공개',
+    sys3_3: '응시자별 답안·녹음·STT 조회', sys3_4: '자동 채점 점수 보정 · 결과 공개',
     sys3_5: '1:1 문의 답변 · 환불 승인', sys3_6: '★ 문제 만들기 (향후 핵심)',
     structure_note: '<strong>응시 진입 정책.</strong> 서비스 사이트 마이페이지의 "응시하기" 버튼은 <strong>새 창</strong>으로 터치클래스 사용자 web home을 엽니다. home에는 학습자가 결제한 시험 목록이 표시되며 거기서 응시·결과 확인을 진행합니다. 결제 내역(영수증)·인증서·결과지 PDF는 본 사이트 마이페이지에 남아 있어, 응시 창과 본 사이트가 동시에 떠 있어도 동선이 겹치지 않습니다.<br><br><strong>회원·결제 데이터 흐름.</strong> 서비스 사이트에서 발생한 가입·결제·환불 데이터는 터치클래스 관리자 web의 <strong>회원 목록</strong> 메뉴에 모입니다. 운영자는 단일 화면에서 회원 정보·결제 이력·응시 이력을 함께 확인합니다.',
+
+    h3_device: '디바이스별 진입 방식',
+    device_lede: '<strong>1차 오픈 디바이스</strong>: 데스크탑·모바일 <strong>웹</strong>만. iOS/Android 네이티브 앱과 푸시 알림은 라운드 2 이후 도입.',
+    device_col_1: '디바이스', device_col_2: '진입',
+    device_desktop: '데스크탑 (Win/Mac)', device_desktop_v: '브라우저 (Chrome / Safari / Edge) — 2단 뷰포트(좌: 문제, 우: 응시)',
+    device_mobile: '모바일 웹', device_mobile_v: '모바일 Safari / Chrome — 1단 스택 뷰포트',
+    device_app: 'iOS·Android 앱', device_app_v: '라운드 2 이후 App Store / Play Store 배포',
+
+    h3_result_pdf: '결과 · PDF 위치 분리',
+    result_pdf_lede: '결과 확인과 PDF 다운로드를 시스템별로 분리해 학습자 동선이 겹치지 않게 합니다.',
+    result_pdf_col_1: '항목', result_pdf_col_2: '위치 · 이유',
+    result_pdf_r1_t: '응시 결과 확인 (점수·피드백)', result_pdf_r1_v: '<strong>터치클래스 사용자 web</strong> · 응시 직후 같은 컨텍스트에서 즉시 확인',
+    result_pdf_r2_t: '인증서 PDF · 결과지 PDF 다운로드', result_pdf_r2_v: '<strong>서비스 사이트 마이페이지</strong> · 학습자 보관 자료(영수증·인증서·결과지)를 한 곳에 일원화',
+    result_pdf_r3_t: '영수증 PDF 다운로드', result_pdf_r3_v: '<strong>서비스 사이트 마이페이지 → 결제 내역</strong> · 결제가 발생한 곳에서 영수증',
     h3_structure: '시험 구조',
     row_time: '시험 시간', row_time_v: '약 25분 (23문항)',
     row_areas: '5개 영역', row_areas_v: '발음 · 유창성 · 어휘 · 문법 · 내용 구성',
-    row_grading: '채점', row_grading_v: 'AI 1차 자동 채점. 시험 종료 직후 처리. 운영자 보정 가능',
+    row_grading: '채점', row_grading_v: '1차 자동 채점. 시험 종료 직후 처리. 운영자 보정 가능',
     row_publish: '결과 공개', row_publish_v: '운영자가 관리자 콘솔에서 공개 처리 (정책 5)',
     h3_topik: 'TOPIK과의 관계',
-    topik_note: 'KoPASS는 TOPIK의 <strong>대체가 아닙니다.</strong> TOPIK 말하기 시험을 보완하는 진단·모의고사 포지션이며, 학습자가 자신의 말하기 실력을 객관적으로 점검할 수 있도록 돕습니다. 메인 페이지와 약관에 본 포지셔닝을 명시합니다.',
+    topik_note: 'MaroPass는 TOPIK의 <strong>대체가 아닙니다.</strong> TOPIK 말하기 시험을 보완하는 진단·모의고사 포지션이며, 학습자가 자신의 말하기 실력을 객관적으로 점검할 수 있도록 돕습니다. 메인 페이지와 약관에 본 포지셔닝을 명시합니다.',
 
     sec_flow: '응시자 플로우',
     tbd_label: '1차 적용 검토 중',
@@ -793,15 +825,15 @@ const i18n = {
     w5: '<strong>참고.</strong> 마스터 문서상 14일 윈도우는 *임시 운영 방식*이며 라운드 2 이후 회차 운영(3·6·9·12월 2주씩)으로 전환 예정. 1차 적용 범위와 메일 리마인더 인프라 도입 여부는 합의 후 확정.',
     flow_lede: '학습자가 처음 만나서 인증서를 받기까지 다섯 단계.',
     step1_sub: '진입', step1_name: '가입 · 로그인',
-    step1_desc: '이메일 인증 가입 또는 LINE·Google·Apple 소셜 가입. 일본 시장 표준 3종만 지원(카카오·네이버 미지원). 약관 동의와 최소 개인정보 수집.',
+    step1_desc: '이메일 인증 가입 또는 Google 소셜 가입. (LINE·Apple·카카오·네이버 등은 1차 미포함). 약관 동의와 최소 개인정보 수집.',
     step2_sub: '결제', step2_name: '시험 선택 · 결제',
     step2_desc: '시험 목록에서 시험 상세로 진입해 가격·구성·샘플 문항을 확인한 뒤 결제. 신용카드 또는 QR 결제. 결제 완료 메일과 영수증 PDF가 자동 발행됩니다. 적격청구서 인보이스는 PG API 연동 시점에 함께 도입 예정.',
     step3_sub: '대기', step3_name: '응시 대기 (14일 윈도우) <span class="tbd">1차 적용 검토 중</span>',
     step3_desc: '서비스 사이트 마이페이지에서 D-day를 확인합니다. 결제일로부터 14일 이내 24시간 언제든 응시 가능. <strong>D-1과 D-day 자동 리마인더 메일은 1차 오픈 미적용 가능성</strong>(메일 스케줄러 인프라 공수 검토 중) — 만료 안내 메일 1회만 1차에 포함될 수 있습니다. 14일 경과 시 자동 만료. 마이페이지의 "응시하기" 버튼을 누르면 새 창으로 터치클래스 사용자 web home이 열립니다.',
     step4_sub: '응시', step4_name: '응시 — 본인 확인 → 환경 점검 → 시험 (터치클래스 사용자 web)',
-    step4_desc: '터치클래스 사용자 web의 결제된 시험 목록에서 시험 시작 → ① 본인 확인(이름·이메일·시험명 표시), ② 환경 점검 게이트(마이크·네트워크·브라우저), ③ 응시 클라이언트 진입 순으로 진행되며 종료 직후 AI가 자동 채점합니다.',
+    step4_desc: '터치클래스 사용자 web의 결제된 시험 목록에서 시험 시작 → ① 본인 확인(이름·이메일·시험명 표시), ② 환경 점검 게이트(마이크·음량·녹음 재생), ③ 응시 클라이언트 진입 순으로 진행되며 종료 직후 자동 채점됩니다.',
     step5_sub: '결과', step5_name: '결과 · 인증서',
-    step5_desc: '운영자가 결과를 공개하면 <strong>결과 확인은 터치클래스 사용자 web</strong>에서 — 점수표, 1급~6급 등급, 문항별 AI 피드백. <strong>인증서 PDF · 결과지 PDF 다운로드는 서비스 사이트 마이페이지</strong>에서. 학습자의 보관 자료(영수증·인증서·결과지)는 본 사이트로 일원화됩니다.',
+    step5_desc: '운영자가 결과를 공개하면 <strong>결과 확인은 터치클래스 사용자 web</strong>에서 — 점수, 문항별 피드백(모범 답안 vs STT 비교 + 평가자 코멘트). <strong>인증서 PDF · 결과지 PDF 다운로드는 서비스 사이트 마이페이지</strong>에서. 학습자의 보관 자료(영수증·인증서·결과지)는 본 사이트로 일원화됩니다.',
     h3_window2: '응시 진입 — 새 창 정책',
     window2_text: '서비스 사이트 마이페이지의 "응시하기" 버튼은 <strong>새 창</strong>으로 터치클래스 사용자 web home을 엽니다. 응시 창과 본 사이트가 동시에 떠 있어 학습자는 응시 중에도 본 사이트에서 결제 내역 등을 확인할 수 있습니다. 안내 문구: "응시는 새 창에서 진행됩니다. 팝업이 차단되면 허용해 주세요."',
     flow_note: '플로우 박스 다이어그램은 <a href="flow-overview.html" class="inline-link">flow-overview.html</a>, 화면별 와이어프레임은 <a href="wireframes.html" class="inline-link">wireframes.html</a>에 별도로 정리되어 있습니다.',
@@ -812,21 +844,21 @@ const i18n = {
     w1: '응시 가능 기간 — <strong>결제 후 14일 이내</strong> <span class="tbd">1차 적용 검토 중</span>',
     w2: '만료 알림 — D-1과 D-day에 자동 메일 발송 <span class="tbd">1차 미적용 가능 · 라운드 2 후보</span>',
     w3: '만료 후 — 자동 만료 처리(응시 시작 시점 체크). 환불은 제공되지 않으며 재응시도 불가',
-    w4: '예외 — 시스템·네트워크 장애로 응시 진행이 불가했음이 확인된 경우 운영자 수동 검토 후 재응시 티켓 발급',
+    w4: '예외 — 시스템 장애로 응시 진행이 불가했음이 확인된 경우 운영자 수동 검토 후 재응시 기능 제공',
     h3_refund: '환불 · 취소',
     r1: '응시 전 미사용 환불 신청은 마이페이지 1:1 문의로 접수. 운영팀 검토 후 영업일 3~5일 이내 환원',
     r2: '응시 후 변심·결과 불만족은 환불 불가',
-    r3: '시스템 장애로 응시 진행 불가 시 자동 환불 또는 재응시 티켓 발행 — 운영자 판단',
+    r3: '시스템 장애로 응시 진행 불가 시 자동 환불 또는 재응시 기능 제공 — 운영자 판단',
     h3_identity: '응시 본인 확인',
     identity_text: '응시 시작 직전 본인 확인 화면에서 이름·이메일·시험명을 표시합니다. 학습자가 본인임을 체크박스로 확인한 뒤 환경 점검 게이트로 진입합니다. 카메라·SMS 검증은 추후 도입 예정.',
     h3_envcheck: '환경 점검 게이트',
-    envcheck_text: '본인 확인을 통과한 직후 마이크 권한, 녹음 재생, 네트워크, 브라우저 4개 항목을 자동 점검합니다. 통과 시에만 응시 클라이언트에 진입할 수 있습니다. <strong>결제 시점과 분리되어 있어 결제는 환경과 무관하게 진행됩니다.</strong>',
+    envcheck_text: '본인 확인을 통과한 직후 마이크 권한·음량·5초 녹음 재생 3개 항목을 자동 점검합니다. 통과 시에만 응시 클라이언트에 진입할 수 있습니다. <strong>결제 시점과 분리되어 있어 결제는 환경과 무관하게 진행됩니다.</strong>',
     h3_incident: '응시 중 사고 대응',
-    i1: '네트워크 끊김 — 자동 재연결, 시간 보존',
+    i1: '접속 끊김 — 자동 재연결, 시간 보존',
     i2: '마이크 권한 회수 — 알림과 재허가 가이드',
     i3: '타이머 — 카운트다운 후 답안 자동 제출',
     i4: '이탈 차단 — 응시 중 페이지 닫기·뒤로가기 시 경고',
-    i5: '지속적 오류 — 운영팀에 자동 로그 전송, 재응시 티켓 검토',
+    i5: '지속적 오류 — 운영팀에 자동 로그 전송, 재응시 기능 검토',
     h3_mail: '시스템 알림 메일',
     m_when: '시점', m_what: '<strong>내용</strong>',
     m1_when: '결제 완료 직후', m1_what: '결제 확인 + 영수증 PDF 안내',
@@ -842,11 +874,11 @@ const i18n = {
     sec_roles: 'Newin × KOEN 역할 분담',
     roles_lede: '시스템 측과 운영 측의 책임 영역.',
     newin_role: '시스템 개발 · 운영 · 유지보수',
-    n1: '웹과 앱 시스템 개발', n2: 'AI 출제 엔진', n3: 'AI 채점 엔진 (STT·점수 산출)', n4: 'AI 피드백 엔진',
+    n1: '웹과 앱 시스템 개발', n2: '출제 엔진', n3: '자동 채점 엔진 (STT·점수 산출)', n4: '피드백 시스템 (STT 비교 + 평가자 코멘트 입력 도구)',
     n5: '인증서 PDF + 위변조 검증 시스템', n6: '결제 PG 연동·정산', n7: '장애 대응·인프라 운영', n8: '관리자 콘솔 개발',
     koen_tag: 'KOEN (코엔)', koen_role: '시행 운영 · 응시자 대응 · 콘텐츠',
     k1: '시험 시행 운영', k2: '응시자 문의·민원 대응 (1:1 문의)', k3: '응시료 관리·정산 수령', k4: '학습 콘텐츠 제작 (시험 안내·FAQ·공지)',
-    k5: '환불 요청 검토·승인', k6: '재응시 티켓 발행 판단', k7: '운영자 결과 공개 처리', k8: '채점 보정 (필요 시)',
+    k5: '환불 요청 검토·승인', k6: '재응시 기능 제공 판단', k7: '운영자 결과 공개 처리', k8: '채점 보정 (필요 시)',
     roles_note: '<strong>협업 접점.</strong> 관리자 콘솔은 Newin에서 개발하며, KOEN 운영자 계정이 별도 발급됩니다. 위 KOEN 영역은 모두 관리자 콘솔에서 수행됩니다. 상세 권한 매트릭스는 별도 합의 문서로 발행됩니다.',
 
     sec_stages: '진행 단계',
@@ -860,7 +892,7 @@ const i18n = {
     sec_future: '향후 계획',
     future_lede: '1차 오픈 후 운영 데이터를 보고 결정할 영역. 본 패키지에서는 예정으로만 표시합니다.',
     f1_title: '결제·결제 수단 확장', f1_desc: '적격청구서 인보이스 PDF 도입(일본 소비세법 대응), 쿠폰·할인 코드, 이용권 패키지 결제.',
-    f2_title: '운영 통계 확장', f2_desc: '응시자 분석(평균 발화 길이·이탈률), 문항별 응답 시간 분포, AI 채점 vs 운영자 보정 차이 분석.',
+    f2_title: '운영 통계 확장', f2_desc: '응시자 분석(평균 발화 길이·이탈률), 문항별 응답 시간 분포, 자동 채점 vs 운영자 보정 차이 분석.',
     f3_title: '문제 만들기 깊이', f3_desc: 'LLM 자동 생성 보조(지문·TTS 스크립트·모범 답안·채점 기준표), 문제 품질 평가 자동화, 다국어 문제 동시 작성.',
     f4_title: '보안 · 본인 확인 강화', f4_desc: '응시자 2FA, 카메라·SMS 본인 확인, IP 화이트리스트, 권한 매트릭스 UI.',
     f5_title: 'iOS·Android 앱 + 푸시 알림', f5_desc: '1차는 데스크탑·모바일 웹만. 라운드 2에서 네이티브 앱 + 푸시 알림 인프라 도입, 알림 종류별 수신 설정 분리.',
@@ -873,54 +905,53 @@ const i18n = {
     s4: '관리자 권한 상세 — KOEN 운영자별 권한 매트릭스는 별도 합의 문서로 발행됩니다',
     s5: '법적 약관 문구 — 이용약관·개인정보처리방침·특정상거래법 표시 문구는 법무 검토 후 별도 확정합니다',
 
-    footer_title: 'KoPASS IBT 기획문서 v1 초안',
+    footer_title: 'MaroPass IBT 기획문서 v1 초안',
     footer_from: 'Newin 기획팀 → KOEN',
     btn_print: '인쇄 / PDF 저장',
   },
   ja: {
-    cover_label: 'KOPASS IBT · 企画書 v1',
+    cover_label: 'MAROPASS IBT · 企画書 v1',
     cover_title: '日本市場向けの<br>韓国語スピーキング IBT プラットフォーム',
     cover_lede: '学習1〜2年未満の日本人学習者が自分のスピーキング能力を客観的に診断できるオンライン試験。決済から証明書まで一フローで設計された1次オープン企画ドラフトです。',
-    pill_draft: 'v1 ドラフト', pill_audience: 'KOEN報告用',
+    pill_draft: 'v1 ドラフト',
 
     sec_summary: '一目で見る',
     summary_lede: '事業の輪郭 — 何を、誰に、どのような方法で提供するか。',
-    row_name: '事業名',
+    row_name: '事業名', row_name_v: 'MaroPass(マロパス) IBT',
     row_position: 'ポジショニング', row_position_v: 'TOPIKの代替ではなく、日本人学習者のための<strong>スピーキング診断·模擬試験</strong>',
     row_scope: '1次オープン範囲', row_scope_v: '<strong>スピーキング単独</strong>。ライティング·リスニング·リーディングは本書範囲外',
     row_mode: '受験方式', row_mode_v: 'オンライン専用。<strong>デスクトップ·モバイルweb</strong>。受験はタッチクラスユーザーwebが新しい窓で開きます(アプリはラウンド2)',
-    row_period: '受験期間', row_period_v: '決済日から<strong>14日以内</strong>、24時間いつでも受験 <span class="tbd">1次適用 検討中</span>',
+    row_period: '受験期間', row_period_v: '決済日から<strong>14日以内</strong>、24時間いつでも受験<br><span style="font-size:13px;color:#b91c1c;display:inline-block;margin-top:6px;line-height:1.55;">※ <strong style="color:#b91c1c;">24時間いつでも受験</strong>は1次適用可能。<strong style="color:#b91c1c;">決済日から14日以内の受験ウィンドウ</strong>(自動失効·D-dayカウント·リマインダー)は開発工数が大きく1次オープンには負担 — 1次適用の可否は今後の協議で確定。</span>',
     row_payment: '決済', row_payment_v: '日本のPG 1社。クレジットカード + QR決済。単件決済',
     row_stage: '進行段階', row_stage_v: '企画ドラフト → デザイン → 開発 → ベータ → 正式開始(日程は別途合意)',
 
     sec_product: 'サービス概要',
     product_lede: '学習者が受け取る価値と試験の構造。',
     h3_benefits: '学習者が受け取るもの',
-    b1: '発音·流暢さ·語彙·文法·内容構成 <strong>5領域のスコア表</strong>',
-    b3: '問題別AIフィードバック — 回答とSTT比較、推奨練習の案内',
-    b4: '1〜6級診断等級と総合コメント',
+    b3: '問題別フィードバック — 模範解答とSTTテキスト比較(評価者コメント含む)',
+    b4: '試験結果スコアと総合コメント',
     b5: '結果レポートPDFと証明書PDF、偽造防止検証URL付き',
 
     sec_structure: 'システム構造(3領域)',
     structure_lede: '機能別に3つのシステムが分担します。学習者はシングルログインで領域間をシームレスに移動します。',
-    map_sys1_tag: 'サービスサイト(KoPASS)', map_sys1_title: 'KoPASS 本サイト',
+    map_sys1_tag: 'サービスサイト(MaroPass)', map_sys1_title: 'MaroPass 本サイト',
     map_sys1_1: '会員登録 · ログイン', map_sys1_2: '試験一覧 · 詳細 · 決済',
     map_sys1_3: 'マイページ(受験する ↗)', map_sys1_4: '領収書 · 証明書 · 結果レポートPDF',
     map_sys1_5: '返金 · 1:1問い合わせ · FAQ',
     map_sys2_tag: 'タッチクラス ユーザーweb', map_sys2_title: '新しい窓 — 受験専用',
     map_sys2_1: 'home(決済済み試験リスト)', map_sys2_2: '受験者本人確認',
     map_sys2_3: '動作環境チェックゲート', map_sys2_4: '受験クライアント',
-    map_sys2_5: '受験結果(スコア表·AIフィードバック)',
+    map_sys2_5: '受験結果(スコア · フィードバック)',
     map_sys3_tag: 'タッチクラス 管理者web', map_sys3_title: '運営者専用',
     map_sys3_1: '試験管理 · 問題バンク', map_sys3_2: '評価/採点 · 結果公開',
     map_sys3_3: '統計 · システム設定', map_sys3_4: '1:1問い合わせ · 返金処理',
     map_sys3_5: '★ 会員一覧(新規)',
     map_new_window: '↗ 「受験する」クリック時に新しい窓',
     map_api_tag: '共通バックエンドAPI', map_api_desc: '3システムが共有するデータ·認証レイヤー',
-    map_ai_tag: 'AIエンジン', map_ai_desc: '出題補助 · STT · 採点 · フィードバック',
+    map_ai_tag: '採点エンジン', map_ai_desc: '出題補助 · STT · 採点 · フィードバック',
     map_pg_tag: '外部 日本PG(1社)', map_pg_desc: 'クレジットカード + QR',
-    sys1_tag: 'サービスサイト(KoPASS)', sys1_role: '会員 · 決済 · マイページ',
-    sys1_1: '会員登録 · ログイン(メール、LINE·Google·Apple)',
+    sys1_tag: 'サービスサイト(MaroPass)', sys1_role: '会員 · 決済 · マイページ',
+    sys1_1: '会員登録 · ログイン(メール、Google)',
     sys1_2: '試験一覧 · 試験詳細 · 決済',
     sys1_3: 'マイページ — <strong>受験するボタン</strong>(新しい窓でユーザーweb)',
     sys1_4: 'マイページ — 決済履歴(領収書PDF)',
@@ -929,21 +960,35 @@ const i18n = {
     sys2_tag: 'タッチクラス ユーザーweb(新しい窓)', sys2_role: '決済済み試験の受験 · 結果確認',
     sys2_1: '<strong>home — 決済済み試験リスト</strong>(受験待機 + 受験完了)',
     sys2_2: '受験者本人確認', sys2_3: '動作環境チェックゲート',
-    sys2_4: '受験クライアント(試験進行)', sys2_5: '受験結果確認(スコア表 · AIフィードバック)',
+    sys2_4: '受験クライアント(試験進行)', sys2_5: '受験結果確認(スコア · フィードバック)',
     sys2_6: 'サービスサイトの「受験する」クリック時に新しい窓で進入',
     sys3_tag: 'タッチクラス 管理者web', sys3_role: '試験運営 · 採点 · 会員管理',
     sys3_1: '既存ソリューションメニュー(試験管理·評価/採点·統計·システム設定)',
     sys3_2: '<strong>会員一覧(新規メニュー)</strong> — サービスサイトで収集された会員登録·決済データのまとめ',
-    sys3_3: '受験者別の回答·録音·STT照会', sys3_4: 'AI採点スコア補正 · 結果公開',
+    sys3_3: '受験者別の回答·録音·STT照会', sys3_4: '自動採点スコア補正 · 結果公開',
     sys3_5: '1:1問い合わせ回答 · 返金承認', sys3_6: '★ 問題作成(今後の核心)',
     structure_note: '<strong>受験進入ポリシー。</strong>サービスサイトのマイページの「受験する」ボタンは<strong>新しい窓</strong>でタッチクラスユーザーwebのhomeを開きます。homeには学習者が決済した試験リストが表示され、そこで受験·結果確認を進めます。決済履歴(領収書)·証明書·結果レポートPDFは本サイトのマイページに残るため、受験窓と本サイトが同時に開いていても動線が衝突しません。<br><br><strong>会員·決済データの流れ。</strong>サービスサイトで発生した登録·決済·返金データは、タッチクラス管理者webの<strong>会員一覧</strong>メニューに集約されます。運営者は単一画面で会員情報·決済履歴·受験履歴を一緒に確認します。',
+
+    h3_device: 'デバイス別の進入方式',
+    device_lede: '<strong>1次オープンのデバイス</strong>: デスクトップ·モバイル<strong>web</strong>のみ。iOS/Androidネイティブアプリとプッシュ通知はラウンド2以降に導入。',
+    device_col_1: 'デバイス', device_col_2: '進入',
+    device_desktop: 'デスクトップ (Win/Mac)', device_desktop_v: 'ブラウザ (Chrome / Safari / Edge) — 2段ビューポート(左:問題、右:受験)',
+    device_mobile: 'モバイルweb', device_mobile_v: 'モバイル Safari / Chrome — 1段スタックビューポート',
+    device_app: 'iOS·Androidアプリ', device_app_v: 'ラウンド2以降にApp Store / Play Storeで配布',
+
+    h3_result_pdf: '結果 · PDFの場所分離',
+    result_pdf_lede: '結果確認とPDFダウンロードをシステム別に分離し、学習者の動線が衝突しないようにします。',
+    result_pdf_col_1: '項目', result_pdf_col_2: '場所 · 理由',
+    result_pdf_r1_t: '受験結果確認(スコア·フィードバック)', result_pdf_r1_v: '<strong>タッチクラスユーザーweb</strong> · 受験直後に同じコンテキストで即時確認',
+    result_pdf_r2_t: '証明書PDF · 結果レポートPDFダウンロード', result_pdf_r2_v: '<strong>サービスサイトのマイページ</strong> · 学習者の保管資料(領収書·証明書·結果レポート)を一箇所に一元化',
+    result_pdf_r3_t: '領収書PDFダウンロード', result_pdf_r3_v: '<strong>サービスサイトのマイページ → 決済履歴</strong> · 決済が発生した場所で領収書',
     h3_structure: '試験構造',
     row_time: '試験時間', row_time_v: '約25分(23問)',
     row_areas: '5領域', row_areas_v: '発音 · 流暢さ · 語彙 · 文法 · 内容構成',
     row_grading: '採点', row_grading_v: 'AIの一次自動採点。試験終了直後に処理。運営者の補正が可能',
     row_publish: '結果公開', row_publish_v: '運営者が管理者コンソールで公開処理(ポリシー5)',
     h3_topik: 'TOPIKとの関係',
-    topik_note: 'KoPASSはTOPIKの<strong>代替ではありません。</strong> TOPIKスピーキング試験を補完する診断·模擬試験のポジションであり、学習者が自分のスピーキング能力を客観的に確認できるよう支援します。メインページと利用規約に本ポジショニングを明記します。',
+    topik_note: 'MaroPassはTOPIKの<strong>代替ではありません。</strong> TOPIKスピーキング試験を補完する診断·模擬試験のポジションであり、学習者が自分のスピーキング能力を客観的に確認できるよう支援します。メインページと利用規約に本ポジショニングを明記します。',
 
     sec_flow: '受験者フロー',
     tbd_label: '1次適用 検討中',
@@ -951,15 +996,15 @@ const i18n = {
     w5: '<strong>参考。</strong>マスター文書上、14日ウィンドウは*臨時運用方式*であり、ラウンド2以降は回次運用(3·6·9·12月の各2週間)へ移行予定。1次適用範囲とメールリマインダーインフラ導入有無は合意後に確定。',
     flow_lede: '学習者が初めて出会い、証明書を受け取るまでの5段階。',
     step1_sub: '入口', step1_name: '会員登録 · ログイン',
-    step1_desc: 'メール認証登録またはLINE·Google·Appleソーシャル登録。日本市場標準3種のみ対応(カカオ·NAVER非対応)。利用規約同意と最小限の個人情報収集。',
+    step1_desc: 'メール認証登録またはGoogleソーシャル登録。(LINE·Apple·カカオ·NAVERなどは1次未対応)。利用規約同意と最小限の個人情報収集。',
     step2_sub: '決済', step2_name: '試験選択 · 決済',
     step2_desc: '試験一覧から試験詳細に入り、価格·構成·サンプル問題を確認後に決済。クレジットカードまたはQR決済。決済完了メールと領収書PDFが自動発行されます。適格請求書インボイスはPG API連携時点に同時導入予定。',
     step3_sub: '待機', step3_name: '受験待機(14日ウィンドウ) <span class="tbd">1次適用 検討中</span>',
     step3_desc: 'サービスサイトのマイページでD-dayを確認。決済日から14日以内、24時間いつでも受験可能。<strong>D-1·D-day自動リマインダーメールは1次オープン未適用の可能性</strong>(メールスケジューラーインフラ公数を検討中) — 失効案内メール1回のみ1次に含まれる可能性。14日経過で自動失効。マイページの「受験する」ボタンを押すと新しい窓でタッチクラスユーザーwebのhomeが開きます。',
     step4_sub: '受験', step4_name: '受験 — 本人確認 → 動作環境チェック → 試験(タッチクラスユーザーweb)',
-    step4_desc: 'タッチクラスユーザーwebの決済済み試験リストから試験開始 → ①本人確認(氏名·メール·試験名表示)、②動作環境チェックゲート(マイク·ネットワーク·ブラウザ)、③受験クライアント進入の順に進み、終了直後にAIが自動採点します。',
+    step4_desc: 'タッチクラスユーザーwebの決済済み試験リストから試験開始 → ①本人確認(氏名·メール·試験名表示)、②動作環境チェックゲート(マイク·音量·録音再生)、③受験クライアント進入の順に進み、終了直後に自動採点されます。',
     step5_sub: '結果', step5_name: '結果 · 証明書',
-    step5_desc: '運営者が結果を公開すると、<strong>結果確認はタッチクラスユーザーweb</strong>で — スコア表、1〜6級等級、問題別AIフィードバック。<strong>証明書PDF·結果レポートPDFのダウンロードはサービスサイトのマイページ</strong>で。学習者の保管資料(領収書·証明書·結果レポート)は本サイトに一元化されます。',
+    step5_desc: '運営者が結果を公開すると、<strong>結果確認はタッチクラスユーザーweb</strong>で — スコア、問題別フィードバック(模範解答 vs STT比較 + 評価者コメント)。<strong>証明書PDF·結果レポートPDFのダウンロードはサービスサイトのマイページ</strong>で。学習者の保管資料(領収書·証明書·結果レポート)は本サイトに一元化されます。',
     h3_window2: '受験進入 — 新しい窓ポリシー',
     window2_text: 'サービスサイトのマイページの「受験する」ボタンは<strong>新しい窓</strong>でタッチクラスユーザーwebのhomeを開きます。受験窓と本サイトが同時に開いており、学習者は受験中も本サイトで決済履歴などを確認できます。案内文: 「受験は新しい窓で進行します。ポップアップがブロックされる場合は許可してください。」',
     flow_note: 'フローボックス図は <a href="flow-overview.html" class="inline-link">flow-overview.html</a>、画面別ワイヤーフレームは <a href="wireframes.html" class="inline-link">wireframes.html</a> に別途整理されています。',
@@ -970,21 +1015,21 @@ const i18n = {
     w1: '受験可能期間 — <strong>決済後14日以内</strong> <span class="tbd">1次適用 検討中</span>',
     w2: '失効通知 — D-1とD-dayに自動メール送信 <span class="tbd">1次未適用の可能性 · ラウンド2候補</span>',
     w3: '失効後 — 自動失効処理(受験開始時点でチェック)。返金は提供されず、再受験も不可',
-    w4: '例外 — システム·ネットワーク障害により受験が不可能だったことが確認された場合、運営者の手動審査後に再受験チケットを発行',
+    w4: '例外 — システム障害により受験が不可能だったことが確認された場合、運営者の手動審査後に再受験機能を提供',
     h3_refund: '返金 · キャンセル',
     r1: '受験前·未使用の返金申請はマイページの1:1問い合わせで受付。運営チーム審査後、営業日3〜5日以内に返金',
     r2: '受験後の気変わり·結果不満は返金不可',
-    r3: 'システム障害で受験が不可能だった場合、自動返金または再受験チケット発行 — 運営者判断',
+    r3: 'システム障害で受験が不可能だった場合、自動返金または再受験機能発行 — 運営者判断',
     h3_identity: '受験者本人確認',
     identity_text: '受験開始直前の本人確認画面で氏名·メール·試験名を表示します。学習者が本人であることをチェックボックスで確認した後、動作環境チェックゲートに進みます。カメラ·SMS検証は今後導入予定。',
     h3_envcheck: '動作環境チェックゲート',
-    envcheck_text: '本人確認を通過した直後、マイク権限、録音再生、ネットワーク、ブラウザの4項目を自動チェックします。通過した場合のみ受験クライアントに進入できます。<strong>決済時点とは分離されており、決済は環境と無関係に進行します。</strong>',
+    envcheck_text: '本人確認を通過した直後、マイク権限·音量·5秒録音再生の3項目を自動チェックします。通過した場合のみ受験クライアントに進入できます。<strong>決済時点とは分離されており、決済は環境と無関係に進行します。</strong>',
     h3_incident: '受験中の事故対応',
-    i1: 'ネットワーク切断 — 自動再接続、時間保存',
+    i1: '接続切断 — 自動再接続、時間保存',
     i2: 'マイク権限の取り消し — 通知と再許可ガイド',
     i3: 'タイマー — カウントダウン後に回答自動提出',
     i4: '離脱遮断 — 受験中のページ閉じ·戻る操作で警告',
-    i5: '持続的エラー — 運営チームへ自動ログ送信、再受験チケット審査',
+    i5: '持続的エラー — 運営チームへ自動ログ送信、再受験機能審査',
     h3_mail: 'システム通知メール',
     m_when: 'タイミング', m_what: '<strong>内容</strong>',
     m1_when: '決済完了直後', m1_what: '決済確認 + 領収書PDF案内',
@@ -1000,11 +1045,11 @@ const i18n = {
     sec_roles: 'Newin × KOEN 役割分担',
     roles_lede: 'システム側と運営側の責任領域。',
     newin_role: 'システム開発 · 運営 · 保守',
-    n1: 'Web·アプリシステム開発', n2: 'AI出題エンジン', n3: 'AI採点エンジン(STT·スコア算出)', n4: 'AIフィードバックエンジン',
+    n1: 'Web·アプリシステム開発', n2: '出題エンジン', n3: '自動採点エンジン(STT·スコア算出)', n4: 'フィードバックシステム(STT比較 + 評価者コメント入力ツール)',
     n5: '証明書PDF + 偽造防止検証システム', n6: '決済PG連携·精算', n7: '障害対応·インフラ運用', n8: '管理者コンソール開発',
     koen_tag: 'KOEN (コエン)', koen_role: '施行運営 · 受験者対応 · コンテンツ',
     k1: '試験施行運営', k2: '受験者問い合わせ·苦情対応(1:1問い合わせ)', k3: '受験料管理·精算受領', k4: '学習コンテンツ制作(試験案内·FAQ·お知らせ)',
-    k5: '返金リクエスト審査·承認', k6: '再受験チケット発行判断', k7: '運営者の結果公開処理', k8: '採点補正(必要時)',
+    k5: '返金リクエスト審査·承認', k6: '再受験機能発行判断', k7: '運営者の結果公開処理', k8: '採点補正(必要時)',
     roles_note: '<strong>協業接点。</strong> 管理者コンソールはNewinが開発し、KOEN運営者アカウントが別途発行されます。上記KOEN領域はすべて管理者コンソールで実行されます。詳細権限マトリクスは別合意文書として発行されます。',
 
     sec_stages: '進行段階',
@@ -1018,7 +1063,7 @@ const i18n = {
     sec_future: '今後の計画',
     future_lede: '1次オープン後、運用データを見て決定する領域。本パッケージでは予定としてのみ表示します。',
     f1_title: '決済·決済手段拡張', f1_desc: '適格請求書インボイスPDF導入(日本消費税法対応)、クーポン·割引コード、利用券パッケージ決済。',
-    f2_title: '運営統計拡張', f2_desc: '受験者分析(平均発話長·離脱率)、問題別応答時間分布、AI採点vs運営者補正の差異分析。',
+    f2_title: '運営統計拡張', f2_desc: '受験者分析(平均発話長·離脱率)、問題別応答時間分布、自動採点vs運営者補正の差異分析。',
     f3_title: '問題作成の深化', f3_desc: 'LLM自動生成補助(本文·TTSスクリプト·模範解答·採点基準表)、問題品質評価自動化、多言語問題同時作成。',
     f4_title: 'セキュリティ · 本人確認強化', f4_desc: '受験者2FA、カメラ·SMS本人確認、IPホワイトリスト、権限マトリクスUI。',
     f5_title: 'iOS·Androidアプリ + プッシュ通知', f5_desc: '1次はデスクトップ·モバイルwebのみ。ラウンド2でネイティブアプリ + プッシュ通知インフラ導入、通知種別ごとの受信設定分離。',
@@ -1031,7 +1076,7 @@ const i18n = {
     s4: '管理者権限の詳細 — KOEN運営者ごとの権限マトリクスは別合意文書として発行されます',
     s5: '法的規約文言 — 利用規約·個人情報処理方針·特定商取引法表示の文言は法務審査後に別途確定します',
 
-    footer_title: 'KoPASS IBT 企画書 v1 ドラフト',
+    footer_title: 'MaroPass IBT 企画書 v1 ドラフト',
     footer_from: 'Newin 企画チーム → KOEN',
     btn_print: '印刷 / PDF保存',
   }

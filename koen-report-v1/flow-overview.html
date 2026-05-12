@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KoPASS IBT 플로우 개요 v1 초안</title>
+<title>MaroPass IBT 플로우 개요 v1 초안</title>
 <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <style>
   :root {
@@ -237,7 +237,7 @@
 
 <header class="cover">
   <div class="cover-inner">
-    <div class="label" data-i18n="cover_label">KOPASS IBT · 플로우 개요 v1 초안</div>
+    <div class="label" data-i18n="cover_label">MAROPASS IBT · 플로우 개요 v1 초안</div>
     <h1 data-i18n="cover_title">응시자 플로우 박스 다이어그램</h1>
     <p class="lede" data-i18n-html="cover_lede">화면별 정교한 와이어프레임은 별도 페이지에 있습니다. 본 문서는 <strong>응시자가 처음부터 끝까지 어떤 단계를 거치는지</strong> 한눈에 보여주는 박스+화살표 흐름도입니다. 실제 UI 디자인이 아닙니다.</p>
     <div class="cover-meta">
@@ -278,9 +278,7 @@
       <div class="wire-bar" data-i18n="s1_w2_bar">가입 / 로그인</div>
       <div class="wire-body">
         <div class="label" data-i18n="s1_w2_l1">소셜 가입</div>
-        <div class="box btn-ghost" data-i18n="s1_w2_b1">LINE 로그인</div>
         <div class="box btn-ghost" data-i18n="s1_w2_b2">Google 로그인</div>
-        <div class="box btn-ghost" data-i18n="s1_w2_b3">Apple 로그인</div>
         <div class="label" data-i18n="s1_w2_l2">또는 이메일</div>
         <div class="box" data-i18n="s1_w2_b4">이메일 · 비밀번호 입력</div>
         <div class="box" data-i18n="s1_w2_b5">약관 동의 체크</div>
@@ -301,7 +299,7 @@
   </div>
 
   <div class="note" data-i18n="s1_note">
-    일본 시장 표준 소셜 3종(LINE · Google · Apple)만 지원합니다. 카카오와 네이버는 포함하지 않습니다.
+    소셜 가입은 Google 로그인만 지원합니다. (LINE·Apple·카카오·네이버 등은 1차 미포함)
   </div>
 </section>
 
@@ -446,7 +444,6 @@
         <div class="box fill" data-i18n="s4_w1_b1">이름 · 이메일 · 시험명 표시</div>
         <div class="box" data-i18n="s4_w1_b2">○ 본인이 맞습니다 (체크)</div>
         <div class="box" data-i18n="s4_w2_b1">마이크 권한 · 볼륨 · 녹음 재생 ✓</div>
-        <div class="box" data-i18n="s4_w2_b4">네트워크 · 브라우저 ✓</div>
         <div class="box success" data-i18n="s4_w2_b5">모두 통과</div>
         <div class="box btn" data-i18n="s4_w2_b6">시험 시작</div>
       </div>
@@ -466,7 +463,7 @@
   </div>
 
   <div class="note" data-i18n-html="s4_note">
-    <strong>응시 중 사고 대응.</strong> 네트워크 끊김 자동 재연결, 마이크 권한 회수 가드, 타이머, 답안 자동 제출, 이탈 차단을 시스템이 처리합니다. 환경 점검 미통과 시 가이드 표시 후 재시도 또는 1:1 문의로 안내합니다.
+    <strong>응시 중 사고 대응.</strong> 마이크 권한 회수 가드, 타이머, 답안 자동 제출, 이탈 차단을 시스템이 처리합니다. 환경 점검 미통과 시 가이드 표시 후 재시도 또는 1:1 문의로 안내합니다.
   </div>
 </section>
 
@@ -487,7 +484,7 @@
       <div class="wire-bar" data-i18n="s5_w1_bar">시험 종료 직후</div>
       <div class="wire-body">
         <div class="box success" data-i18n="s5_w1_b1">응시 완료</div>
-        <div class="box" data-i18n="s5_w1_b2">AI 채점 진행 중 안내</div>
+        <div class="box" data-i18n="s5_w1_b2">자동 채점 진행 중 안내</div>
         <div class="box" data-i18n="s5_w1_b3">결과 공개는 운영자 검토 후</div>
         <div class="box btn-ghost" data-i18n="s5_w1_b4">마이페이지로 돌아가기</div>
       </div>
@@ -496,10 +493,10 @@
     <div class="wire">
       <div class="wire-bar" data-i18n="s5_w2_bar">결과 화면 (공개 후)</div>
       <div class="wire-body">
-        <div class="box fill" data-i18n="s5_w2_b1">종합 등급 (예: 3급)</div>
-        <div class="box" data-i18n="s5_w2_b2">5영역 점수표</div>
-        <div class="box" data-i18n="s5_w2_b3">종합 AI 피드백</div>
-        <div class="box" data-i18n="s5_w2_b5">문항별 AI 피드백</div>
+        <div class="box fill" data-i18n="s5_w2_b1">총점 (예: 130 / 200)</div>
+        <div class="box" data-i18n="s5_w2_b2">시험 결과 점수</div>
+        <div class="box" data-i18n="s5_w2_b3">평가자 종합 코멘트</div>
+        <div class="box" data-i18n="s5_w2_b5">문항별 피드백 (모범 답안 vs STT 비교)</div>
       </div>
     </div>
     <div class="flow-arrow">→</div>
@@ -551,7 +548,7 @@
         <div class="box fill" data-i18n="s6_w2_b3">응시자 상세 (답안 · 녹음 · STT)</div>
         <div class="box btn" data-i18n="s6_w2_b4">결과 공개</div>
         <div class="box btn-ghost" data-i18n="s6_w2_b5">답안 초기화 (재응시)</div>
-        <div class="box btn-ghost" data-i18n="s6_w2_b6">AI 점수 보정</div>
+        <div class="box btn-ghost" data-i18n="s6_w2_b6">자동 채점 점수 보정</div>
       </div>
     </div>
     <div class="flow-arrow">→</div>
@@ -563,7 +560,7 @@
         <div class="box fill" data-i18n="s6_w3_b3">문의 상세 + 학습자 정보</div>
         <div class="box btn" data-i18n="s6_w3_b4">답변 작성</div>
         <div class="box btn-ghost" data-i18n="s6_w3_b5">환불 승인 / 거절</div>
-        <div class="box btn-ghost" data-i18n="s6_w3_b6">재응시 티켓 발행</div>
+        <div class="box btn-ghost" data-i18n="s6_w3_b6">재응시 기능 제공</div>
       </div>
     </div>
   </div>
@@ -577,7 +574,7 @@
 
 <footer>
   <div class="footer-inner">
-    <div data-i18n-html="footer_left"><strong>KoPASS IBT 플로우 개요 v1 초안</strong> · 종이 시안 — 실제 디자인 아님</div>
+    <div data-i18n-html="footer_left"><strong>MaroPass IBT 플로우 개요 v1 초안</strong> · 종이 시안 — 실제 디자인 아님</div>
     <div data-i18n-html="footer_right"><a href="index.html">통합 보고서</a> · <a href="wireframes.html">화면별 와이어프레임 →</a></div>
   </div>
 </footer>
@@ -587,7 +584,7 @@
 <script>
 const i18n = {
   ko: {
-    cover_label: 'KOPASS IBT · 플로우 개요 v1 초안',
+    cover_label: 'MAROPASS IBT · 플로우 개요 v1 초안',
     cover_title: '응시자 플로우 박스 다이어그램',
     cover_lede: '화면별 정교한 와이어프레임은 별도 페이지에 있습니다. 본 문서는 <strong>응시자가 처음부터 끝까지 어떤 단계를 거치는지</strong> 한눈에 보여주는 박스+화살표 흐름도입니다. 실제 UI 디자인이 아닙니다.',
     pill_draft: 'v1 초안', pill_notice: '실제 UI 아님 — 종이 시안',
@@ -598,12 +595,12 @@ const i18n = {
     s1_w1_b1: 'GNB — 로고 · 메뉴 · 로그인', s1_w1_b2: 'Hero — 서비스 소개 · CTA',
     s1_w1_b3: '시험 추천 리스트', s1_w1_b4: 'TOPIK과의 관계 안내', s1_w1_b5: 'FAQ · Footer',
     s1_w2_bar: '가입 / 로그인', s1_w2_l1: '소셜 가입',
-    s1_w2_b1: 'LINE 로그인', s1_w2_b2: 'Google 로그인', s1_w2_b3: 'Apple 로그인',
+    s1_w2_b2: 'Google 로그인',
     s1_w2_l2: '또는 이메일', s1_w2_b4: '이메일 · 비밀번호 입력', s1_w2_b5: '약관 동의 체크', s1_w2_b6: '가입 / 로그인',
     s1_w3_bar: '시험 목록',
     s1_w3_b1: '검색 · 카테고리', s1_w3_b2: '시험 카드 — 썸네일 · 가격 · 시간',
     s1_w3_b3: '시험 카드', s1_w3_b4: '시험 카드', s1_w3_b5: '시험 카드 …',
-    s1_note: '일본 시장 표준 소셜 3종(LINE · Google · Apple)만 지원합니다. 카카오와 네이버는 포함하지 않습니다.',
+    s1_note: '소셜 가입은 Google 로그인만 지원합니다. (LINE·Apple·카카오·네이버 등은 1차 미포함)',
 
     s2_title: '시험 선택 · 결제', s2_desc: '시험 상세에서 결제로. 환경 점검은 이 단계에서 다루지 않습니다.',
     s2_w1_bar: '시험 상세 (탭 없는 1페이지)',
@@ -648,18 +645,18 @@ const i18n = {
     s4_w1_b1: '이름 · 이메일 · 시험명 표시', s4_w1_b2: '○ 본인이 맞습니다 (체크)', s4_w1_b3: '다음',
     s4_w2_bar: '② 환경 점검 게이트',
     s4_w2_b1: '① 마이크 권한 ✓', s4_w2_b2: '② 마이크 볼륨 ✓', s4_w2_b3: '③ 녹음 재생 ✓',
-    s4_w2_b4: '④ 네트워크 · 브라우저 ✓', s4_w2_b5: '모두 통과', s4_w2_b6: '시험 시작',
+    s4_w2_b5: '모두 통과', s4_w2_b6: '시험 시작',
     s4_w3_bar: '③ 응시 클라이언트',
     s4_w3_b1: '시간 카운트다운 (남은 시간)', s4_w3_b2: '현재 문항 (N / 23)', s4_w3_b3: '문제 지시문 + 시각 자료',
     s4_w3_b4: '녹음 중 — 마이크 표시', s4_w3_b5: '답안 진행 게이지', s4_w3_b6: '다음 문항',
-    s4_note: '<strong>응시 중 사고 대응.</strong> 네트워크 끊김 자동 재연결, 마이크 권한 회수 가드, 타이머, 답안 자동 제출, 이탈 차단을 시스템이 처리합니다. 환경 점검 미통과 시 가이드 표시 후 재시도 또는 1:1 문의로 안내합니다.',
+    s4_note: '<strong>응시 중 사고 대응.</strong> 마이크 권한 회수 가드, 타이머, 답안 자동 제출, 이탈 차단을 시스템이 처리합니다. 환경 점검 미통과 시 가이드 표시 후 재시도 또는 1:1 문의로 안내합니다.',
 
     s5_title: '결과 · 인증서', s5_desc: '결과 확인은 사용자 web에서, 인증서·결과지 PDF 다운로드는 서비스 사이트 마이페이지에서. 학습자 보관 자료는 본 사이트로 일원화.',
     sys_service: '서비스 사이트', sys_touch_user: '터치클래스 사용자 web', sys_touch_admin: '터치클래스 관리자 web',
     s5_w1_bar: '시험 종료 직후',
-    s5_w1_b1: '응시 완료', s5_w1_b2: 'AI 채점 진행 중 안내', s5_w1_b3: '결과 공개는 운영자 검토 후', s5_w1_b4: '마이페이지로 돌아가기',
+    s5_w1_b1: '응시 완료', s5_w1_b2: '자동 채점 진행 중 안내', s5_w1_b3: '결과 공개는 운영자 검토 후', s5_w1_b4: '마이페이지로 돌아가기',
     s5_w2_bar: '결과 화면 (공개 후)',
-    s5_w2_b1: '종합 등급 (예: 3급)', s5_w2_b2: '5영역 점수표', s5_w2_b3: '종합 AI 피드백', s5_w2_b5: '문항별 AI 피드백',
+    s5_w2_b1: '총점 (예: 130 / 200)', s5_w2_b2: '시험 결과 점수', s5_w2_b3: '평가자 종합 코멘트', s5_w2_b5: '문항별 피드백 (모범 답안 vs STT 비교)',
     s5_w3_bar: '다운로드',
     s5_w3_b1: '결과지 PDF 다운로드', s5_w3_b2: '인증서 PDF 다운로드', s5_w3_b3: '위변조 검증 URL 포함',
     s5_w3_b4: '결과·인증서 무기한 보관', s5_w3_b5: '재다운로드 횟수 제한 없음',
@@ -670,18 +667,18 @@ const i18n = {
     s6_w1_b1: '오늘 응시자 N명', s6_w1_b2: '대기 중 문의 N건', s6_w1_b3: '대기 중 환불 N건', s6_w1_b4: '결과 공개 대기 N건',
     s6_w2_bar: '응시자 관리',
     s6_w2_b1: '시험별 응시자 리스트', s6_w2_b2: '검색 · 필터 · CSV', s6_w2_b3: '응시자 상세 (답안 · 녹음 · STT)',
-    s6_w2_b4: '결과 공개', s6_w2_b5: '답안 초기화 (재응시)', s6_w2_b6: 'AI 점수 보정',
+    s6_w2_b4: '결과 공개', s6_w2_b5: '답안 초기화 (재응시)', s6_w2_b6: '자동 채점 점수 보정',
     s6_w3_bar: '문의 · 환불 처리',
     s6_w3_b1: '1:1 문의 큐', s6_w3_b2: '유형별 필터', s6_w3_b3: '문의 상세 + 학습자 정보',
-    s6_w3_b4: '답변 작성', s6_w3_b5: '환불 승인 / 거절', s6_w3_b6: '재응시 티켓 발행',
+    s6_w3_b4: '답변 작성', s6_w3_b5: '환불 승인 / 거절', s6_w3_b6: '재응시 기능 제공',
     s6_note: '관리자 콘솔은 Newin에서 개발하며, KOEN 운영자 계정을 별도 발급합니다. 권한 매트릭스는 별도 합의 문서로 발행됩니다.',
 
-    footer_left: '<strong>KoPASS IBT 플로우 개요 v1 초안</strong> · 종이 시안 — 실제 디자인 아님',
+    footer_left: '<strong>MaroPass IBT 플로우 개요 v1 초안</strong> · 종이 시안 — 실제 디자인 아님',
     footer_right: '<a href="index.html">통합 보고서</a> · <a href="wireframes.html">화면별 와이어프레임 →</a>',
     btn_print: '인쇄 / PDF 저장',
   },
   ja: {
-    cover_label: 'KOPASS IBT · フロー概要 v1 ドラフト',
+    cover_label: 'MAROPASS IBT · フロー概要 v1 ドラフト',
     cover_title: '受験者フローボックス図',
     cover_lede: '画面別の詳細ワイヤーフレームは別ページにあります。本書は<strong>受験者が最初から最後までどのような段階を経るか</strong>を一目で示すボックス+矢印のフロー図です。実際のUIデザインではありません。',
     pill_draft: 'v1 ドラフト', pill_notice: '実際のUIではありません — 紙シアン',
@@ -692,12 +689,12 @@ const i18n = {
     s1_w1_b1: 'GNB — ロゴ · メニュー · ログイン', s1_w1_b2: 'Hero — サービス紹介 · CTA',
     s1_w1_b3: '試験おすすめリスト', s1_w1_b4: 'TOPIKとの関係案内', s1_w1_b5: 'FAQ · Footer',
     s1_w2_bar: '登録 / ログイン', s1_w2_l1: 'ソーシャル登録',
-    s1_w2_b1: 'LINEログイン', s1_w2_b2: 'Googleログイン', s1_w2_b3: 'Appleログイン',
+    s1_w2_b2: 'Googleログイン',
     s1_w2_l2: 'またはメール', s1_w2_b4: 'メール · パスワード入力', s1_w2_b5: '利用規約同意チェック', s1_w2_b6: '登録 / ログイン',
     s1_w3_bar: '試験一覧',
     s1_w3_b1: '検索 · カテゴリ', s1_w3_b2: '試験カード — サムネイル · 価格 · 時間',
     s1_w3_b3: '試験カード', s1_w3_b4: '試験カード', s1_w3_b5: '試験カード …',
-    s1_note: '日本市場標準のソーシャル3種(LINE · Google · Apple)のみ対応します。カカオとNAVERは含まれません。',
+    s1_note: 'ソーシャル登録はGoogleログインのみ対応します。(LINE·Apple·カカオ·NAVERなどは1次未対応)',
 
     s2_title: '試験選択 · 決済', s2_desc: '試験詳細から決済へ。動作環境チェックはこの段階では扱いません。',
     s2_w1_bar: '試験詳細(タブなし1ページ)',
@@ -742,18 +739,18 @@ const i18n = {
     s4_w1_b1: '氏名 · メール · 試験名表示', s4_w1_b2: '○ 本人で間違いありません(チェック)', s4_w1_b3: '次へ',
     s4_w2_bar: '② 動作環境チェックゲート',
     s4_w2_b1: '① マイク権限 ✓', s4_w2_b2: '② マイク音量 ✓', s4_w2_b3: '③ 録音再生 ✓',
-    s4_w2_b4: '④ ネットワーク · ブラウザ ✓', s4_w2_b5: 'すべて通過', s4_w2_b6: '試験開始',
+    s4_w2_b5: 'すべて通過', s4_w2_b6: '試験開始',
     s4_w3_bar: '③ 受験クライアント',
     s4_w3_b1: '残り時間カウントダウン', s4_w3_b2: '現在の問題(N / 23)', s4_w3_b3: '問題指示文 + 視覚資料',
     s4_w3_b4: '録音中 — マイク表示', s4_w3_b5: '回答進行ゲージ', s4_w3_b6: '次の問題',
-    s4_note: '<strong>受験中の事故対応。</strong>ネットワーク切断の自動再接続、マイク権限取り消しガード、タイマー、回答自動提出、離脱遮断をシステムが処理します。動作環境チェック未通過時はガイド表示後に再試行、または1:1問い合わせへ案内します。',
+    s4_note: '<strong>受験中の事故対応。</strong>マイク権限取り消しガード、タイマー、回答自動提出、離脱遮断をシステムが処理します。動作環境チェック未通過時はガイド表示後に再試行、または1:1問い合わせへ案内します。',
 
     s5_title: '結果 · 証明書', s5_desc: '結果確認はユーザーweb、証明書·結果レポートPDFのダウンロードはサービスサイトのマイページ。学習者の保管資料は本サイトに一元化。',
     sys_service: 'サービスサイト', sys_touch_user: 'タッチクラス ユーザーweb', sys_touch_admin: 'タッチクラス 管理者web',
     s5_w1_bar: '試験終了直後',
-    s5_w1_b1: '受験完了', s5_w1_b2: 'AI採点進行中の案内', s5_w1_b3: '結果公開は運営者審査後', s5_w1_b4: 'マイページへ戻る',
+    s5_w1_b1: '受験完了', s5_w1_b2: '自動採点進行中の案内', s5_w1_b3: '結果公開は運営者審査後', s5_w1_b4: 'マイページへ戻る',
     s5_w2_bar: '結果画面(公開後)',
-    s5_w2_b1: '総合等級(例: 3級)', s5_w2_b2: '5領域スコア表', s5_w2_b3: '総合AIフィードバック', s5_w2_b5: '問題別AIフィードバック',
+    s5_w2_b1: '総点(例: 130 / 200)', s5_w2_b2: '試験結果スコア', s5_w2_b3: '評価者総合コメント', s5_w2_b5: '問題別フィードバック(模範解答 vs STT比較)',
     s5_w3_bar: 'ダウンロード',
     s5_w3_b1: '結果レポートPDFダウンロード', s5_w3_b2: '証明書PDFダウンロード', s5_w3_b3: '偽造防止検証URL付き',
     s5_w3_b4: '結果·証明書は無期限保管', s5_w3_b5: '再ダウンロード回数制限なし',
@@ -767,10 +764,10 @@ const i18n = {
     s6_w2_b4: '結果公開', s6_w2_b5: '回答初期化(再受験)', s6_w2_b6: 'AIスコア補正',
     s6_w3_bar: '問い合わせ · 返金処理',
     s6_w3_b1: '1:1問い合わせキュー', s6_w3_b2: '種別フィルタ', s6_w3_b3: '問い合わせ詳細 + 学習者情報',
-    s6_w3_b4: '回答作成', s6_w3_b5: '返金承認 / 拒否', s6_w3_b6: '再受験チケット発行',
+    s6_w3_b4: '回答作成', s6_w3_b5: '返金承認 / 拒否', s6_w3_b6: '再受験機能 提供',
     s6_note: '管理者コンソールはNewinが開発し、KOEN運営者アカウントが別途発行されます。権限マトリクスは別合意文書として発行されます。',
 
-    footer_left: '<strong>KoPASS IBT フロー概要 v1 ドラフト</strong> · 紙シアン — 実際のデザインではありません',
+    footer_left: '<strong>MaroPass IBT フロー概要 v1 ドラフト</strong> · 紙シアン — 実際のデザインではありません',
     footer_right: '<a href="index.html">統合レポート</a> · <a href="wireframes.html">画面別ワイヤーフレーム →</a>',
     btn_print: '印刷 / PDF保存',
   }
