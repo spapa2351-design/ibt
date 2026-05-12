@@ -124,13 +124,14 @@
     <div class="sidebar-group" style="margin-top:24px;" data-i18n="group_touch_user">터치클래스 사용자 web</div>
 
     <div class="sidebar-group" style="padding-top:8px;font-size:10px;color:#4b4b4b;" data-i18n="group_exam">결제된 시험 · 응시</div>
-    <a class="sidebar-item" data-wf="env-check" onclick="showWf('env-check')"><span data-i18n="wf_6">8. 환경 점검</span></a>
-    <a class="sidebar-item" data-wf="exam-intro" onclick="showWf('exam-intro')"><span data-i18n="wf_7">9. 시험 안내 모달</span></a>
-    <a class="sidebar-item" data-wf="exam" onclick="showWf('exam')"><span data-i18n="wf_8">10. 응시 화면</span></a>
-    <a class="sidebar-item" data-wf="ai-feedback" onclick="showWf('ai-feedback')"><span data-i18n="wf_9">11. AI 피드백 모달</span></a>
+    <a class="sidebar-item" data-wf="user-home" onclick="showWf('user-home')"><span data-i18n="wf_user_home">8. 사용자 web home (결제된 시험 목록)</span></a>
+    <a class="sidebar-item" data-wf="env-check" onclick="showWf('env-check')"><span data-i18n="wf_6">9. 환경 점검</span></a>
+    <a class="sidebar-item" data-wf="exam-intro" onclick="showWf('exam-intro')"><span data-i18n="wf_7">10. 시험 안내 모달</span></a>
+    <a class="sidebar-item" data-wf="exam" onclick="showWf('exam')"><span data-i18n="wf_8">11. 응시 화면</span></a>
+    <a class="sidebar-item" data-wf="ai-feedback" onclick="showWf('ai-feedback')"><span data-i18n="wf_9">12. AI 피드백 모달</span></a>
 
     <div class="sidebar-group" style="padding-top:8px;font-size:10px;color:#4b4b4b;" data-i18n="group_result">응시 결과</div>
-    <a class="sidebar-item" data-wf="result" onclick="showWf('result')"><span data-i18n="wf_10">12. 결과 화면</span></a>
+    <a class="sidebar-item" data-wf="result" onclick="showWf('result')"><span data-i18n="wf_10">13. 결과 화면</span></a>
 
     <div class="sidebar-group" style="margin-top:24px;" data-i18n-html="group_touch_admin">터치클래스 관리자 web <span style="color:#4b4b4b;font-weight:500;text-transform:none;letter-spacing:0;">(기획 예정)</span></div>
     <a class="sidebar-item" data-wf="admin-soon" onclick="showWf('admin-soon')"><span data-i18n="wf_admin">기존 솔루션 + 회원 목록 (신규)</span></a>
@@ -400,7 +401,82 @@
       </div>
     </div>
 
-    <!-- 6. 환경 점검 -->
+    <!-- 8. 사용자 web home (결제된 시험 목록) -->
+    <div id="wf-user-home" class="wf-panel">
+      <div class="text-xs mb-2" style="color:#afafaf;">/exam-home (<span data-i18n="path_user_home">사용자 web · 새 창</span>)</div>
+      <div class="wf-box-solid p-0">
+        <!-- 사용자 web 헤더 -->
+        <div class="p-4 border-b border-slate-200 flex items-center justify-between" style="background:#000000;color:#ffffff;">
+          <div class="flex items-center gap-3">
+            <div class="wf-fill rounded" style="width:90px;height:24px;background:#ffffff;"></div>
+            <span class="text-xs" style="color:#afafaf;" data-i18n="user_home_chrome">터치클래스 사용자 web · 응시 전용</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="text-xs" data-i18n="user_sample_name">홍길동</span>
+            <div class="wf-fill rounded-full" style="width:28px;height:28px;background:#ffffff;"></div>
+            <span class="text-xs" style="color:#afafaf;" data-i18n="user_home_logout">로그아웃</span>
+          </div>
+        </div>
+
+        <!-- 본문 -->
+        <div class="p-6 max-w-3xl mx-auto">
+          <!-- 환영 + 안내 -->
+          <h2 class="wf-title text-xl mb-1"><span data-i18n="user_home_greet">홍길동님, 응시할 시험을 선택해 주세요.</span></h2>
+          <div class="wf-text text-sm mb-5" data-i18n="user_home_subtitle">결제하신 시험만 표시됩니다. 새 창에서 응시가 진행되며, 응시 종료 후 결과 확인까지 본 창에서 이어집니다.</div>
+
+          <!-- 응시 가능 섹션 -->
+          <div class="wf-label mb-2" data-i18n="user_home_available_label">응시 가능 (결제된 시험)</div>
+          <div class="wf-box mb-3">
+            <div class="flex items-center gap-3">
+              <div class="wf-img" style="width:64px;height:48px;flex-shrink:0;"></div>
+              <div class="flex-1">
+                <div class="wf-text font-bold" lang="ko">TOPIK 말하기 초급</div>
+                <div class="wf-text text-xs"><span data-i18n="user_home_remaining">남은 기간</span> 12<span data-i18n="unit_days">일</span> · 25<span data-i18n="unit_min">분</span> · 23<span data-i18n="unit_q">문항</span></div>
+              </div>
+              <span class="wf-badge wf-badge-grey" data-i18n="user_home_badge_avail">응시 가능</span>
+              <div class="wf-cta wf-cta-primary text-xs" data-i18n="user_home_btn_start">응시 시작</div>
+            </div>
+          </div>
+          <div class="wf-box mb-5">
+            <div class="flex items-center gap-3">
+              <div class="wf-img" style="width:64px;height:48px;flex-shrink:0;"></div>
+              <div class="flex-1">
+                <div class="wf-text font-bold" lang="ko">발음 집중 진단 (초급)</div>
+                <div class="wf-text text-xs"><span data-i18n="user_home_remaining">남은 기간</span> 3<span data-i18n="unit_days">일</span> · 15<span data-i18n="unit_min">분</span> · 10<span data-i18n="unit_q">문항</span></div>
+              </div>
+              <span class="wf-badge wf-badge-blue" data-i18n="user_home_badge_imminent">D-3 임박</span>
+              <div class="wf-cta wf-cta-primary text-xs" data-i18n="user_home_btn_start">응시 시작</div>
+            </div>
+          </div>
+
+          <!-- 응시 완료 섹션 -->
+          <div class="wf-label mb-2" data-i18n="user_home_done_label">응시 완료</div>
+          <div class="wf-box mb-5">
+            <div class="flex items-center gap-3">
+              <div class="wf-img" style="width:64px;height:48px;flex-shrink:0;"></div>
+              <div class="flex-1">
+                <div class="wf-text font-bold" lang="ko">TOPIK 말하기 초급 (1회차)</div>
+                <div class="wf-text text-xs">2025-09-30 · <span data-i18n="user_home_score_prefix">점수</span> 30/200 · <span class="wf-badge wf-badge-green">1<span data-i18n="unit_grade">급</span></span></div>
+              </div>
+              <span class="wf-badge wf-badge-green" data-i18n="user_home_badge_published">결과 공개</span>
+              <div class="wf-cta wf-cta-secondary text-xs" data-i18n="user_home_btn_view_result">결과 보기</div>
+            </div>
+          </div>
+
+          <!-- 안내 박스 -->
+          <div class="wf-card" style="background:#efefef;">
+            <div class="wf-label" data-i18n="user_home_hint_label">안내</div>
+            <ul class="wf-text text-xs space-y-1 ml-4" style="list-style:disc;">
+              <li data-i18n-html="user_home_hint_1">인증서·결과지 PDF 다운로드는 <strong>서비스 사이트 마이페이지</strong>에서</li>
+              <li data-i18n="user_home_hint_2">응시 시작 시 본인 확인 → 환경 점검 게이트를 순서대로 통과</li>
+              <li data-i18n-html="user_home_hint_3">14일 응시 윈도우 정책은 서비스 사이트 마이페이지 참고 <span class="tbd" style="display:inline-block; padding:2px 8px; border-radius:999px; background:#ffffff; color:#000000; border:1px dashed #4b4b4b; font-size:10px; font-weight:700;">1차 적용 검토 중</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 9. 환경 점검 -->
     <div id="wf-env-check" class="wf-panel">
       <div class="text-xs text-slate-500 mb-2"><span data-i18n="env_label_path">환경 점검 — 결제 게이트</span></div>
       <div class="wf-box-solid p-0">
@@ -801,8 +877,22 @@ const i18n = {
     group_main: '메인·접수', group_auth: '회원·결제·환불', group_exam: '결제된 시험 · 응시', group_result: '응시 결과', group_my: '마이페이지·인증서',
     result_score_table: '5영역 점수표',
     wf_1: '1. 홈', wf_2: '2. 시험 목록', wf_3: '3. 시험 상세', wf_4: '4. 회원가입', wf_5: '5. 결제', wf_12: '6. 마이페이지 대시보드', wf_11: '7. 인증서',
-    wf_6: '8. 환경 점검', wf_7: '9. 시험 안내 모달', wf_8: '10. 응시 화면', wf_9: '11. AI 피드백 모달', wf_10: '12. 결과 화면',
+    wf_user_home: '8. 사용자 web home (결제된 시험 목록)',
+    wf_6: '9. 환경 점검', wf_7: '10. 시험 안내 모달', wf_8: '11. 응시 화면', wf_9: '12. AI 피드백 모달', wf_10: '13. 결과 화면',
     wf_admin: '기존 솔루션 + 회원 목록 (신규)',
+    path_user_home: '사용자 web · 새 창',
+    user_home_chrome: '터치클래스 사용자 web · 응시 전용', user_home_logout: '로그아웃',
+    user_home_greet: '홍길동님, 응시할 시험을 선택해 주세요.',
+    user_home_subtitle: '결제하신 시험만 표시됩니다. 새 창에서 응시가 진행되며, 응시 종료 후 결과 확인까지 본 창에서 이어집니다.',
+    user_home_available_label: '응시 가능 (결제된 시험)',
+    user_home_done_label: '응시 완료',
+    user_home_remaining: '남은 기간', user_home_score_prefix: '점수',
+    user_home_badge_avail: '응시 가능', user_home_badge_imminent: 'D-3 임박', user_home_badge_published: '결과 공개',
+    user_home_btn_start: '응시 시작', user_home_btn_view_result: '결과 보기',
+    user_home_hint_label: '안내',
+    user_home_hint_1: '인증서·결과지 PDF 다운로드는 <strong>서비스 사이트 마이페이지</strong>에서',
+    user_home_hint_2: '응시 시작 시 본인 확인 → 환경 점검 게이트를 순서대로 통과',
+    user_home_hint_3: '14일 응시 윈도우 정책은 서비스 사이트 마이페이지 참고 <span class="tbd" style="display:inline-block;padding:2px 8px;border-radius:999px;background:#ffffff;color:#000000;border:1px dashed #4b4b4b;font-size:10px;font-weight:700;">1차 적용 검토 중</span>',
     legend_title: '와이어프레임 표기', legend_dashed: '— 점선 박스 = 컴포넌트 영역', legend_grey: '— 회색 박스 = 콘텐츠 자리', legend_blue: '— 검정 강조 = Primary CTA', legend_red: '— 검정 박스 = 녹음/오류 상태',
     path_admin: '관리자단',
     admin_status: '기획 예정', admin_title: '관리자단 와이어프레임',
@@ -908,7 +998,21 @@ const i18n = {
     admin_area_6_label: '★ 今後の核心', admin_area_6_title: '問題作成', admin_area_6_desc: '5領域単一登録 · 問題バンク · ライブプレビュー · TTS · LLM自動生成(ラウンド2)',
     admin_footnote: '管理者側はNewinが開発し、KOEN運営者アカウントが別途発行されます。画面別ワイヤーフレームは受験者側合意後に着手します。',
     wf_1: '1. ホーム', wf_2: '2. 試験一覧', wf_3: '3. 試験詳細', wf_4: '4. 会員登録', wf_5: '5. 決済', wf_12: '6. マイページダッシュボード', wf_11: '7. 証明書',
-    wf_6: '8. 環境チェック', wf_7: '9. 試験案内モーダル', wf_8: '10. 受験画面', wf_9: '11. AIフィードバックモーダル', wf_10: '12. 結果画面',
+    wf_user_home: '8. ユーザーweb home(決済済み試験リスト)',
+    wf_6: '9. 環境チェック', wf_7: '10. 試験案内モーダル', wf_8: '11. 受験画面', wf_9: '12. AIフィードバックモーダル', wf_10: '13. 結果画面',
+    path_user_home: 'ユーザーweb · 新しい窓',
+    user_home_chrome: 'タッチクラス ユーザーweb · 受験専用', user_home_logout: 'ログアウト',
+    user_home_greet: '홍길동さん、受験する試験を選択してください。',
+    user_home_subtitle: '決済済みの試験のみ表示されます。新しい窓で受験が進行し、受験終了後の結果確認まで本窓で続行します。',
+    user_home_available_label: '受験可能(決済済み試験)',
+    user_home_done_label: '受験完了',
+    user_home_remaining: '残り', user_home_score_prefix: 'スコア',
+    user_home_badge_avail: '受験可能', user_home_badge_imminent: 'D-3 切迫', user_home_badge_published: '結果公開',
+    user_home_btn_start: '受験開始', user_home_btn_view_result: '結果を見る',
+    user_home_hint_label: '案内',
+    user_home_hint_1: '証明書·結果レポートPDFのダウンロードは<strong>サービスサイトのマイページ</strong>から',
+    user_home_hint_2: '受験開始時に本人確認 → 動作環境チェックゲートを順に通過',
+    user_home_hint_3: '14日受験ウィンドウポリシーはサービスサイトのマイページを参照 <span class="tbd" style="display:inline-block;padding:2px 8px;border-radius:999px;background:#ffffff;color:#000000;border:1px dashed #4b4b4b;font-size:10px;font-weight:700;">1次適用 検討中</span>',
     legend_title: 'ワイヤーフレーム表記', legend_dashed: '— 点線ボックス = コンポーネント領域', legend_grey: '— グレーボックス = コンテンツ位置', legend_blue: '— 黒強調 = Primary CTA', legend_red: '— 黒ボックス = 録音/エラー状態',
 
     nav_tests: '試験一覧', nav_mypage: 'マイページ', nav_support: 'サポート', auth_login: 'ログイン', auth_signup: '会員登録',
