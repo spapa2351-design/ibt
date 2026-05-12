@@ -166,11 +166,33 @@
   }
   .print-btn:hover { background: var(--body-gray); }
 
+  /* Locale toggle */
+  .locale-toggle {
+    position: fixed; top: 20px; right: 20px;
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 4px;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 999px;
+    z-index: 100;
+    backdrop-filter: blur(8px);
+  }
+  .locale-toggle button {
+    padding: 6px 14px; font-size: 12px; font-weight: 500;
+    background: transparent; border: none;
+    color: rgba(255,255,255,0.75); cursor: pointer;
+    border-radius: 999px;
+    font-family: inherit;
+    transition: all 0.15s;
+  }
+  .locale-toggle button.active { background: var(--white); color: var(--black); font-weight: 600; }
+  .locale-toggle button:hover:not(.active) { color: var(--white); }
+
   @media print {
     body { background: white; }
     .cover { -webkit-print-color-adjust: exact; print-color-adjust: exact; padding: 60px 32px; }
     section { break-inside: avoid; page-break-inside: avoid; }
-    .print-btn { display: none; }
+    .print-btn, .locale-toggle { display: none; }
     .role.dark { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
     footer { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
     h2, h3 { page-break-after: avoid; }
@@ -190,14 +212,19 @@
 </head>
 <body>
 
+<div class="locale-toggle">
+  <button class="active" data-locale="ko" onclick="setLocale('ko')">한국어</button>
+  <button data-locale="ja" onclick="setLocale('ja')">日本語</button>
+</div>
+
 <header class="cover">
   <div class="cover-inner">
-    <div class="label">KOPASS IBT · 기획문서 v1</div>
-    <h1>일본 시장을 위한<br>한국어 말하기 IBT 플랫폼</h1>
-    <p class="lede">학습 1~2년 미만의 일본인 학습자가 자신의 말하기 실력을 객관적으로 진단할 수 있는 온라인 시험. 결제부터 인증서까지 한 동선으로 설계된 1차 오픈 기획 초안입니다.</p>
+    <div class="label" data-i18n="cover_label">KOPASS IBT · 기획문서 v1</div>
+    <h1 data-i18n-html="cover_title">일본 시장을 위한<br>한국어 말하기 IBT 플랫폼</h1>
+    <p class="lede" data-i18n="cover_lede">학습 1~2년 미만의 일본인 학습자가 자신의 말하기 실력을 객관적으로 진단할 수 있는 온라인 시험. 결제부터 인증서까지 한 동선으로 설계된 1차 오픈 기획 초안입니다.</p>
     <div class="cover-meta">
-      <span class="pill">v1 초안</span>
-      <span class="pill">KOEN 보고용</span>
+      <span class="pill" data-i18n="pill_draft">v1 초안</span>
+      <span class="pill" data-i18n="pill_audience">KOEN 보고용</span>
     </div>
   </div>
 </header>
@@ -205,282 +232,282 @@
 <main class="container">
 
 <section>
-  <h2><span class="n">00 / Summary</span>한눈에 보기</h2>
-  <p class="lede-sm">사업의 윤곽 — 무엇을 누구에게 어떤 방식으로 제공하는지.</p>
+  <h2><span class="n">00 / Summary</span><span data-i18n="sec_summary">한눈에 보기</span></h2>
+  <p class="lede-sm" data-i18n="summary_lede">사업의 윤곽 — 무엇을 누구에게 어떤 방식으로 제공하는지.</p>
   <table>
-    <tr><th>사업명</th><td>KoPASS IBT (Korean Proficiency Assessment, Internet Based Test)</td></tr>
-    <tr><th>포지셔닝</th><td>TOPIK의 대체가 아닌, 일본인 학습자의 <strong>말하기 진단·모의고사</strong></td></tr>
-    <tr><th>1차 오픈 범위</th><td><strong>말하기 단독</strong>. 쓰기·듣기·읽기는 본 문서 범위 외</td></tr>
-    <tr><th>응시 방식</th><td>온라인 전용. 데스크탑 브라우저 + iOS·Android 앱</td></tr>
-    <tr><th>응시 기간</th><td>결제일로부터 <strong>14일 이내</strong>, 24시간 언제든 응시</td></tr>
-    <tr><th>결제</th><td>일본 PG 1개사. 신용카드 + QR 결제. 단건 결제</td></tr>
-    <tr><th>진행 단계</th><td>기획 초안 → 디자인 → 개발 → 베타 → 정식 개시 (날짜 별도 합의)</td></tr>
+    <tr><th data-i18n="row_name">사업명</th><td>KoPASS IBT (Korean Proficiency Assessment, Internet Based Test)</td></tr>
+    <tr><th data-i18n="row_position">포지셔닝</th><td data-i18n-html="row_position_v">TOPIK의 대체가 아닌, 일본인 학습자의 <strong>말하기 진단·모의고사</strong></td></tr>
+    <tr><th data-i18n="row_scope">1차 오픈 범위</th><td data-i18n-html="row_scope_v"><strong>말하기 단독</strong>. 쓰기·듣기·읽기는 본 문서 범위 외</td></tr>
+    <tr><th data-i18n="row_mode">응시 방식</th><td data-i18n="row_mode_v">온라인 전용. 데스크탑 브라우저 + iOS·Android 앱</td></tr>
+    <tr><th data-i18n="row_period">응시 기간</th><td data-i18n-html="row_period_v">결제일로부터 <strong>14일 이내</strong>, 24시간 언제든 응시</td></tr>
+    <tr><th data-i18n="row_payment">결제</th><td data-i18n="row_payment_v">일본 PG 1개사. 신용카드 + QR 결제. 단건 결제</td></tr>
+    <tr><th data-i18n="row_stage">진행 단계</th><td data-i18n="row_stage_v">기획 초안 → 디자인 → 개발 → 베타 → 정식 개시 (날짜 별도 합의)</td></tr>
   </table>
 </section>
 
 <section>
-  <h2><span class="n">01 / Product</span>서비스 개요</h2>
-  <p class="lede-sm">학습자가 받게 되는 가치와 시험의 구조.</p>
+  <h2><span class="n">01 / Product</span><span data-i18n="sec_product">서비스 개요</span></h2>
+  <p class="lede-sm" data-i18n="product_lede">학습자가 받게 되는 가치와 시험의 구조.</p>
 
-  <h3>학습자가 받는 것</h3>
+  <h3 data-i18n="h3_benefits">학습자가 받는 것</h3>
   <ul>
-    <li>발음·유창성·어휘·문법·내용 구성 <strong>5개 영역의 점수표</strong></li>
-    <li>5축 시각화 5각 레이더 차트(리포트 부가)</li>
-    <li>문항별 AI 피드백 — 답안과 STT 비교, 추천 연습 안내</li>
-    <li>1급~6급 진단 등급과 종합 코멘트</li>
-    <li>결과지 PDF와 인증서 PDF, 위변조 검증 URL 포함</li>
+    <li data-i18n-html="b1">발음·유창성·어휘·문법·내용 구성 <strong>5개 영역의 점수표</strong></li>
+    <li data-i18n="b2">5축 시각화 5각 레이더 차트(리포트 부가)</li>
+    <li data-i18n="b3">문항별 AI 피드백 — 답안과 STT 비교, 추천 연습 안내</li>
+    <li data-i18n="b4">1급~6급 진단 등급과 종합 코멘트</li>
+    <li data-i18n="b5">결과지 PDF와 인증서 PDF, 위변조 검증 URL 포함</li>
   </ul>
 
-  <h3>시험 구조</h3>
+  <h3 data-i18n="h3_structure">시험 구조</h3>
   <table>
-    <tr><th>시험 시간</th><td>약 25분 (23문항)</td></tr>
-    <tr><th>5개 영역</th><td>발음 · 유창성 · 어휘 · 문법 · 내용 구성</td></tr>
-    <tr><th>채점</th><td>AI 1차 자동 채점. 시험 종료 직후 처리. 운영자 보정 가능</td></tr>
-    <tr><th>결과 공개</th><td>운영자가 관리자 콘솔에서 공개 처리 (정책 5)</td></tr>
+    <tr><th data-i18n="row_time">시험 시간</th><td data-i18n="row_time_v">약 25분 (23문항)</td></tr>
+    <tr><th data-i18n="row_areas">5개 영역</th><td data-i18n="row_areas_v">발음 · 유창성 · 어휘 · 문법 · 내용 구성</td></tr>
+    <tr><th data-i18n="row_grading">채점</th><td data-i18n="row_grading_v">AI 1차 자동 채점. 시험 종료 직후 처리. 운영자 보정 가능</td></tr>
+    <tr><th data-i18n="row_publish">결과 공개</th><td data-i18n="row_publish_v">운영자가 관리자 콘솔에서 공개 처리 (정책 5)</td></tr>
   </table>
 
-  <h3>TOPIK과의 관계</h3>
-  <div class="note">
+  <h3 data-i18n="h3_topik">TOPIK과의 관계</h3>
+  <div class="note" data-i18n-html="topik_note">
     KoPASS는 TOPIK의 <strong>대체가 아닙니다.</strong> TOPIK 말하기 시험을 보완하는 진단·모의고사 포지션이며, 학습자가 자신의 말하기 실력을 객관적으로 점검할 수 있도록 돕습니다. 메인 페이지와 약관에 본 포지셔닝을 명시합니다.
   </div>
 </section>
 
 <section>
-  <h2><span class="n">02 / Flow</span>응시자 동선</h2>
-  <p class="lede-sm">학습자가 처음 만나서 인증서를 받기까지 다섯 단계.</p>
+  <h2><span class="n">02 / Flow</span><span data-i18n="sec_flow">응시자 동선</span></h2>
+  <p class="lede-sm" data-i18n="flow_lede">학습자가 처음 만나서 인증서를 받기까지 다섯 단계.</p>
 
   <div class="stages">
     <div class="stage">
       <div>
         <div class="step">STEP 1</div>
-        <div class="step-sub">진입</div>
+        <div class="step-sub" data-i18n="step1_sub">진입</div>
       </div>
       <div>
-        <div class="stage-name">가입 · 로그인</div>
-        <p class="stage-desc">이메일 인증 가입 또는 LINE·Google·Apple 소셜 가입. 일본 시장 표준 3종만 지원(카카오·네이버 미지원). 약관 동의와 최소 개인정보 수집.</p>
+        <div class="stage-name" data-i18n="step1_name">가입 · 로그인</div>
+        <p class="stage-desc" data-i18n="step1_desc">이메일 인증 가입 또는 LINE·Google·Apple 소셜 가입. 일본 시장 표준 3종만 지원(카카오·네이버 미지원). 약관 동의와 최소 개인정보 수집.</p>
       </div>
     </div>
     <div class="stage">
       <div>
         <div class="step">STEP 2</div>
-        <div class="step-sub">결제</div>
+        <div class="step-sub" data-i18n="step2_sub">결제</div>
       </div>
       <div>
-        <div class="stage-name">시험 선택 · 결제</div>
-        <p class="stage-desc">시험 목록에서 시험 상세로 진입해 가격·구성·샘플 문항을 확인한 뒤 결제. 신용카드 또는 QR 결제. 결제 완료 메일과 영수증 PDF가 자동 발행됩니다. 적격청구서 인보이스는 PG API 연동 시점에 함께 도입 예정.</p>
+        <div class="stage-name" data-i18n="step2_name">시험 선택 · 결제</div>
+        <p class="stage-desc" data-i18n="step2_desc">시험 목록에서 시험 상세로 진입해 가격·구성·샘플 문항을 확인한 뒤 결제. 신용카드 또는 QR 결제. 결제 완료 메일과 영수증 PDF가 자동 발행됩니다. 적격청구서 인보이스는 PG API 연동 시점에 함께 도입 예정.</p>
       </div>
     </div>
     <div class="stage">
       <div>
         <div class="step">STEP 3</div>
-        <div class="step-sub">대기</div>
+        <div class="step-sub" data-i18n="step3_sub">대기</div>
       </div>
       <div>
-        <div class="stage-name">응시 대기 (14일 윈도우)</div>
-        <p class="stage-desc">마이페이지의 나의 시험에서 D-day를 확인합니다. 결제일로부터 14일 이내 24시간 언제든 응시 가능. D-1과 D-day에 자동 리마인더 메일을 발송하며, 14일 경과 시 자동 만료됩니다.</p>
+        <div class="stage-name" data-i18n="step3_name">응시 대기 (14일 윈도우)</div>
+        <p class="stage-desc" data-i18n="step3_desc">마이페이지의 나의 시험에서 D-day를 확인합니다. 결제일로부터 14일 이내 24시간 언제든 응시 가능. D-1과 D-day에 자동 리마인더 메일을 발송하며, 14일 경과 시 자동 만료됩니다.</p>
       </div>
     </div>
     <div class="stage">
       <div>
         <div class="step">STEP 4</div>
-        <div class="step-sub">응시</div>
+        <div class="step-sub" data-i18n="step4_sub">응시</div>
       </div>
       <div>
-        <div class="stage-name">응시 — 본인 확인 → 환경 점검 → 시험</div>
-        <p class="stage-desc">시험 시작 버튼을 누르면 ① 본인 확인(이름·이메일·시험명 표시), ② 환경 점검 게이트(마이크·네트워크·브라우저), ③ 응시 클라이언트 진입 순으로 진행되며 종료 직후 AI가 자동 채점합니다.</p>
+        <div class="stage-name" data-i18n="step4_name">응시 — 본인 확인 → 환경 점검 → 시험</div>
+        <p class="stage-desc" data-i18n="step4_desc">시험 시작 버튼을 누르면 ① 본인 확인(이름·이메일·시험명 표시), ② 환경 점검 게이트(마이크·네트워크·브라우저), ③ 응시 클라이언트 진입 순으로 진행되며 종료 직후 AI가 자동 채점합니다.</p>
       </div>
     </div>
     <div class="stage">
       <div>
         <div class="step">STEP 5</div>
-        <div class="step-sub">결과</div>
+        <div class="step-sub" data-i18n="step5_sub">결과</div>
       </div>
       <div>
-        <div class="stage-name">결과 · 인증서</div>
-        <p class="stage-desc">운영자가 결과를 공개하면 학습자는 마이페이지에서 점수표, 5각 레이더, 문항별 AI 피드백을 확인할 수 있습니다. 결과지 PDF와 인증서 PDF(위변조 검증 URL 포함)를 무기한 재다운로드 가능.</p>
+        <div class="stage-name" data-i18n="step5_name">결과 · 인증서</div>
+        <p class="stage-desc" data-i18n="step5_desc">운영자가 결과를 공개하면 학습자는 마이페이지에서 점수표, 5각 레이더, 문항별 AI 피드백을 확인할 수 있습니다. 결과지 PDF와 인증서 PDF(위변조 검증 URL 포함)를 무기한 재다운로드 가능.</p>
       </div>
     </div>
   </div>
 
-  <div class="note">
+  <div class="note" data-i18n-html="flow_note">
     동선 박스 다이어그램은 <a href="flow-overview.html" class="inline-link">flow-overview.html</a>, 화면별 와이어프레임은 <a href="wireframes.html" class="inline-link">wireframes.html</a>에 별도로 정리되어 있습니다.
   </div>
 </section>
 
 <section>
-  <h2><span class="n">03 / Policy</span>운영 정책</h2>
-  <p class="lede-sm">학습자가 막혔을 때 일어나는 일과 운영팀이 다뤄야 할 영역.</p>
+  <h2><span class="n">03 / Policy</span><span data-i18n="sec_policy">운영 정책</span></h2>
+  <p class="lede-sm" data-i18n="policy_lede">학습자가 막혔을 때 일어나는 일과 운영팀이 다뤄야 할 영역.</p>
 
-  <h3>응시 윈도우와 만료</h3>
+  <h3 data-i18n="h3_window">응시 윈도우와 만료</h3>
   <ul>
-    <li>응시 가능 기간 — <strong>결제 후 14일 이내</strong></li>
-    <li>만료 알림 — D-1과 D-day에 자동 메일 발송</li>
-    <li>만료 후 — 자동 만료 처리. 환불은 제공되지 않으며 재응시도 불가</li>
-    <li>예외 — 시스템·네트워크 장애로 응시 진행이 불가했음이 확인된 경우 운영자 수동 검토 후 재응시 티켓 발급</li>
+    <li data-i18n-html="w1">응시 가능 기간 — <strong>결제 후 14일 이내</strong></li>
+    <li data-i18n="w2">만료 알림 — D-1과 D-day에 자동 메일 발송</li>
+    <li data-i18n="w3">만료 후 — 자동 만료 처리. 환불은 제공되지 않으며 재응시도 불가</li>
+    <li data-i18n="w4">예외 — 시스템·네트워크 장애로 응시 진행이 불가했음이 확인된 경우 운영자 수동 검토 후 재응시 티켓 발급</li>
   </ul>
 
-  <h3>환불 · 취소</h3>
+  <h3 data-i18n="h3_refund">환불 · 취소</h3>
   <ul>
-    <li>응시 전 미사용 환불 신청은 마이페이지 1:1 문의로 접수. 운영팀 검토 후 영업일 3~5일 이내 환원</li>
-    <li>응시 후 변심·결과 불만족은 환불 불가</li>
-    <li>시스템 장애로 응시 진행 불가 시 자동 환불 또는 재응시 티켓 발행 — 운영자 판단</li>
+    <li data-i18n="r1">응시 전 미사용 환불 신청은 마이페이지 1:1 문의로 접수. 운영팀 검토 후 영업일 3~5일 이내 환원</li>
+    <li data-i18n="r2">응시 후 변심·결과 불만족은 환불 불가</li>
+    <li data-i18n="r3">시스템 장애로 응시 진행 불가 시 자동 환불 또는 재응시 티켓 발행 — 운영자 판단</li>
   </ul>
 
-  <h3>응시 본인 확인</h3>
-  <p>응시 시작 직전 본인 확인 화면에서 이름·이메일·시험명을 표시합니다. 학습자가 본인임을 체크박스로 확인한 뒤 환경 점검 게이트로 진입합니다. 카메라·SMS 검증은 추후 도입 예정.</p>
+  <h3 data-i18n="h3_identity">응시 본인 확인</h3>
+  <p data-i18n="identity_text">응시 시작 직전 본인 확인 화면에서 이름·이메일·시험명을 표시합니다. 학습자가 본인임을 체크박스로 확인한 뒤 환경 점검 게이트로 진입합니다. 카메라·SMS 검증은 추후 도입 예정.</p>
 
-  <h3>환경 점검 게이트</h3>
-  <p>본인 확인을 통과한 직후 마이크 권한, 녹음 재생, 네트워크, 브라우저 4개 항목을 자동 점검합니다. 통과 시에만 응시 클라이언트에 진입할 수 있습니다. <strong>결제 시점과 분리되어 있어 결제는 환경과 무관하게 진행됩니다.</strong></p>
+  <h3 data-i18n="h3_envcheck">환경 점검 게이트</h3>
+  <p data-i18n-html="envcheck_text">본인 확인을 통과한 직후 마이크 권한, 녹음 재생, 네트워크, 브라우저 4개 항목을 자동 점검합니다. 통과 시에만 응시 클라이언트에 진입할 수 있습니다. <strong>결제 시점과 분리되어 있어 결제는 환경과 무관하게 진행됩니다.</strong></p>
 
-  <h3>응시 중 사고 대응</h3>
+  <h3 data-i18n="h3_incident">응시 중 사고 대응</h3>
   <ul>
-    <li>네트워크 끊김 — 자동 재연결, 시간 보존</li>
-    <li>마이크 권한 회수 — 알림과 재허가 가이드</li>
-    <li>타이머 — 카운트다운 후 답안 자동 제출</li>
-    <li>이탈 차단 — 응시 중 페이지 닫기·뒤로가기 시 경고</li>
-    <li>지속적 오류 — 운영팀에 자동 로그 전송, 재응시 티켓 검토</li>
+    <li data-i18n="i1">네트워크 끊김 — 자동 재연결, 시간 보존</li>
+    <li data-i18n="i2">마이크 권한 회수 — 알림과 재허가 가이드</li>
+    <li data-i18n="i3">타이머 — 카운트다운 후 답안 자동 제출</li>
+    <li data-i18n="i4">이탈 차단 — 응시 중 페이지 닫기·뒤로가기 시 경고</li>
+    <li data-i18n="i5">지속적 오류 — 운영팀에 자동 로그 전송, 재응시 티켓 검토</li>
   </ul>
 
-  <h3>시스템 알림 메일</h3>
+  <h3 data-i18n="h3_mail">시스템 알림 메일</h3>
   <table>
-    <tr><th>시점</th><td><strong>내용</strong></td></tr>
-    <tr><th>결제 완료 직후</th><td>결제 확인 + 영수증 PDF 안내</td></tr>
-    <tr><th>응시 윈도우 D-1 / D-day</th><td>응시 기간 임박 리마인더</td></tr>
-    <tr><th>응시 윈도우 만료</th><td>자동 만료 안내, 향후 응시 안내</td></tr>
-    <tr><th>결과 공개 시</th><td>운영자 공개 처리에 따라 자동 발송</td></tr>
-    <tr><th>환불 처리 완료</th><td>환원 완료 안내</td></tr>
+    <tr><th data-i18n="m_when">시점</th><td data-i18n-html="m_what"><strong>내용</strong></td></tr>
+    <tr><th data-i18n="m1_when">결제 완료 직후</th><td data-i18n="m1_what">결제 확인 + 영수증 PDF 안내</td></tr>
+    <tr><th data-i18n="m2_when">응시 윈도우 D-1 / D-day</th><td data-i18n="m2_what">응시 기간 임박 리마인더</td></tr>
+    <tr><th data-i18n="m3_when">응시 윈도우 만료</th><td data-i18n="m3_what">자동 만료 안내, 향후 응시 안내</td></tr>
+    <tr><th data-i18n="m4_when">결과 공개 시</th><td data-i18n="m4_what">운영자 공개 처리에 따라 자동 발송</td></tr>
+    <tr><th data-i18n="m5_when">환불 처리 완료</th><td data-i18n="m5_what">환원 완료 안내</td></tr>
   </table>
 
-  <h3>결과·인증서 보관</h3>
-  <p>결과와 인증서는 <strong>무기한 보관</strong>되며 재발급 횟수에 제한이 없습니다. 학습자는 마이페이지에서 언제든 다시 다운로드할 수 있습니다.</p>
+  <h3 data-i18n="h3_archive">결과·인증서 보관</h3>
+  <p data-i18n-html="archive_text">결과와 인증서는 <strong>무기한 보관</strong>되며 재발급 횟수에 제한이 없습니다. 학습자는 마이페이지에서 언제든 다시 다운로드할 수 있습니다.</p>
 
-  <h3>1:1 문의 동선</h3>
-  <p>마이페이지의 1:1 문의에서 유형(결제·시험·오류·환불 등)을 선택하고 제목, 내용, 첨부파일을 작성합니다. 운영팀이 답변하면 학습자에게 메일이 자동 발송되며 상태는 접수 / 답변완료 두 단계로 관리됩니다.</p>
+  <h3 data-i18n="h3_inquiry">1:1 문의 동선</h3>
+  <p data-i18n="inquiry_text">마이페이지의 1:1 문의에서 유형(결제·시험·오류·환불 등)을 선택하고 제목, 내용, 첨부파일을 작성합니다. 운영팀이 답변하면 학습자에게 메일이 자동 발송되며 상태는 접수 / 답변완료 두 단계로 관리됩니다.</p>
 </section>
 
 <section>
-  <h2><span class="n">04 / Roles</span>Newin × KOEN 역할 분담</h2>
-  <p class="lede-sm">시스템 측과 운영 측의 책임 영역.</p>
+  <h2><span class="n">04 / Roles</span><span data-i18n="sec_roles">Newin × KOEN 역할 분담</span></h2>
+  <p class="lede-sm" data-i18n="roles_lede">시스템 측과 운영 측의 책임 영역.</p>
 
   <div class="roles">
     <div class="role dark">
       <span class="tag">Newin Japan</span>
-      <div class="role-name">시스템 개발 · 운영 · 유지보수</div>
+      <div class="role-name" data-i18n="newin_role">시스템 개발 · 운영 · 유지보수</div>
       <ul>
-        <li>웹과 앱 시스템 개발</li>
-        <li>AI 출제 엔진</li>
-        <li>AI 채점 엔진 (STT·점수 산출)</li>
-        <li>AI 피드백 엔진</li>
-        <li>인증서 PDF + 위변조 검증 시스템</li>
-        <li>결제 PG 연동·정산</li>
-        <li>장애 대응·인프라 운영</li>
-        <li>관리자 콘솔 개발</li>
+        <li data-i18n="n1">웹과 앱 시스템 개발</li>
+        <li data-i18n="n2">AI 출제 엔진</li>
+        <li data-i18n="n3">AI 채점 엔진 (STT·점수 산출)</li>
+        <li data-i18n="n4">AI 피드백 엔진</li>
+        <li data-i18n="n5">인증서 PDF + 위변조 검증 시스템</li>
+        <li data-i18n="n6">결제 PG 연동·정산</li>
+        <li data-i18n="n7">장애 대응·인프라 운영</li>
+        <li data-i18n="n8">관리자 콘솔 개발</li>
       </ul>
     </div>
     <div class="role">
-      <span class="tag">KOEN (코엔)</span>
-      <div class="role-name">시행 운영 · 응시자 대응 · 콘텐츠</div>
+      <span class="tag" data-i18n="koen_tag">KOEN (코엔)</span>
+      <div class="role-name" data-i18n="koen_role">시행 운영 · 응시자 대응 · 콘텐츠</div>
       <ul>
-        <li>시험 시행 운영</li>
-        <li>응시자 문의·민원 대응 (1:1 문의)</li>
-        <li>응시료 관리·정산 수령</li>
-        <li>학습 콘텐츠 제작 (시험 안내·FAQ·공지)</li>
-        <li>환불 요청 검토·승인</li>
-        <li>재응시 티켓 발행 판단</li>
-        <li>운영자 결과 공개 처리</li>
-        <li>채점 보정 (필요 시)</li>
+        <li data-i18n="k1">시험 시행 운영</li>
+        <li data-i18n="k2">응시자 문의·민원 대응 (1:1 문의)</li>
+        <li data-i18n="k3">응시료 관리·정산 수령</li>
+        <li data-i18n="k4">학습 콘텐츠 제작 (시험 안내·FAQ·공지)</li>
+        <li data-i18n="k5">환불 요청 검토·승인</li>
+        <li data-i18n="k6">재응시 티켓 발행 판단</li>
+        <li data-i18n="k7">운영자 결과 공개 처리</li>
+        <li data-i18n="k8">채점 보정 (필요 시)</li>
       </ul>
     </div>
   </div>
 
-  <div class="note">
+  <div class="note" data-i18n-html="roles_note">
     <strong>협업 접점.</strong> 관리자 콘솔은 Newin에서 개발하며, KOEN 운영자 계정이 별도 발급됩니다. 위 KOEN 영역은 모두 관리자 콘솔에서 수행됩니다. 상세 권한 매트릭스는 별도 합의 문서로 발행됩니다.
   </div>
 </section>
 
 <section>
-  <h2><span class="n">05 / Stages</span>진행 단계</h2>
-  <p class="lede-sm">초안 기준 단계 흐름. 구체적인 일정·날짜는 본 패키지 합의 이후 별도 합의로 확정합니다.</p>
+  <h2><span class="n">05 / Stages</span><span data-i18n="sec_stages">진행 단계</span></h2>
+  <p class="lede-sm" data-i18n="stages_lede">초안 기준 단계 흐름. 구체적인 일정·날짜는 본 패키지 합의 이후 별도 합의로 확정합니다.</p>
 
   <div class="schedule">
     <div class="row">
       <div class="when">STAGE 1</div>
       <div class="what">
-        <div class="name">기획 v1 확정</div>
-        <div class="desc">서비스·동선·정책·역할 분담 합의. 본 문서가 기준점입니다.</div>
+        <div class="name" data-i18n="stage1_name">기획 v1 확정</div>
+        <div class="desc" data-i18n="stage1_desc">서비스·동선·정책·역할 분담 합의. 본 문서가 기준점입니다.</div>
       </div>
     </div>
     <div class="row">
       <div class="when">STAGE 2</div>
       <div class="what">
-        <div class="name">디자인 시안과 개발 착수</div>
-        <div class="desc">화면별 디자인 발주와 검수. 시스템 개발이 본격적으로 시작됩니다.</div>
+        <div class="name" data-i18n="stage2_name">디자인 시안과 개발 착수</div>
+        <div class="desc" data-i18n="stage2_desc">화면별 디자인 발주와 검수. 시스템 개발이 본격적으로 시작됩니다.</div>
       </div>
     </div>
     <div class="row">
       <div class="when">STAGE 3</div>
       <div class="what">
-        <div class="name">베타 오픈</div>
-        <div class="desc">제한된 응시자 풀에 시범 운영. 응시 흐름·결제·결과 동선을 검증합니다.</div>
+        <div class="name" data-i18n="stage3_name">베타 오픈</div>
+        <div class="desc" data-i18n="stage3_desc">제한된 응시자 풀에 시범 운영. 응시 흐름·결제·결과 동선을 검증합니다.</div>
       </div>
     </div>
     <div class="row">
       <div class="when">STAGE 4</div>
       <div class="what">
-        <div class="name">베타 피드백 반영 · 운영 리허설</div>
-        <div class="desc">KOEN 운영팀이 응시자 문의·환불·결과 공개 동선을 시뮬레이션합니다.</div>
+        <div class="name" data-i18n="stage4_name">베타 피드백 반영 · 운영 리허설</div>
+        <div class="desc" data-i18n="stage4_desc">KOEN 운영팀이 응시자 문의·환불·결과 공개 동선을 시뮬레이션합니다.</div>
       </div>
     </div>
     <div class="row">
       <div class="when">STAGE 5</div>
       <div class="what">
-        <div class="name">정식 서비스 개시</div>
-        <div class="desc">일반 응시자 대상 오픈.</div>
+        <div class="name" data-i18n="stage5_name">정식 서비스 개시</div>
+        <div class="desc" data-i18n="stage5_desc">일반 응시자 대상 오픈.</div>
       </div>
     </div>
   </div>
 </section>
 
 <section>
-  <h2><span class="n">06 / Future</span>향후 계획</h2>
-  <p class="lede-sm">1차 오픈 후 운영 데이터를 보고 결정할 영역. 본 패키지에서는 예정으로만 표시합니다.</p>
+  <h2><span class="n">06 / Future</span><span data-i18n="sec_future">향후 계획</span></h2>
+  <p class="lede-sm" data-i18n="future_lede">1차 오픈 후 운영 데이터를 보고 결정할 영역. 본 패키지에서는 예정으로만 표시합니다.</p>
 
   <div class="future">
     <div class="future-item">
-      <div class="ft-title">결제·결제 수단 확장</div>
-      <div class="ft-desc">적격청구서 인보이스 PDF 도입(일본 소비세법 대응), 쿠폰·할인 코드, 이용권 패키지 결제.</div>
+      <div class="ft-title" data-i18n="f1_title">결제·결제 수단 확장</div>
+      <div class="ft-desc" data-i18n="f1_desc">적격청구서 인보이스 PDF 도입(일본 소비세법 대응), 쿠폰·할인 코드, 이용권 패키지 결제.</div>
     </div>
     <div class="future-item">
-      <div class="ft-title">운영 통계 확장</div>
-      <div class="ft-desc">응시자 분석(평균 발화 길이·이탈률), 문항별 응답 시간 분포, AI 채점 vs 운영자 보정 차이 분석.</div>
+      <div class="ft-title" data-i18n="f2_title">운영 통계 확장</div>
+      <div class="ft-desc" data-i18n="f2_desc">응시자 분석(평균 발화 길이·이탈률), 문항별 응답 시간 분포, AI 채점 vs 운영자 보정 차이 분석.</div>
     </div>
     <div class="future-item">
-      <div class="ft-title">문제 만들기 깊이</div>
-      <div class="ft-desc">LLM 자동 생성 보조(지문·TTS 스크립트·모범 답안·채점 기준표), 문제 품질 평가 자동화, 다국어 문제 동시 작성.</div>
+      <div class="ft-title" data-i18n="f3_title">문제 만들기 깊이</div>
+      <div class="ft-desc" data-i18n="f3_desc">LLM 자동 생성 보조(지문·TTS 스크립트·모범 답안·채점 기준표), 문제 품질 평가 자동화, 다국어 문제 동시 작성.</div>
     </div>
     <div class="future-item">
-      <div class="ft-title">보안 · 본인 확인 강화</div>
-      <div class="ft-desc">응시자 2FA, 카메라·SMS 본인 확인, IP 화이트리스트, 권한 매트릭스 UI.</div>
+      <div class="ft-title" data-i18n="f4_title">보안 · 본인 확인 강화</div>
+      <div class="ft-desc" data-i18n="f4_desc">응시자 2FA, 카메라·SMS 본인 확인, IP 화이트리스트, 권한 매트릭스 UI.</div>
     </div>
     <div class="future-item">
-      <div class="ft-title">알림 채널 확장</div>
-      <div class="ft-desc">앱 푸시 알림 인프라, 알림 종류별 수신 설정 분리.</div>
+      <div class="ft-title" data-i18n="f5_title">알림 채널 확장</div>
+      <div class="ft-desc" data-i18n="f5_desc">앱 푸시 알림 인프라, 알림 종류별 수신 설정 분리.</div>
     </div>
     <div class="future-item">
-      <div class="ft-title">시험 운영 확장</div>
-      <div class="ft-desc">쓰기·듣기·읽기 영역 추가, 다국어 시험지 동시 운영, 시험 통과 조건 세분화.</div>
+      <div class="ft-title" data-i18n="f6_title">시험 운영 확장</div>
+      <div class="ft-desc" data-i18n="f6_desc">쓰기·듣기·읽기 영역 추가, 다국어 시험지 동시 운영, 시험 통과 조건 세분화.</div>
     </div>
   </div>
 </section>
 
 <section>
-  <h2><span class="n">07 / Scope</span>본 문서가 다루지 않는 것</h2>
+  <h2><span class="n">07 / Scope</span><span data-i18n="sec_scope">본 문서가 다루지 않는 것</span></h2>
   <ul>
-    <li>화면 디자인 — 와이어프레임은 흐름 확인용 박스 다이어그램이며, 실제 UI 디자인은 별도 진행됩니다</li>
-    <li>기술 사양 — 데이터 모델·API·인프라 세부 사항은 Newin 내부 문서에서 다룹니다</li>
-    <li>가격 정책 확정 — 시험별 단가·할인가 정책은 KOEN과 별도 합의 후 운영 직전 확정합니다</li>
-    <li>관리자 권한 상세 — KOEN 운영자별 권한 매트릭스는 별도 합의 문서로 발행됩니다</li>
-    <li>법적 약관 문구 — 이용약관·개인정보처리방침·특정상거래법 표시 문구는 법무 검토 후 별도 확정합니다</li>
+    <li data-i18n="s1">화면 디자인 — 와이어프레임은 흐름 확인용 박스 다이어그램이며, 실제 UI 디자인은 별도 진행됩니다</li>
+    <li data-i18n="s2">기술 사양 — 데이터 모델·API·인프라 세부 사항은 Newin 내부 문서에서 다룹니다</li>
+    <li data-i18n="s3">가격 정책 확정 — 시험별 단가·할인가 정책은 KOEN과 별도 합의 후 운영 직전 확정합니다</li>
+    <li data-i18n="s4">관리자 권한 상세 — KOEN 운영자별 권한 매트릭스는 별도 합의 문서로 발행됩니다</li>
+    <li data-i18n="s5">법적 약관 문구 — 이용약관·개인정보처리방침·특정상거래법 표시 문구는 법무 검토 후 별도 확정합니다</li>
   </ul>
 </section>
 
@@ -488,12 +515,274 @@
 
 <footer>
   <div class="footer-inner">
-    <div><strong>KoPASS IBT 기획문서 v1 초안</strong></div>
-    <div>Newin Japan 기획팀 → KOEN</div>
+    <div><strong data-i18n="footer_title">KoPASS IBT 기획문서 v1 초안</strong></div>
+    <div data-i18n="footer_from">Newin Japan 기획팀 → KOEN</div>
   </div>
 </footer>
 
-<button class="print-btn" onclick="window.print()">인쇄 / PDF 저장</button>
+<button class="print-btn" onclick="window.print()" data-i18n="btn_print">인쇄 / PDF 저장</button>
+
+<script>
+const i18n = {
+  ko: {
+    cover_label: 'KOPASS IBT · 기획문서 v1',
+    cover_title: '일본 시장을 위한<br>한국어 말하기 IBT 플랫폼',
+    cover_lede: '학습 1~2년 미만의 일본인 학습자가 자신의 말하기 실력을 객관적으로 진단할 수 있는 온라인 시험. 결제부터 인증서까지 한 동선으로 설계된 1차 오픈 기획 초안입니다.',
+    pill_draft: 'v1 초안', pill_audience: 'KOEN 보고용',
+
+    sec_summary: '한눈에 보기',
+    summary_lede: '사업의 윤곽 — 무엇을 누구에게 어떤 방식으로 제공하는지.',
+    row_name: '사업명',
+    row_position: '포지셔닝', row_position_v: 'TOPIK의 대체가 아닌, 일본인 학습자의 <strong>말하기 진단·모의고사</strong>',
+    row_scope: '1차 오픈 범위', row_scope_v: '<strong>말하기 단독</strong>. 쓰기·듣기·읽기는 본 문서 범위 외',
+    row_mode: '응시 방식', row_mode_v: '온라인 전용. 데스크탑 브라우저 + iOS·Android 앱',
+    row_period: '응시 기간', row_period_v: '결제일로부터 <strong>14일 이내</strong>, 24시간 언제든 응시',
+    row_payment: '결제', row_payment_v: '일본 PG 1개사. 신용카드 + QR 결제. 단건 결제',
+    row_stage: '진행 단계', row_stage_v: '기획 초안 → 디자인 → 개발 → 베타 → 정식 개시 (날짜 별도 합의)',
+
+    sec_product: '서비스 개요',
+    product_lede: '학습자가 받게 되는 가치와 시험의 구조.',
+    h3_benefits: '학습자가 받는 것',
+    b1: '발음·유창성·어휘·문법·내용 구성 <strong>5개 영역의 점수표</strong>',
+    b2: '5축 시각화 5각 레이더 차트(리포트 부가)',
+    b3: '문항별 AI 피드백 — 답안과 STT 비교, 추천 연습 안내',
+    b4: '1급~6급 진단 등급과 종합 코멘트',
+    b5: '결과지 PDF와 인증서 PDF, 위변조 검증 URL 포함',
+    h3_structure: '시험 구조',
+    row_time: '시험 시간', row_time_v: '약 25분 (23문항)',
+    row_areas: '5개 영역', row_areas_v: '발음 · 유창성 · 어휘 · 문법 · 내용 구성',
+    row_grading: '채점', row_grading_v: 'AI 1차 자동 채점. 시험 종료 직후 처리. 운영자 보정 가능',
+    row_publish: '결과 공개', row_publish_v: '운영자가 관리자 콘솔에서 공개 처리 (정책 5)',
+    h3_topik: 'TOPIK과의 관계',
+    topik_note: 'KoPASS는 TOPIK의 <strong>대체가 아닙니다.</strong> TOPIK 말하기 시험을 보완하는 진단·모의고사 포지션이며, 학습자가 자신의 말하기 실력을 객관적으로 점검할 수 있도록 돕습니다. 메인 페이지와 약관에 본 포지셔닝을 명시합니다.',
+
+    sec_flow: '응시자 동선',
+    flow_lede: '학습자가 처음 만나서 인증서를 받기까지 다섯 단계.',
+    step1_sub: '진입', step1_name: '가입 · 로그인',
+    step1_desc: '이메일 인증 가입 또는 LINE·Google·Apple 소셜 가입. 일본 시장 표준 3종만 지원(카카오·네이버 미지원). 약관 동의와 최소 개인정보 수집.',
+    step2_sub: '결제', step2_name: '시험 선택 · 결제',
+    step2_desc: '시험 목록에서 시험 상세로 진입해 가격·구성·샘플 문항을 확인한 뒤 결제. 신용카드 또는 QR 결제. 결제 완료 메일과 영수증 PDF가 자동 발행됩니다. 적격청구서 인보이스는 PG API 연동 시점에 함께 도입 예정.',
+    step3_sub: '대기', step3_name: '응시 대기 (14일 윈도우)',
+    step3_desc: '마이페이지의 나의 시험에서 D-day를 확인합니다. 결제일로부터 14일 이내 24시간 언제든 응시 가능. D-1과 D-day에 자동 리마인더 메일을 발송하며, 14일 경과 시 자동 만료됩니다.',
+    step4_sub: '응시', step4_name: '응시 — 본인 확인 → 환경 점검 → 시험',
+    step4_desc: '시험 시작 버튼을 누르면 ① 본인 확인(이름·이메일·시험명 표시), ② 환경 점검 게이트(마이크·네트워크·브라우저), ③ 응시 클라이언트 진입 순으로 진행되며 종료 직후 AI가 자동 채점합니다.',
+    step5_sub: '결과', step5_name: '결과 · 인증서',
+    step5_desc: '운영자가 결과를 공개하면 학습자는 마이페이지에서 점수표, 5각 레이더, 문항별 AI 피드백을 확인할 수 있습니다. 결과지 PDF와 인증서 PDF(위변조 검증 URL 포함)를 무기한 재다운로드 가능.',
+    flow_note: '동선 박스 다이어그램은 <a href="flow-overview.html" class="inline-link">flow-overview.html</a>, 화면별 와이어프레임은 <a href="wireframes.html" class="inline-link">wireframes.html</a>에 별도로 정리되어 있습니다.',
+
+    sec_policy: '운영 정책',
+    policy_lede: '학습자가 막혔을 때 일어나는 일과 운영팀이 다뤄야 할 영역.',
+    h3_window: '응시 윈도우와 만료',
+    w1: '응시 가능 기간 — <strong>결제 후 14일 이내</strong>',
+    w2: '만료 알림 — D-1과 D-day에 자동 메일 발송',
+    w3: '만료 후 — 자동 만료 처리. 환불은 제공되지 않으며 재응시도 불가',
+    w4: '예외 — 시스템·네트워크 장애로 응시 진행이 불가했음이 확인된 경우 운영자 수동 검토 후 재응시 티켓 발급',
+    h3_refund: '환불 · 취소',
+    r1: '응시 전 미사용 환불 신청은 마이페이지 1:1 문의로 접수. 운영팀 검토 후 영업일 3~5일 이내 환원',
+    r2: '응시 후 변심·결과 불만족은 환불 불가',
+    r3: '시스템 장애로 응시 진행 불가 시 자동 환불 또는 재응시 티켓 발행 — 운영자 판단',
+    h3_identity: '응시 본인 확인',
+    identity_text: '응시 시작 직전 본인 확인 화면에서 이름·이메일·시험명을 표시합니다. 학습자가 본인임을 체크박스로 확인한 뒤 환경 점검 게이트로 진입합니다. 카메라·SMS 검증은 추후 도입 예정.',
+    h3_envcheck: '환경 점검 게이트',
+    envcheck_text: '본인 확인을 통과한 직후 마이크 권한, 녹음 재생, 네트워크, 브라우저 4개 항목을 자동 점검합니다. 통과 시에만 응시 클라이언트에 진입할 수 있습니다. <strong>결제 시점과 분리되어 있어 결제는 환경과 무관하게 진행됩니다.</strong>',
+    h3_incident: '응시 중 사고 대응',
+    i1: '네트워크 끊김 — 자동 재연결, 시간 보존',
+    i2: '마이크 권한 회수 — 알림과 재허가 가이드',
+    i3: '타이머 — 카운트다운 후 답안 자동 제출',
+    i4: '이탈 차단 — 응시 중 페이지 닫기·뒤로가기 시 경고',
+    i5: '지속적 오류 — 운영팀에 자동 로그 전송, 재응시 티켓 검토',
+    h3_mail: '시스템 알림 메일',
+    m_when: '시점', m_what: '<strong>내용</strong>',
+    m1_when: '결제 완료 직후', m1_what: '결제 확인 + 영수증 PDF 안내',
+    m2_when: '응시 윈도우 D-1 / D-day', m2_what: '응시 기간 임박 리마인더',
+    m3_when: '응시 윈도우 만료', m3_what: '자동 만료 안내, 향후 응시 안내',
+    m4_when: '결과 공개 시', m4_what: '운영자 공개 처리에 따라 자동 발송',
+    m5_when: '환불 처리 완료', m5_what: '환원 완료 안내',
+    h3_archive: '결과·인증서 보관',
+    archive_text: '결과와 인증서는 <strong>무기한 보관</strong>되며 재발급 횟수에 제한이 없습니다. 학습자는 마이페이지에서 언제든 다시 다운로드할 수 있습니다.',
+    h3_inquiry: '1:1 문의 동선',
+    inquiry_text: '마이페이지의 1:1 문의에서 유형(결제·시험·오류·환불 등)을 선택하고 제목, 내용, 첨부파일을 작성합니다. 운영팀이 답변하면 학습자에게 메일이 자동 발송되며 상태는 접수 / 답변완료 두 단계로 관리됩니다.',
+
+    sec_roles: 'Newin × KOEN 역할 분담',
+    roles_lede: '시스템 측과 운영 측의 책임 영역.',
+    newin_role: '시스템 개발 · 운영 · 유지보수',
+    n1: '웹과 앱 시스템 개발', n2: 'AI 출제 엔진', n3: 'AI 채점 엔진 (STT·점수 산출)', n4: 'AI 피드백 엔진',
+    n5: '인증서 PDF + 위변조 검증 시스템', n6: '결제 PG 연동·정산', n7: '장애 대응·인프라 운영', n8: '관리자 콘솔 개발',
+    koen_tag: 'KOEN (코엔)', koen_role: '시행 운영 · 응시자 대응 · 콘텐츠',
+    k1: '시험 시행 운영', k2: '응시자 문의·민원 대응 (1:1 문의)', k3: '응시료 관리·정산 수령', k4: '학습 콘텐츠 제작 (시험 안내·FAQ·공지)',
+    k5: '환불 요청 검토·승인', k6: '재응시 티켓 발행 판단', k7: '운영자 결과 공개 처리', k8: '채점 보정 (필요 시)',
+    roles_note: '<strong>협업 접점.</strong> 관리자 콘솔은 Newin에서 개발하며, KOEN 운영자 계정이 별도 발급됩니다. 위 KOEN 영역은 모두 관리자 콘솔에서 수행됩니다. 상세 권한 매트릭스는 별도 합의 문서로 발행됩니다.',
+
+    sec_stages: '진행 단계',
+    stages_lede: '초안 기준 단계 흐름. 구체적인 일정·날짜는 본 패키지 합의 이후 별도 합의로 확정합니다.',
+    stage1_name: '기획 v1 확정', stage1_desc: '서비스·동선·정책·역할 분담 합의. 본 문서가 기준점입니다.',
+    stage2_name: '디자인 시안과 개발 착수', stage2_desc: '화면별 디자인 발주와 검수. 시스템 개발이 본격적으로 시작됩니다.',
+    stage3_name: '베타 오픈', stage3_desc: '제한된 응시자 풀에 시범 운영. 응시 흐름·결제·결과 동선을 검증합니다.',
+    stage4_name: '베타 피드백 반영 · 운영 리허설', stage4_desc: 'KOEN 운영팀이 응시자 문의·환불·결과 공개 동선을 시뮬레이션합니다.',
+    stage5_name: '정식 서비스 개시', stage5_desc: '일반 응시자 대상 오픈.',
+
+    sec_future: '향후 계획',
+    future_lede: '1차 오픈 후 운영 데이터를 보고 결정할 영역. 본 패키지에서는 예정으로만 표시합니다.',
+    f1_title: '결제·결제 수단 확장', f1_desc: '적격청구서 인보이스 PDF 도입(일본 소비세법 대응), 쿠폰·할인 코드, 이용권 패키지 결제.',
+    f2_title: '운영 통계 확장', f2_desc: '응시자 분석(평균 발화 길이·이탈률), 문항별 응답 시간 분포, AI 채점 vs 운영자 보정 차이 분석.',
+    f3_title: '문제 만들기 깊이', f3_desc: 'LLM 자동 생성 보조(지문·TTS 스크립트·모범 답안·채점 기준표), 문제 품질 평가 자동화, 다국어 문제 동시 작성.',
+    f4_title: '보안 · 본인 확인 강화', f4_desc: '응시자 2FA, 카메라·SMS 본인 확인, IP 화이트리스트, 권한 매트릭스 UI.',
+    f5_title: '알림 채널 확장', f5_desc: '앱 푸시 알림 인프라, 알림 종류별 수신 설정 분리.',
+    f6_title: '시험 운영 확장', f6_desc: '쓰기·듣기·읽기 영역 추가, 다국어 시험지 동시 운영, 시험 통과 조건 세분화.',
+
+    sec_scope: '본 문서가 다루지 않는 것',
+    s1: '화면 디자인 — 와이어프레임은 흐름 확인용 박스 다이어그램이며, 실제 UI 디자인은 별도 진행됩니다',
+    s2: '기술 사양 — 데이터 모델·API·인프라 세부 사항은 Newin 내부 문서에서 다룹니다',
+    s3: '가격 정책 확정 — 시험별 단가·할인가 정책은 KOEN과 별도 합의 후 운영 직전 확정합니다',
+    s4: '관리자 권한 상세 — KOEN 운영자별 권한 매트릭스는 별도 합의 문서로 발행됩니다',
+    s5: '법적 약관 문구 — 이용약관·개인정보처리방침·특정상거래법 표시 문구는 법무 검토 후 별도 확정합니다',
+
+    footer_title: 'KoPASS IBT 기획문서 v1 초안',
+    footer_from: 'Newin Japan 기획팀 → KOEN',
+    btn_print: '인쇄 / PDF 저장',
+  },
+  ja: {
+    cover_label: 'KOPASS IBT · 企画書 v1',
+    cover_title: '日本市場向けの<br>韓国語スピーキング IBT プラットフォーム',
+    cover_lede: '学習1〜2年未満の日本人学習者が自分のスピーキング能力を客観的に診断できるオンライン試験。決済から証明書まで一動線で設計された1次オープン企画ドラフトです。',
+    pill_draft: 'v1 ドラフト', pill_audience: 'KOEN報告用',
+
+    sec_summary: '一目で見る',
+    summary_lede: '事業の輪郭 — 何を、誰に、どのような方法で提供するか。',
+    row_name: '事業名',
+    row_position: 'ポジショニング', row_position_v: 'TOPIKの代替ではなく、日本人学習者のための<strong>スピーキング診断·模擬試験</strong>',
+    row_scope: '1次オープン範囲', row_scope_v: '<strong>スピーキング単独</strong>。ライティング·リスニング·リーディングは本書範囲外',
+    row_mode: '受験方式', row_mode_v: 'オンライン専用。デスクトップブラウザ + iOS·Androidアプリ',
+    row_period: '受験期間', row_period_v: '決済日から<strong>14日以内</strong>、24時間いつでも受験',
+    row_payment: '決済', row_payment_v: '日本のPG 1社。クレジットカード + QR決済。単件決済',
+    row_stage: '進行段階', row_stage_v: '企画ドラフト → デザイン → 開発 → ベータ → 正式開始(日程は別途合意)',
+
+    sec_product: 'サービス概要',
+    product_lede: '学習者が受け取る価値と試験の構造。',
+    h3_benefits: '学習者が受け取るもの',
+    b1: '発音·流暢さ·語彙·文法·内容構成 <strong>5領域のスコア表</strong>',
+    b2: '5軸可視化の5角レーダーチャート(レポート付加)',
+    b3: '問題別AIフィードバック — 回答とSTT比較、推奨練習の案内',
+    b4: '1〜6級診断等級と総合コメント',
+    b5: '結果レポートPDFと証明書PDF、偽造防止検証URL付き',
+    h3_structure: '試験構造',
+    row_time: '試験時間', row_time_v: '約25分(23問)',
+    row_areas: '5領域', row_areas_v: '発音 · 流暢さ · 語彙 · 文法 · 内容構成',
+    row_grading: '採点', row_grading_v: 'AIの一次自動採点。試験終了直後に処理。運営者の補正が可能',
+    row_publish: '結果公開', row_publish_v: '運営者が管理者コンソールで公開処理(ポリシー5)',
+    h3_topik: 'TOPIKとの関係',
+    topik_note: 'KoPASSはTOPIKの<strong>代替ではありません。</strong> TOPIKスピーキング試験を補完する診断·模擬試験のポジションであり、学習者が自分のスピーキング能力を客観的に確認できるよう支援します。メインページと利用規約に本ポジショニングを明記します。',
+
+    sec_flow: '受験者動線',
+    flow_lede: '学習者が初めて出会い、証明書を受け取るまでの5段階。',
+    step1_sub: '入口', step1_name: '会員登録 · ログイン',
+    step1_desc: 'メール認証登録またはLINE·Google·Appleソーシャル登録。日本市場標準3種のみ対応(カカオ·NAVER非対応)。利用規約同意と最小限の個人情報収集。',
+    step2_sub: '決済', step2_name: '試験選択 · 決済',
+    step2_desc: '試験一覧から試験詳細に入り、価格·構成·サンプル問題を確認後に決済。クレジットカードまたはQR決済。決済完了メールと領収書PDFが自動発行されます。適格請求書インボイスはPG API連携時点に同時導入予定。',
+    step3_sub: '待機', step3_name: '受験待機(14日ウィンドウ)',
+    step3_desc: 'マイページの「受験する試験」でD-dayを確認。決済日から14日以内、24時間いつでも受験可能。D-1とD-dayに自動リマインダーメールを送信し、14日経過で自動失効します。',
+    step4_sub: '受験', step4_name: '受験 — 本人確認 → 動作環境チェック → 試験',
+    step4_desc: '試験開始ボタンを押すと、①本人確認(氏名·メール·試験名表示)、②動作環境チェックゲート(マイク·ネットワーク·ブラウザ)、③受験クライアント進入の順に進み、終了直後にAIが自動採点します。',
+    step5_sub: '結果', step5_name: '結果 · 証明書',
+    step5_desc: '運営者が結果を公開すると、学習者はマイページでスコア表、5角レーダー、問題別AIフィードバックを確認できます。結果レポートPDFと証明書PDF(偽造防止検証URL付き)を無期限に再ダウンロード可能。',
+    flow_note: '動線ボックス図は <a href="flow-overview.html" class="inline-link">flow-overview.html</a>、画面別ワイヤーフレームは <a href="wireframes.html" class="inline-link">wireframes.html</a> に別途整理されています。',
+
+    sec_policy: '運営ポリシー',
+    policy_lede: '学習者が詰まったときに起こることと、運営チームが扱う領域。',
+    h3_window: '受験ウィンドウと失効',
+    w1: '受験可能期間 — <strong>決済後14日以内</strong>',
+    w2: '失効通知 — D-1とD-dayに自動メール送信',
+    w3: '失効後 — 自動失効処理。返金は提供されず、再受験も不可',
+    w4: '例外 — システム·ネットワーク障害により受験が不可能だったことが確認された場合、運営者の手動審査後に再受験チケットを発行',
+    h3_refund: '返金 · キャンセル',
+    r1: '受験前·未使用の返金申請はマイページの1:1問い合わせで受付。運営チーム審査後、営業日3〜5日以内に返金',
+    r2: '受験後の気変わり·結果不満は返金不可',
+    r3: 'システム障害で受験が不可能だった場合、自動返金または再受験チケット発行 — 運営者判断',
+    h3_identity: '受験者本人確認',
+    identity_text: '受験開始直前の本人確認画面で氏名·メール·試験名を表示します。学習者が本人であることをチェックボックスで確認した後、動作環境チェックゲートに進みます。カメラ·SMS検証は今後導入予定。',
+    h3_envcheck: '動作環境チェックゲート',
+    envcheck_text: '本人確認を通過した直後、マイク権限、録音再生、ネットワーク、ブラウザの4項目を自動チェックします。通過した場合のみ受験クライアントに進入できます。<strong>決済時点とは分離されており、決済は環境と無関係に進行します。</strong>',
+    h3_incident: '受験中の事故対応',
+    i1: 'ネットワーク切断 — 自動再接続、時間保存',
+    i2: 'マイク権限の取り消し — 通知と再許可ガイド',
+    i3: 'タイマー — カウントダウン後に回答自動提出',
+    i4: '離脱遮断 — 受験中のページ閉じ·戻る操作で警告',
+    i5: '持続的エラー — 運営チームへ自動ログ送信、再受験チケット審査',
+    h3_mail: 'システム通知メール',
+    m_when: 'タイミング', m_what: '<strong>内容</strong>',
+    m1_when: '決済完了直後', m1_what: '決済確認 + 領収書PDF案内',
+    m2_when: '受験ウィンドウ D-1 / D-day', m2_what: '受験期間切迫リマインダー',
+    m3_when: '受験ウィンドウ失効', m3_what: '自動失効案内、今後の受験案内',
+    m4_when: '結果公開時', m4_what: '運営者の公開処理に応じて自動送信',
+    m5_when: '返金処理完了', m5_what: '返金完了案内',
+    h3_archive: '結果·証明書の保管',
+    archive_text: '結果と証明書は<strong>無期限保管</strong>され、再発行回数に制限はありません。学習者はマイページからいつでも再ダウンロードできます。',
+    h3_inquiry: '1:1 問い合わせ動線',
+    inquiry_text: 'マイページの1:1問い合わせで種別(決済·試験·エラー·返金など)を選択し、タイトル·内容·添付ファイルを作成します。運営チームが回答すると学習者にメールが自動送信され、ステータスは受付 / 回答完了の2段階で管理されます。',
+
+    sec_roles: 'Newin × KOEN 役割分担',
+    roles_lede: 'システム側と運営側の責任領域。',
+    newin_role: 'システム開発 · 運営 · 保守',
+    n1: 'Web·アプリシステム開発', n2: 'AI出題エンジン', n3: 'AI採点エンジン(STT·スコア算出)', n4: 'AIフィードバックエンジン',
+    n5: '証明書PDF + 偽造防止検証システム', n6: '決済PG連携·精算', n7: '障害対応·インフラ運用', n8: '管理者コンソール開発',
+    koen_tag: 'KOEN (コエン)', koen_role: '施行運営 · 受験者対応 · コンテンツ',
+    k1: '試験施行運営', k2: '受験者問い合わせ·苦情対応(1:1問い合わせ)', k3: '受験料管理·精算受領', k4: '学習コンテンツ制作(試験案内·FAQ·お知らせ)',
+    k5: '返金リクエスト審査·承認', k6: '再受験チケット発行判断', k7: '運営者の結果公開処理', k8: '採点補正(必要時)',
+    roles_note: '<strong>協業接点。</strong> 管理者コンソールはNewinが開発し、KOEN運営者アカウントが別途発行されます。上記KOEN領域はすべて管理者コンソールで実行されます。詳細権限マトリクスは別合意文書として発行されます。',
+
+    sec_stages: '進行段階',
+    stages_lede: 'ドラフト基準の段階フロー。具体的な日程·日付は本パッケージ合意後、別途合意で確定します。',
+    stage1_name: '企画v1確定', stage1_desc: 'サービス·動線·ポリシー·役割分担の合意。本書が基準点です。',
+    stage2_name: 'デザイン案と開発着手', stage2_desc: '画面別デザイン発注と検収。システム開発が本格的に始まります。',
+    stage3_name: 'ベータオープン', stage3_desc: '限定受験者プールで試験運用。受験フロー·決済·結果動線を検証します。',
+    stage4_name: 'ベータFB反映 · 運営リハーサル', stage4_desc: 'KOEN運営チームが受験者問い合わせ·返金·結果公開の動線をシミュレーションします。',
+    stage5_name: '正式サービス開始', stage5_desc: '一般受験者向けにオープン。',
+
+    sec_future: '今後の計画',
+    future_lede: '1次オープン後、運用データを見て決定する領域。本パッケージでは予定としてのみ表示します。',
+    f1_title: '決済·決済手段拡張', f1_desc: '適格請求書インボイスPDF導入(日本消費税法対応)、クーポン·割引コード、利用券パッケージ決済。',
+    f2_title: '運営統計拡張', f2_desc: '受験者分析(平均発話長·離脱率)、問題別応答時間分布、AI採点vs運営者補正の差異分析。',
+    f3_title: '問題作成の深化', f3_desc: 'LLM自動生成補助(本文·TTSスクリプト·模範解答·採点基準表)、問題品質評価自動化、多言語問題同時作成。',
+    f4_title: 'セキュリティ · 本人確認強化', f4_desc: '受験者2FA、カメラ·SMS本人確認、IPホワイトリスト、権限マトリクスUI。',
+    f5_title: '通知チャネル拡張', f5_desc: 'アプリプッシュ通知インフラ、通知種別ごとの受信設定分離。',
+    f6_title: '試験運営拡張', f6_desc: 'ライティング·リスニング·リーディング領域追加、多言語試験紙の同時運営、試験合格条件の細分化。',
+
+    sec_scope: '本書が扱わないこと',
+    s1: '画面デザイン — ワイヤーフレームは流れ確認用のボックス図であり、実際のUIデザインは別途進行します',
+    s2: '技術仕様 — データモデル·API·インフラの詳細はNewin内部文書で扱います',
+    s3: '価格ポリシー確定 — 試験別単価·割引価格ポリシーはKOENと別途合意の上、運営直前に確定します',
+    s4: '管理者権限の詳細 — KOEN運営者ごとの権限マトリクスは別合意文書として発行されます',
+    s5: '法的規約文言 — 利用規約·個人情報処理方針·特定商取引法表示の文言は法務審査後に別途確定します',
+
+    footer_title: 'KoPASS IBT 企画書 v1 ドラフト',
+    footer_from: 'Newin Japan 企画チーム → KOEN',
+    btn_print: '印刷 / PDF保存',
+  }
+};
+
+let locale = localStorage.getItem('kopass_koen_locale') || 'ko';
+function t(k) { return i18n[locale]?.[k] ?? i18n.ko?.[k] ?? k; }
+function applyLocale() {
+  document.documentElement.lang = locale === 'ja' ? 'ja' : 'ko';
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const k = el.getAttribute('data-i18n');
+    el.textContent = t(k);
+  });
+  document.querySelectorAll('[data-i18n-html]').forEach(el => {
+    const k = el.getAttribute('data-i18n-html');
+    el.innerHTML = t(k);
+  });
+  document.querySelectorAll('.locale-toggle button').forEach(b => {
+    b.classList.toggle('active', b.getAttribute('data-locale') === locale);
+  });
+}
+function setLocale(loc) {
+  locale = loc;
+  localStorage.setItem('kopass_koen_locale', loc);
+  applyLocale();
+}
+applyLocale();
+</script>
 
 </body>
 </html>

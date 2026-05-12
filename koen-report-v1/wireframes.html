@@ -106,35 +106,40 @@
 <!-- Sidebar -->
 <aside id="wf-sidebar" class="fixed left-0 overflow-y-auto z-40" style="top: 56px; width: 240px; height: calc(100vh - 56px); background: #000000;">
   <div class="p-3">
-    <div class="sidebar-group" data-i18n="group_main">메인·접수</div>
+    <div class="sidebar-group" data-i18n="group_user">응시자단</div>
+
+    <div class="sidebar-group" style="padding-top:8px;font-size:10px;color:#4b4b4b;" data-i18n="group_main">메인·접수</div>
     <a class="sidebar-item active" data-wf="home" onclick="showWf('home')"><span data-i18n="wf_1">1. 홈</span></a>
     <a class="sidebar-item" data-wf="tests" onclick="showWf('tests')"><span data-i18n="wf_2">2. 시험 목록</span></a>
     <a class="sidebar-item" data-wf="test-detail" onclick="showWf('test-detail')"><span data-i18n="wf_3">3. 시험 상세</span></a>
 
-    <div class="sidebar-group" data-i18n="group_auth">회원·결제</div>
+    <div class="sidebar-group" style="padding-top:8px;font-size:10px;color:#4b4b4b;" data-i18n="group_auth">회원·결제</div>
     <a class="sidebar-item" data-wf="signup" onclick="showWf('signup')"><span data-i18n="wf_4">4. 회원가입</span></a>
     <a class="sidebar-item" data-wf="checkout" onclick="showWf('checkout')"><span data-i18n="wf_5">5. 결제</span></a>
 
-    <div class="sidebar-group" data-i18n="group_exam">응시</div>
+    <div class="sidebar-group" style="padding-top:8px;font-size:10px;color:#4b4b4b;" data-i18n="group_exam">응시</div>
     <a class="sidebar-item" data-wf="env-check" onclick="showWf('env-check')"><span data-i18n="wf_6">6. 환경 점검</span></a>
     <a class="sidebar-item" data-wf="exam-intro" onclick="showWf('exam-intro')"><span data-i18n="wf_7">7. 시험 안내 모달</span></a>
     <a class="sidebar-item" data-wf="exam" onclick="showWf('exam')"><span data-i18n="wf_8">8. 응시 화면</span></a>
     <a class="sidebar-item" data-wf="ai-feedback" onclick="showWf('ai-feedback')"><span data-i18n="wf_9">9. AI 피드백 모달</span></a>
 
-    <div class="sidebar-group" data-i18n="group_result">결과·인증</div>
+    <div class="sidebar-group" style="padding-top:8px;font-size:10px;color:#4b4b4b;" data-i18n="group_result">결과·인증</div>
     <a class="sidebar-item" data-wf="result" onclick="showWf('result')"><span data-i18n="wf_10">10. 결과 화면</span></a>
     <a class="sidebar-item" data-wf="certificate" onclick="showWf('certificate')"><span data-i18n="wf_11">11. 인증서</span></a>
 
-    <div class="sidebar-group" data-i18n="group_my">마이페이지</div>
+    <div class="sidebar-group" style="padding-top:8px;font-size:10px;color:#4b4b4b;" data-i18n="group_my">마이페이지</div>
     <a class="sidebar-item" data-wf="mypage" onclick="showWf('mypage')"><span data-i18n="wf_12">12. 마이페이지 대시보드</span></a>
 
-    <div class="border-t border-slate-700 mt-4 pt-3 px-3">
-      <div class="text-xs text-slate-500 leading-relaxed">
-        <strong class="text-slate-300" data-i18n="legend_title">와이어프레임 표기</strong><br>
+    <div class="sidebar-group" style="margin-top:24px;" data-i18n="group_admin">관리자단 <span style="color:#4b4b4b;font-weight:500;text-transform:none;letter-spacing:0;">(기획 예정)</span></div>
+    <a class="sidebar-item" data-wf="admin-soon" onclick="showWf('admin-soon')"><span data-i18n="wf_admin">시험 · 채점 · 회원 · 통계 · 시스템 · 문제 만들기</span></a>
+
+    <div style="border-top:1px solid rgba(255,255,255,0.1); margin: 24px 8px 0; padding: 16px 16px 0;">
+      <div class="text-xs leading-relaxed" style="color:#afafaf;">
+        <strong style="color:#ffffff;" data-i18n="legend_title">와이어프레임 표기</strong><br>
         <span data-i18n="legend_dashed">— 점선 박스 = 컴포넌트 영역</span><br>
         <span data-i18n="legend_grey">— 회색 박스 = 콘텐츠 자리</span><br>
-        <span data-i18n="legend_blue">— 파란 강조 = Primary CTA</span><br>
-        <span data-i18n="legend_red">— 빨강 강조 = 녹음/오류</span>
+        <span data-i18n="legend_blue">— 검정 강조 = Primary CTA</span><br>
+        <span data-i18n="legend_red">— 검정 박스 = 녹음/오류 상태</span>
       </div>
     </div>
   </div>
@@ -745,6 +750,52 @@
       </div>
     </div>
 
+    <!-- 관리자단 — 기획 예정 placeholder -->
+    <div id="wf-admin-soon" class="wf-panel">
+      <div class="text-xs mb-2" style="color:#afafaf;">/admin — <span data-i18n="path_admin">관리자단</span></div>
+
+      <div style="border: 1.5px dashed #000000; border-radius: 8px; padding: 80px 48px; background: #ffffff; text-align: center;">
+        <div style="display:inline-flex; padding: 6px 14px; border-radius: 999px; background: #000000; color: #ffffff; font-size: 12px; font-weight: 700; letter-spacing: 0.04em; margin-bottom: 32px;" data-i18n="admin_status">기획 예정</div>
+        <div style="font-size: 28px; font-weight: 700; color: #000000; margin-bottom: 16px; letter-spacing: -0.01em;" data-i18n="admin_title">관리자단 와이어프레임</div>
+        <div style="font-size: 15px; color: #4b4b4b; max-width: 640px; margin: 0 auto 40px; line-height: 1.65;" data-i18n="admin_desc">본 패키지는 응시자단 와이어프레임만 포함합니다. 관리자단(시험 관리·평가/채점·회원/권한·통계·시스템 설정·문제 만들기)은 별도 라운드에서 정리되어 추후 합류 예정입니다.</div>
+
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; max-width: 720px; margin: 0 auto 40px;">
+          <div style="border: 1px solid #efefef; border-radius: 8px; padding: 20px; text-align: left;">
+            <div style="font-size: 11px; font-weight: 700; color: #afafaf; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px;" data-i18n="admin_area_1_label">예정 화면 영역 ①</div>
+            <div style="font-size: 15px; font-weight: 700; color: #000000; margin-bottom: 4px;" data-i18n="admin_area_1_title">시험 관리</div>
+            <div style="font-size: 13px; color: #4b4b4b; line-height: 1.55;" data-i18n="admin_area_1_desc">시험 목록 · 시험 등록(가격·기간·공개) · 시험지 구성 · 미리보기</div>
+          </div>
+          <div style="border: 1px solid #efefef; border-radius: 8px; padding: 20px; text-align: left;">
+            <div style="font-size: 11px; font-weight: 700; color: #afafaf; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px;" data-i18n="admin_area_2_label">예정 화면 영역 ②</div>
+            <div style="font-size: 15px; font-weight: 700; color: #000000; margin-bottom: 4px;" data-i18n="admin_area_2_title">평가 및 채점</div>
+            <div style="font-size: 13px; color: #4b4b4b; line-height: 1.55;" data-i18n="admin_area_2_desc">응시자 목록 · 응시자 상세(답안·녹음·STT) · AI 채점 보정 · 결과 공개</div>
+          </div>
+          <div style="border: 1px solid #efefef; border-radius: 8px; padding: 20px; text-align: left;">
+            <div style="font-size: 11px; font-weight: 700; color: #afafaf; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px;" data-i18n="admin_area_3_label">예정 화면 영역 ③</div>
+            <div style="font-size: 15px; font-weight: 700; color: #000000; margin-bottom: 4px;" data-i18n="admin_area_3_title">회원 및 권한</div>
+            <div style="font-size: 13px; color: #4b4b4b; line-height: 1.55;" data-i18n="admin_area_3_desc">회원 조회·관리 · 관리자 계정 · 권한 설정</div>
+          </div>
+          <div style="border: 1px solid #efefef; border-radius: 8px; padding: 20px; text-align: left;">
+            <div style="font-size: 11px; font-weight: 700; color: #afafaf; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px;" data-i18n="admin_area_4_label">예정 화면 영역 ④</div>
+            <div style="font-size: 15px; font-weight: 700; color: #000000; margin-bottom: 4px;" data-i18n="admin_area_4_title">통계 및 분석</div>
+            <div style="font-size: 13px; color: #4b4b4b; line-height: 1.55;" data-i18n="admin_area_4_desc">응시 통계 · 문항 분석 · 매출 분석</div>
+          </div>
+          <div style="border: 1px solid #efefef; border-radius: 8px; padding: 20px; text-align: left;">
+            <div style="font-size: 11px; font-weight: 700; color: #afafaf; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px;" data-i18n="admin_area_5_label">예정 화면 영역 ⑤</div>
+            <div style="font-size: 15px; font-weight: 700; color: #000000; margin-bottom: 4px;" data-i18n="admin_area_5_title">시스템 설정 · 보안</div>
+            <div style="font-size: 13px; color: #4b4b4b; line-height: 1.55;" data-i18n="admin_area_5_desc">콘텐츠 관리 · 알림 템플릿 · SEO · 인증서 템플릿 · 관리자 2FA</div>
+          </div>
+          <div style="border: 1px solid #000000; border-radius: 8px; padding: 20px; text-align: left; background: #efefef;">
+            <div style="font-size: 11px; font-weight: 700; color: #000000; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px;" data-i18n="admin_area_6_label">★ 향후 핵심</div>
+            <div style="font-size: 15px; font-weight: 700; color: #000000; margin-bottom: 4px;" data-i18n="admin_area_6_title">문제 만들기</div>
+            <div style="font-size: 13px; color: #4b4b4b; line-height: 1.55;" data-i18n="admin_area_6_desc">5영역 단일 등록 · 문제 은행 · 라이브 프리뷰 · TTS · LLM 자동 생성(라운드 2)</div>
+          </div>
+        </div>
+
+        <div style="font-size: 13px; color: #afafaf; max-width: 560px; margin: 0 auto;" data-i18n="admin_footnote">관리자단은 Newin에서 개발하며, KOEN 운영자 계정이 별도 발급됩니다. 화면별 와이어프레임은 응시자단 합의 직후 작업이 시작됩니다.</div>
+      </div>
+    </div>
+
   </div>
 </main>
 
@@ -754,9 +805,20 @@
 const i18n = {
   ko: {
     // sidebar
-    group_main: '메인·접수', group_auth: '회원·결제', group_exam: '응시', group_result: '결과·인증', group_my: '마이페이지',
+    group_user: '응시자단', group_admin: '관리자단', group_main: '메인·접수', group_auth: '회원·결제', group_exam: '응시', group_result: '결과·인증', group_my: '마이페이지',
     wf_1: '1. 홈', wf_2: '2. 시험 목록', wf_3: '3. 시험 상세', wf_4: '4. 회원가입', wf_5: '5. 결제', wf_6: '6. 환경 점검', wf_7: '7. 시험 안내 모달', wf_8: '8. 응시 화면', wf_9: '9. AI 피드백 모달', wf_10: '10. 결과 화면', wf_11: '11. 인증서', wf_12: '12. 마이페이지 대시보드',
-    legend_title: '와이어프레임 표기', legend_dashed: '— 점선 박스 = 컴포넌트 영역', legend_grey: '— 회색 박스 = 콘텐츠 자리', legend_blue: '— 파란 강조 = Primary CTA', legend_red: '— 빨강 강조 = 녹음/오류',
+    wf_admin: '시험 · 채점 · 회원 · 통계 · 시스템 · 문제 만들기',
+    legend_title: '와이어프레임 표기', legend_dashed: '— 점선 박스 = 컴포넌트 영역', legend_grey: '— 회색 박스 = 콘텐츠 자리', legend_blue: '— 검정 강조 = Primary CTA', legend_red: '— 검정 박스 = 녹음/오류 상태',
+    path_admin: '관리자단',
+    admin_status: '기획 예정', admin_title: '관리자단 와이어프레임',
+    admin_desc: '본 패키지는 응시자단 와이어프레임만 포함합니다. 관리자단(시험 관리·평가/채점·회원/권한·통계·시스템 설정·문제 만들기)은 별도 라운드에서 정리되어 추후 합류 예정입니다.',
+    admin_area_1_label: '예정 화면 영역 ①', admin_area_1_title: '시험 관리', admin_area_1_desc: '시험 목록 · 시험 등록(가격·기간·공개) · 시험지 구성 · 미리보기',
+    admin_area_2_label: '예정 화면 영역 ②', admin_area_2_title: '평가 및 채점', admin_area_2_desc: '응시자 목록 · 응시자 상세(답안·녹음·STT) · AI 채점 보정 · 결과 공개',
+    admin_area_3_label: '예정 화면 영역 ③', admin_area_3_title: '회원 및 권한', admin_area_3_desc: '회원 조회·관리 · 관리자 계정 · 권한 설정',
+    admin_area_4_label: '예정 화면 영역 ④', admin_area_4_title: '통계 및 분석', admin_area_4_desc: '응시 통계 · 문항 분석 · 매출 분석',
+    admin_area_5_label: '예정 화면 영역 ⑤', admin_area_5_title: '시스템 설정 · 보안', admin_area_5_desc: '콘텐츠 관리 · 알림 템플릿 · SEO · 인증서 템플릿 · 관리자 2FA',
+    admin_area_6_label: '★ 향후 핵심', admin_area_6_title: '문제 만들기', admin_area_6_desc: '5영역 단일 등록 · 문제 은행 · 라이브 프리뷰 · TTS · LLM 자동 생성(라운드 2)',
+    admin_footnote: '관리자단은 Newin에서 개발하며, KOEN 운영자 계정이 별도 발급됩니다. 화면별 와이어프레임은 응시자단 합의 직후 작업이 시작됩니다.',
 
     // navigation
     nav_tests: '시험 목록', nav_mypage: '마이페이지', nav_support: '고객센터', auth_login: '로그인', auth_signup: '회원가입',
@@ -836,9 +898,20 @@ const i18n = {
   },
   ja: {
     // sidebar (sidebar group/items kept Korean for our review convenience; ja for visible UI)
-    group_main: 'メイン・受付', group_auth: '会員・決済', group_exam: '受験', group_result: '結果・認証', group_my: 'マイページ',
+    group_user: '受験者側', group_admin: '管理者側', group_main: 'メイン・受付', group_auth: '会員・決済', group_exam: '受験', group_result: '結果・認証', group_my: 'マイページ',
+    wf_admin: '試験 · 採点 · 会員 · 統計 · システム · 問題作成',
+    path_admin: '管理者側',
+    admin_status: '企画予定', admin_title: '管理者側ワイヤーフレーム',
+    admin_desc: '本パッケージは受験者側のワイヤーフレームのみを含みます。管理者側(試験管理·評価/採点·会員/権限·統計·システム設定·問題作成)は別ラウンドで整理され、後日合流予定です。',
+    admin_area_1_label: '予定画面領域 ①', admin_area_1_title: '試験管理', admin_area_1_desc: '試験一覧 · 試験登録(価格·期間·公開) · 試験紙構成 · プレビュー',
+    admin_area_2_label: '予定画面領域 ②', admin_area_2_title: '評価・採点', admin_area_2_desc: '受験者一覧 · 受験者詳細(回答·録音·STT) · AI採点補正 · 結果公開',
+    admin_area_3_label: '予定画面領域 ③', admin_area_3_title: '会員・権限', admin_area_3_desc: '会員照会·管理 · 管理者アカウント · 権限設定',
+    admin_area_4_label: '予定画面領域 ④', admin_area_4_title: '統計・分析', admin_area_4_desc: '受験統計 · 問題分析 · 売上分析',
+    admin_area_5_label: '予定画面領域 ⑤', admin_area_5_title: 'システム設定・セキュリティ', admin_area_5_desc: 'コンテンツ管理 · 通知テンプレート · SEO · 証明書テンプレート · 管理者2FA',
+    admin_area_6_label: '★ 今後の核心', admin_area_6_title: '問題作成', admin_area_6_desc: '5領域単一登録 · 問題バンク · ライブプレビュー · TTS · LLM自動生成(ラウンド2)',
+    admin_footnote: '管理者側はNewinが開発し、KOEN運営者アカウントが別途発行されます。画面別ワイヤーフレームは受験者側合意後に着手します。',
     wf_1: '1. ホーム', wf_2: '2. 試験一覧', wf_3: '3. 試験詳細', wf_4: '4. 会員登録', wf_5: '5. 決済', wf_6: '6. 環境チェック', wf_7: '7. 試験案内モーダル', wf_8: '8. 受験画面', wf_9: '9. AIフィードバックモーダル', wf_10: '10. 結果画面', wf_11: '11. 証明書', wf_12: '12. マイページダッシュボード',
-    legend_title: 'ワイヤーフレーム表記', legend_dashed: '— 点線ボックス = コンポーネント領域', legend_grey: '— グレーボックス = コンテンツ位置', legend_blue: '— 青強調 = Primary CTA', legend_red: '— 赤強調 = 録音/エラー',
+    legend_title: 'ワイヤーフレーム表記', legend_dashed: '— 点線ボックス = コンポーネント領域', legend_grey: '— グレーボックス = コンテンツ位置', legend_blue: '— 黒強調 = Primary CTA', legend_red: '— 黒ボックス = 録音/エラー状態',
 
     nav_tests: '試験一覧', nav_mypage: 'マイページ', nav_support: 'サポート', auth_login: 'ログイン', auth_signup: '会員登録',
 
