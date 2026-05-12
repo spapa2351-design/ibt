@@ -1,0 +1,537 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KoPASS Admin — 문제 은행</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  html, body { font-family: "Pretendard Variable", "Pretendard JP Variable", Pretendard, "Pretendard JP", -apple-system, BlinkMacSystemFont, system-ui, sans-serif; }
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  :root {
+    --blue-500: #2e84ff; --blue-600: #2272eb; --blue-50: #e8f3ff;
+    --grey-900: #191f28; --grey-800: #2d3540; --grey-700: #4e5968; --grey-600: #6b7684; --grey-500: #8b95a1; --grey-400: #b0b8c1;
+    --grey-300: #d1d6db; --grey-200: #e5e8eb; --grey-100: #f2f4f6; --grey-50: #f9fafb;
+    --green-500: #03b26c; --green-50: #ecfdf5;
+    --violet-500: #7c3aed; --violet-50: #f5f3ff;
+    --orange-500: #fe9800; --orange-50: #fff7ed;
+    --red-500: #f04452; --red-50: #fef2f2;
+    --amber-500: #f59e0b; --amber-50: #fffbeb;
+    --pink-500: #ec4899; --pink-50: #fdf2f8;
+  }
+  body { background: var(--grey-100); color: var(--grey-900); display: flex; min-height: 100vh; }
+
+  /* 좌측 사이드바 */
+  .sidebar { width: 220px; background: white; border-right: 1px solid var(--grey-200); flex-shrink: 0; display: flex; flex-direction: column; height: 100vh; position: sticky; top: 0; }
+  .sb-brand { padding: 18px 20px; display: flex; align-items: center; gap: 8px; }
+  .sb-brand .mark { width: 30px; height: 30px; background: linear-gradient(135deg, var(--blue-500) 0%, var(--green-500) 100%); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 800; font-size: 12px; letter-spacing: -0.5px; }
+  .sb-brand .name { font-weight: 800; font-size: 15px; color: var(--grey-900); letter-spacing: -0.3px; }
+  .sb-brand .sub { font-size: 10px; color: var(--grey-500); font-weight: 600; letter-spacing: 0.5px; margin-top: -2px; }
+  .sb-nav { flex: 1; padding: 8px 12px; overflow-y: auto; }
+  .sb-group { margin-bottom: 4px; }
+  .sb-group-title { font-size: 12px; font-weight: 700; color: var(--grey-700); padding: 10px 12px 6px; display: flex; align-items: center; gap: 8px; }
+  .sb-group-title .icon { width: 14px; height: 14px; flex-shrink: 0; }
+  .sb-item { display: block; padding: 8px 12px 8px 36px; font-size: 13px; color: var(--grey-600); border-radius: 8px; cursor: pointer; transition: all 0.12s; text-decoration: none; margin: 1px 0; }
+  .sb-item:hover { background: var(--grey-50); color: var(--grey-900); }
+  .sb-item.active { background: var(--blue-50); color: var(--blue-600); font-weight: 700; }
+  .sb-item .star { font-size: 10px; color: var(--orange-500); margin-left: 4px; }
+  .sb-link { display: flex; align-items: center; gap: 8px; padding: 10px 12px; font-size: 13px; font-weight: 700; color: var(--grey-700); border-radius: 8px; cursor: pointer; transition: all 0.12s; text-decoration: none; margin: 0 0 8px; }
+  .sb-link:hover { background: var(--grey-50); color: var(--grey-900); }
+  .sb-link.active { background: var(--blue-50); color: var(--blue-600); }
+  .sb-link .icon { width: 14px; height: 14px; flex-shrink: 0; }
+
+  /* 우측 영역 */
+  .main { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+  .topbar { height: 56px; background: white; border-bottom: 1px solid var(--grey-200); display: flex; align-items: center; padding: 0 24px; gap: 16px; flex-shrink: 0; position: sticky; top: 0; z-index: 40; }
+  .topbar-crumb { font-size: 13px; color: var(--grey-600); display: flex; align-items: center; gap: 6px; }
+  .topbar-crumb strong { color: var(--grey-900); font-weight: 700; }
+  .topbar-spacer { flex: 1; }
+  .topbar-icon-btn { width: 34px; height: 34px; border-radius: 8px; border: none; background: transparent; color: var(--grey-600); cursor: pointer; display: flex; align-items: center; justify-content: center; position: relative; }
+  .topbar-icon-btn:hover { background: var(--grey-100); color: var(--grey-900); }
+  .topbar-icon-btn .badge-dot { position: absolute; top: 6px; right: 6px; width: 8px; height: 8px; background: var(--red-500); border-radius: 50%; border: 2px solid white; }
+  .topbar-profile { display: flex; align-items: center; gap: 8px; padding: 4px 10px 4px 4px; border-radius: 999px; cursor: pointer; }
+  .topbar-profile:hover { background: var(--grey-100); }
+  .topbar-profile .avatar { width: 28px; height: 28px; border-radius: 50%; background: linear-gradient(135deg, var(--blue-500), var(--violet-500)); color: white; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+  .topbar-profile .name { font-size: 13px; font-weight: 600; color: var(--grey-900); }
+
+  /* 페이지 */
+  .page { padding: 24px 28px; display: grid; grid-template-columns: 220px 1fr; gap: 20px; }
+  .page-head { grid-column: 1 / -1; display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; }
+  .page-title { font-size: 22px; font-weight: 800; color: var(--grey-900); display: flex; align-items: center; gap: 8px; }
+  .page-title .star-btn { color: var(--grey-300); cursor: pointer; font-size: 18px; }
+  .page-title .star-btn:hover { color: var(--orange-500); }
+  .page-actions { display: flex; gap: 8px; }
+  .btn { padding: 9px 16px; border-radius: 10px; font-size: 13px; font-weight: 700; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.12s; text-decoration: none; }
+  .btn-secondary { background: white; color: var(--grey-700); border: 1px solid var(--grey-200); }
+  .btn-secondary:hover { border-color: var(--grey-400); color: var(--grey-900); }
+  .btn-primary { background: var(--blue-500); color: white; }
+  .btn-primary:hover { background: var(--blue-600); }
+
+  /* 분류 트리 카드 */
+  .tree-card { background: white; border-radius: 16px; box-shadow: 0 1px 3px rgba(15,23,42,0.04), 0 1px 2px rgba(15,23,42,0.06); padding: 16px; height: fit-content; position: sticky; top: 76px; }
+  .tree-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; padding: 0 4px; }
+  .tree-title { font-size: 14px; font-weight: 800; color: var(--grey-900); }
+  .tree-cog { width: 26px; height: 26px; border-radius: 6px; border: none; background: transparent; color: var(--grey-500); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; }
+  .tree-cog:hover { background: var(--grey-100); color: var(--grey-900); }
+  .tree-list { display: flex; flex-direction: column; gap: 1px; }
+  .tree-item { padding: 7px 10px; font-size: 13px; color: var(--grey-700); border-radius: 7px; cursor: pointer; display: flex; align-items: center; gap: 6px; }
+  .tree-item:hover { background: var(--grey-50); }
+  .tree-item.active { background: var(--blue-50); color: var(--blue-600); font-weight: 700; }
+  .tree-item .count { margin-left: auto; font-size: 11px; color: var(--grey-400); font-weight: 600; }
+  .tree-item.active .count { color: var(--blue-500); }
+  .tree-divider { height: 1px; background: var(--grey-100); margin: 6px 4px; }
+  .tree-sub { padding-left: 16px; }
+
+  /* 카드 */
+  .card { background: white; border-radius: 16px; box-shadow: 0 1px 3px rgba(15,23,42,0.04), 0 1px 2px rgba(15,23,42,0.06); overflow: hidden; }
+
+  .filter-bar { padding: 14px 20px; border-bottom: 1px solid var(--grey-100); display: flex; align-items: center; gap: 12px; }
+  .filter-input { flex: 1; display: flex; align-items: center; gap: 8px; color: var(--grey-500); font-size: 13px; cursor: text; padding: 6px 10px; border-radius: 8px; }
+  .filter-input:hover { background: var(--grey-50); }
+  .filter-input .plus { width: 24px; height: 24px; border-radius: 50%; background: var(--blue-50); color: var(--blue-500); display: flex; align-items: center; justify-content: center; font-weight: 700; }
+
+  .table-tools { padding: 14px 20px; display: flex; align-items: center; justify-content: space-between; }
+  .total-count { font-size: 13px; color: var(--grey-700); }
+  .total-count strong { font-size: 14px; font-weight: 800; color: var(--grey-900); margin-left: 4px; }
+  .tool-group { display: flex; gap: 6px; }
+  .tool-btn { padding: 6px 12px; border-radius: 8px; border: 1px solid var(--grey-200); background: white; color: var(--grey-700); font-size: 12px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; }
+  .tool-btn:hover { border-color: var(--grey-400); }
+
+  table { width: 100%; border-collapse: collapse; }
+  thead th { background: white; font-size: 12px; font-weight: 700; color: var(--grey-600); text-align: left; padding: 12px 16px; border-bottom: 1px solid var(--grey-100); white-space: nowrap; }
+  thead th .sort { color: var(--grey-300); font-size: 10px; margin-left: 4px; }
+  tbody td { padding: 14px 16px; border-bottom: 1px solid var(--grey-50); font-size: 13px; color: var(--grey-800); vertical-align: middle; }
+  tbody tr:hover td { background: var(--grey-50); cursor: pointer; }
+  tbody tr:last-child td { border-bottom: none; }
+  td.cell-question { color: var(--grey-900); max-width: 520px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  td.cell-date { color: var(--grey-600); font-family: 'SF Mono', Menlo, monospace; font-size: 12px; white-space: nowrap; }
+  td.cell-actions { text-align: right; white-space: nowrap; }
+
+  input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--blue-500); cursor: pointer; }
+
+  .badge { display: inline-flex; align-items: center; padding: 3px 9px; border-radius: 999px; font-size: 11px; font-weight: 700; white-space: nowrap; }
+  .badge-mc { background: var(--green-50); color: var(--green-500); }
+  .badge-sa { background: var(--blue-50); color: var(--blue-600); }
+  .badge-s1 { background: var(--violet-50); color: var(--violet-500); }
+  .badge-s2 { background: var(--pink-50); color: var(--pink-500); }
+  .badge-cat { background: var(--grey-100); color: var(--grey-700); }
+
+  /* 주제 분류 칩 (질문 셀 아래 + 필터) */
+  .topic-chips { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
+  .topic-chip { display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 600; background: var(--blue-50); color: var(--blue-600); border: 1px solid transparent; white-space: nowrap; }
+  .topic-chip.green { background: var(--green-50); color: var(--green-500); }
+  .topic-chip.violet { background: var(--violet-50); color: var(--violet-500); }
+  .topic-chip.orange { background: #fff7ed; color: var(--orange-500); }
+  .topic-chip.grey { background: var(--grey-100); color: var(--grey-700); }
+
+  /* 좌측 분류 트리 — 주제 필터 섹션 */
+  .topic-filter { margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--grey-100); }
+  .topic-filter-head { display: flex; align-items: center; justify-content: space-between; padding: 0 4px 8px; }
+  .topic-filter-title { font-size: 12px; font-weight: 800; color: var(--grey-900); }
+  .topic-filter-reset { font-size: 11px; color: var(--grey-500); font-weight: 700; background: transparent; border: none; cursor: pointer; padding: 2px 6px; border-radius: 6px; }
+  .topic-filter-reset:hover { background: var(--grey-100); color: var(--grey-900); }
+  .topic-filter-list { display: flex; flex-wrap: wrap; gap: 6px; padding: 0 2px; }
+  .topic-filter-chip { display: inline-flex; align-items: center; gap: 4px; padding: 5px 10px; border-radius: 999px; font-size: 11px; font-weight: 600; background: white; color: var(--grey-700); border: 1px solid var(--grey-200); cursor: pointer; transition: all 0.12s; }
+  .topic-filter-chip:hover { border-color: var(--blue-500); color: var(--blue-500); }
+  .topic-filter-chip.active { background: var(--blue-500); color: white; border-color: var(--blue-500); }
+  .topic-filter-chip .count { opacity: 0.6; font-size: 10px; font-weight: 700; }
+  .topic-filter-summary { font-size: 11px; color: var(--grey-500); margin-top: 8px; padding: 0 4px; }
+  .topic-filter-summary strong { color: var(--blue-600); font-weight: 800; }
+
+  .row-action { width: 28px; height: 28px; border-radius: 6px; border: none; background: transparent; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; color: var(--grey-500); }
+  .row-action:hover { background: var(--grey-100); color: var(--grey-900); }
+  .row-action.del { color: var(--red-500); }
+  .row-action.del:hover { background: var(--red-50); }
+
+  .pager { padding: 16px 20px; display: flex; align-items: center; justify-content: center; gap: 4px; border-top: 1px solid var(--grey-100); position: relative; }
+  .pager-btn { min-width: 32px; height: 32px; border-radius: 8px; border: 1px solid transparent; background: transparent; color: var(--grey-600); font-size: 13px; font-weight: 600; cursor: pointer; padding: 0 8px; }
+  .pager-btn:hover { background: var(--grey-50); color: var(--grey-900); }
+  .pager-btn.active { background: var(--blue-500); color: white; }
+  .pager-btn:disabled { color: var(--grey-300); cursor: not-allowed; }
+  .pager-rows { position: absolute; right: 20px; display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--grey-600); }
+  .pager-rows select { padding: 4px 8px; border-radius: 6px; border: 1px solid var(--grey-200); background: white; font-size: 12px; }
+
+  @media (max-width: 1024px) {
+    .sidebar { width: 64px; }
+    .sb-brand .name, .sb-brand .sub { display: none; }
+    .sb-group-title span:not(.icon) { display: none; }
+    .sb-item { display: none; }
+    .page { grid-template-columns: 1fr; }
+    .tree-card { position: static; }
+  }
+</style>
+</head>
+<body>
+
+<!-- 좌측 사이드바 -->
+<aside class="sidebar">
+  <div class="sb-brand">
+    <div class="mark">K</div>
+    <div>
+      <div class="name">KoPASS</div>
+      <div class="sub">ADMIN</div>
+    </div>
+  </div>
+
+  <nav class="sb-nav">
+    <!-- 대시보드 (단독) -->
+    <a class="sb-link" href="ui-admin-dashboard.html">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>
+      <span>대시보드</span>
+    </a>
+
+    <!-- 응시자 -->
+    <div class="sb-group">
+      <div class="sb-group-title">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        <span>응시자</span>
+      </div>
+      <a class="sb-item" href="ui-admin-members.html">회원 목록</a>
+      <a class="sb-item" href="#">응시 결과</a>
+      <a class="sb-item" href="ui-admin-payments.html">결제 관리</a>
+    </div>
+
+    <!-- 회원 -->
+    <div class="sb-group">
+      <div class="sb-group-title">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <span>회원</span>
+      </div>
+      <a class="sb-item" href="#">관리자 계정</a>
+    </div>
+
+    <!-- 시험 -->
+    <div class="sb-group">
+      <div class="sb-group-title">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/></svg>
+        <span>시험</span>
+      </div>
+      <a class="sb-item" href="#">시험 목록</a>
+      <a class="sb-item" href="#">시험 등록</a>
+      <a class="sb-item active" href="ui-admin-question-bank.html">문제 은행</a>
+      <a class="sb-item" href="ui-admin-question-create.html">문제 만들기 <span class="star">★</span></a>
+    </div>
+
+    <!-- 설정 -->
+    <div class="sb-group">
+      <div class="sb-group-title">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        <span>설정</span>
+      </div>
+      <a class="sb-item" href="#">인증서 템플릿</a>
+      <a class="sb-item" href="#">공지 / FAQ</a>
+      <a class="sb-item" href="#">약관</a>
+      <a class="sb-item" href="#">보안</a>
+    </div>
+  </nav>
+</aside>
+
+<!-- 메인 -->
+<div class="main">
+  <header class="topbar">
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+    <div class="topbar-crumb">
+      시험 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg> <strong>문제 은행</strong>
+    </div>
+    <div class="topbar-spacer"></div>
+    <button class="topbar-icon-btn" title="알림">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+      <span class="badge-dot"></span>
+    </button>
+    <button class="topbar-icon-btn" title="설정"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>
+    <div class="topbar-profile">
+      <div class="avatar">조</div>
+      <span class="name">조찬현</span>
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+  </header>
+
+  <div class="page">
+
+    <div class="page-head">
+      <div class="page-title">문제 은행 <span class="star-btn" title="즐겨찾기">☆</span></div>
+      <div class="page-actions">
+        <button class="btn btn-secondary">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          대량 작업
+        </button>
+        <a href="ui-admin-question-create.html" class="btn btn-primary">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          등록
+        </a>
+      </div>
+    </div>
+
+    <!-- 좌: 분류 트리 -->
+    <aside class="tree-card">
+      <div class="tree-head">
+        <div class="tree-title">분류</div>
+        <button class="tree-cog" title="분류 설정"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>
+      </div>
+
+      <div class="tree-list">
+        <div class="tree-item active">전체 <span class="count">412</span></div>
+        <div class="tree-divider"></div>
+
+        <div class="tree-item" style="font-weight:700;">초급 <span class="count">238</span></div>
+        <div class="tree-sub">
+          <div class="tree-item">· 1형 (텍스트) <span class="count">142</span></div>
+          <div class="tree-item">· 2형 (이미지) <span class="count">96</span></div>
+        </div>
+
+        <div class="tree-item" style="font-weight:700;">중상급 <span class="count">174</span></div>
+        <div class="tree-sub">
+          <div class="tree-item">· 1형 (텍스트) <span class="count">98</span></div>
+          <div class="tree-item">· 2형 (이미지) <span class="count">76</span></div>
+        </div>
+
+        <div class="tree-divider"></div>
+        <div class="tree-item" style="color:var(--grey-500);">미분류 <span class="count">0</span></div>
+      </div>
+    </aside>
+
+    <!-- 우: 표 -->
+    <div class="card">
+      <div class="filter-bar" style="flex-direction: column; align-items: stretch; gap: 10px; padding: 14px 20px;">
+        <div style="display:flex; align-items:center; gap:12px;">
+          <div class="filter-input" style="flex:1;">
+            <span class="plus">+</span>
+            <span>필터 추가 (문제 유형, 등록일, 사용 시험 ...)</span>
+          </div>
+          <button class="topbar-icon-btn" style="width:32px;height:32px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+          <span style="font-size:11px; font-weight:800; color:var(--grey-700); margin-right:4px;">주제 분류 <span style="font-weight:600; color:var(--grey-400);">다중</span></span>
+          <div class="topic-filter-list" id="topicFilterList" style="display:flex; flex-wrap:wrap; gap:6px; flex:1;">
+            <button class="topic-filter-chip" data-topic="인사·소개">인사·소개 <span class="count">42</span></button>
+            <button class="topic-filter-chip" data-topic="일상·습관">일상·습관 <span class="count">58</span></button>
+            <button class="topic-filter-chip" data-topic="음식·취향">음식·취향 <span class="count">35</span></button>
+            <button class="topic-filter-chip" data-topic="취미·여가">취미·여가 <span class="count">29</span></button>
+            <button class="topic-filter-chip" data-topic="학습·문화">학습·문화 <span class="count">47</span></button>
+            <button class="topic-filter-chip" data-topic="여행·교통">여행·교통 <span class="count">31</span></button>
+            <button class="topic-filter-chip" data-topic="쇼핑·소비">쇼핑·소비 <span class="count">26</span></button>
+            <button class="topic-filter-chip" data-topic="직장·학교">직장·학교 <span class="count">44</span></button>
+            <button class="topic-filter-chip" data-topic="건강·신체">건강·신체 <span class="count">38</span></button>
+            <button class="topic-filter-chip" data-topic="감정·표현">감정·표현 <span class="count">62</span></button>
+          </div>
+          <span class="topic-filter-summary" id="topicSummary" style="font-size:11px; color:var(--grey-500); margin:0; padding:0;"><strong>0</strong>개 선택됨</span>
+          <button class="topic-filter-reset" id="topicReset" style="font-size:11px;">초기화</button>
+        </div>
+      </div>
+
+      <div class="table-tools">
+        <div class="total-count">총 <strong>412</strong></div>
+        <div class="tool-group">
+          <button class="tool-btn">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            다운로드
+          </button>
+          <button class="tool-btn" title="컬럼 설정"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></button>
+        </div>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th style="width:48px;"><input type="checkbox"></th>
+            <th>분류</th>
+            <th>유형</th>
+            <th>질문</th>
+            <th style="min-width:180px;">주제</th>
+            <th>등록일 <span class="sort">▾</span></th>
+            <th style="width:90px; text-align:right;">관리</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr data-topics="인사·소개,일상·습관">
+            <td><input type="checkbox"></td>
+            <td><span class="badge badge-cat">초급</span></td>
+            <td><span class="badge badge-s1">말하기 1형</span></td>
+            <td class="cell-question">자신의 이름과 출신을 소개하세요.</td>
+            <td><div class="topic-chips"><span class="topic-chip">인사·소개</span><span class="topic-chip green">일상·습관</span></div></td>
+            <td class="cell-date">2026-04-22</td>
+            <td class="cell-actions">
+              <button class="row-action" title="편집"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></button>
+              <button class="row-action del" title="삭제"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg></button>
+            </td>
+          </tr>
+          <tr data-topics="여행·교통,취미·여가">
+            <td><input type="checkbox"></td>
+            <td><span class="badge badge-cat">초급</span></td>
+            <td><span class="badge badge-s2">말하기 2형</span></td>
+            <td class="cell-question">사진 속 풍경을 보고 자유롭게 말해 보세요.</td>
+            <td><div class="topic-chips"><span class="topic-chip violet">여행·교통</span><span class="topic-chip orange">취미·여가</span></div></td>
+            <td class="cell-date">2026-04-22</td>
+            <td class="cell-actions">
+              <button class="row-action" title="편집"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></button>
+              <button class="row-action del" title="삭제"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg></button>
+            </td>
+          </tr>
+          <tr data-topics="학습·문화,감정·표현">
+            <td><input type="checkbox"></td>
+            <td><span class="badge badge-cat">중상급</span></td>
+            <td><span class="badge badge-s1">말하기 1형</span></td>
+            <td class="cell-question">최근 한국에서 화제가 된 사회 이슈에 대한 자신의 견해를 말해 보세요.</td>
+            <td><div class="topic-chips"><span class="topic-chip green">학습·문화</span><span class="topic-chip">감정·표현</span></div></td>
+            <td class="cell-date">2026-04-21</td>
+            <td class="cell-actions">
+              <button class="row-action" title="편집"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></button>
+              <button class="row-action del" title="삭제"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg></button>
+            </td>
+          </tr>
+          <tr data-topics="인사·소개">
+            <td><input type="checkbox"></td>
+            <td><span class="badge badge-cat">초급</span></td>
+            <td><span class="badge badge-mc">객관식</span></td>
+            <td class="cell-question">다음 중 자기소개에 어울리는 표현은?</td>
+            <td><div class="topic-chips"><span class="topic-chip">인사·소개</span></div></td>
+            <td class="cell-date">2026-04-20</td>
+            <td class="cell-actions">
+              <button class="row-action" title="편집"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></button>
+              <button class="row-action del" title="삭제"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg></button>
+            </td>
+          </tr>
+          <tr data-topics="학습·문화,직장·학교">
+            <td><input type="checkbox"></td>
+            <td><span class="badge badge-cat">중상급</span></td>
+            <td><span class="badge badge-s2">말하기 2형</span></td>
+            <td class="cell-question">제시된 그래프(인구 변화)를 보고 변화 양상과 그 원인을 설명하세요.</td>
+            <td><div class="topic-chips"><span class="topic-chip green">학습·문화</span><span class="topic-chip violet">직장·학교</span></div></td>
+            <td class="cell-date">2026-04-19</td>
+            <td class="cell-actions">
+              <button class="row-action" title="편집"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></button>
+              <button class="row-action del" title="삭제"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg></button>
+            </td>
+          </tr>
+          <tr data-topics="일상·습관">
+            <td><input type="checkbox"></td>
+            <td><span class="badge badge-cat">초급</span></td>
+            <td><span class="badge badge-s1">말하기 1형</span></td>
+            <td class="cell-question">오늘 아침에 한 일을 순서대로 말해 보세요.</td>
+            <td><div class="topic-chips"><span class="topic-chip green">일상·습관</span></div></td>
+            <td class="cell-date">2026-04-18</td>
+            <td class="cell-actions">
+              <button class="row-action" title="편집"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></button>
+              <button class="row-action del" title="삭제"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg></button>
+            </td>
+          </tr>
+          <tr data-topics="인사·소개,감정·표현">
+            <td><input type="checkbox"></td>
+            <td><span class="badge badge-cat">초급</span></td>
+            <td><span class="badge badge-sa">주관식</span></td>
+            <td class="cell-question">'반갑습니다'와 같은 인사 표현을 두 가지 더 적으세요.</td>
+            <td><div class="topic-chips"><span class="topic-chip">인사·소개</span><span class="topic-chip orange">감정·표현</span></div></td>
+            <td class="cell-date">2026-04-17</td>
+            <td class="cell-actions">
+              <button class="row-action" title="편집"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></button>
+              <button class="row-action del" title="삭제"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg></button>
+            </td>
+          </tr>
+          <tr data-topics="직장·학교,감정·표현">
+            <td><input type="checkbox"></td>
+            <td><span class="badge badge-cat">중상급</span></td>
+            <td><span class="badge badge-s1">말하기 1형</span></td>
+            <td class="cell-question">대학 진학과 취업, 어떤 길을 더 추천하는지 근거와 함께 말해 보세요.</td>
+            <td><div class="topic-chips"><span class="topic-chip violet">직장·학교</span><span class="topic-chip orange">감정·표현</span></div></td>
+            <td class="cell-date">2026-04-15</td>
+            <td class="cell-actions">
+              <button class="row-action" title="편집"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></button>
+              <button class="row-action del" title="삭제"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg></button>
+            </td>
+          </tr>
+          <tr data-topics="음식·취향,쇼핑·소비">
+            <td><input type="checkbox"></td>
+            <td><span class="badge badge-cat">초급</span></td>
+            <td><span class="badge badge-s2">말하기 2형</span></td>
+            <td class="cell-question">제시된 메뉴판을 보고 친구에게 음식을 추천해 보세요.</td>
+            <td><div class="topic-chips"><span class="topic-chip">음식·취향</span><span class="topic-chip grey">쇼핑·소비</span></div></td>
+            <td class="cell-date">2026-04-14</td>
+            <td class="cell-actions">
+              <button class="row-action" title="편집"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></button>
+              <button class="row-action del" title="삭제"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg></button>
+            </td>
+          </tr>
+          <tr data-topics="학습·문화">
+            <td><input type="checkbox"></td>
+            <td><span class="badge badge-cat">중상급</span></td>
+            <td><span class="badge badge-mc">객관식</span></td>
+            <td class="cell-question">다음 한자어 중 의미가 다른 것은?</td>
+            <td><div class="topic-chips"><span class="topic-chip green">학습·문화</span></div></td>
+            <td class="cell-date">2026-04-12</td>
+            <td class="cell-actions">
+              <button class="row-action" title="편집"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></button>
+              <button class="row-action del" title="삭제"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg></button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="pager">
+        <button class="pager-btn" disabled>‹</button>
+        <button class="pager-btn active">1</button>
+        <button class="pager-btn">2</button>
+        <button class="pager-btn">3</button>
+        <button class="pager-btn">4</button>
+        <button class="pager-btn">5</button>
+        <span style="color:var(--grey-400);padding:0 6px;">…</span>
+        <button class="pager-btn">42</button>
+        <button class="pager-btn">›</button>
+        <div class="pager-rows"><select><option>10</option><option>20</option><option>50</option></select><span>행</span></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<a href="ui-index.html" style="position:fixed;bottom:20px;left:20px;background:rgba(15,23,42,0.85);color:white;padding:8px 14px;border-radius:999px;text-decoration:none;font-size:12px;font-weight:600;backdrop-filter:blur(8px);z-index:40;">← UI 인덱스</a>
+
+<script>
+// 주제 분류 필터 — 다중 선택, AND 매칭 (선택한 모든 주제를 가진 row만)
+(function () {
+  const chips = document.querySelectorAll('.topic-filter-chip');
+  const rows = document.querySelectorAll('tbody tr[data-topics]');
+  const summary = document.getElementById('topicSummary');
+  const totalCount = document.querySelector('.total-count');
+  const resetBtn = document.getElementById('topicReset');
+  const selected = new Set();
+
+  function applyFilter() {
+    let visible = 0;
+    rows.forEach(r => {
+      const topics = (r.getAttribute('data-topics') || '').split(',').map(s => s.trim());
+      const match = selected.size === 0 || [...selected].every(s => topics.includes(s));
+      r.style.display = match ? '' : 'none';
+      if (match) visible++;
+    });
+    summary.innerHTML = `<strong>${selected.size}</strong>개 선택됨` + (selected.size > 0 ? ` · 표시 ${visible}건` : '');
+    if (totalCount) {
+      if (selected.size > 0) {
+        totalCount.innerHTML = `필터 결과 <strong>${visible}</strong>건 / 전체 412`;
+      } else {
+        totalCount.innerHTML = `총 <strong>412</strong>`;
+      }
+    }
+  }
+
+  chips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      const topic = chip.dataset.topic;
+      if (selected.has(topic)) { selected.delete(topic); chip.classList.remove('active'); }
+      else { selected.add(topic); chip.classList.add('active'); }
+      applyFilter();
+    });
+  });
+  resetBtn.addEventListener('click', () => {
+    selected.clear();
+    chips.forEach(c => c.classList.remove('active'));
+    applyFilter();
+  });
+})();
+</script>
+
+</body>
+</html>

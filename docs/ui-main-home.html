@@ -1,0 +1,925 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KoPASS IBT — メインホーム (UI Design v0.1)</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  html, body { font-family: "Pretendard Variable", "Pretendard JP Variable", Pretendard, "Pretendard JP", -apple-system, BlinkMacSystemFont, system-ui, sans-serif; }
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; max-width: 100vw; overflow-x: hidden; }
+  img, svg, video { max-width: 100%; height: auto; }
+  :root {
+    --blue-500: #2e84ff;
+    --blue-600: #2272eb;
+    --blue-50: #e8f3ff;
+    --grey-900: #191f28;
+    --grey-700: #4e5968;
+    --grey-600: #6b7684;
+    --grey-500: #8b95a1;
+    --grey-400: #b0b8c1;
+    --grey-300: #d1d6db;
+    --grey-200: #e5e8eb;
+    --grey-100: #f2f4f6;
+    --grey-50: #f9fafb;
+    --green-500: #03b26c;
+    --green-50: #ecfdf5;
+    --red-500: #f04452;
+    --orange-500: #fe9800;
+    --gradient-hero-soft: linear-gradient(135deg, #fef9e7 0%, #e8f3ff 50%, #ecfdf5 100%);
+    --gradient-cta-success: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+    --gradient-cta-blue: linear-gradient(135deg, #e8f3ff 0%, #bfdbfe 100%);
+  }
+
+  /* i18n font switching */
+  body { background: #ffffff; color: var(--grey-900); }
+
+  /* Notice ticker bar (운영) */
+  .notice-bar {
+    background: var(--grey-900);
+    color: #fff;
+    height: 36px;
+    font-size: 13px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    gap: 12px;
+  }
+  .notice-bar-tag {
+    background: var(--blue-500);
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 4px;
+  }
+  .notice-bar-text { color: #cbd5e1; flex: 1; }
+  .notice-bar-close { color: #94a3b8; font-size: 16px; cursor: pointer; }
+
+  /* GNB (top header) */
+  .gnb {
+    height: 64px;
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--grey-200);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    padding: 0 32px;
+    gap: 32px;
+  }
+  .gnb-logo { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 20px; color: var(--grey-900); }
+  .gnb-logo-mark {
+    width: 32px; height: 32px;
+    background: linear-gradient(135deg, var(--blue-500) 0%, #03b26c 100%);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-weight: 800; font-size: 14px;
+  }
+  .gnb-menu { display: flex; gap: 28px; flex: 1; }
+  .gnb-item {
+    color: var(--grey-700);
+    font-weight: 500;
+    font-size: 15px;
+    padding: 6px 0;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .gnb-item:hover { color: var(--blue-500); }
+  .gnb-item.active { color: var(--blue-500); font-weight: 600; border-bottom-color: var(--blue-500); }
+  .gnb-cta {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  .btn-primary {
+    background: var(--blue-500);
+    color: white;
+    font-weight: 600;
+    font-size: 14px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.15s;
+    border: none;
+  }
+  .btn-primary:hover { background: var(--blue-600); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(46,132,255,0.25); }
+  .btn-ghost {
+    background: transparent;
+    color: var(--grey-700);
+    font-weight: 600;
+    font-size: 14px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  .btn-ghost:hover { color: var(--blue-500); }
+
+  /* Hero */
+  .hero {
+    background: var(--gradient-hero-soft);
+    padding: 80px 32px 100px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-blob-1 {
+    position: absolute;
+    width: 480px; height: 480px;
+    background: radial-gradient(circle, rgba(46,132,255,0.18) 0%, transparent 70%);
+    border-radius: 50%;
+    top: -100px; right: -100px;
+    animation: float 12s ease-in-out infinite;
+  }
+  .hero-blob-2 {
+    position: absolute;
+    width: 360px; height: 360px;
+    background: radial-gradient(circle, rgba(3,178,108,0.15) 0%, transparent 70%);
+    border-radius: 50%;
+    bottom: -80px; left: -80px;
+    animation: float 15s ease-in-out infinite reverse;
+  }
+  .hero-blob-3 {
+    position: absolute;
+    width: 240px; height: 240px;
+    background: radial-gradient(circle, rgba(254,152,0,0.12) 0%, transparent 70%);
+    border-radius: 50%;
+    top: 40%; left: 50%;
+    animation: float 10s ease-in-out infinite;
+  }
+  @keyframes float {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(20px, -30px); }
+  }
+  .hero-content { max-width: 1200px; margin: 0 auto; position: relative; z-index: 1; text-align: center; }
+  .hero-tag {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(8px);
+    color: var(--blue-500);
+    font-size: 13px;
+    font-weight: 700;
+    padding: 6px 16px;
+    border-radius: 999px;
+    border: 1px solid rgba(46,132,255,0.2);
+    margin-bottom: 24px;
+  }
+  .hero-title {
+    font-size: 56px;
+    font-weight: 800;
+    line-height: 1.15;
+    color: var(--grey-900);
+    margin-bottom: 20px;
+  }
+  .hero-subtitle {
+    font-size: 18px;
+    color: var(--grey-600);
+    margin-bottom: 40px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .hero-cta { display: flex; gap: 12px; justify-content: center; }
+  .btn-large {
+    padding: 14px 32px;
+    font-size: 16px;
+    font-weight: 700;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-large.btn-primary {
+    background: var(--blue-500);
+    color: white;
+    box-shadow: 0 8px 24px rgba(46,132,255,0.25);
+  }
+  .btn-large.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(46,132,255,0.35); }
+  .btn-large.btn-secondary {
+    background: white;
+    color: var(--grey-900);
+    border: 1.5px solid var(--grey-200);
+  }
+  .btn-large.btn-secondary:hover { border-color: var(--blue-500); color: var(--blue-500); }
+
+  /* Stats section (overlapping hero) */
+  .stats-wrap {
+    max-width: 1200px;
+    margin: -60px auto 0;
+    padding: 0 32px;
+    position: relative;
+    z-index: 2;
+  }
+  .stats-card {
+    background: white;
+    border-radius: 24px;
+    padding: 32px;
+    box-shadow: 0 12px 40px rgba(15, 23, 42, 0.08);
+    border: 1px solid var(--grey-200);
+  }
+  .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+  .stat-item { text-align: center; }
+  .stat-icon {
+    width: 56px; height: 56px;
+    background: var(--blue-50);
+    border-radius: 16px;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 16px;
+    color: var(--blue-500);
+  }
+  .stat-icon.green { background: var(--green-50); color: var(--green-500); }
+  .stat-icon.orange { background: #fff7ed; color: var(--orange-500); }
+  .stat-value { font-size: 36px; font-weight: 800; color: var(--grey-900); line-height: 1; }
+  .stat-unit { font-size: 16px; font-weight: 600; color: var(--grey-600); }
+  .stat-label { font-size: 14px; color: var(--grey-600); margin-top: 8px; }
+
+  /* Section base */
+  section { padding: 80px 32px; }
+  .section-wrap { max-width: 1200px; margin: 0 auto; }
+  .section-tag { display: inline-block; color: var(--blue-500); font-size: 14px; font-weight: 700; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px; }
+  .section-title { font-size: 36px; font-weight: 800; color: var(--grey-900); line-height: 1.25; margin-bottom: 16px; }
+  .section-desc { font-size: 16px; color: var(--grey-600); line-height: 1.6; max-width: 640px; }
+
+  /* Recommended tests */
+  .test-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 40px; }
+  .test-card {
+    background: white;
+    border: 1px solid var(--grey-200);
+    border-radius: 16px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.25s;
+  }
+  .test-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(15, 23, 42, 0.1); border-color: var(--blue-500); }
+  .test-card-img {
+    height: 160px;
+    background: var(--gradient-cta-blue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--blue-600);
+    font-weight: 700;
+    font-size: 18px;
+    position: relative;
+  }
+  .test-card-img.green { background: var(--gradient-cta-success); color: var(--green-500); }
+  .test-card-img.orange { background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); color: #92400e; }
+  .test-card-badge {
+    position: absolute; top: 12px; left: 12px;
+    background: rgba(255,255,255,0.9);
+    backdrop-filter: blur(4px);
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--grey-900);
+  }
+  .test-card-body { padding: 20px; }
+  .test-card-title { font-size: 18px; font-weight: 700; color: var(--grey-900); margin-bottom: 4px; }
+  .test-card-meta { font-size: 13px; color: var(--grey-600); margin-bottom: 16px; }
+  .test-card-footer { display: flex; align-items: center; justify-content: space-between; }
+  .test-card-price { font-size: 20px; font-weight: 800; color: var(--grey-900); }
+  .test-card-arrow { color: var(--grey-400); }
+
+  /* TOPIK relation section */
+  .topik-relation {
+    background: var(--grey-50);
+  }
+  .topik-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: center;
+  }
+  .topik-illustration {
+    height: 360px;
+    background: var(--gradient-hero-soft);
+    border-radius: 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  .topik-illustration::before {
+    content: "";
+    position: absolute;
+    width: 220px; height: 220px;
+    background: radial-gradient(circle, rgba(46,132,255,0.3) 0%, transparent 70%);
+    border-radius: 50%;
+    top: 30%; left: 25%;
+  }
+  .topik-illustration::after {
+    content: "";
+    position: absolute;
+    width: 180px; height: 180px;
+    background: radial-gradient(circle, rgba(3,178,108,0.3) 0%, transparent 70%);
+    border-radius: 50%;
+    bottom: 20%; right: 20%;
+  }
+  .topik-relation-text { display: flex; flex-direction: column; gap: 16px; }
+  .topik-bullets-grid { margin-top: 48px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  @media (max-width: 768px) { .topik-bullets-grid { grid-template-columns: 1fr; gap: 12px; margin-top: 32px; } }
+
+  /* Mobile hamburger drawer — force full-width row break */
+  @media (max-width: 768px) {
+    .gnb.mobile-open .gnb-menu,
+    .gnb.mobile-open .gnb-cta,
+    .gnb.mobile-open > .flex {
+      flex: 0 0 100% !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      margin-left: -20px !important;
+      margin-right: -20px !important;
+      padding: 12px 20px 16px !important;
+      box-sizing: border-box;
+    }
+  }
+  .topik-bullet {
+    display: flex; gap: 12px; align-items: flex-start;
+    padding: 16px;
+    background: white;
+    border-radius: 12px;
+    border: 1px solid var(--grey-200);
+  }
+  .topik-bullet-num {
+    width: 32px; height: 32px;
+    background: var(--blue-50);
+    color: var(--blue-500);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800;
+    flex-shrink: 0;
+  }
+
+  /* Features 3 columns */
+  .feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 40px; }
+  .feature-card {
+    padding: 32px;
+    background: white;
+    border-radius: 20px;
+    border: 1px solid var(--grey-200);
+    transition: all 0.2s;
+  }
+  .feature-card:hover { border-color: var(--blue-500); box-shadow: 0 8px 24px rgba(46,132,255,0.08); }
+  .feature-icon {
+    width: 64px; height: 64px;
+    border-radius: 16px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 20px;
+    font-size: 28px;
+  }
+  .feature-icon.blue { background: var(--blue-50); color: var(--blue-500); }
+  .feature-icon.green { background: var(--green-50); color: var(--green-500); }
+  .feature-icon.orange { background: #fff7ed; color: var(--orange-500); }
+  .feature-title { font-size: 20px; font-weight: 700; color: var(--grey-900); margin-bottom: 8px; }
+  .feature-desc { font-size: 14px; color: var(--grey-600); line-height: 1.6; }
+
+  /* FAQ */
+  .faq { background: var(--grey-50); }
+  .faq-list { display: flex; flex-direction: column; gap: 12px; margin-top: 40px; }
+  .faq-item {
+    background: white;
+    border: 1px solid var(--grey-200);
+    border-radius: 12px;
+    padding: 20px 24px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .faq-item:hover { border-color: var(--blue-500); }
+  .faq-item.open { border-color: var(--blue-500); box-shadow: 0 4px 16px rgba(46,132,255,0.08); }
+  .faq-q { display: flex; justify-content: space-between; align-items: center; font-weight: 600; color: var(--grey-900); gap: 16px; }
+  .faq-q-text { flex: 1; }
+  .faq-icon { color: var(--grey-400); font-size: 22px; font-weight: 300; transition: transform 0.2s; flex-shrink: 0; line-height: 1; }
+  .faq-item.open .faq-icon { transform: rotate(45deg); color: var(--blue-500); }
+  .faq-a { font-size: 14px; color: var(--grey-700); line-height: 1.7; margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--grey-100); display: none; }
+  .faq-item.open .faq-a { display: block; }
+  .faq-a strong { color: var(--blue-500); }
+  .faq-a p + p { margin-top: 8px; }
+
+  /* Footer */
+  footer { background: var(--grey-900); color: #cbd5e1; padding: 64px 32px 32px; }
+  .footer-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; }
+  .footer-brand-text { color: #94a3b8; font-size: 14px; line-height: 1.7; margin-top: 12px; max-width: 320px; }
+  .footer-col-title { color: #fff; font-weight: 600; margin-bottom: 16px; font-size: 14px; }
+  .footer-col ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
+  .footer-col li { font-size: 13px; color: #94a3b8; cursor: pointer; }
+  .footer-col li:hover { color: #fff; }
+  .footer-bottom {
+    max-width: 1200px;
+    margin: 48px auto 0;
+    padding-top: 24px;
+    border-top: 1px solid #334155;
+    display: flex;
+    justify-content: space-between;
+    color: #64748b;
+    font-size: 12px;
+  }
+
+  /* Floating help */
+  .float-help {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 56px; height: 56px;
+    background: var(--blue-500);
+    color: white;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 8px 24px rgba(46,132,255,0.4);
+    z-index: 40;
+    font-size: 24px;
+    transition: all 0.2s;
+  }
+  .float-help:hover { transform: translateY(-2px) scale(1.05); box-shadow: 0 12px 32px rgba(46,132,255,0.5); }
+
+  /* Locale toggle */
+  .locale-toggle {
+    display: inline-flex;
+    background: var(--grey-100);
+    border-radius: 8px;
+    padding: 2px;
+    gap: 0;
+  }
+  .locale-toggle button {
+    padding: 4px 10px;
+    font-size: 11px;
+    font-weight: 600;
+    background: transparent;
+    border: none;
+    color: var(--grey-600);
+    cursor: pointer;
+    border-radius: 6px;
+  }
+  .locale-toggle button.active { background: white; color: var(--grey-900); box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+
+  /* Mobile responsive — Hamburger pattern */
+  .gnb-burger { display: none; background: var(--grey-100); border: 1px solid var(--grey-200); border-radius: 8px; cursor: pointer; padding: 8px; color: var(--grey-700); align-items: center; justify-content: center; }
+  @media (max-width: 768px) {
+    .gnb { flex-wrap: wrap; padding: 0 20px !important; height: auto; min-height: 64px; gap: 12px; }
+    .gnb-burger { display: flex; }
+    .gnb-menu, .gnb-cta { display: none !important; }
+    .gnb.mobile-open .gnb-menu, .gnb.mobile-open .gnb-cta {
+      display: flex !important; order: 99; width: 100%; flex-direction: column;
+      padding: 12px 0 16px; gap: 8px; border-top: 1px solid var(--grey-200); align-items: stretch;
+    }
+    .gnb.mobile-open .gnb-item { padding: 12px 8px; border-bottom: 1px solid var(--grey-100); }
+    .gnb.mobile-open .gnb-cta > * { width: 100%; }
+    .gnb.mobile-open .locale-toggle { justify-content: center; }
+    .hero { padding: 60px 20px 80px; }
+    .hero-title { font-size: 32px; }
+    .hero-subtitle { font-size: 16px; }
+    .stats-wrap { padding: 0 20px; }
+    .stats-grid { grid-template-columns: 1fr; gap: 24px; }
+    section { padding: 56px 20px; }
+    .section-title { font-size: 26px; }
+    .test-grid { grid-template-columns: 1fr; }
+    .topik-grid { grid-template-columns: 1fr; gap: 32px; }
+    .topik-illustration { height: 240px; }
+    .feature-grid { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr 1fr; padding: 0 20px; }
+    footer { padding: 64px 20px 32px; }
+    .notice-bar { padding: 0 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Notice ticker bar (운영) -->
+<div class="notice-bar" id="notice-bar">
+  <span class="notice-bar-tag" data-i18n="notice_tag">공지</span>
+  <span class="notice-bar-text" data-i18n="notice_text">2026년 9월 1일 서비스 개시 예정 — 사전 등록 신청 받습니다 →</span>
+  <span class="notice-bar-close" onclick="document.getElementById('notice-bar').style.display='none'">×</span>
+</div>
+
+<!-- GNB -->
+<header class="gnb">
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+  <a href="ui-main-home.html" class="gnb-logo" style="text-decoration: none;">
+    <div class="gnb-logo-mark">K</div>
+    <span>KoPASS</span>
+  </a>
+  <nav class="gnb-menu">
+    <a href="ui-main-home.html" class="gnb-item active" style="text-decoration: none;" data-i18n="nav_home">홈</a>
+    <a href="ui-tests-list.html" class="gnb-item" style="text-decoration: none;" data-i18n="nav_tests">시험 목록</a>
+    <a href="ui-mypage.html" class="gnb-item" style="text-decoration: none;" data-i18n="nav_mypage">마이페이지</a>
+    <a href="ui-faq.html" class="gnb-item" style="text-decoration: none;" data-i18n="nav_support">고객센터</a>
+  </nav>
+  <div class="gnb-cta">
+    <div class="locale-toggle">
+      <button class="active" onclick="setLocale('ko')">한국어</button>
+      <button onclick="setLocale('ja')">日本語</button>
+    </div>
+    <button class="btn-ghost" onclick="location.href='ui-auth.html#login'" data-i18n="auth_login">로그인</button>
+    <button class="btn-primary" onclick="location.href='ui-auth.html'" data-i18n="auth_signup">회원가입</button>
+  </div>
+  <button class="gnb-burger" onclick="this.closest('.gnb').classList.toggle('mobile-open')" aria-label="메뉴">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+  </button>
+</header>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-blob-1"></div>
+  <div class="hero-blob-2"></div>
+  <div class="hero-blob-3"></div>
+  <div class="hero-content">
+    <div class="hero-tag" data-i18n="hero_tag">📍 일본 시장 한정 · TOPIK 보완형</div>
+    <h1 class="hero-title">
+      <span data-i18n="hero_title_l1">한국어 말하기,</span><br>
+      <span data-i18n="hero_title_l2">집에서 객관적으로 진단받으세요.</span>
+    </h1>
+    <p class="hero-subtitle" data-i18n="hero_subtitle">
+      AI 채점 + 5각 평가로 발음·유창성·어휘·문법·내용 구성을 한 번에. 응시부터 인증서까지 30분 안에 완료.
+    </p>
+    <div class="hero-cta">
+      <button class="btn-large btn-primary" onclick="location.href='ui-tests-list.html'" data-i18n="hero_cta_primary">무료 체험 시작 →</button>
+      <button class="btn-large btn-secondary" onclick="location.href='ui-tests-list.html'" data-i18n="hero_cta_secondary">서비스 자세히 보기</button>
+    </div>
+  </div>
+</section>
+
+<!-- Stats overlap -->
+<div class="stats-wrap">
+  <div class="stats-card">
+    <div class="stats-grid">
+      <div class="stat-item">
+        <div class="stat-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <div><span class="stat-value" data-stat="participants">49,290</span><span class="stat-unit" data-i18n="unit_people">명</span></div>
+        <div class="stat-label" data-i18n="stat_potential_market">2025년 일본 TOPIK 응시자 수</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-icon green">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3"/></svg>
+        </div>
+        <div><span class="stat-value" data-stat="speaking-pct">92.6</span><span class="stat-unit">%</span></div>
+        <div class="stat-label" data-i18n="stat_speaking_demand">말하기 응시 희망 비율</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-icon orange">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        </div>
+        <div><span class="stat-value" data-stat="time">30</span><span class="stat-unit" data-i18n="unit_minutes">분</span></div>
+        <div class="stat-label" data-i18n="stat_time">응시 → 결과까지 소요 시간</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 추천 시험 -->
+<section style="padding-top: 100px;">
+  <div class="section-wrap">
+    <div class="section-tag" data-i18n="recommended_tag">RECOMMENDED</div>
+    <h2 class="section-title" data-i18n="recommended_title">지금 응시 가능한 시험</h2>
+    <p class="section-desc" data-i18n="recommended_desc">레벨에 맞는 진단평가를 선택하세요. 결제 후 14일 내 24시간 언제든 응시 가능합니다.</p>
+    <div class="test-grid">
+      <div class="test-card" onclick="location.href='ui-test-detail.html'">
+        <div class="test-card-img">
+          <span class="test-card-badge" data-i18n="level_beginner">초급</span>
+          말하기 진단
+        </div>
+        <div class="test-card-body">
+          <div class="test-card-title" lang="ko">TOPIK 말하기 초급</div>
+          <div class="test-card-meta"><span data-i18n="meta_25min">25분</span> · <span data-i18n="meta_23q">23문항</span> · <span data-i18n="meta_5areas">5영역</span></div>
+          <div class="test-card-footer">
+            <div class="test-card-price">¥4,950</div>
+            <span class="test-card-arrow">→</span>
+          </div>
+        </div>
+      </div>
+      <div class="test-card" onclick="location.href='ui-test-detail.html'">
+        <div class="test-card-img green">
+          <span class="test-card-badge" data-i18n="level_intermediate">중상급</span>
+          말하기 진단
+        </div>
+        <div class="test-card-body">
+          <div class="test-card-title" lang="ko">TOPIK 말하기 중상급</div>
+          <div class="test-card-meta"><span data-i18n="meta_35min">35분</span> · <span data-i18n="meta_14q">14문항</span> · <span data-i18n="meta_6areas">6영역</span></div>
+          <div class="test-card-footer">
+            <div class="test-card-price">¥4,950</div>
+            <span class="test-card-arrow">→</span>
+          </div>
+        </div>
+      </div>
+      <div class="test-card" onclick="location.href='ui-test-detail.html'">
+        <div class="test-card-img orange">
+          <span class="test-card-badge" data-i18n="level_practice">연습</span>
+          무료 샘플
+        </div>
+        <div class="test-card-body">
+          <div class="test-card-title" lang="ko">TOPIK 말하기 무료 샘플</div>
+          <div class="test-card-meta"><span data-i18n="meta_3q">3문항 무료</span> · <span data-i18n="meta_5min">약 5분</span></div>
+          <div class="test-card-footer">
+            <div class="test-card-price" style="color: var(--green-500);" data-i18n="meta_free">무료</div>
+            <span class="test-card-arrow">→</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TOPIK 관계 안내 -->
+<section class="topik-relation">
+  <div class="section-wrap">
+    <div class="topik-grid">
+      <div>
+        <div class="section-tag" data-i18n="topik_tag">TOPIK과의 관계</div>
+        <h2 class="section-title">
+          <span data-i18n="topik_title_l1">TOPIK을 대체하지 않습니다.</span><br>
+          <span style="color: var(--blue-500);" data-i18n="topik_title_l2">보완하고, 진단합니다.</span>
+        </h2>
+        <p class="section-desc" data-i18n="topik_desc">
+          KoPASS IBT는 일본인 학습자가 자기 위치를 객관적으로 확인하기 위한 진단평가입니다. 공인 시험은 TOPIK으로 자연스럽게 연계됩니다.
+        </p>
+      </div>
+      <div class="topik-illustration"></div>
+    </div>
+    <div class="topik-bullets-grid">
+      <div class="topik-bullet">
+        <div class="topik-bullet-num">1</div>
+        <div>
+          <div style="font-weight: 700; color: var(--grey-900); font-size: 15px;" data-i18n="topik_b1_t">시공간 제약 없이 응시</div>
+          <div style="color: var(--grey-600); font-size: 13px; margin-top: 4px;" data-i18n="topik_b1_d">집·카페·도서관 어디서나</div>
+        </div>
+      </div>
+      <div class="topik-bullet">
+        <div class="topik-bullet-num">2</div>
+        <div>
+          <div style="font-weight: 700; color: var(--grey-900); font-size: 15px;" data-i18n="topik_b2_t">전용 프로그램 설치 불필요</div>
+          <div style="color: var(--grey-600); font-size: 13px; margin-top: 4px;" data-i18n="topik_b2_d">웹·앱 모두 지원</div>
+        </div>
+      </div>
+      <div class="topik-bullet">
+        <div class="topik-bullet-num">3</div>
+        <div>
+          <div style="font-weight: 700; color: var(--grey-900); font-size: 15px;" data-i18n="topik_b3_t">즉시 AI 채점·피드백</div>
+          <div style="color: var(--grey-600); font-size: 13px; margin-top: 4px;" data-i18n="topik_b3_d">5각 차트로 약점 진단</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 서비스 소개 3컬럼 -->
+<section>
+  <div class="section-wrap">
+    <div class="section-tag" data-i18n="features_tag">SERVICES</div>
+    <h2 class="section-title" data-i18n="features_title">시험 → 평가 → 피드백 → 학습</h2>
+    <p class="section-desc" data-i18n="features_desc">한 번의 응시로 끝나지 않습니다. 약점 진단 후 학습 콘텐츠로 자연스럽게 이어지는 진단 플랫폼.</p>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="feature-icon blue">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg>
+        </div>
+        <div class="feature-title" data-i18n="feat_1_title">실시간 음성 녹음</div>
+        <div class="feature-desc" data-i18n="feat_1_desc">자동 카운트다운 → 비프음 → 녹음 → 자동 제출. 응시자는 별도 조작 없이 시험에 집중할 수 있습니다.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon green">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <div class="feature-title" data-i18n="feat_2_title">AI 5각 평가</div>
+        <div class="feature-desc" data-i18n="feat_2_desc">발음·유창성·어휘·문법·내용 구성 다섯 축으로 종합 평가. 1급~6급 등급과 문항별 학습 피드백을 함께 제공합니다.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon orange">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M12 15c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3z"/><path d="M22 17.5V18a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h.5"/><path d="M19.5 4.5l-15 15"/><circle cx="6" cy="7" r="2"/></svg>
+        </div>
+        <div class="feature-title" data-i18n="feat_3_title">위변조 검증 인증서</div>
+        <div class="feature-desc" data-i18n="feat_3_desc">결과를 PDF 인증서로 다운로드. 외부에서도 위변조 여부를 검증할 수 있는 URL이 함께 발급됩니다.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq">
+  <div class="section-wrap">
+    <div class="section-tag" data-i18n="faq_tag">FAQ</div>
+    <h2 class="section-title" data-i18n="faq_title">자주 묻는 질문</h2>
+    <div class="faq-list">
+      <div class="faq-item" onclick="this.classList.toggle('open')">
+        <div class="faq-q"><span class="faq-q-text" data-i18n="faq_q1">응시 가능한 디바이스는 무엇인가요?</span><span class="faq-icon">+</span></div>
+        <div class="faq-a" data-i18n-html="faq_a1"><strong>데스크탑 브라우저</strong> (Chrome, Safari, Edge — 최신 버전 권장) 또는 <strong>iOS/Android 앱</strong>에서 응시 가능합니다. 마이크 권한이 필수이며, 헤드셋 사용을 권장드려요. 모바일 브라우저는 폴백으로 동작합니다.</div>
+      </div>
+      <div class="faq-item" onclick="this.classList.toggle('open')">
+        <div class="faq-q"><span class="faq-q-text" data-i18n="faq_q2">결제 후 언제까지 응시할 수 있나요?</span><span class="faq-icon">+</span></div>
+        <div class="faq-a" data-i18n-html="faq_a2"><p>결제일로부터 <strong>14일 이내</strong> 24시간 언제든 응시 가능합니다. 시험 시작 시각이 별도로 정해져 있지 않아 본인의 일정에 맞춰 진행할 수 있어요.</p><p>응시 가능 기간이 지나면 자동 만료되며 환불되지 않으니 기간 내에 응시해 주세요.</p></div>
+      </div>
+      <div class="faq-item" onclick="this.classList.toggle('open')">
+        <div class="faq-q"><span class="faq-q-text" data-i18n="faq_q3">환불 정책은 어떻게 되나요?</span><span class="faq-icon">+</span></div>
+        <div class="faq-a" data-i18n-html="faq_a3"><p><strong>접수 기간 내 미응시</strong>인 경우 마이페이지 → 1:1 문의에서 환불 신청이 가능합니다. 운영팀 검토 후 영업일 기준 3~5일 이내 결제 수단으로 환원됩니다.</p><p><strong>응시 후 변심 또는 결과 불만족</strong>의 경우는 환불이 적용되지 않습니다. 단, 시스템·네트워크 장애로 응시 진행 불가 시는 자동 환불 또는 재응시 티켓이 발행됩니다.</p></div>
+      </div>
+      <div class="faq-item" onclick="this.classList.toggle('open')">
+        <div class="faq-q"><span class="faq-q-text" data-i18n="faq_q4">인증서는 어떻게 발급받나요?</span><span class="faq-icon">+</span></div>
+        <div class="faq-a" data-i18n-html="faq_a4">응시 후 결과 발표가 되면 <strong>마이페이지 → 인증서</strong>에서 PDF 인증서를 다운로드할 수 있어요. <strong>위변조 검증 URL</strong>이 함께 발급되어, 외부에서도 진위 여부를 확인할 수 있습니다. 학교·기업 제출용으로 활용 가능합니다.</div>
+      </div>
+      <div class="faq-item" onclick="this.classList.toggle('open')">
+        <div class="faq-q"><span class="faq-q-text" data-i18n="faq_q5">시험 도중 마이크가 작동하지 않으면?</span><span class="faq-icon">+</span></div>
+        <div class="faq-a" data-i18n-html="faq_a5"><p>응시는 자동으로 계속 진행되며, 답변은 단말 측에 자동 저장됩니다. 시험 종료 후 운영팀에 문의하시면 로그 확인 후 <strong>재응시 티켓</strong>이 발행됩니다.</p><p>응시 시작 직전 <strong>환경 점검 게이트</strong>(마이크·네트워크·브라우저)를 통과해야 응시 클라이언트에 진입하므로, 시험 시작 버튼을 누른 후 표시되는 점검을 꼭 통과해 주세요.</p></div>
+      </div>
+    </div>
+    <div style="margin-top:32px; text-align:center;">
+      <a href="ui-faq.html" style="color:var(--blue-500); font-weight:700; font-size:14px; text-decoration:none;">전체 FAQ 보기 →</a>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="gnb-logo" style="color: white;">
+        <div class="gnb-logo-mark">K</div>
+        <span>KoPASS</span>
+      </div>
+      <p class="footer-brand-text" data-i18n="footer_about">
+        일본인 한국어 학습자를 위한 IBT 진단평가 플랫폼. TOPIK 말하기를 보완하는 1차 진단 단계.
+      </p>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title" data-i18n="footer_col_service">서비스</div>
+      <ul>
+        <li data-i18n="footer_tests">시험 목록</li>
+        <li data-i18n="footer_pricing">가격</li>
+        <li data-i18n="footer_certificate">인증서</li>
+        <li data-i18n="footer_about_link">서비스 소개</li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title" data-i18n="footer_col_support">고객센터</div>
+      <ul>
+        <li data-i18n="footer_notice">공지사항</li>
+        <li data-i18n="footer_faq">FAQ</li>
+        <li data-i18n="footer_contact">1:1 문의</li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title" data-i18n="footer_col_policy">정책</div>
+      <ul>
+        <li data-i18n="footer_terms">이용약관</li>
+        <li data-i18n="footer_privacy">개인정보처리방침</li>
+        <li data-i18n="footer_commerce">특정상거래법 표시</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 KoPASS — Newin Japan</span>
+    <span data-i18n="footer_company_info">사업자 정보 · 회사명 · 주소</span>
+  </div>
+</footer>
+
+<!-- Floating Help -->
+<button class="float-help" aria-label="문의/FAQ">
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+</button>
+
+<!-- Demo Index Link -->
+<a href="ui-index.html" style="position: fixed; bottom: 24px; left: 24px; background: rgba(15,23,42,0.85); color: white; padding: 8px 14px; border-radius: 999px; text-decoration: none; font-size: 12px; font-weight: 600; backdrop-filter: blur(8px); z-index: 40;">← UI 인덱스</a>
+
+<script>
+const i18n = {
+  ko: {
+    notice_tag: '공지', notice_text: '2026년 9월 1일 서비스 개시 예정 — 사전 등록 신청 받습니다 →',
+    nav_home: '홈', nav_tests: '시험 목록', nav_mypage: '마이페이지', nav_support: '고객센터',
+    auth_login: '로그인', auth_signup: '회원가입',
+    hero_tag: '📍 일본 시장 한정 · TOPIK 보완형',
+    hero_title_l1: '한국어 말하기,', hero_title_l2: '집에서 객관적으로 진단받으세요.',
+    hero_subtitle: 'AI 채점 + 5각 평가로 발음·유창성·어휘·문법·내용 구성을 한 번에. 응시부터 인증서까지 30분 안에 완료.',
+    hero_cta_primary: '무료 체험 시작 →', hero_cta_secondary: '서비스 자세히 보기',
+    unit_people: '명', unit_minutes: '분',
+    stat_potential_market: '2025년 일본 TOPIK 응시자 수',
+    stat_speaking_demand: '말하기 응시 희망 비율',
+    stat_time: '응시 → 결과까지 소요 시간',
+    recommended_tag: 'RECOMMENDED', recommended_title: '지금 응시 가능한 시험',
+    recommended_desc: '레벨에 맞는 진단평가를 선택하세요. 결제 후 14일 내 24시간 언제든 응시 가능합니다.',
+    level_beginner: '초급', level_intermediate: '중상급', level_practice: '연습',
+    meta_25min: '25분', meta_23q: '23문항', meta_5areas: '5영역',
+    meta_35min: '35분', meta_14q: '14문항', meta_6areas: '6영역',
+    meta_3q: '3문항 무료', meta_5min: '약 5분', meta_free: '무료',
+    topik_tag: 'TOPIK과의 관계', topik_title_l1: 'TOPIK을 대체하지 않습니다.', topik_title_l2: '보완하고, 진단합니다.',
+    topik_desc: 'KoPASS IBT는 일본인 학습자가 자기 위치를 객관적으로 확인하기 위한 진단평가입니다. 공인 시험은 TOPIK으로 자연스럽게 연계됩니다.',
+    topik_b1_t: '시공간 제약 없이 응시', topik_b1_d: '집·카페·도서관 어디서나',
+    topik_b2_t: '전용 프로그램 설치 불필요', topik_b2_d: '웹·앱 모두 지원',
+    topik_b3_t: '즉시 AI 채점·피드백', topik_b3_d: '5각 차트로 약점 진단',
+    features_tag: 'SERVICES', features_title: '시험 → 평가 → 피드백 → 학습',
+    features_desc: '한 번의 응시로 끝나지 않습니다. 약점 진단 후 학습 콘텐츠로 자연스럽게 이어지는 진단 플랫폼.',
+    feat_1_title: '실시간 음성 녹음', feat_1_desc: '자동 카운트다운 → 비프음 → 녹음 → 자동 제출. 응시자는 별도 조작 없이 시험에 집중할 수 있습니다.',
+    feat_2_title: 'AI 5각 평가', feat_2_desc: '발음·유창성·어휘·문법·내용 구성 다섯 축으로 종합 평가. 1급~6급 등급과 문항별 학습 피드백을 함께 제공합니다.',
+    feat_3_title: '위변조 검증 인증서', feat_3_desc: '결과를 PDF 인증서로 다운로드. 외부에서도 위변조 여부를 검증할 수 있는 URL이 함께 발급됩니다.',
+    faq_tag: 'FAQ', faq_title: '자주 묻는 질문',
+    faq_q1: '응시 가능한 디바이스는 무엇인가요?',
+    faq_q2: '결제 후 언제까지 응시할 수 있나요?',
+    faq_q3: '환불 정책은 어떻게 되나요?',
+    faq_q4: '인증서는 어떻게 발급받나요?',
+    faq_q5: '시험 도중 마이크가 작동하지 않으면?',
+    faq_a1: '<strong>데스크탑 브라우저</strong> (Chrome, Safari, Edge — 최신 버전 권장) 또는 <strong>iOS/Android 앱</strong>에서 응시 가능합니다. 마이크 권한이 필수이며, 헤드셋 사용을 권장드려요. 모바일 브라우저는 폴백으로 동작합니다.',
+    faq_a2: '<p>결제일로부터 <strong>14일 이내</strong> 24시간 언제든 응시 가능합니다. 시험 시작 시각이 별도로 정해져 있지 않아 본인의 일정에 맞춰 진행할 수 있어요.</p><p>응시 가능 기간이 지나면 자동 만료되며 환불되지 않으니 기간 내에 응시해 주세요.</p>',
+    faq_a3: '<p><strong>접수 기간 내 미응시</strong>인 경우 마이페이지 → 1:1 문의에서 환불 신청이 가능합니다. 운영팀 검토 후 영업일 기준 3~5일 이내 결제 수단으로 환원됩니다.</p><p><strong>응시 후 변심 또는 결과 불만족</strong>의 경우는 환불이 적용되지 않습니다. 단, 시스템·네트워크 장애로 응시 진행 불가 시는 자동 환불 또는 재응시 티켓이 발행됩니다.</p>',
+    faq_a4: '응시 후 결과 발표가 되면 <strong>마이페이지 → 인증서</strong>에서 PDF 인증서를 다운로드할 수 있어요. <strong>위변조 검증 URL</strong>이 함께 발급되어, 외부에서도 진위 여부를 확인할 수 있습니다. 학교·기업 제출용으로 활용 가능합니다.',
+    faq_a5: '<p>응시는 자동으로 계속 진행되며, 답변은 단말 측에 자동 저장됩니다. 시험 종료 후 운영팀에 문의하시면 로그 확인 후 <strong>재응시 티켓</strong>이 발행됩니다.</p><p>응시 시작 직전 <strong>환경 점검 게이트</strong>(마이크·네트워크·브라우저)를 통과해야 응시 클라이언트에 진입하므로, 시험 시작 버튼을 누른 후 표시되는 점검을 꼭 통과해 주세요.</p>',
+    footer_about: '일본인 한국어 학습자를 위한 IBT 진단평가 플랫폼. TOPIK 말하기를 보완하는 1차 진단 단계.',
+    footer_col_service: '서비스', footer_tests: '시험 목록', footer_pricing: '가격', footer_certificate: '인증서', footer_about_link: '서비스 소개',
+    footer_col_support: '고객센터', footer_notice: '공지사항', footer_faq: 'FAQ', footer_contact: '1:1 문의',
+    footer_col_policy: '정책', footer_terms: '이용약관', footer_privacy: '개인정보처리방침', footer_commerce: '특정상거래법 표시',
+    footer_company_info: '사업자 정보 · 회사명 · 주소',
+  },
+  ja: {
+    notice_tag: 'お知らせ', notice_text: '2026年9月1日サービス開始予定 — 事前登録を受け付けています →',
+    nav_home: 'ホーム', nav_tests: '試験一覧', nav_mypage: 'マイページ', nav_support: 'サポート',
+    auth_login: 'ログイン', auth_signup: '会員登録',
+    hero_tag: '📍 日本市場限定 · TOPIK補完型',
+    hero_title_l1: '韓国語スピーキング、', hero_title_l2: '自宅で客観的に診断できます。',
+    hero_subtitle: 'AI採点+5角評価で発音・流暢さ・語彙・文法・内容構成を一度に。受験から証明書まで30分以内。',
+    hero_cta_primary: '無料体験を開始 →', hero_cta_secondary: 'サービスを詳しく見る',
+    unit_people: '人', unit_minutes: '分',
+    stat_potential_market: '2025年 日本のTOPIK受験者数',
+    stat_speaking_demand: 'スピーキング受験希望比率',
+    stat_time: '受験 → 結果までの所要時間',
+    recommended_tag: 'RECOMMENDED', recommended_title: '今受験可能な試験',
+    recommended_desc: 'レベルに合った診断評価を選択してください。決済後14日以内なら24時間いつでも受験可能。',
+    level_beginner: '初級', level_intermediate: '中上級', level_practice: '練習',
+    meta_25min: '25分', meta_23q: '23問', meta_5areas: '5領域',
+    meta_35min: '35分', meta_14q: '14問', meta_6areas: '6領域',
+    meta_3q: '3問無料', meta_5min: '約5分', meta_free: '無料',
+    topik_tag: 'TOPIKとの関係', topik_title_l1: 'TOPIKを代替しません。', topik_title_l2: '補完し、診断します。',
+    topik_desc: 'KoPASS IBTは日本人学習者が自分の位置を客観的に確認するための診断評価です。公認試験はTOPIKへ自然に繋がります。',
+    topik_b1_t: '時空間の制約なく受験', topik_b1_d: '自宅・カフェ・図書館どこでも',
+    topik_b2_t: '専用プログラムのインストール不要', topik_b2_d: 'Web・アプリ両方対応',
+    topik_b3_t: '即時AI採点・フィードバック', topik_b3_d: '5角チャートで弱点を診断',
+    features_tag: 'SERVICES', features_title: '試験 → 評価 → フィードバック → 学習',
+    features_desc: '一度の受験で終わりません。弱点診断後、学習コンテンツへ自然に繋がる診断プラットフォーム。',
+    feat_1_title: 'リアルタイム音声録音', feat_1_desc: '自動カウントダウン → ビープ → 録音 → 自動提出。応試者は別途操作なしで試験に集中できます。',
+    feat_2_title: 'AI 5角評価', feat_2_desc: '発音・流暢さ・語彙・文法・内容構成の5軸で総合評価。1級〜6級等級と問題別学習フィードバックを共に提供。',
+    feat_3_title: '偽造防止検証証明書', feat_3_desc: '結果をPDF証明書としてダウンロード。外部でも偽造可否を検証できるURLが共に発行されます。',
+    faq_tag: 'FAQ', faq_title: 'よくある質問',
+    faq_q1: '受験可能なデバイスは何ですか?',
+    faq_q2: '決済後いつまで受験できますか?',
+    faq_q3: '返金ポリシーはどうなっていますか?',
+    faq_q4: '証明書はどのように発行されますか?',
+    faq_q5: '試験中にマイクが動作しない場合は?',
+    faq_a1: '<strong>デスクトップブラウザ</strong>(Chrome、Safari、Edge — 最新版推奨)または<strong>iOS/Androidアプリ</strong>で受験可能です。マイク権限が必須で、ヘッドセットの使用を推奨します。モバイルブラウザはフォールバックとして動作します。',
+    faq_a2: '<p>決済日から<strong>14日以内</strong>、24時間いつでも受験可能です。試験開始時刻が別途決まっていないため、ご自身のスケジュールに合わせて進められます。</p><p>受験可能期間を過ぎると自動的に失効し、返金されませんので期間内に受験してください。</p>',
+    faq_a3: '<p><strong>受付期間内に未受験</strong>の場合、マイページ → 1:1お問い合わせから返金申請が可能です。運営チーム検討後、営業日基準3〜5日以内に決済手段へ返金されます。</p><p><strong>受験後の変心または結果不満</strong>の場合は返金が適用されません。ただし、システム・ネットワーク障害による受験不可の場合は自動返金または再受験チケットが発行されます。</p>',
+    faq_a4: '受験後、結果発表されたら<strong>マイページ → 証明書</strong>でPDF証明書をダウンロードできます。<strong>偽造防止検証URL</strong>が一緒に発行され、外部でも真偽を確認できます。学校・企業提出用としてご利用いただけます。',
+    faq_a5: '<p>受験は自動的に続行され、回答は端末側に自動保存されます。試験終了後、運営チームにお問い合わせいただくとログ確認後<strong>再受験チケット</strong>が発行されます。</p><p>受験開始直前の<strong>動作環境チェックゲート</strong>(マイク·ネットワーク·ブラウザ)を通過する必要があり、試験開始ボタンを押した後に表示されるチェックを必ず通過してください。</p>',
+    footer_about: '日本人韓国語学習者のためのIBT診断評価プラットフォーム。TOPIKスピーキングを補完する1次診断段階。',
+    footer_col_service: 'サービス', footer_tests: '試験一覧', footer_pricing: '価格', footer_certificate: '証明書', footer_about_link: 'サービス紹介',
+    footer_col_support: 'サポート', footer_notice: 'お知らせ', footer_faq: 'FAQ', footer_contact: 'お問い合わせ',
+    footer_col_policy: 'ポリシー', footer_terms: '利用規約', footer_privacy: 'プライバシーポリシー', footer_commerce: '特定商取引法に基づく表記',
+    footer_company_info: '会社情報 · 会社名 · 住所',
+  }
+};
+
+let locale = localStorage.getItem('kopass_main_locale') || 'ko';
+
+function t(key) { return i18n[locale]?.[key] ?? i18n.ko?.[key] ?? key; }
+
+function setLocale(loc) {
+  locale = loc;
+  localStorage.setItem('kopass_main_locale', loc);
+  document.documentElement.lang = loc;
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    el.textContent = t(el.getAttribute('data-i18n'));
+  });
+  document.querySelectorAll('[data-i18n-html]').forEach(el => {
+    el.innerHTML = t(el.getAttribute('data-i18n-html'));
+  });
+  document.querySelectorAll('.locale-toggle button').forEach((b, i) => {
+    b.classList.toggle('active', (i === 0 && loc === 'ko') || (i === 1 && loc === 'ja'));
+  });
+}
+
+// Stats count-up animation (공숲 inspired)
+function animateCount(el, target, duration = 1200) {
+  const start = 0;
+  const isFloat = target % 1 !== 0;
+  const startTime = performance.now();
+  function tick(now) {
+    const progress = Math.min((now - startTime) / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    const current = start + (target - start) * eased;
+    el.textContent = isFloat ? current.toFixed(1) : Math.floor(current).toLocaleString();
+    if (progress < 1) requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
+
+window.addEventListener('load', () => {
+  setLocale(locale);
+  document.querySelectorAll('[data-stat]').forEach(el => {
+    const target = parseFloat(el.textContent.replace(/,/g, ''));
+    el.textContent = '0';
+    setTimeout(() => animateCount(el, target), 200);
+  });
+});
+</script>
+
+</body>
+</html>

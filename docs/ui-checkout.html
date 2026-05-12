@@ -1,0 +1,201 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KoPASS — 결제</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  html, body { font-family: "Pretendard Variable", "Pretendard JP Variable", Pretendard, "Pretendard JP", -apple-system, BlinkMacSystemFont, system-ui, sans-serif; }
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; max-width: 100vw; overflow-x: hidden; }
+  img, svg, video { max-width: 100%; height: auto; }
+  :root { --blue-500:#2e84ff; --blue-600:#2272eb; --blue-50:#e8f3ff; --grey-900:#191f28; --grey-700:#4e5968; --grey-600:#6b7684; --grey-500:#8b95a1; --grey-400:#b0b8c1; --grey-300:#cbd5e1; --grey-200:#e5e8eb; --grey-100:#f2f4f6; --grey-50:#f9fafb; --green-500:#03b26c; --green-50:#ecfdf5; --orange-500:#fe9800; --red-500:#f04452; }
+  .gnb { height: 64px; background: rgba(255,255,255,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--grey-200); position: sticky; top: 0; z-index: 50; display: flex; align-items: center; padding: 0 32px; gap: 32px; }
+  .gnb-logo { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 20px; color: var(--grey-900); text-decoration: none; }
+  .gnb-logo-mark { width: 32px; height: 32px; background: linear-gradient(135deg, var(--blue-500) 0%, var(--green-500) 100%); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 800; font-size: 14px; }
+  .gnb-menu { display: flex; gap: 28px; flex: 1; }
+  .gnb-item { color: var(--grey-700); font-weight: 500; font-size: 15px; padding: 6px 0; border-bottom: 2px solid transparent; text-decoration: none; }
+
+  .breadcrumb { max-width: 1200px; margin: 0 auto; padding: 16px 32px 0; font-size: 13px; color: var(--grey-600); }
+  .breadcrumb a { color: var(--grey-500); text-decoration: none; }
+
+  .stepper { max-width: 1200px; margin: 16px auto 0; padding: 0 32px; display: flex; align-items: center; gap: 12px; }
+  .step { display: flex; align-items: center; gap: 8px; padding: 8px 16px; border-radius: 999px; font-size: 13px; font-weight: 600; }
+  .step.done { background: var(--green-50); color: var(--green-500); }
+  .step.active { background: var(--blue-500); color: white; }
+  .step.pending { background: var(--grey-100); color: var(--grey-500); }
+  .step-num { width: 20px; height: 20px; border-radius: 50%; background: rgba(255,255,255,0.4); display: inline-flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; }
+  .step.pending .step-num { background: var(--grey-200); }
+  .step-arrow { color: var(--grey-300); }
+
+  .layout { max-width: 1200px; margin: 0 auto; padding: 24px 32px 48px; display: grid; grid-template-columns: 1fr 380px; gap: 24px; }
+  @media (max-width: 900px) { .layout { grid-template-columns: 1fr; } }
+
+  .card { background: white; border: 1px solid var(--grey-200); border-radius: 16px; padding: 24px; margin-bottom: 16px; }
+  .card-title { font-size: 16px; font-weight: 700; margin-bottom: 16px; }
+
+  .order-row { display: flex; align-items: center; gap: 16px; padding: 12px 0; }
+  .order-row + .order-row { border-top: 1px solid var(--grey-100); }
+  .order-thumb { width: 80px; height: 60px; background: linear-gradient(135deg, #e8f3ff, #bfdbfe); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--blue-600); font-weight: 700; font-size: 11px; flex-shrink: 0; }
+  .order-name { font-weight: 700; font-size: 14px; }
+  .order-meta { font-size: 12px; color: var(--grey-600); margin-top: 4px; }
+  .order-price { font-size: 16px; font-weight: 700; font-family: 'SF Mono', Menlo, monospace; }
+
+  .env-passed { background: var(--green-50); border: 1px solid #a7f3d0; border-radius: 12px; padding: 16px; display: flex; gap: 12px; align-items: center; }
+  .env-icon { width: 40px; height: 40px; border-radius: 50%; background: white; display: flex; align-items: center; justify-content: center; color: var(--green-500); font-size: 20px; flex-shrink: 0; font-weight: 800; }
+  .env-text strong { color: var(--green-500); }
+  .env-text { font-size: 13px; color: var(--grey-700); line-height: 1.5; }
+
+  .pay-options { display: flex; flex-direction: column; gap: 8px; }
+  .pay-option { display: flex; align-items: center; gap: 12px; padding: 16px; border: 1.5px solid var(--grey-200); border-radius: 10px; cursor: pointer; transition: all 0.15s; }
+  .pay-option:hover { border-color: var(--blue-500); }
+  .pay-option.selected { border-color: var(--blue-500); background: var(--blue-50); }
+  .pay-radio { width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--grey-300); flex-shrink: 0; position: relative; }
+  .pay-option.selected .pay-radio { border-color: var(--blue-500); }
+  .pay-option.selected .pay-radio::after { content: ""; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 10px; height: 10px; border-radius: 50%; background: var(--blue-500); }
+  .pay-icon { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 800; flex-shrink: 0; }
+  .pay-icon.card { background: linear-gradient(135deg, #e8f3ff, #bfdbfe); color: var(--blue-600); }
+  .pay-icon.paypay { background: #FF0033; color: white; }
+  .pay-name { font-weight: 600; font-size: 14px; flex: 1; }
+  .pay-tag { font-size: 11px; color: var(--grey-500); background: var(--grey-100); padding: 2px 6px; border-radius: 4px; font-weight: 600; }
+
+  .summary { position: sticky; top: 88px; }
+  .sum-row { display: flex; justify-content: space-between; padding: 8px 0; font-size: 14px; }
+  .sum-row.total { padding-top: 16px; border-top: 1px solid var(--grey-100); margin-top: 8px; }
+  .sum-row.total .lbl { font-size: 15px; font-weight: 700; }
+  .sum-row.total .val { font-size: 26px; font-weight: 800; font-family: 'SF Mono', Menlo, monospace; }
+  .sum-lbl { color: var(--grey-600); }
+  .sum-val { font-weight: 600; font-family: 'SF Mono', Menlo, monospace; }
+
+  .pay-btn { width: 100%; background: var(--blue-500); color: white; padding: 16px; border: none; border-radius: 12px; font-size: 15px; font-weight: 700; cursor: pointer; box-shadow: 0 8px 24px rgba(46,132,255,0.25); margin-top: 16px; }
+  .pay-btn:hover { background: var(--blue-600); transform: translateY(-1px); }
+
+  .agree-row { display: flex; gap: 8px; align-items: flex-start; padding: 12px 0; font-size: 13px; color: var(--grey-700); }
+  .agree-row input { accent-color: var(--blue-500); margin-top: 2px; }
+  .agree-row a { color: var(--blue-500); text-decoration: underline; }
+
+  .invoice-note { background: var(--grey-50); border-radius: 8px; padding: 12px; font-size: 12px; color: var(--grey-600); margin-top: 12px; line-height: 1.6; }
+  .gnb-burger { display: none; background: var(--grey-100); border: 1px solid var(--grey-200); border-radius: 8px; cursor: pointer; padding: 8px; color: var(--grey-700); align-items: center; justify-content: center; }
+  @media (max-width: 768px) {
+    .gnb { flex-wrap: wrap; padding: 0 20px !important; height: auto; min-height: 64px; gap: 12px; justify-content: space-between; }
+    .gnb-burger { display: flex; }
+    .gnb-menu { display: none !important; }
+    .gnb.mobile-open .gnb-menu { display: flex !important; order: 99; width: 100%; flex-direction: column; padding: 12px 0 16px; gap: 8px; border-top: 1px solid var(--grey-200); }
+    .gnb.mobile-open .gnb-item { padding: 12px 8px; border-bottom: 1px solid var(--grey-100); }
+    .breadcrumb, .stepper { padding-left: 20px; padding-right: 20px; }
+    .layout { padding: 20px !important; grid-template-columns: 1fr !important; }
+    .gnb.mobile-open .gnb-menu {
+      flex: 0 0 100% !important; width: 100% !important; max-width: 100% !important;
+      margin-left: -20px !important; margin-right: -20px !important;
+      padding: 12px 20px 16px !important; box-sizing: border-box;
+    }
+  }
+</style>
+</head>
+<body>
+<header class="gnb">
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+  <a href="ui-main-home.html" class="gnb-logo"><div class="gnb-logo-mark">K</div><span>KoPASS</span></a>
+  <nav class="gnb-menu">
+    <a href="ui-main-home.html" class="gnb-item">홈</a>
+    <a href="ui-tests-list.html" class="gnb-item">시험 목록</a>
+    <a href="ui-mypage.html" class="gnb-item">마이페이지</a>
+    <a href="#" class="gnb-item">고객센터</a>
+  </nav>
+  <button class="gnb-burger" onclick="this.closest('.gnb').classList.toggle('mobile-open')" aria-label="메뉴"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+</header>
+
+<div class="breadcrumb">
+  <a href="ui-tests-list.html">시험 목록</a> ›
+  <a href="ui-test-detail.html" lang="ko">TOPIK 말하기 초급</a> ›
+  <span>결제</span>
+</div>
+
+<div class="stepper">
+  <div class="step active"><span class="step-num">1</span><span>결제</span></div>
+  <span class="step-arrow">→</span>
+  <div class="step pending"><span class="step-num">2</span><span>응시 준비 (환경 점검은 응시 직전)</span></div>
+</div>
+
+<div class="layout">
+  <main>
+    <div class="card">
+      <div class="card-title">📦 주문 내역</div>
+      <div class="order-row">
+        <div class="order-thumb">말하기</div>
+        <div style="flex:1;">
+          <div class="order-name" lang="ko">TOPIK 말하기 초급</div>
+          <div class="order-meta">25분 · 23문항 · 응시 가능 기간 14일</div>
+        </div>
+        <div class="order-price">¥4,950</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">🎙 환경 점검은 응시 직전에 진행됩니다</div>
+      <div class="env-passed">
+        <div class="env-icon">i</div>
+        <div class="env-text">
+          마이크·네트워크·브라우저 점검은 <strong>마이페이지 > 나의 시험 > 시험 시작</strong> 직전에 게이트로 실행돼요.<br>
+          결제는 환경 점검과 무관하게 지금 진행 가능합니다.
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">💳 결제 수단</div>
+      <div class="pay-options">
+        <div class="pay-option selected" onclick="selectPay(this)">
+          <div class="pay-radio"></div>
+          <div class="pay-icon card">VISA</div>
+          <div class="pay-name">クレジットカード</div>
+          <span class="pay-tag">JCB · VISA · MasterCard</span>
+        </div>
+        <div class="pay-option" onclick="selectPay(this)">
+          <div class="pay-radio"></div>
+          <div class="pay-icon paypay">P</div>
+          <div class="pay-name">PayPay</div>
+          <span class="pay-tag">QR 결제</span>
+        </div>
+      </div>
+      <div class="invoice-note">
+        📄 결제 완료 시 <strong>영수증 PDF</strong>가 자동 발행되어 마이페이지 → 결제 내역에서 다운로드 가능합니다. (적격청구서 인보이스는 PG API 연동 시점에 도입 예정)
+      </div>
+    </div>
+  </main>
+
+  <aside>
+    <div class="card summary">
+      <div class="card-title">결제 요약</div>
+      <div class="sum-row"><span class="sum-lbl">상품 금액</span><span class="sum-val">¥4,500</span></div>
+      <div class="sum-row"><span class="sum-lbl">소비세 (10%)</span><span class="sum-val">¥450</span></div>
+      <div class="sum-row total">
+        <span class="lbl">최종 결제 금액</span>
+        <span class="val">¥4,950</span>
+      </div>
+
+      <div style="border-top:1px solid var(--grey-100); margin-top:16px; padding-top:8px;">
+        <label class="agree-row"><input type="checkbox" checked><span><strong>전체 동의</strong></span></label>
+        <label class="agree-row"><input type="checkbox" checked><span>(필수) <a>결제 약관</a> 동의</span></label>
+        <label class="agree-row"><input type="checkbox" checked><span>(필수) <a>환불 정책</a> 동의</span></label>
+        <label class="agree-row"><input type="checkbox" checked><span>(필수) 만 14세 이상이며 본인 결제임을 확인</span></label>
+      </div>
+
+      <button class="pay-btn" onclick="location.href='ui-checkout-complete.html'">¥4,950 결제하기</button>
+      <div style="font-size:11px; color:var(--grey-500); text-align:center; margin-top:8px;">결제 시 GMO Payment Gateway로 안전하게 처리됩니다</div>
+    </div>
+  </aside>
+</div>
+
+<a href="ui-index.html" style="position:fixed; bottom:24px; left:24px; background:rgba(15,23,42,0.85); color:white; padding:8px 14px; border-radius:999px; text-decoration:none; font-size:12px; font-weight:600; z-index:40;">← UI 인덱스</a>
+
+<script>
+function selectPay(el) {
+  document.querySelectorAll('.pay-option').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+}
+</script>
+<script src="env-check-modal.js"></script>
+</body>
+</html>

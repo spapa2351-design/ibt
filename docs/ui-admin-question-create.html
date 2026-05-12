@@ -1,0 +1,1410 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KoPASS Admin — 문제 만들기</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-jp.css">
+<style>
+  html, body { font-family: "Pretendard Variable", "Pretendard JP Variable", Pretendard, "Pretendard JP", -apple-system, BlinkMacSystemFont, system-ui, sans-serif; }
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  :root {
+    --blue-500: #2e84ff; --blue-600: #2272eb; --blue-50: #e8f3ff;
+    --grey-900: #191f28; --grey-800: #2d3540; --grey-700: #4e5968; --grey-600: #6b7684; --grey-500: #8b95a1; --grey-400: #b0b8c1;
+    --grey-300: #d1d6db; --grey-200: #e5e8eb; --grey-100: #f2f4f6; --grey-50: #f9fafb;
+    --green-500: #03b26c; --green-50: #ecfdf5;
+    --violet-500: #7c3aed; --violet-50: #f5f3ff;
+    --orange-500: #fe9800; --orange-50: #fff7ed;
+    --red-500: #f04452; --red-50: #fef2f2;
+  }
+  body { background: var(--grey-100); color: var(--grey-900); display: flex; min-height: 100vh; }
+
+  /* 좌측 사이드바 (공통) */
+  .sidebar { width: 220px; background: white; border-right: 1px solid var(--grey-200); flex-shrink: 0; display: flex; flex-direction: column; height: 100vh; position: sticky; top: 0; }
+  .sb-brand { padding: 18px 20px; display: flex; align-items: center; gap: 8px; }
+  .sb-brand .mark { width: 30px; height: 30px; background: linear-gradient(135deg, var(--blue-500) 0%, var(--green-500) 100%); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 800; font-size: 12px; letter-spacing: -0.5px; }
+  .sb-brand .name { font-weight: 800; font-size: 15px; color: var(--grey-900); letter-spacing: -0.3px; }
+  .sb-brand .sub { font-size: 10px; color: var(--grey-500); font-weight: 600; letter-spacing: 0.5px; margin-top: -2px; }
+  .sb-nav { flex: 1; padding: 8px 12px; overflow-y: auto; }
+  .sb-group { margin-bottom: 4px; }
+  .sb-group-title { font-size: 12px; font-weight: 700; color: var(--grey-700); padding: 10px 12px 6px; display: flex; align-items: center; gap: 8px; }
+  .sb-group-title .icon { width: 14px; height: 14px; flex-shrink: 0; }
+  .sb-item { display: block; padding: 8px 12px 8px 36px; font-size: 13px; color: var(--grey-600); border-radius: 8px; cursor: pointer; transition: all 0.12s; text-decoration: none; margin: 1px 0; }
+  .sb-item:hover { background: var(--grey-50); color: var(--grey-900); }
+  .sb-item.active { background: var(--blue-50); color: var(--blue-600); font-weight: 700; }
+  .sb-item .star { font-size: 10px; color: var(--orange-500); margin-left: 4px; }
+  .sb-link { display: flex; align-items: center; gap: 8px; padding: 10px 12px; font-size: 13px; font-weight: 700; color: var(--grey-700); border-radius: 8px; cursor: pointer; transition: all 0.12s; text-decoration: none; margin: 0 0 8px; }
+  .sb-link:hover { background: var(--grey-50); color: var(--grey-900); }
+  .sb-link.active { background: var(--blue-50); color: var(--blue-600); }
+  .sb-link .icon { width: 14px; height: 14px; flex-shrink: 0; }
+
+  .main { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+  .topbar { height: 56px; background: white; border-bottom: 1px solid var(--grey-200); display: flex; align-items: center; padding: 0 24px; gap: 16px; flex-shrink: 0; position: sticky; top: 0; z-index: 40; }
+  .topbar-crumb { font-size: 13px; color: var(--grey-600); display: flex; align-items: center; gap: 6px; }
+  .topbar-crumb a { color: var(--grey-600); text-decoration: none; }
+  .topbar-crumb a:hover { color: var(--grey-900); }
+  .topbar-crumb strong { color: var(--grey-900); font-weight: 700; }
+  .topbar-spacer { flex: 1; }
+  .topbar-icon-btn { width: 34px; height: 34px; border-radius: 8px; border: none; background: transparent; color: var(--grey-600); cursor: pointer; display: flex; align-items: center; justify-content: center; }
+  .topbar-icon-btn:hover { background: var(--grey-100); color: var(--grey-900); }
+  .topbar-profile { display: flex; align-items: center; gap: 8px; padding: 4px 10px 4px 4px; border-radius: 999px; cursor: pointer; }
+  .topbar-profile .avatar { width: 28px; height: 28px; border-radius: 50%; background: linear-gradient(135deg, var(--blue-500), var(--violet-500)); color: white; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+  .topbar-profile .name { font-size: 13px; font-weight: 600; color: var(--grey-900); }
+
+  /* 페이지 — main 내부 가로 2분할 (편집 영역 + 우측 미리보기 사이드바) */
+  .main-row { display: flex; flex-direction: row; flex: 1; min-height: 0; }
+  .page { flex: 1; padding: 24px 28px; max-width: 1100px; min-width: 0; }
+
+  /* 우측 미리보기 사이드바 (페이지 레벨, 영역 선택 시 노출) */
+  .preview-sidebar { width: 380px; flex-shrink: 0; padding: 20px 20px 20px 0; display: none; align-self: flex-start; position: sticky; top: 56px; max-height: calc(100vh - 56px); overflow-y: auto; }
+  .preview-sidebar.show { display: block; }
+  .preview-toolbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; padding: 0 4px; }
+  .preview-toolbar .label { margin: 0; font-size: 11px; color: var(--grey-500); font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; }
+  .play-all-btn { padding: 6px 12px; border-radius: 999px; background: var(--blue-500); color: white; border: none; font-size: 11px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; }
+  .play-all-btn:hover { background: var(--blue-600); }
+  .play-all-btn.playing { background: var(--red-500); }
+
+  /* 핸드폰 frame (미니멀, KoPASS 모바일 응시 시뮬레이션) */
+  .phone-frame { width: 290px; margin: 0 auto; background: linear-gradient(180deg, #1f2937 0%, #0f172a 100%); border-radius: 38px; padding: 7px; position: relative; box-shadow: 0 1px 1px rgba(0,0,0,0.1), 0 6px 16px rgba(15,23,42,0.18), 0 14px 36px rgba(15,23,42,0.10), inset 0 0 0 1px rgba(255,255,255,0.06); }
+  .phone-notch { position: absolute; top: 7px; left: 50%; transform: translateX(-50%); width: 86px; height: 22px; background: #0f172a; border-radius: 0 0 14px 14px; z-index: 5; }
+  .phone-screen { background: white; border-radius: 32px; overflow: hidden; position: relative; min-height: 480px; display: flex; flex-direction: column; }
+  .phone-status { display: flex; justify-content: space-between; align-items: center; padding: 12px 22px 4px; font-size: 11px; font-weight: 700; color: var(--grey-900); font-variant-numeric: tabular-nums; }
+  .phone-status .battery { display: inline-flex; align-items: center; gap: 4px; font-size: 10px; }
+  .phone-status .battery::after { content: ''; display: inline-block; width: 18px; height: 9px; border: 1px solid var(--grey-700); border-radius: 2px; background: linear-gradient(90deg, var(--grey-900) 90%, transparent 90%); position: relative; }
+
+  .phone-app-header { padding: 8px 16px 12px; background: white; border-bottom: 1px solid var(--grey-100); }
+  .app-meta { display: flex; gap: 4px; margin-bottom: 8px; flex-wrap: wrap; }
+  .app-progress { display: flex; align-items: center; gap: 8px; }
+  .app-progress-bar { flex: 1; height: 4px; background: var(--grey-100); border-radius: 999px; overflow: hidden; }
+  .app-progress-fill { height: 100%; background: var(--blue-500); width: 5%; transition: width 0.2s; }
+  .app-time { font-family: 'SF Mono', Menlo, monospace; font-size: 10px; color: var(--grey-600); font-weight: 700; }
+
+  .phone-body { padding: 14px; flex: 1; background: var(--grey-50); display: flex; flex-direction: column; gap: 10px; }
+  .stage-chip { display: inline-flex; align-items: center; gap: 4px; padding: 3px 9px; border-radius: 999px; font-size: 10px; font-weight: 700; align-self: flex-start; }
+  .stage-chip.prep { background: var(--blue-50); color: var(--blue-600); }
+  .stage-chip.record { background: var(--red-50); color: var(--red-500); }
+  .stage-chip .dot { display: inline-block; width: 5px; height: 5px; border-radius: 50%; background: currentColor; animation: pulse-mini 1.5s infinite; }
+
+  /* 영역별 mock 콘텐츠 */
+  .area-mock { display: none; flex-direction: column; gap: 10px; align-items: stretch; }
+  .preview-sidebar[data-area="1"] .area-mock-1,
+  .preview-sidebar[data-area="2"] .area-mock-2,
+  .preview-sidebar[data-area="3"] .area-mock-3,
+  .preview-sidebar[data-area="4"] .area-mock-4,
+  .preview-sidebar[data-area="5"] .area-mock-5 { display: flex; }
+
+  .big-sentence { background: white; border-radius: 12px; padding: 24px 16px; font-size: 17px; font-weight: 700; color: var(--grey-900); text-align: center; line-height: 1.5; box-shadow: 0 1px 2px rgba(15,23,42,0.04); }
+
+  .audio-pulse { width: 56px; height: 56px; border-radius: 50%; background: var(--blue-500); color: white; display: flex; align-items: center; justify-content: center; align-self: center; margin: 6px 0 2px; animation: pulse-glow 2s infinite; }
+  @keyframes pulse-glow {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(46,132,255,0.5); }
+    50% { box-shadow: 0 0 0 14px rgba(46,132,255,0); }
+  }
+  .audio-label { font-size: 10px; color: var(--grey-500); font-weight: 600; text-align: center; }
+  .audio-q { background: white; border-radius: 12px; padding: 14px 16px; font-size: 14px; font-weight: 700; color: var(--grey-900); text-align: center; line-height: 1.5; box-shadow: 0 1px 2px rgba(15,23,42,0.04); }
+
+  .dialog-illust { width: 100%; aspect-ratio: 4/3; background: linear-gradient(135deg, #fef3c7, #fde68a); border-radius: 10px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; color: #92400e; font-weight: 700; font-size: 10px; }
+  .dialog-balloon { background: white; border-radius: 14px 14px 14px 4px; padding: 8px 12px; font-size: 12px; font-weight: 600; color: var(--grey-800); align-self: flex-start; max-width: 85%; box-shadow: 0 1px 2px rgba(15,23,42,0.04); }
+  .dialog-hint { background: var(--blue-50); border-radius: 14px 14px 4px 14px; padding: 8px 12px; font-size: 11px; color: var(--blue-600); align-self: flex-end; max-width: 85%; font-weight: 600; }
+
+  .big-image { width: 100%; aspect-ratio: 4/3; background: linear-gradient(135deg, #dbeafe, #bfdbfe); border-radius: 10px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; color: var(--blue-600); font-weight: 700; font-size: 11px; }
+
+  .situation-box { background: #fdf4ff; border: 1px solid #f5d0fe; border-radius: 12px; padding: 14px 12px 12px; position: relative; }
+  .situation-box .sit-lang { position: absolute; top: -7px; left: 12px; padding: 1px 6px; border-radius: 4px; font-size: 9px; font-weight: 700; background: #fce7f3; color: #be185d; }
+  .situation-box p { margin: 0; font-size: 11.5px; line-height: 1.6; color: var(--grey-800); }
+
+  /* 하단 미니멀 컨트롤 (단계 + 타임라인) */
+  .preview-controls { margin-top: 12px; background: white; border-radius: 12px; padding: 10px 14px; box-shadow: 0 1px 2px rgba(15,23,42,0.04); }
+
+  /* ─── 폰 화면 내부 요소 (지시문·타이머·웨이브폼) ─── */
+  @keyframes pulse-mini { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+  .b-mini { padding: 2px 8px; border-radius: 999px; font-size: 10px; font-weight: 700; }
+  .mock-instr-box { background: var(--blue-50); border-left: 3px solid var(--blue-500); border-radius: 0 8px 8px 0; padding: 10px 12px; font-size: 11.5px; color: var(--grey-800); line-height: 1.55; }
+  .mock-instr-box strong { color: var(--blue-600); }
+  .mock-timer { padding: 12px; border-radius: 10px; text-align: center; }
+  .mock-timer.prep { background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border: 1px solid var(--blue-500); }
+  .mock-timer.record { background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%); border: 1px solid var(--red-500); }
+  .mock-timer-label { font-size: 10px; font-weight: 700; }
+  .mock-timer.prep .mock-timer-label { color: var(--blue-500); }
+  .mock-timer.record .mock-timer-label { color: var(--red-500); }
+  .mock-timer-value { font-size: 26px; font-weight: 800; font-family: 'SF Mono', Menlo, monospace; line-height: 1; margin-top: 4px; letter-spacing: -1px; }
+  .mock-timer.prep .mock-timer-value { color: var(--blue-500); }
+  .mock-timer.record .mock-timer-value { color: var(--red-500); }
+  .mock-waveform { display: flex; gap: 4px; justify-content: center; margin-top: 6px; }
+  .mock-wf { width: 6px; height: 6px; border-radius: 50%; background: var(--red-500); animation: bounce-mini 0.8s infinite; }
+  .mock-wf:nth-child(2) { animation-delay: 0.1s; }
+  .mock-wf:nth-child(3) { animation-delay: 0.2s; }
+  .mock-wf:nth-child(4) { animation-delay: 0.3s; }
+  @keyframes bounce-mini { 0%,100% { transform: translateY(0); opacity: 0.6; } 50% { transform: translateY(-3px); opacity: 1; } }
+
+  /* 단계 탭 (preview-controls 내) */
+  .stage-tabs { display: flex; gap: 6px; }
+  .stage-tab { flex: 1; padding: 6px 8px; border-radius: 8px; font-size: 11px; font-weight: 700; color: var(--grey-600); background: var(--grey-50); border: 1px solid transparent; cursor: pointer; text-align: center; }
+  .stage-tab:hover { color: var(--blue-500); }
+  .stage-tab.active { background: var(--blue-500); color: white; }
+
+  /* 타임라인 */
+  .timeline { padding-top: 10px; margin-top: 10px; border-top: 1px solid var(--grey-100); }
+  .timeline-track { position: relative; height: 20px; background: var(--grey-100); border-radius: 5px; overflow: hidden; display: flex; }
+  .timeline-seg { display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; color: white; white-space: nowrap; overflow: hidden; }
+  .timeline-seg.prep-seg { background: var(--blue-500); }
+  .timeline-seg.beep-seg { background: var(--orange-500); min-width: 14px; }
+  .timeline-seg.rec-seg { background: var(--red-500); }
+  .timeline-cursor { position: absolute; top: -3px; bottom: -3px; width: 2px; background: var(--grey-900); transform: translateX(-1px); pointer-events: none; transition: left 0.1s linear; display: none; }
+  .timeline-cursor.show { display: block; }
+  .timeline-labels { display: flex; justify-content: space-between; font-size: 10px; color: var(--grey-500); margin-top: 4px; font-family: 'SF Mono', Menlo, monospace; }
+
+  /* 우측 컴팩트 폼 */
+  .compact-form { display: flex; flex-direction: column; gap: 12px; }
+  .form-area { display: flex; flex-direction: column; gap: 12px; }
+
+  /* 시험 영역 5탭 */
+  .area-tabs { display: flex; gap: 8px; flex-wrap: wrap; }
+  .area-tab { padding: 10px 14px; border-radius: 10px; border: 1px solid var(--grey-200); background: white; cursor: pointer; font-size: 13px; font-weight: 700; color: var(--grey-700); display: inline-flex; flex-direction: column; align-items: flex-start; gap: 2px; transition: all 0.12s; min-width: 120px; }
+  .area-tab:hover { border-color: var(--blue-500); color: var(--blue-600); }
+  .area-tab.active { background: var(--blue-50); border-color: var(--blue-500); color: var(--blue-600); }
+  .area-tab .meta { font-size: 10px; font-weight: 600; color: var(--grey-500); }
+  .area-tab.active .meta { color: var(--blue-500); }
+
+  /* 영역별 sub-card 토글 */
+  .area-only { display: none; }
+  .form-area[data-area="1"] .area-only[data-area="1"] { display: block; }
+  .form-area[data-area="2"] .area-only[data-area="2"] { display: block; }
+  .form-area[data-area="3"] .area-only[data-area="3"] { display: block; }
+  .form-area[data-area="4"] .area-only[data-area="4"] { display: block; }
+  .form-area[data-area="5"] .area-only[data-area="5"] { display: block; }
+
+  /* 잠금 표시 */
+  .lock-pill { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 999px; font-size: 10px; font-weight: 700; background: var(--grey-100); color: var(--grey-600); }
+  .lock-pill .lock-icon { width: 9px; height: 9px; }
+  /* 배점 편집 (문항 수 × 점/문항 = 총점) */
+  .score-edit { display: flex; align-items: stretch; gap: 6px; margin-top: 10px; }
+  .score-cell { flex: 1; background: white; border: 1px solid var(--grey-200); border-radius: 10px; padding: 8px 12px; }
+  .score-cell.total { background: linear-gradient(135deg, #eff6ff, #dbeafe); border-color: var(--blue-500); }
+  .score-cell-label { font-size: 10px; color: var(--grey-500); font-weight: 700; }
+  .score-cell.total .score-cell-label { color: var(--blue-600); }
+  .score-cell-row { display: flex; align-items: baseline; gap: 4px; margin-top: 2px; }
+  .score-cell input { width: 54px; padding: 0; border: none; outline: none; background: transparent; font-size: 19px; font-weight: 800; font-family: 'SF Mono', Menlo, monospace; color: var(--grey-900); }
+  .score-cell input:focus { color: var(--blue-600); }
+  .score-cell .unit { font-size: 11px; color: var(--grey-600); font-weight: 600; }
+  .score-cell.total .score-total-val { font-size: 22px; font-weight: 800; color: var(--blue-600); font-family: 'SF Mono', Menlo, monospace; }
+  .score-op { display: flex; align-items: center; font-size: 14px; font-weight: 700; color: var(--grey-400); padding: 0 2px; }
+
+  /* TTS 음성 미니 토글 (남/여) */
+  .voice-mini { display: inline-flex; gap: 0; border: 1px solid var(--grey-200); border-radius: 6px; overflow: hidden; }
+  .voice-mini button { padding: 3px 9px; border: none; background: white; color: var(--grey-600); font-size: 11px; font-weight: 700; cursor: pointer; }
+  .voice-mini button:hover { color: var(--blue-500); }
+  .voice-mini button.on { background: var(--blue-500); color: white; }
+  .tts-cluster { display: inline-flex; align-items: center; gap: 6px; }
+
+  /* 평가 기준 박스 */
+  .rubric-content { font-size: 12px; color: var(--grey-700); line-height: 1.65; }
+  .rubric-content table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+  .rubric-content th, .rubric-content td { border: 1px solid var(--grey-200); padding: 6px 10px; text-align: left; font-size: 11px; }
+  .rubric-content th { background: var(--grey-50); font-weight: 700; }
+  .rubric-content td.score-cell { width: 40px; text-align: center; font-weight: 700; color: var(--blue-600); }
+
+  /* 영역 2 모범답안 N개 */
+  .answer-list { display: flex; flex-direction: column; gap: 8px; }
+  .answer-row { display: flex; gap: 8px; align-items: flex-start; }
+  .answer-row .num { width: 24px; height: 24px; border-radius: 6px; background: var(--blue-50); color: var(--blue-600); font-size: 11px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 4px; }
+  .answer-row textarea { flex: 1; min-height: 36px; }
+  .answer-row .del-mini { width: 24px; height: 24px; border-radius: 6px; background: transparent; border: 1px solid var(--grey-200); color: var(--grey-500); cursor: pointer; font-size: 12px; flex-shrink: 0; margin-top: 4px; display: inline-flex; align-items: center; justify-content: center; }
+  .answer-row .del-mini:hover { color: var(--red-500); border-color: var(--red-500); }
+  .add-answer { padding: 6px 10px; background: transparent; border: 1px dashed var(--grey-300); border-radius: 8px; color: var(--grey-600); font-size: 12px; cursor: pointer; align-self: flex-start; }
+  .add-answer:hover { border-color: var(--blue-500); color: var(--blue-600); }
+
+  /* 다국어 라벨 */
+  .lang-label { display: inline-flex; align-items: center; gap: 4px; font-size: 10px; font-weight: 700; padding: 1px 6px; border-radius: 4px; }
+  .lang-label.ko { background: #fef3c7; color: #92400e; }
+  .lang-label.ja { background: #fce7f3; color: #be185d; }
+  .compact-card { background: white; border-radius: 12px; box-shadow: 0 1px 3px rgba(15,23,42,0.04), 0 1px 2px rgba(15,23,42,0.06); padding: 14px 16px; }
+  .compact-card .label-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+  .compact-card .label { margin: 0; }
+  .compact-card .label .req { color: var(--red-500); margin-left: 2px; }
+  .tts-mini { padding: 4px 10px; border: 1px solid var(--grey-200); border-radius: 6px; background: white; color: var(--grey-700); font-size: 11px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; }
+  .tts-mini:hover { border-color: var(--blue-500); color: var(--blue-500); }
+  .compact-card .hint { font-size: 11px; color: var(--grey-500); margin: 0 0 6px; }
+
+  .time-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .time-cell { padding: 12px; border-radius: 10px; border: 1px solid var(--grey-200); display: flex; flex-direction: column; gap: 6px; }
+  .time-cell.prep { border-color: var(--blue-500); background: var(--blue-50); }
+  .time-cell.prep .label { color: var(--blue-500); }
+  .time-cell.record { border-color: var(--red-500); background: var(--red-50); }
+  .time-cell.record .label { color: var(--red-500); }
+  .time-cell .label { font-size: 11px; }
+  .time-cell .row { display: flex; align-items: baseline; gap: 4px; }
+  .time-cell input { width: 64px; padding: 6px 8px; border: 1px solid var(--grey-200); border-radius: 6px; text-align: center; font-weight: 800; font-size: 16px; background: white; outline: none; }
+  .time-cell input:focus { border-color: currentColor; }
+  .time-cell .unit { font-size: 11px; color: var(--grey-600); font-weight: 600; }
+
+  .page-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+  .page-title { font-size: 22px; font-weight: 800; color: var(--grey-900); display: flex; align-items: center; gap: 10px; }
+  .back-btn { width: 32px; height: 32px; border-radius: 8px; border: 1px solid var(--grey-200); background: white; color: var(--grey-700); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; text-decoration: none; }
+  .back-btn:hover { border-color: var(--grey-400); }
+  .page-actions { display: flex; gap: 8px; }
+  .btn { padding: 9px 18px; border-radius: 10px; font-size: 13px; font-weight: 700; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.12s; text-decoration: none; }
+  .btn-secondary { background: white; color: var(--grey-700); border: 1px solid var(--grey-200); }
+  .btn-secondary:hover { border-color: var(--grey-400); }
+  .btn-primary { background: var(--blue-500); color: white; }
+  .btn-primary:hover { background: var(--blue-600); }
+
+  /* 카드 (폼 섹션) */
+  .card { background: white; border-radius: 14px; box-shadow: 0 1px 3px rgba(15,23,42,0.04), 0 1px 2px rgba(15,23,42,0.06); padding: 20px 24px; margin-bottom: 14px; }
+  .card-title { font-size: 14px; font-weight: 800; color: var(--grey-900); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+  .card-num { width: 22px; height: 22px; border-radius: 6px; background: var(--grey-100); color: var(--grey-700); font-size: 11px; font-weight: 800; display: inline-flex; align-items: center; justify-content: center; }
+
+  /* 라디오 그룹 */
+  .radio-row { display: flex; gap: 14px; flex-wrap: wrap; }
+  .radio-chip { display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border: 1px solid var(--grey-200); border-radius: 10px; cursor: pointer; font-size: 13px; color: var(--grey-700); font-weight: 600; transition: all 0.12s; }
+  .radio-chip:hover { border-color: var(--blue-500); }
+  .radio-chip input { accent-color: var(--blue-500); }
+  .radio-chip.active { border-color: var(--blue-500); background: var(--blue-50); color: var(--blue-600); }
+
+  /* 등급 카드 (시각화된 radio) */
+  .grade-cards { display: flex; gap: 10px; margin-top: 8px; flex-wrap: wrap; }
+  .grade-card { flex: 1; min-width: 160px; max-width: 220px; cursor: pointer; padding: 12px 14px; border: 1px solid var(--grey-200); border-radius: 12px; background: white; transition: all 0.12s; position: relative; }
+  .grade-card input { position: absolute; opacity: 0; pointer-events: none; }
+  .grade-card:hover { border-color: var(--blue-500); }
+  .grade-card.selected { border-color: var(--blue-500); background: var(--blue-50); box-shadow: 0 0 0 3px rgba(46,132,255,0.08); }
+  .grade-dots { display: inline-flex; gap: 4px; margin-bottom: 8px; }
+  .grade-dots .gdot { width: 7px; height: 7px; border-radius: 50%; background: var(--grey-200); }
+  .grade-dots .gdot.on { background: var(--blue-500); }
+  .grade-card.selected .grade-dots .gdot.on { background: var(--blue-600); }
+  .grade-name { font-size: 14px; font-weight: 800; color: var(--grey-900); }
+  .grade-card.selected .grade-name { color: var(--blue-600); }
+  .grade-desc { font-size: 11px; color: var(--grey-500); margin-top: 2px; line-height: 1.4; }
+
+  /* 분류 chip (다중 선택) */
+  .cat-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .cat-chip { padding: 6px 12px; border: 1px solid var(--grey-200); border-radius: 999px; background: white; cursor: pointer; font-size: 12px; font-weight: 600; color: var(--grey-700); display: inline-flex; align-items: center; gap: 5px; transition: all 0.12s; }
+  .cat-chip:hover { border-color: var(--blue-500); color: var(--blue-500); }
+  .cat-chip input { position: absolute; opacity: 0; pointer-events: none; }
+  .cat-chip .cat-check { display: inline-block; width: 0; opacity: 0; transition: all 0.15s; overflow: hidden; font-size: 10px; }
+  .cat-chip.selected { background: var(--blue-50); border-color: var(--blue-500); color: var(--blue-600); }
+  .cat-chip.selected .cat-check { width: 12px; opacity: 1; }
+  .cat-summary { font-size: 11px; color: var(--grey-500); margin-top: 8px; font-weight: 600; }
+  .cat-summary strong { color: var(--blue-600); }
+
+  /* 입력 */
+  .label { font-size: 12px; font-weight: 700; color: var(--grey-700); margin-bottom: 6px; display: block; }
+  .input { width: 100%; padding: 10px 14px; border: 1px solid var(--grey-200); border-radius: 10px; font-size: 14px; color: var(--grey-900); background: white; outline: none; }
+  .input:focus { border-color: var(--blue-500); }
+  .textarea { width: 100%; padding: 10px 14px; border: 1px solid var(--grey-200); border-radius: 10px; font-size: 14px; color: var(--grey-900); background: white; outline: none; resize: vertical; min-height: 90px; font-family: inherit; }
+  .textarea:focus { border-color: var(--blue-500); }
+  .input-num { width: 80px; padding: 8px 12px; border: 1px solid var(--grey-200); border-radius: 8px; font-size: 14px; text-align: center; font-weight: 700; }
+
+  .select-cat { display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px; background: var(--blue-50); color: var(--blue-600); border: 1px dashed var(--blue-500); border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; }
+  .select-cat:hover { background: var(--blue-500); color: white; }
+
+  /* 에디터 툴바 (시각만) */
+  .editor { border: 1px solid var(--grey-200); border-radius: 10px; overflow: hidden; }
+  .editor-toolbar { display: flex; gap: 4px; padding: 8px 10px; background: var(--grey-50); border-bottom: 1px solid var(--grey-200); flex-wrap: wrap; }
+  .editor-toolbar button { width: 28px; height: 28px; border: none; background: transparent; color: var(--grey-700); border-radius: 5px; cursor: pointer; font-size: 12px; font-weight: 700; }
+  .editor-toolbar button:hover { background: white; }
+  .editor-body { padding: 14px; min-height: 120px; font-size: 14px; color: var(--grey-900); }
+  .editor-body[contenteditable]:empty::before { content: attr(data-placeholder); color: var(--grey-400); }
+
+  /* 객관식 선택지 */
+  .options { display: flex; flex-direction: column; gap: 8px; }
+  .option-row { display: grid; grid-template-columns: 32px 1fr 100px 32px; gap: 10px; align-items: center; }
+  .option-row .head { font-size: 11px; font-weight: 700; color: var(--grey-500); }
+  .option-correct { display: inline-flex; justify-content: center; }
+  .toggle { width: 36px; height: 20px; background: var(--grey-200); border-radius: 999px; position: relative; cursor: pointer; flex-shrink: 0; }
+  .toggle::after { content: ""; position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; background: white; border-radius: 50%; transition: all 0.15s; }
+  .toggle.on { background: var(--blue-500); }
+  .toggle.on::after { left: 18px; }
+  .add-option { padding: 8px; border: 1px dashed var(--grey-300); border-radius: 8px; text-align: center; cursor: pointer; font-size: 12px; color: var(--grey-500); font-weight: 600; }
+  .add-option:hover { border-color: var(--blue-500); color: var(--blue-500); }
+  .icon-del { color: var(--red-500); cursor: pointer; }
+  .icon-del:hover { background: var(--red-50); border-radius: 4px; }
+
+  /* 말하기 시나리오 단계 */
+  .scenario-step { background: var(--grey-50); border: 1px solid var(--grey-100); border-radius: 12px; padding: 14px 16px; margin-bottom: 10px; }
+  .step-head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 800; color: var(--grey-900); margin-bottom: 10px; }
+  .step-num { width: 22px; height: 22px; border-radius: 50%; background: var(--blue-500); color: white; font-size: 11px; font-weight: 800; display: inline-flex; align-items: center; justify-content: center; }
+  .step-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .step-row .input, .step-row .textarea { flex: 1; min-width: 200px; }
+  .voice-toggle { display: inline-flex; gap: 0; border: 1px solid var(--grey-200); border-radius: 8px; overflow: hidden; }
+  .voice-toggle button { padding: 6px 12px; border: none; background: white; color: var(--grey-600); font-size: 12px; font-weight: 700; cursor: pointer; }
+  .voice-toggle button.on { background: var(--blue-500); color: white; }
+  .play-btn { padding: 6px 12px; border: 1px solid var(--grey-200); border-radius: 8px; background: white; color: var(--grey-700); font-size: 12px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; }
+  .play-btn:hover { border-color: var(--blue-500); color: var(--blue-500); }
+
+  /* 자료 첨부 (이미지) */
+  .upload-zone { border: 2px dashed var(--grey-300); border-radius: 10px; padding: 24px; text-align: center; color: var(--grey-500); font-size: 13px; cursor: pointer; }
+  .upload-zone:hover { border-color: var(--blue-500); color: var(--blue-500); background: var(--blue-50); }
+
+  /* 첨부 완료 미리보기 */
+  .upload-preview { border: 1px solid var(--grey-200); border-radius: 12px; padding: 12px; background: var(--grey-50); display: flex; gap: 14px; align-items: center; position: relative; }
+  .upload-preview .thumb { width: 84px; height: 84px; border-radius: 10px; background: linear-gradient(135deg, #e8f3ff 0%, #d1fae5 100%); flex-shrink: 0; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; border: 1px solid var(--grey-200); }
+  .upload-preview .thumb svg { width: 34px; height: 34px; color: var(--blue-500); opacity: 0.7; }
+  .upload-preview .thumb .placeholder-label { position: absolute; bottom: 4px; right: 6px; font-size: 9px; color: var(--grey-600); font-weight: 700; background: rgba(255,255,255,0.8); padding: 1px 5px; border-radius: 4px; }
+  .upload-preview .info { flex: 1; min-width: 0; }
+  .upload-preview .filename { font-size: 14px; font-weight: 700; color: var(--grey-900); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .upload-preview .meta { font-size: 12px; color: var(--grey-500); margin-top: 4px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .upload-preview .meta .dot { width: 3px; height: 3px; background: var(--grey-300); border-radius: 50%; }
+  .upload-preview .meta .ok { color: var(--green-500); font-weight: 700; display: inline-flex; align-items: center; gap: 3px; }
+  .upload-preview .actions { display: flex; gap: 6px; flex-shrink: 0; }
+  .upload-preview .btn-mini { background: white; border: 1px solid var(--grey-200); padding: 6px 10px; border-radius: 8px; font-size: 12px; font-weight: 700; color: var(--grey-700); cursor: pointer; transition: all 0.12s; }
+  .upload-preview .btn-mini:hover { border-color: var(--blue-500); color: var(--blue-500); }
+  .upload-preview .btn-mini.danger:hover { border-color: var(--red-500); color: var(--red-500); }
+  .upload-progress { height: 4px; background: var(--grey-200); border-radius: 999px; overflow: hidden; margin-top: 8px; display: none; }
+  .upload-progress.show { display: block; }
+  .upload-progress .bar { height: 100%; background: linear-gradient(90deg, var(--blue-500), var(--green-500)); border-radius: 999px; transition: width 0.3s; }
+  @media (max-width: 520px) {
+    .upload-preview { flex-direction: column; align-items: stretch; }
+    .upload-preview .thumb { width: 100%; height: 140px; }
+    .upload-preview .actions { justify-content: flex-end; }
+  }
+
+  /* 시간 설정 카드 */
+  .time-row { display: flex; align-items: center; gap: 10px; }
+  .time-row .label { margin: 0; min-width: 110px; }
+  .time-row .unit { font-size: 13px; color: var(--grey-600); }
+  .time-prep { color: var(--blue-500); font-weight: 800; }
+  .time-rec { color: var(--red-500); font-weight: 800; }
+
+  /* 가이드 박스 */
+  .guide-box { background: var(--blue-50); border-left: 4px solid var(--blue-500); border-radius: 0 8px 8px 0; padding: 10px 14px; font-size: 12.5px; color: var(--grey-700); margin-top: 10px; }
+
+  /* 펼침 섹션 */
+  .collapse-card { background: white; border-radius: 14px; box-shadow: 0 1px 3px rgba(15,23,42,0.04), 0 1px 2px rgba(15,23,42,0.06); margin-bottom: 14px; overflow: hidden; }
+  .collapse-head { padding: 14px 20px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; }
+  .collapse-head .label { margin: 0; font-size: 14px; font-weight: 800; color: var(--grey-900); }
+  .collapse-head .toggle-text { font-size: 12px; color: var(--blue-500); font-weight: 700; }
+  .collapse-body { padding: 0 20px 16px; display: none; }
+  .collapse-card.open .collapse-body { display: block; }
+
+  /* 분기별 표시 */
+
+  @media (max-width: 1024px) {
+    .sidebar { width: 64px; }
+    .sb-brand .name, .sb-brand .sub { display: none; }
+    .sb-group-title span:not(.icon) { display: none; }
+    .sb-item { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="sb-brand">
+    <div class="mark">K</div>
+    <div><div class="name">KoPASS</div><div class="sub">ADMIN</div></div>
+  </div>
+  <nav class="sb-nav">
+    <!-- 대시보드 (단독) -->
+    <a class="sb-link" href="ui-admin-dashboard.html">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>
+      <span>대시보드</span>
+    </a>
+    <!-- 응시자 -->
+    <div class="sb-group">
+      <div class="sb-group-title"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span>응시자</span></div>
+      <a class="sb-item" href="ui-admin-members.html">회원 목록</a>
+      <a class="sb-item" href="#">응시 결과</a>
+      <a class="sb-item" href="ui-admin-payments.html">결제 관리</a>
+    </div>
+    <!-- 회원 -->
+    <div class="sb-group">
+      <div class="sb-group-title"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>회원</span></div>
+      <a class="sb-item" href="#">관리자 계정</a>
+    </div>
+    <!-- 시험 -->
+    <div class="sb-group">
+      <div class="sb-group-title"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/></svg><span>시험</span></div>
+      <a class="sb-item" href="#">시험 목록</a>
+      <a class="sb-item" href="#">시험 등록</a>
+      <a class="sb-item" href="ui-admin-question-bank.html">문제 은행</a>
+      <a class="sb-item active" href="ui-admin-question-create.html">문제 만들기 <span class="star">★</span></a>
+    </div>
+    <!-- 설정 -->
+    <div class="sb-group">
+      <div class="sb-group-title"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg><span>설정</span></div>
+      <a class="sb-item" href="#">인증서 템플릿</a>
+      <a class="sb-item" href="#">공지 / FAQ</a>
+      <a class="sb-item" href="#">약관</a>
+      <a class="sb-item" href="#">보안</a>
+    </div>
+  </nav>
+</aside>
+
+<div class="main">
+  <header class="topbar">
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+    <div class="topbar-crumb">
+      시험 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+      <a href="ui-admin-question-bank.html">문제 은행</a>
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+      <strong>문제 만들기</strong>
+    </div>
+    <div class="topbar-spacer"></div>
+    <div class="topbar-profile">
+      <div class="avatar">조</div>
+      <span class="name">조찬현</span>
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+  </header>
+
+  <div class="main-row">
+
+  <div class="page">
+
+    <div class="page-head">
+      <div class="page-title">
+        <a href="ui-admin-question-bank.html" class="back-btn" title="목록으로"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg></a>
+        문제 만들기
+      </div>
+      <div class="page-actions">
+        <button class="btn btn-secondary">임시 저장</button>
+        <button class="btn btn-primary">등록</button>
+      </div>
+    </div>
+
+    <!-- 1. 시험 영역 선택 -->
+    <div class="card">
+      <div class="card-title"><span class="card-num">1</span> 시험 영역</div>
+      <div class="area-tabs" id="area-tabs">
+        <button class="area-tab active" data-area="1">① 짧은 문장 읽기 <span class="meta">10문항 · 20점</span></button>
+        <button class="area-tab" data-area="2">② 질문 대답 <span class="meta">5문항 · 30점</span></button>
+        <button class="area-tab" data-area="3">③ 생활 속 대화 <span class="meta">4문항 · 24점</span></button>
+        <button class="area-tab" data-area="4">④ 그림/사진 설명 <span class="meta">3문항 · 18점</span></button>
+        <button class="area-tab" data-area="5">⑤ 화용 과제 <span class="meta">1문항 · 8점</span></button>
+      </div>
+      <div class="guide-box">
+        단일 문항 1개 등록. 영역마다 배점·시간·지시문이 자동 적용됩니다. 시험지(23문항 묶음)는 「시험지 만들기」에서.
+      </div>
+    </div>
+
+    <!-- 2. 평가 기준 (영역별 자동) -->
+    <div class="collapse-card" id="rubric-card" style="margin-bottom: 16px;">
+      <div class="collapse-head" onclick="document.getElementById('rubric-card').classList.toggle('open')">
+        <label class="label">평가 기준 <span id="rubric-area-label" style="font-weight:600; color:var(--grey-500); margin-left:4px;">(영역 ①)</span></label>
+        <span class="toggle-text">펼치기 ▾</span>
+      </div>
+      <div class="collapse-body">
+        <div class="rubric-content" id="rubric-content">
+          <!-- JS가 영역별로 채움 -->
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. 등급 / 분류 -->
+    <div class="card">
+      <div class="card-title"><span class="card-num">2</span> 등급 &amp; 분류</div>
+
+      <!-- 등급 (binary, 시각 카드) -->
+      <div style="margin-bottom: 18px;">
+        <label class="label">등급</label>
+        <div class="grade-cards">
+          <label class="grade-card selected">
+            <input type="radio" name="grade" value="beginner" checked>
+            <div class="grade-dots"><span class="gdot on"></span><span class="gdot"></span></div>
+            <div class="grade-name">초급</div>
+            <div class="grade-desc">기본 표현·음운 규칙</div>
+          </label>
+          <label class="grade-card">
+            <input type="radio" name="grade" value="intermediate">
+            <div class="grade-dots"><span class="gdot on"></span><span class="gdot on"></span></div>
+            <div class="grade-name">중상급</div>
+            <div class="grade-desc">복잡한 문장·화용 능력</div>
+          </label>
+        </div>
+      </div>
+
+      <!-- 분류 (다중 선택 chip) -->
+      <div>
+        <div class="label-row" style="margin-bottom: 0;">
+          <label class="label">문제 분류 <span style="font-weight:500; color:var(--grey-500); margin-left:6px;">다중 선택 가능</span></label>
+        </div>
+        <div class="cat-chips" id="cat-chips">
+          <label class="cat-chip"><input type="checkbox" value="greeting"><span class="cat-check">✓</span>인사·소개</label>
+          <label class="cat-chip"><input type="checkbox" value="daily"><span class="cat-check">✓</span>일상·습관</label>
+          <label class="cat-chip"><input type="checkbox" value="food"><span class="cat-check">✓</span>음식·취향</label>
+          <label class="cat-chip"><input type="checkbox" value="hobby"><span class="cat-check">✓</span>취미·여가</label>
+          <label class="cat-chip"><input type="checkbox" value="culture"><span class="cat-check">✓</span>학습·문화</label>
+          <label class="cat-chip"><input type="checkbox" value="travel"><span class="cat-check">✓</span>여행·교통</label>
+          <label class="cat-chip"><input type="checkbox" value="shopping"><span class="cat-check">✓</span>쇼핑·소비</label>
+          <label class="cat-chip"><input type="checkbox" value="work"><span class="cat-check">✓</span>직장·학교</label>
+          <label class="cat-chip"><input type="checkbox" value="health"><span class="cat-check">✓</span>건강·신체</label>
+          <label class="cat-chip"><input type="checkbox" value="emotion"><span class="cat-check">✓</span>감정·표현</label>
+        </div>
+        <div class="cat-summary" id="cat-summary"><strong>0</strong>개 선택됨</div>
+      </div>
+    </div>
+
+    <!-- ===== 4. 영역별 동적 폼 ===== -->
+    <div class="form-area" id="form-area" data-area="1">
+
+      <!-- 한국어 지시문 (응시자 화면 노출) -->
+      <div class="compact-card">
+        <div class="label-row">
+          <label class="label">한국어 지시문 <span class="lang-label ko">KO</span></label>
+          <div class="tts-cluster">
+            <div class="voice-mini" data-tts="ko">
+              <button type="button" class="on" data-voice="male">남</button>
+              <button type="button" data-voice="female">여</button>
+            </div>
+            <button type="button" class="tts-mini">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              TTS
+            </button>
+          </div>
+        </div>
+        <p class="hint">영역 선택 시 자동 채워집니다. 수정 가능.</p>
+        <textarea class="textarea" id="input-instr-ko" style="min-height: 56px;"></textarea>
+      </div>
+
+      <!-- 일본어 지시문 (응시생 대상) -->
+      <div class="compact-card">
+        <div class="label-row">
+          <label class="label">일본어 지시문 <span class="lang-label ja">JA</span></label>
+          <div class="tts-cluster">
+            <div class="voice-mini" data-tts="ja">
+              <button type="button" class="on" data-voice="male">男</button>
+              <button type="button" data-voice="female">女</button>
+            </div>
+            <button type="button" class="tts-mini">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              TTS
+            </button>
+          </div>
+        </div>
+        <p class="hint">영역 선택 시 자동 채워집니다. 수정 가능.</p>
+        <textarea class="textarea" id="input-instr-ja" style="min-height: 56px;"></textarea>
+      </div>
+
+      <!-- ===== 영역 1. 짧은 문장 읽기 ===== -->
+      <div class="compact-card area-only" data-area="1">
+        <label class="label">한국어 문장 <span class="req">*</span></label>
+        <p class="hint">10초 안에 읽는 1문장. 인사·평서·의문·청유·복문 권장.</p>
+        <input type="text" class="input" id="area1-sentence" placeholder="예: 만나서 반갑습니다." value="만나서 반갑습니다.">
+        <div style="margin-top: 12px;">
+          <label class="label" style="font-size: 11px; color: var(--grey-500);">음운 규칙 태그 (선택, 다중)</label>
+          <div class="radio-row" style="margin-top: 4px; gap: 6px;">
+            <label class="radio-chip"><input type="checkbox"> 연음화</label>
+            <label class="radio-chip"><input type="checkbox"> 경음화 (된소리)</label>
+            <label class="radio-chip"><input type="checkbox"> 비음화</label>
+            <label class="radio-chip"><input type="checkbox"> 격음화 (거센소리)</label>
+            <label class="radio-chip"><input type="checkbox"> ㅎ 탈락</label>
+            <label class="radio-chip"><input type="checkbox"> 이중모음</label>
+            <label class="radio-chip"><input type="checkbox"> 겹받침</label>
+            <label class="radio-chip"><input type="checkbox"> 억양</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== 영역 2. 질문 대답 ===== -->
+      <div class="compact-card area-only" data-area="2">
+        <div class="label-row">
+          <label class="label">질문 <span class="req">*</span> <span class="hint" style="display:inline; margin-left:4px;">응시자에게 음성으로 재생</span></label>
+          <div class="tts-cluster">
+            <div class="voice-mini" data-tts="area2-q">
+              <button type="button" class="on" data-voice="male">남</button>
+              <button type="button" data-voice="female">여</button>
+            </div>
+            <button type="button" class="tts-mini">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              듣기
+            </button>
+          </div>
+        </div>
+        <input type="text" class="input" id="area2-question" placeholder="예: 보통 몇 시에 자요?" value="보통 몇 시에 자요?">
+        <div style="margin-top: 14px;">
+          <label class="label">모범 답안 <span class="req">*</span></label>
+          <p class="hint">1~5개 입력. AI 채점 시 의미 유사도 기준이 됩니다.</p>
+          <div class="answer-list" id="area2-answers">
+            <div class="answer-row">
+              <span class="num">1</span>
+              <textarea class="textarea" placeholder="예: 저는 보통 열 시에 자요.">저는 보통 열 시에 자요.</textarea>
+              <button class="del-mini">✕</button>
+            </div>
+            <div class="answer-row">
+              <span class="num">2</span>
+              <textarea class="textarea" placeholder="대체 답안">평일에는 열 시쯤 자고 주말에는 열두 시쯤 자요.</textarea>
+              <button class="del-mini">✕</button>
+            </div>
+          </div>
+          <button class="add-answer" style="margin-top: 8px;">+ 답안 추가</button>
+        </div>
+      </div>
+
+      <!-- ===== 영역 3. 생활 속 대화 ===== -->
+      <div class="compact-card area-only" data-area="3">
+        <label class="label">상황 일러스트 <span class="req">*</span></label>
+        <p class="hint">대화 상황 그림 (카페·서점·병원·길찾기 등)</p>
+        <div class="upload-slot" data-upload-slot>
+          <div class="upload-zone" style="padding: 16px;" data-upload-empty>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            <div style="font-size: 12px; margin-top: 4px;">클릭 또는 드래그</div>
+            <div style="font-size: 11px; color: var(--grey-400); margin-top: 4px;">PNG · JPG · WebP · 최대 5MB · 권장 1200×800</div>
+          </div>
+          <div class="upload-preview" data-upload-filled style="display: none;">
+            <div class="thumb">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5" fill="currentColor"/><polyline points="21 15 16 10 5 21"/></svg>
+              <span class="placeholder-label">미리보기</span>
+            </div>
+            <div class="info">
+              <div class="filename">cafe-counter-scene.png</div>
+              <div class="meta">
+                <span>1200 × 800</span><span class="dot"></span>
+                <span>312 KB</span><span class="dot"></span>
+                <span class="ok">✓ 업로드 완료</span>
+              </div>
+              <div class="upload-progress"><div class="bar" style="width: 100%;"></div></div>
+            </div>
+            <div class="actions">
+              <button type="button" class="btn-mini" data-upload-replace>교체</button>
+              <button type="button" class="btn-mini danger" data-upload-remove>삭제</button>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top: 14px;">
+          <div class="label-row">
+            <label class="label">상대 대사 <span class="req">*</span> <span class="hint" style="display:inline; margin-left:4px;">응시자에게 음성으로 재생</span></label>
+            <div class="tts-cluster">
+              <div class="voice-mini" data-tts="area3-line">
+                <button type="button" class="on" data-voice="male">남</button>
+                <button type="button" data-voice="female">여</button>
+              </div>
+              <button type="button" class="tts-mini">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                듣기
+              </button>
+            </div>
+          </div>
+          <p class="hint">예: 직원의 "주문하시겠습니까?"</p>
+          <input type="text" class="input" placeholder="상대(직원·의사 등)가 던지는 한 마디" value="주문하시겠습니까?">
+        </div>
+
+        <div style="margin-top: 14px;">
+          <label class="label">답변 풍선 (상황 지시) <span class="req">*</span></label>
+          <p class="hint">응시자가 답할 핵심 키워드 (그림 풍선으로 노출)</p>
+          <textarea class="textarea" placeholder="예: 따뜻한 커피 한 잔, 카드(로 계산)" style="min-height: 50px;">따뜻한 커피 한 잔, 카드(로 계산)</textarea>
+        </div>
+
+        <div style="margin-top: 14px;">
+          <label class="label">모범 답안 <span class="req">*</span></label>
+          <textarea class="textarea" placeholder="예: 네, 따뜻한 커피 한 잔 주세요. 그리고 카드로 부탁드립니다." style="min-height: 60px;"></textarea>
+        </div>
+      </div>
+
+      <!-- ===== 영역 4. 그림/사진 설명 ===== -->
+      <div class="compact-card area-only" data-area="4">
+        <label class="label">그림/사진 <span class="req">*</span></label>
+        <p class="hint">일과·풍경·과거/미래 사건 등을 설명할 이미지</p>
+        <div class="upload-slot" data-upload-slot>
+          <div class="upload-zone" style="padding: 16px;" data-upload-empty>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            <div style="font-size: 12px; margin-top: 4px;">클릭 또는 드래그</div>
+            <div style="font-size: 11px; color: var(--grey-400); margin-top: 4px;">PNG · JPG · WebP · 최대 5MB · 권장 1200×800</div>
+          </div>
+          <div class="upload-preview" data-upload-filled style="display: none;">
+            <div class="thumb">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5" fill="currentColor"/><polyline points="21 15 16 10 5 21"/></svg>
+              <span class="placeholder-label">미리보기</span>
+            </div>
+            <div class="info">
+              <div class="filename">daily-routine.jpg</div>
+              <div class="meta">
+                <span>1200 × 800</span><span class="dot"></span>
+                <span>284 KB</span><span class="dot"></span>
+                <span class="ok">✓ 업로드 완료</span>
+              </div>
+              <div class="upload-progress"><div class="bar" style="width: 100%;"></div></div>
+            </div>
+            <div class="actions">
+              <button type="button" class="btn-mini" data-upload-replace>교체</button>
+              <button type="button" class="btn-mini danger" data-upload-remove>삭제</button>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top: 14px;">
+          <label class="label">설명 주제 <span class="req">*</span></label>
+          <input type="text" class="input" placeholder="예: 하루 일과 / 공원 풍경 / 내년의 계획" value="하루 일과">
+        </div>
+
+        <div style="margin-top: 14px;">
+          <label class="label">모범 답안 <span class="req">*</span></label>
+          <p class="hint">40초 분량. 3~5문장 권장.</p>
+          <textarea class="textarea" placeholder="예: 저는 아침 7시에 일어납니다. 일어난 후 7시 15분쯤에 세수를 하고 하루를 시작합니다..." style="min-height: 90px;"></textarea>
+        </div>
+      </div>
+
+      <!-- ===== 영역 5. 화용 과제 ===== -->
+      <div class="compact-card area-only" data-area="5">
+        <label class="label">상황 설명 <span class="lang-label ja">JA</span> <span class="req">*</span></label>
+        <p class="hint">응시자에게 일본어로 제시되는 상황 (의뢰·사과·감사·조언·요청 등)</p>
+        <textarea class="textarea" placeholder="例：来週の授業で韓国語の発表をすることになりました。..." style="min-height: 88px;">来週の授業で韓国語の発表をすることになりました。発表の内容を一緒に練習したいので、留学生の「민지 씨」に協力をお願いしてみましょう。そのとき、「민지 씨」がいつなら練習できるか、どこで練習するのがいいかも聞いてみてください。</textarea>
+
+        <div style="margin-top: 14px;">
+          <label class="label">화행 유형</label>
+          <div class="radio-row" style="margin-top: 4px;">
+            <label class="radio-chip"><input type="radio" name="pragmatic-type" checked> 의뢰</label>
+            <label class="radio-chip"><input type="radio" name="pragmatic-type"> 사과</label>
+            <label class="radio-chip"><input type="radio" name="pragmatic-type"> 감사</label>
+            <label class="radio-chip"><input type="radio" name="pragmatic-type"> 조언</label>
+            <label class="radio-chip"><input type="radio" name="pragmatic-type"> 요청</label>
+          </div>
+        </div>
+
+        <div style="margin-top: 14px;">
+          <label class="label">모범 답안 <span class="req">*</span></label>
+          <p class="hint">50초 분량. 화행 표현 + 상황 핵심 정보 포함.</p>
+          <textarea class="textarea" placeholder="예: 민지 씨, 안녕하세요? 다음 주 수업에서 한국어 발표를 해야 하는데..." style="min-height: 90px;"></textarea>
+        </div>
+      </div>
+
+      <!-- 시간 설정 (영역별 자동 잠금) -->
+      <div class="compact-card">
+        <div class="label-row">
+          <label class="label">시간 설정</label>
+          <span class="lock-pill"><svg class="lock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>영역별 권장값</span>
+        </div>
+        <p class="hint">수정 가능하나 시험 일관성에 영향. 권장값에서 벗어나면 경고가 표시됩니다.</p>
+        <div class="time-pair" style="margin-top: 10px;">
+          <div class="time-cell prep">
+            <div class="label">준비</div>
+            <div class="row">
+              <input type="number" id="time-prep" value="0" min="0" max="120">
+              <span class="unit">초</span>
+            </div>
+          </div>
+          <div class="time-cell record">
+            <div class="label">발화/녹음</div>
+            <div class="row">
+              <input type="number" id="time-record" value="10" min="5" max="180">
+              <span class="unit">초</span>
+            </div>
+          </div>
+        </div>
+        <p id="time-warn" class="hint" style="margin-top: 8px; color: var(--orange-500); display: none;">⚠ 영역 권장값과 다릅니다. (권장: 준비 <span id="rec-prep">0</span>초 · 녹음 <span id="rec-rec">10</span>초)</p>
+      </div>
+
+      <!-- 배점 (편집 가능, 영역 권장값에서 변경 시 경고) -->
+      <div class="compact-card">
+        <div class="label-row">
+          <label class="label">배점</label>
+          <span class="hint" style="font-size:11px; display:inline;">영역 권장값에서 변경 가능</span>
+        </div>
+        <div class="score-edit">
+          <div class="score-cell">
+            <div class="score-cell-label">문항 수</div>
+            <div class="score-cell-row">
+              <input type="number" id="score-count" value="10" min="1" max="50">
+              <span class="unit">문항</span>
+            </div>
+          </div>
+          <div class="score-op">×</div>
+          <div class="score-cell">
+            <div class="score-cell-label">점/문항</div>
+            <div class="score-cell-row">
+              <input type="number" id="score-per" value="2" min="1" max="100">
+              <span class="unit">점</span>
+            </div>
+          </div>
+          <div class="score-op">=</div>
+          <div class="score-cell total">
+            <div class="score-cell-label">총점</div>
+            <div class="score-cell-row">
+              <span class="score-total-val" id="score-total">20</span>
+              <span class="unit" style="color:var(--blue-600);">점</span>
+            </div>
+          </div>
+        </div>
+        <p id="score-warn" class="hint" style="margin-top: 8px; color: var(--orange-500); display: none;">⚠ 영역 권장값과 다릅니다. (권장: <span id="rec-score-count">10</span>문항 × <span id="rec-score-per">2</span>점 = <span id="rec-score-total">20</span>점)</p>
+      </div>
+
+      <!-- 고급 펼침 -->
+      <div class="collapse-card" id="adv-card">
+        <div class="collapse-head" onclick="document.getElementById('adv-card').classList.toggle('open')">
+          <label class="label">고급 (멘트·비프음 커스텀)</label>
+          <span class="toggle-text">펼치기 ▾</span>
+        </div>
+        <div class="collapse-body">
+          <div style="display: flex; flex-direction: column; gap: 12px;">
+            <div>
+              <label class="label">시간 안내 멘트 (직접 작성)</label>
+              <textarea class="textarea" placeholder="비워두면 자동 생성. 직접 입력 시 자동 생성 무시." style="min-height: 50px;"></textarea>
+            </div>
+            <div>
+              <label class="label">비프음</label>
+              <div class="voice-toggle"><button class="on">기본</button><button>업로드</button></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- 하단 액션 -->
+    <div style="display:flex; justify-content:flex-end; gap:8px; padding: 16px 0 32px;">
+      <button class="btn btn-secondary">취소</button>
+      <button class="btn btn-secondary">임시 저장</button>
+      <button class="btn btn-primary">등록</button>
+    </div>
+
+  </div>
+
+  <!-- 우측 미리보기 사이드바 (영역 선택 시 모바일 응시 시뮬레이션) -->
+  <aside class="preview-sidebar" id="preview-sidebar" data-area="1">
+
+    <!-- 툴바 (라벨 + 재생) -->
+    <div class="preview-toolbar">
+      <span class="label">응시자 화면 (모바일)</span>
+      <button class="play-all-btn" id="play-all-btn">
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        재생
+      </button>
+    </div>
+
+    <!-- 핸드폰 frame -->
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="phone-screen">
+
+        <!-- 상태바 -->
+        <div class="phone-status">
+          <span>9:41</span>
+          <span class="battery"></span>
+        </div>
+
+        <!-- 앱 헤더 (점수·영역·문항·진행) -->
+        <div class="phone-app-header">
+          <div class="app-meta">
+            <span class="b-mini" style="background: var(--blue-50); color: var(--blue-600);" id="mock-score">2점</span>
+            <span class="b-mini" style="background: var(--grey-100); color: var(--grey-700);" id="mock-type-label">짧은 문장 읽기</span>
+            <span class="b-mini" style="background: var(--grey-100); color: var(--grey-700);">1번 문항</span>
+          </div>
+          <div class="app-progress">
+            <div class="app-progress-bar"><div class="app-progress-fill" id="mock-progress-fill"></div></div>
+            <span class="app-time" id="mock-total">00:10</span>
+          </div>
+        </div>
+
+        <!-- 본문 -->
+        <div class="phone-body">
+
+          <!-- 단계 chip -->
+          <span class="stage-chip prep" id="mock-pill">
+            <span class="dot"></span>
+            <span id="mock-stage-label">안내 중</span>
+          </span>
+
+          <!-- 지시문 박스 (지시문 단계만) -->
+          <div class="mock-instr-box" id="mock-instr-box">
+            <span id="mock-instr-text">화면에 보이는 문장을 읽어 주세요.</span><br>
+            <strong id="mock-time-hint">바로 답해 주세요.</strong> '삐' 소리 후 <span style="color:var(--red-500); font-weight:700;" id="mock-rec-hint">10초 동안</span> 말하십시오.
+          </div>
+
+          <!-- ===== 영역 1. 짧은 문장 (큰 한국어 문장) ===== -->
+          <div class="area-mock area-mock-1">
+            <div class="big-sentence" id="area1-mock-text">만나서 반갑습니다.</div>
+          </div>
+
+          <!-- ===== 영역 2. 질문 듣기 (오디오 + 질문) ===== -->
+          <div class="area-mock area-mock-2">
+            <div class="audio-pulse">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 7.97v8.05a4.5 4.5 0 0 0 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+            </div>
+            <div class="audio-label">질문이 음성으로 재생됩니다</div>
+            <div class="audio-q" id="area2-mock-text">보통 몇 시에 자요?</div>
+          </div>
+
+          <!-- ===== 영역 3. 생활 속 대화 (상황 일러스트 + 말풍선) ===== -->
+          <div class="area-mock area-mock-3">
+            <div class="dialog-illust">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+              <div>상황 일러스트</div>
+            </div>
+            <div class="dialog-balloon">"주문하시겠습니까?"</div>
+            <div class="dialog-hint">💬 따뜻한 커피 한 잔, 카드(로 계산)</div>
+          </div>
+
+          <!-- ===== 영역 4. 그림/사진 (큰 이미지) ===== -->
+          <div class="area-mock area-mock-4">
+            <div class="big-image">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+              <div>그림/사진 자료</div>
+            </div>
+          </div>
+
+          <!-- ===== 영역 5. 화용 과제 (일본어 상황 박스) ===== -->
+          <div class="area-mock area-mock-5">
+            <div class="situation-box">
+              <span class="sit-lang">JA</span>
+              <p id="area5-mock-text">来週の授業で韓国語の発表をすることになりました。発表の内容を一緒に練習したいので、留学生の「민지 씨」に協力をお願いしてみましょう。</p>
+            </div>
+          </div>
+
+          <!-- 준비 타이머 -->
+          <div class="mock-timer prep" id="mock-timer-prep" style="display: none;">
+            <div class="mock-timer-label">준비 시간</div>
+            <div class="mock-timer-value" id="mock-timer-prep-val">00:00</div>
+          </div>
+
+          <!-- 녹음 타이머 -->
+          <div class="mock-timer record" id="mock-timer-record" style="display: none;">
+            <div class="mock-timer-label">녹음 시간</div>
+            <div class="mock-timer-value" id="mock-timer-record-val">00:10</div>
+            <div class="mock-waveform"><div class="mock-wf"></div><div class="mock-wf"></div><div class="mock-wf"></div><div class="mock-wf"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 하단 미니멀 컨트롤 (단계 탭 + 가로 타임라인) -->
+    <div class="preview-controls">
+      <div class="stage-tabs">
+        <button class="stage-tab active" data-stage="instr">안내</button>
+        <button class="stage-tab" data-stage="prep">준비</button>
+        <button class="stage-tab" data-stage="record">녹음</button>
+      </div>
+      <div class="timeline">
+        <div class="timeline-track">
+          <div class="timeline-seg prep-seg" id="seg-prep" style="flex: 0;">준비 0s</div>
+          <div class="timeline-seg beep-seg" title="비프음">▼</div>
+          <div class="timeline-seg rec-seg" id="seg-record" style="flex: 10;">녹음 10s</div>
+          <div class="timeline-cursor" id="timeline-cursor"></div>
+        </div>
+        <div class="timeline-labels">
+          <span>00:00</span>
+          <span id="timeline-end">00:10</span>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  </div>
+</div>
+
+<a href="ui-index.html" style="position:fixed;bottom:20px;left:20px;background:rgba(15,23,42,0.85);color:white;padding:8px 14px;border-radius:999px;text-decoration:none;font-size:12px;font-weight:600;backdrop-filter:blur(8px);z-index:40;">← UI 인덱스</a>
+
+<script>
+  // ─── 영역별 설정 (251020 ver.3 기준) ───
+  const AREAS = {
+    1: { count:10, perScore:2, total:20, prep:0, rec:10, label:'① 짧은 문장 읽기', kind:'text',
+         instrKo:'화면에 보이는 문장을 읽어 주세요. "삐" 소리 후 10초 안에 답하세요.',
+         instrJa:'画面に表示される文を読んでください。「ピー」という音の後、10秒以内に答えてください。' },
+    2: { count:5, perScore:6, total:30, prep:10, rec:20, label:'② 질문 대답', kind:'text',
+         instrKo:'질문을 듣고 답해 주세요. 질문은 두 번 들을 수 있습니다. 10초간 답을 생각한 뒤 "삐" 소리 후 20초 안에 답하세요.',
+         instrJa:'質問を聞き、答えてください。質問は2回聞くことができます。10秒間答えを考えた後、「ピー」という音の後、20秒以内で答えてください。' },
+    3: { count:4, perScore:6, total:24, prep:20, rec:20, label:'③ 생활 속 대화', kind:'image',
+         instrKo:'주어진 상황과 질문을 듣고 대화해 주세요. 질문은 두 번 들을 수 있습니다. 20초간 답을 생각한 뒤 "삐" 소리 후 20초 안에 말하세요.',
+         instrJa:'与えられた状況と質問を聞き、会話してください。質問は2回聞くことができます。20秒間答えを考えた後、「ピー」という音の後、20秒以内で話してください。' },
+    4: { count:3, perScore:6, total:18, prep:30, rec:40, label:'④ 그림/사진 설명', kind:'image',
+         instrKo:'주어진 그림/사진을 보고 설명해 주세요. 30초간 답을 생각한 뒤 "삐" 소리 후 40초 안에 말하세요.',
+         instrJa:'与えられた絵/写真を見て、説明してください。30秒間答えを考えた後、「ピー」という音の後、40秒以内で話してください。' },
+    5: { count:1, perScore:8, total:8, prep:40, rec:50, label:'⑤ 화용 과제', kind:'text',
+         instrKo:'주어진 상황 설명을 읽고 적절히 표현해 주세요. 40초간 답을 생각한 뒤 "삐" 소리 후 50초 안에 말하세요.',
+         instrJa:'与えられた状況の説明を読み、まず40秒間答えを考えます。その後「ピー」という音の後、50秒以内で話してください。' },
+  };
+
+  const RUBRICS = {
+    1: '<p>발음(모음·자음·음운규칙) 및 문장적 특성(끊어 읽기·억양), 이해 가능성</p>' +
+       '<table><thead><tr><th>점수</th><th>기준</th></tr></thead><tbody>' +
+       '<tr><td class="score-cell">0</td><td>어색한 발음과 문장적 특성으로 이해 가능성에 지장</td></tr>' +
+       '<tr><td class="score-cell">1</td><td>어색한 발음/특성이 있으나 이해 가능</td></tr>' +
+       '<tr><td class="score-cell">2</td><td>발음과 문장적 특성이 전체적으로 자연스러움</td></tr>' +
+       '</tbody></table>',
+    2: '<p><strong>발음</strong>, <strong>어휘/문법</strong>, <strong>내용/구성</strong> 3축 (각 0~2점)</p>' +
+       '<table><thead><tr><th>점수</th><th>내용/구성</th></tr></thead><tbody>' +
+       '<tr><td class="score-cell">0</td><td>질문에 대해 거의 답하지 못함</td></tr>' +
+       '<tr><td class="score-cell">1</td><td>단어 수준 답, 문장 구성 못 함</td></tr>' +
+       '<tr><td class="score-cell">2</td><td>정확한 문장으로 적절히 대답</td></tr>' +
+       '</tbody></table>',
+    3: '<p><strong>발음</strong>, <strong>어휘/문법</strong>, <strong>내용/구성</strong> 3축 (각 0~2점)</p>' +
+       '<table><thead><tr><th>점수</th><th>내용/구성</th></tr></thead><tbody>' +
+       '<tr><td class="score-cell">0</td><td>거의 답하지 못함</td></tr>' +
+       '<tr><td class="score-cell">1</td><td>부분적 답, 문장 미완성</td></tr>' +
+       '<tr><td class="score-cell">2</td><td>답변 상황을 모두, 정확한 문장으로 적절히 대답</td></tr>' +
+       '</tbody></table>',
+    4: '<p><strong>발음</strong>, <strong>어휘/문법</strong>, <strong>내용/구성</strong> 3축 (각 0~2점)</p>' +
+       '<table><thead><tr><th>점수</th><th>내용/구성</th></tr></thead><tbody>' +
+       '<tr><td class="score-cell">0</td><td>상황 전개/묘사를 거의 설명 못 함</td></tr>' +
+       '<tr><td class="score-cell">1</td><td>부분적 답, 문장 미완성</td></tr>' +
+       '<tr><td class="score-cell">2</td><td>그림/사진 내용을 모두 정확한 문장으로 설명</td></tr>' +
+       '</tbody></table>',
+    5: '<p><strong>발음</strong>, <strong>어휘/문법</strong>, <strong>내용/구성</strong>, <strong>화용 능력</strong> 4축 (각 0~2점)</p>' +
+       '<table><thead><tr><th>점수</th><th>화용 능력</th></tr></thead><tbody>' +
+       '<tr><td class="score-cell">0</td><td>요구되는 화행이 전혀 나타나지 않거나 의도 파악 안 됨</td></tr>' +
+       '<tr><td class="score-cell">1</td><td>화행이 일부 나타나나 상황에 안 맞거나 불완전</td></tr>' +
+       '<tr><td class="score-cell">2</td><td>화행이 적절히 나타나며 상황·맥락에 맞게 사용</td></tr>' +
+       '</tbody></table>',
+  };
+
+  const formArea = document.getElementById('form-area');
+  const previewSidebar = document.getElementById('preview-sidebar');
+  const areaTabs = document.querySelectorAll('.area-tab');
+
+  const $instrKo = document.getElementById('input-instr-ko');
+  const $instrJa = document.getElementById('input-instr-ja');
+  const $timePrep = document.getElementById('time-prep');
+  const $timeRec = document.getElementById('time-record');
+  const $timeWarn = document.getElementById('time-warn');
+  const $recPrep = document.getElementById('rec-prep');
+  const $recRec = document.getElementById('rec-rec');
+  const $scoreCount = document.getElementById('score-count');
+  const $scorePer = document.getElementById('score-per');
+  const $scoreTotal = document.getElementById('score-total');
+  const $scoreWarn = document.getElementById('score-warn');
+  const $recScoreCount = document.getElementById('rec-score-count');
+  const $recScorePer = document.getElementById('rec-score-per');
+  const $recScoreTotal = document.getElementById('rec-score-total');
+  const $rubricLabel = document.getElementById('rubric-area-label');
+  const $rubricContent = document.getElementById('rubric-content');
+
+  const $mockTypeLabel = document.getElementById('mock-type-label');
+  const $mockScore = document.getElementById('mock-score');
+  const $mockInstrText = document.getElementById('mock-instr-text');
+  const $mockTimeHint = document.getElementById('mock-time-hint');
+  const $mockRecHint = document.getElementById('mock-rec-hint');
+  const $area1Mock = document.getElementById('area1-mock-text');
+  const $area2Mock = document.getElementById('area2-mock-text');
+  const $area5Mock = document.getElementById('area5-mock-text');
+  const $mockTimerPrepVal = document.getElementById('mock-timer-prep-val');
+  const $mockTimerRecVal = document.getElementById('mock-timer-record-val');
+  const $mockTotal = document.getElementById('mock-total');
+  const $segPrep = document.getElementById('seg-prep');
+  const $segRec = document.getElementById('seg-record');
+  const $tlEnd = document.getElementById('timeline-end');
+
+  let currentArea = 1;
+
+  function fmtTime(sec) {
+    sec = Math.max(0, Math.round(sec));
+    const m = Math.floor(sec / 60);
+    const s = sec % 60;
+    return String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+  }
+
+  function syncAreaMockText() {
+    // 영역별 mock 내부 텍스트를 입력 폼 값으로 동기화
+    if ($area1Mock) $area1Mock.textContent = document.getElementById('area1-sentence').value || '만나서 반갑습니다.';
+    if ($area2Mock) $area2Mock.textContent = document.getElementById('area2-question').value || '보통 몇 시에 자요?';
+    if ($area5Mock) {
+      const ta = document.querySelector('.area-only[data-area="5"] textarea');
+      $area5Mock.textContent = (ta && ta.value) || '상황 설명';
+    }
+  }
+
+  function applyArea(n) {
+    currentArea = n;
+    const cfg = AREAS[n];
+
+    areaTabs.forEach(t => t.classList.toggle('active', +t.dataset.area === n));
+    formArea.dataset.area = n;
+    previewSidebar.dataset.area = n;
+    previewSidebar.classList.add('show');
+
+    // 지시문 자동 채움 (운영자 수동 입력 보호)
+    if ($instrKo.dataset.auto !== '0') {
+      $instrKo.value = cfg.instrKo;
+      $instrKo.dataset.auto = '1';
+    }
+    if ($instrJa.dataset.auto !== '0') {
+      $instrJa.value = cfg.instrJa;
+      $instrJa.dataset.auto = '1';
+    }
+    // 시간 자동 (운영자 수동 입력 보호)
+    if ($timePrep.dataset.auto !== '0') {
+      $timePrep.value = cfg.prep;
+      $timePrep.dataset.auto = '1';
+    }
+    if ($timeRec.dataset.auto !== '0') {
+      $timeRec.value = cfg.rec;
+      $timeRec.dataset.auto = '1';
+    }
+    $recPrep.textContent = cfg.prep;
+    $recRec.textContent = cfg.rec;
+
+    // 배점 자동 (운영자 수동 입력 보호)
+    if ($scoreCount.dataset.auto !== '0') {
+      $scoreCount.value = cfg.count;
+      $scoreCount.dataset.auto = '1';
+    }
+    if ($scorePer.dataset.auto !== '0') {
+      $scorePer.value = cfg.perScore;
+      $scorePer.dataset.auto = '1';
+    }
+    $recScoreCount.textContent = cfg.count;
+    $recScorePer.textContent = cfg.perScore;
+    $recScoreTotal.textContent = cfg.total;
+    syncScoreTotal();
+
+    $rubricLabel.textContent = '(' + cfg.label + ')';
+    $rubricContent.innerHTML = RUBRICS[n];
+
+    // 앱 헤더의 영역 이름(짧게) + 점수
+    $mockTypeLabel.textContent = cfg.label.replace(/^[①②③④⑤]\s*/, '');
+    $mockScore.textContent = cfg.perScore + '점';
+
+    syncMock();
+    checkTimeWarn();
+    setStage('instr');
+  }
+
+  function syncMock() {
+    const tp = parseInt($timePrep.value) || 0;
+    const tr = parseInt($timeRec.value) || 0;
+    $mockInstrText.textContent = $instrKo.value || '';
+    $mockTimeHint.textContent = (tp > 0 ? tp + '초 동안 준비하십시오.' : '바로 답해 주세요.');
+    $mockRecHint.textContent = tr + '초 동안';
+    $mockTimerPrepVal.textContent = fmtTime(tp);
+    $mockTimerRecVal.textContent = fmtTime(tr);
+    $mockTotal.textContent = fmtTime(tp + tr);
+    $tlEnd.textContent = fmtTime(tp + tr);
+    $segPrep.style.flex = String(Math.max(1, tp));
+    $segRec.style.flex = String(Math.max(1, tr));
+    $segPrep.style.display = tp > 0 ? '' : 'none';
+    $segPrep.textContent = '준비 ' + tp + 's';
+    $segRec.textContent = '녹음 ' + tr + 's';
+    syncAreaMockText();
+  }
+
+  function checkTimeWarn() {
+    const cfg = AREAS[currentArea];
+    const tp = parseInt($timePrep.value) || 0;
+    const tr = parseInt($timeRec.value) || 0;
+    $timeWarn.style.display = (tp !== cfg.prep || tr !== cfg.rec) ? 'block' : 'none';
+  }
+
+  function syncScoreTotal() {
+    const cnt = parseInt($scoreCount.value) || 0;
+    const per = parseInt($scorePer.value) || 0;
+    $scoreTotal.textContent = cnt * per;
+    const cfg = AREAS[currentArea];
+    $scoreWarn.style.display = (cnt !== cfg.count || per !== cfg.perScore) ? 'block' : 'none';
+    // 미리보기 mock의 점/문항 갱신
+    if ($mockScore) $mockScore.textContent = per + '점';
+  }
+
+  // 탭 클릭
+  areaTabs.forEach(t => {
+    t.addEventListener('click', () => applyArea(+t.dataset.area));
+  });
+
+  // 입력 변경 (수동 플래그)
+  $instrKo.addEventListener('input', () => { $instrKo.dataset.auto = '0'; syncMock(); });
+  $instrJa.addEventListener('input', () => { $instrJa.dataset.auto = '0'; });
+  $timePrep.addEventListener('input', () => { $timePrep.dataset.auto = '0'; syncMock(); checkTimeWarn(); });
+  $timeRec.addEventListener('input', () => { $timeRec.dataset.auto = '0'; syncMock(); checkTimeWarn(); });
+  $scoreCount.addEventListener('input', () => { $scoreCount.dataset.auto = '0'; syncScoreTotal(); });
+  $scorePer.addEventListener('input', () => { $scorePer.dataset.auto = '0'; syncScoreTotal(); });
+
+  // 영역별 메인 콘텐츠 → mock 반영
+  document.addEventListener('input', (e) => {
+    if (e.target.matches('#area1-sentence, #area2-question') ||
+        e.target.closest('.area-only[data-area="5"]')) {
+      syncMock();
+    }
+  });
+
+  // ─── mock 단계 탭 ───
+  const stageTabs = document.querySelectorAll('.stage-tab');
+  const $mockPill = document.getElementById('mock-pill');
+  const $mockStageLabel = document.getElementById('mock-stage-label');
+  const $mockProgressFill = document.getElementById('mock-progress-fill');
+  const $mockInstrBox = document.getElementById('mock-instr-box');
+  const $mockTimerPrep = document.getElementById('mock-timer-prep');
+  const $mockTimerRec = document.getElementById('mock-timer-record');
+
+  function setStage(stage) {
+    stageTabs.forEach(t => t.classList.toggle('active', t.dataset.stage === stage));
+    if (stage === 'instr') {
+      $mockPill.classList.remove('record'); $mockPill.classList.add('prep');
+      $mockStageLabel.textContent = '안내 중';
+      $mockInstrBox.style.display = 'block';
+      $mockTimerPrep.style.display = 'none'; $mockTimerRec.style.display = 'none';
+      $mockProgressFill.style.width = '5%';
+    } else if (stage === 'prep') {
+      $mockPill.classList.remove('record'); $mockPill.classList.add('prep');
+      $mockStageLabel.textContent = '준비 중';
+      $mockInstrBox.style.display = 'none';
+      $mockTimerPrep.style.display = 'block'; $mockTimerRec.style.display = 'none';
+      $mockProgressFill.style.width = '40%';
+    } else if (stage === 'record') {
+      $mockPill.classList.remove('prep'); $mockPill.classList.add('record');
+      $mockStageLabel.textContent = '녹음 중';
+      $mockInstrBox.style.display = 'none';
+      $mockTimerPrep.style.display = 'none'; $mockTimerRec.style.display = 'block';
+      $mockProgressFill.style.width = '80%';
+    }
+  }
+  stageTabs.forEach(t => t.addEventListener('click', () => setStage(t.dataset.stage)));
+
+  // ─── 시나리오 재생 ───
+  const $playBtn = document.getElementById('play-all-btn');
+  const $cursor = document.getElementById('timeline-cursor');
+  let playTimer = null;
+  let playStart = 0;
+
+  function stopPlay() {
+    if (playTimer) { clearInterval(playTimer); playTimer = null; }
+    $playBtn.classList.remove('playing');
+    $playBtn.innerHTML = '<svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg> 재생';
+    $cursor.classList.remove('show');
+  }
+
+  function startPlay() {
+    const tp = parseInt($timePrep.value) || 0;
+    const tr = parseInt($timeRec.value) || 0;
+    const total = tp + tr;
+    if (total <= 0) return;
+    $playBtn.classList.add('playing');
+    $playBtn.innerHTML = '<svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="6" width="12" height="12" rx="1"/></svg> 정지';
+    $cursor.classList.add('show');
+    playStart = Date.now();
+    setStage(tp > 0 ? 'prep' : 'record');
+    playTimer = setInterval(() => {
+      const cur = (Date.now() - playStart) / 1000;
+      if (cur < tp) { setStage('prep'); $mockTimerPrepVal.textContent = fmtTime(tp - cur); }
+      else if (cur < total) { setStage('record'); $mockTimerRecVal.textContent = fmtTime(total - cur); }
+      else { stopPlay(); setStage('instr'); syncMock(); return; }
+      const pct = Math.min(100, (cur / total) * 100);
+      $cursor.style.left = pct + '%';
+      $mockProgressFill.style.width = pct + '%';
+    }, 100);
+  }
+
+  $playBtn.addEventListener('click', () => {
+    if (playTimer) { stopPlay(); setStage('instr'); syncMock(); }
+    else startPlay();
+  });
+
+  // 등급 chip
+  // 등급 카드
+  document.querySelectorAll('input[name="grade"]').forEach(r => {
+    r.addEventListener('change', () => {
+      document.querySelectorAll('.grade-card').forEach(c => c.classList.remove('selected'));
+      r.closest('.grade-card').classList.add('selected');
+    });
+  });
+
+  // 분류 chip (다중 선택)
+  const $catSummary = document.getElementById('cat-summary');
+  function updateCatSummary() {
+    const checked = document.querySelectorAll('#cat-chips input:checked');
+    const names = Array.from(checked).map(c => c.closest('.cat-chip').textContent.replace('✓', '').trim());
+    if (checked.length === 0) {
+      $catSummary.innerHTML = '<strong>0</strong>개 선택됨';
+    } else {
+      $catSummary.innerHTML = '<strong>' + checked.length + '</strong>개 선택됨 · ' + names.join(', ');
+    }
+  }
+  document.querySelectorAll('#cat-chips input').forEach(cb => {
+    cb.addEventListener('change', () => {
+      cb.closest('.cat-chip').classList.toggle('selected', cb.checked);
+      updateCatSummary();
+    });
+  });
+
+  // voice toggle (비프음)
+  document.querySelectorAll('.voice-toggle').forEach(g => {
+    g.querySelectorAll('button').forEach(b => {
+      b.addEventListener('click', () => {
+        g.querySelectorAll('button').forEach(bb => bb.classList.remove('on'));
+        b.classList.add('on');
+      });
+    });
+  });
+
+  // TTS 음성 (남/여 mini toggle)
+  document.querySelectorAll('.voice-mini').forEach(g => {
+    g.querySelectorAll('button').forEach(b => {
+      b.addEventListener('click', () => {
+        g.querySelectorAll('button').forEach(bb => bb.classList.remove('on'));
+        b.classList.add('on');
+      });
+    });
+  });
+
+  // 답안 추가 / 삭제 (영역 2)
+  document.addEventListener('click', (e) => {
+    if (e.target.closest('.add-answer')) {
+      const list = e.target.closest('.area-only').querySelector('.answer-list');
+      if (list.children.length >= 5) return;
+      const n = list.children.length + 1;
+      const row = document.createElement('div');
+      row.className = 'answer-row';
+      row.innerHTML = '<span class="num">' + n + '</span><textarea class="textarea" placeholder="대체 답안"></textarea><button class="del-mini">✕</button>';
+      list.appendChild(row);
+    }
+    if (e.target.classList.contains('del-mini')) {
+      const row = e.target.closest('.answer-row');
+      const list = row.parentElement;
+      if (list.children.length > 1) {
+        row.remove();
+        Array.from(list.children).forEach((r, i) => { r.querySelector('.num').textContent = i + 1; });
+      }
+    }
+  });
+
+  // 초기
+  applyArea(1);
+
+  // ── 이미지 첨부 — 빈 ↔ 첨부 상태 토글 (정적 시안 데모) ──
+  document.querySelectorAll('[data-upload-slot]').forEach(slot => {
+    const empty = slot.querySelector('[data-upload-empty]');
+    const filled = slot.querySelector('[data-upload-filled]');
+    const progress = filled.querySelector('.upload-progress');
+    const bar = filled.querySelector('.upload-progress .bar');
+    const okBadge = filled.querySelector('.meta .ok');
+
+    function showFilled(simulate) {
+      empty.style.display = 'none';
+      filled.style.display = 'flex';
+      if (simulate) {
+        // 업로드 진행 시뮬레이션
+        progress.classList.add('show');
+        okBadge.textContent = '⏳ 업로드 중';
+        okBadge.style.color = '#2272eb';
+        bar.style.width = '0%';
+        let w = 0;
+        const iv = setInterval(() => {
+          w += 12 + Math.random() * 18;
+          if (w >= 100) {
+            w = 100;
+            clearInterval(iv);
+            bar.style.width = '100%';
+            setTimeout(() => {
+              progress.classList.remove('show');
+              okBadge.textContent = '✓ 업로드 완료';
+              okBadge.style.color = '#03b26c';
+            }, 300);
+          } else {
+            bar.style.width = w + '%';
+          }
+        }, 150);
+      }
+    }
+    function showEmpty() {
+      filled.style.display = 'none';
+      empty.style.display = 'block';
+      progress.classList.remove('show');
+      bar.style.width = '100%';
+      okBadge.textContent = '✓ 업로드 완료';
+      okBadge.style.color = '#03b26c';
+    }
+
+    empty.addEventListener('click', () => showFilled(true));
+    filled.querySelector('[data-upload-replace]').addEventListener('click', (e) => {
+      e.stopPropagation();
+      showFilled(true);
+    });
+    filled.querySelector('[data-upload-remove]').addEventListener('click', (e) => {
+      e.stopPropagation();
+      showEmpty();
+    });
+  });
+</script>
+
+</body>
+</html>

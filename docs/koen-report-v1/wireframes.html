@@ -1,0 +1,1049 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KoPASS IBT 와이어프레임 v1 초안</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  :root {
+    --black: #000000;
+    --white: #ffffff;
+    --hover-gray: #e2e2e2;
+    --chip-gray: #efefef;
+    --body-gray: #4b4b4b;
+    --muted-gray: #afafaf;
+  }
+  html, body { font-family: "Pretendard Variable", "Pretendard JP Variable", Pretendard, system-ui, -apple-system, "Helvetica Neue", Helvetica, Arial, sans-serif; }
+  body { background: var(--white); color: var(--black); -webkit-font-smoothing: antialiased; }
+  .wf-canvas { background: var(--white); min-height: 100vh; padding: 56px 40px 64px; overflow-y: auto; }
+  .wf-frame { max-width: 1136px; margin: 0 auto; }
+  .wf-frame.mobile { max-width: 390px; }
+
+  /* Wireframe styling — Uber 흑백 보고용 톤 */
+  .wf-box { border: 1.5px dashed var(--black); background: var(--white); border-radius: 8px; padding: 16px; }
+  .wf-box-solid { border: 1px solid var(--black); background: var(--white); border-radius: 8px; padding: 16px; }
+  .wf-fill { background: var(--chip-gray); border: 1px solid var(--hover-gray); border-radius: 6px; }
+  .wf-label { font-size: 11px; color: var(--muted-gray); font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px; }
+  .wf-text { color: var(--body-gray); font-size: 13px; line-height: 1.55; }
+  .wf-title { color: var(--black); font-weight: 700; }
+  .wf-cta { background: var(--black); color: var(--white); padding: 10px 18px; border-radius: 999px; font-weight: 500; font-size: 13px; display: inline-block; text-align: center; cursor: pointer; }
+  .wf-cta-primary { background: var(--black); color: var(--white); }
+  .wf-cta-secondary { background: var(--white); color: var(--black); border: 1px solid var(--black); }
+  .wf-cta-disabled { background: var(--chip-gray); color: var(--muted-gray); }
+  .wf-input { background: var(--white); border: 1px solid var(--black); border-radius: 8px; padding: 10px 14px; font-size: 13px; color: var(--muted-gray); }
+  .wf-card { background: var(--white); border-radius: 8px; padding: 24px; box-shadow: 0 4px 16px rgba(0,0,0,0.12); }
+  .wf-divider { height: 1px; background: var(--chip-gray); margin: 8px 0; }
+  .wf-img { background: var(--chip-gray); display: flex; align-items: center; justify-content: center; color: var(--body-gray); font-size: 11px; font-weight: 600; border-radius: 8px; }
+  .wf-timer-prep { background: var(--white); color: var(--black); border: 1px solid var(--black); padding: 8px 16px; border-radius: 999px; font-weight: 700; }
+  .wf-timer-record { background: var(--black); color: var(--white); padding: 8px 16px; border-radius: 999px; font-weight: 700; }
+  .wf-badge { display: inline-block; padding: 4px 12px; border-radius: 999px; font-size: 11px; font-weight: 700; letter-spacing: 0.02em; }
+  .wf-badge-blue { background: var(--black); color: var(--white); }
+  .wf-badge-green { background: var(--white); color: var(--black); border: 1px solid var(--black); }
+  .wf-badge-red { background: var(--black); color: var(--white); }
+  .wf-badge-grey { background: var(--chip-gray); color: var(--black); }
+
+  /* Sidebar */
+  .sidebar-item { display: block; padding: 10px 16px; font-size: 14px; color: var(--muted-gray); cursor: pointer; border-radius: 999px; transition: all 0.15s; margin: 2px 8px; }
+  .sidebar-item:hover { background: rgba(255,255,255,0.08); color: var(--white); }
+  .sidebar-item.active { background: var(--white); color: var(--black); font-weight: 600; }
+  .sidebar-group { font-size: 11px; color: var(--muted-gray); font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; padding: 16px 24px 6px; }
+
+  /* Wireframe panel */
+  .wf-panel { display: none; }
+  .wf-panel.active { display: block; }
+
+  /* Locale / device toggle */
+  .toggle-btn { padding: 6px 14px; font-size: 12px; font-weight: 500; cursor: pointer; border-radius: 999px; color: var(--muted-gray); transition: all 0.15s; background: transparent; border: none; }
+  .toggle-btn.active { background: var(--white); color: var(--black); }
+
+  /* 5각 차트 SVG */
+  .radar-svg { width: 240px; height: 240px; }
+
+  @media (max-width: 900px) {
+    aside#wf-sidebar { transform: translateX(-100%); transition: transform 0.25s; }
+    aside#wf-sidebar.open { transform: translateX(0); }
+    #wf-main, .wf-canvas { margin-left: 0 !important; }
+    #mobile-toggle { display: flex !important; }
+  }
+  @media print {
+    aside, #mobile-toggle, header { display: none !important; }
+    .wf-canvas { padding: 0 !important; margin: 0 !important; }
+    .wf-panel { display: block !important; page-break-after: always; }
+    .wf-cta, .wf-badge-blue, .wf-badge-red, .wf-timer-record { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+</style>
+</head>
+<body style="background: #ffffff;">
+
+<!-- Header -->
+<header class="fixed top-0 left-0 right-0 flex items-center px-6 z-50" style="height: 56px; background: #000000; color: #ffffff;">
+  <button id="mobile-toggle" onclick="toggleSidebar()" class="hidden mr-3 items-center justify-center" aria-label="메뉴">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+  </button>
+  <div class="font-bold text-sm mr-3">KoPASS IBT</div>
+  <span class="text-xs" style="color: #afafaf;">화면별 와이어프레임 v1 초안</span>
+  <a href="flow-overview.html" class="ml-3 text-xs font-medium" style="padding: 4px 12px; background: rgba(255,255,255,0.1); color: #ffffff; border-radius: 999px; text-decoration: none;">← 동선 개요</a>
+  <a href="index.html" class="ml-2 text-xs font-medium" style="padding: 4px 12px; background: rgba(255,255,255,0.1); color: #ffffff; border-radius: 999px; text-decoration: none;">통합 보고서</a>
+
+  <div class="ml-auto flex items-center gap-3">
+    <!-- Locale toggle -->
+    <div class="flex items-center gap-1 p-1" style="background: rgba(255,255,255,0.1); border-radius: 999px;">
+      <span class="text-xs px-3" style="color: #afafaf;">언어</span>
+      <button class="toggle-btn active" data-locale="ko" onclick="setLocale('ko')">한국어</button>
+      <button class="toggle-btn" data-locale="ja" onclick="setLocale('ja')">日本語</button>
+    </div>
+    <!-- Device toggle -->
+    <div class="flex items-center gap-1 p-1" style="background: rgba(255,255,255,0.1); border-radius: 999px;">
+      <span class="text-xs px-3" style="color: #afafaf;">디바이스</span>
+      <button class="toggle-btn active" data-device="desktop" onclick="setDevice('desktop')">Desktop</button>
+      <button class="toggle-btn" data-device="mobile" onclick="setDevice('mobile')">Mobile</button>
+    </div>
+  </div>
+</header>
+
+<!-- Sidebar -->
+<aside id="wf-sidebar" class="fixed left-0 overflow-y-auto z-40" style="top: 56px; width: 240px; height: calc(100vh - 56px); background: #000000;">
+  <div class="p-3">
+    <div class="sidebar-group" data-i18n="group_user">응시자단</div>
+
+    <div class="sidebar-group" style="padding-top:8px;font-size:10px;color:#4b4b4b;" data-i18n="group_main">메인·접수</div>
+    <a class="sidebar-item active" data-wf="home" onclick="showWf('home')"><span data-i18n="wf_1">1. 홈</span></a>
+    <a class="sidebar-item" data-wf="tests" onclick="showWf('tests')"><span data-i18n="wf_2">2. 시험 목록</span></a>
+    <a class="sidebar-item" data-wf="test-detail" onclick="showWf('test-detail')"><span data-i18n="wf_3">3. 시험 상세</span></a>
+
+    <div class="sidebar-group" style="padding-top:8px;font-size:10px;color:#4b4b4b;" data-i18n="group_auth">회원·결제</div>
+    <a class="sidebar-item" data-wf="signup" onclick="showWf('signup')"><span data-i18n="wf_4">4. 회원가입</span></a>
+    <a class="sidebar-item" data-wf="checkout" onclick="showWf('checkout')"><span data-i18n="wf_5">5. 결제</span></a>
+
+    <div class="sidebar-group" style="padding-top:8px;font-size:10px;color:#4b4b4b;" data-i18n="group_exam">응시</div>
+    <a class="sidebar-item" data-wf="env-check" onclick="showWf('env-check')"><span data-i18n="wf_6">6. 환경 점검</span></a>
+    <a class="sidebar-item" data-wf="exam-intro" onclick="showWf('exam-intro')"><span data-i18n="wf_7">7. 시험 안내 모달</span></a>
+    <a class="sidebar-item" data-wf="exam" onclick="showWf('exam')"><span data-i18n="wf_8">8. 응시 화면</span></a>
+    <a class="sidebar-item" data-wf="ai-feedback" onclick="showWf('ai-feedback')"><span data-i18n="wf_9">9. AI 피드백 모달</span></a>
+
+    <div class="sidebar-group" style="padding-top:8px;font-size:10px;color:#4b4b4b;" data-i18n="group_result">결과·인증</div>
+    <a class="sidebar-item" data-wf="result" onclick="showWf('result')"><span data-i18n="wf_10">10. 결과 화면</span></a>
+    <a class="sidebar-item" data-wf="certificate" onclick="showWf('certificate')"><span data-i18n="wf_11">11. 인증서</span></a>
+
+    <div class="sidebar-group" style="padding-top:8px;font-size:10px;color:#4b4b4b;" data-i18n="group_my">마이페이지</div>
+    <a class="sidebar-item" data-wf="mypage" onclick="showWf('mypage')"><span data-i18n="wf_12">12. 마이페이지 대시보드</span></a>
+
+    <div class="sidebar-group" style="margin-top:24px;" data-i18n="group_admin">관리자단 <span style="color:#4b4b4b;font-weight:500;text-transform:none;letter-spacing:0;">(기획 예정)</span></div>
+    <a class="sidebar-item" data-wf="admin-soon" onclick="showWf('admin-soon')"><span data-i18n="wf_admin">시험 · 채점 · 회원 · 통계 · 시스템 · 문제 만들기</span></a>
+
+    <div style="border-top:1px solid rgba(255,255,255,0.1); margin: 24px 8px 0; padding: 16px 16px 0;">
+      <div class="text-xs leading-relaxed" style="color:#afafaf;">
+        <strong style="color:#ffffff;" data-i18n="legend_title">와이어프레임 표기</strong><br>
+        <span data-i18n="legend_dashed">— 점선 박스 = 컴포넌트 영역</span><br>
+        <span data-i18n="legend_grey">— 회색 박스 = 콘텐츠 자리</span><br>
+        <span data-i18n="legend_blue">— 검정 강조 = Primary CTA</span><br>
+        <span data-i18n="legend_red">— 검정 박스 = 녹음/오류 상태</span>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<!-- Canvas -->
+<main class="wf-canvas" style="margin-left: 240px; margin-top: 56px;" id="wf-main">
+  <div id="wf-frame-container" class="wf-frame">
+
+    <!-- 1. 홈 -->
+    <div id="wf-home" class="wf-panel active">
+      <div class="text-xs text-slate-500 mb-2">/ — <span data-i18n="path_home">홈</span></div>
+      <div class="wf-box-solid p-0 overflow-hidden">
+
+        <div class="flex items-center justify-between p-4 border-b border-slate-200">
+          <div class="wf-fill" style="width:80px;height:32px;"></div>
+          <div class="hidden md:flex gap-6">
+            <span class="wf-text font-semibold" data-i18n="nav_tests">시험 목록</span>
+            <span class="wf-text" data-i18n="nav_mypage">마이페이지</span>
+            <span class="wf-text" data-i18n="nav_support">고객센터</span>
+          </div>
+          <div class="flex gap-2 items-center">
+            <span class="wf-text text-xs" data-i18n="auth_login">로그인</span>
+            <span class="wf-cta wf-cta-primary text-xs" style="padding:4px 12px;" data-i18n="auth_signup">회원가입</span>
+          </div>
+        </div>
+
+        <div class="p-4">
+          <div class="wf-img" style="height:240px;"><span data-i18n="hero_banner">HERO 배너 (롤링 3~5장)</span></div>
+        </div>
+
+        <div class="p-4">
+          <div class="wf-box">
+            <div class="wf-label" data-i18n="topik_relation_label">TOPIK과의 관계 안내</div>
+            <div class="wf-text mb-3" data-i18n="topik_relation_text">KoPASS IBT는 TOPIK을 보완하는 진단형 시험입니다. (1 paragraph)</div>
+            <div class="wf-cta" data-i18n="btn_view_detail">자세히 보기</div>
+          </div>
+        </div>
+
+        <div class="p-4">
+          <div class="wf-label mb-3" data-i18n="recommended_tests">추천 시험 (3카드)</div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="wf-card"><div class="wf-img mb-3" style="height:120px;"></div><div class="wf-text font-bold" data-i18n="card_test_name">시험명</div><div class="wf-text text-xs"><span data-i18n="level_beginner">초급</span> · <span>25</span><span data-i18n="unit_minutes">분</span> · ¥X,XXX</div></div>
+            <div class="wf-card"><div class="wf-img mb-3" style="height:120px;"></div><div class="wf-text font-bold" data-i18n="card_test_name">시험명</div><div class="wf-text text-xs"><span data-i18n="level_intermediate">중상급</span> · <span>35</span><span data-i18n="unit_minutes">분</span> · ¥X,XXX</div></div>
+            <div class="wf-card"><div class="wf-img mb-3" style="height:120px;"></div><div class="wf-text font-bold" data-i18n="card_test_name">시험명</div><div class="wf-text text-xs"><span data-i18n="level_beginner">초급</span> · <span>25</span><span data-i18n="unit_minutes">분</span> · ¥X,XXX</div></div>
+          </div>
+        </div>
+
+        <div class="p-4 bg-slate-50">
+          <div class="wf-label mb-3" data-i18n="service_intro">서비스 소개 (AI 평가 방식)</div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="wf-box"><div class="wf-text font-bold" data-i18n="feat_ai_grading">AI 채점</div><div class="wf-text text-xs mt-1" data-i18n="feat_ai_grading_desc">즉시 채점·5각 차트</div></div>
+            <div class="wf-box"><div class="wf-text font-bold" data-i18n="feat_env_check">환경 점검</div><div class="wf-text text-xs mt-1" data-i18n="feat_env_check_desc">결제 전 마이크 테스트</div></div>
+            <div class="wf-box"><div class="wf-text font-bold" data-i18n="feat_certificate">인증서</div><div class="wf-text text-xs mt-1" data-i18n="feat_certificate_desc">PDF + 위변조 검증</div></div>
+          </div>
+        </div>
+
+        <div class="p-4">
+          <div class="wf-label mb-3" data-i18n="faq_excerpt">FAQ 발췌 (5~8개)</div>
+          <div class="space-y-2">
+            <div class="wf-box wf-text" data-i18n="faq_q1">▸ 응시 가능 디바이스는?</div>
+            <div class="wf-box wf-text" data-i18n="faq_q2">▸ 환불 정책은?</div>
+            <div class="wf-box wf-text" data-i18n="faq_q3">▸ 인증서 어떻게 받나요?</div>
+          </div>
+        </div>
+
+        <div class="p-4 bg-slate-100 border-t border-slate-200">
+          <div class="wf-text text-xs">
+            <span data-i18n="footer_terms">이용약관</span> ·
+            <span data-i18n="footer_privacy">개인정보처리방침</span> ·
+            <strong data-i18n="footer_commerce">특정상거래법 표시</strong> ·
+            <span data-i18n="footer_company">사업자 정보</span> · SNS
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. 시험 목록 -->
+    <div id="wf-tests" class="wf-panel">
+      <div class="text-xs text-slate-500 mb-2">/tests — <span data-i18n="path_tests">시험 목록</span></div>
+      <div class="wf-box-solid p-0">
+        <div class="flex items-center justify-between p-4 border-b border-slate-200">
+          <div class="wf-fill" style="width:80px;height:32px;"></div>
+          <div class="wf-text" data-i18n="nav_tests">시험 목록</div>
+          <div class="wf-input" style="width:200px;">🔍 <span data-i18n="search_placeholder">검색...</span></div>
+        </div>
+        <div class="p-4">
+          <h2 class="wf-title text-2xl mb-4" data-i18n="page_title_tests">시험 목록</h2>
+          <div class="flex flex-wrap gap-2 mb-4 items-center">
+            <span class="wf-badge wf-badge-blue" data-i18n="filter_all">전체</span>
+            <span class="wf-badge wf-badge-grey" data-i18n="level_beginner">초급</span>
+            <span class="wf-badge wf-badge-grey" data-i18n="level_intermediate">중상급</span>
+            <span class="wf-text text-xs ml-auto"><span data-i18n="sort_label">정렬</span>: <span data-i18n="sort_newest">최신순</span></span>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4" id="test-cards">
+            <!-- 8 cards rendered -->
+          </div>
+          <div class="flex justify-center gap-1 mt-6">
+            <span class="wf-badge wf-badge-grey">1</span>
+            <span class="wf-badge wf-badge-blue">2</span>
+            <span class="wf-badge wf-badge-grey">3</span>
+            <span class="wf-badge wf-badge-grey">▸</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. 시험 상세 -->
+    <div id="wf-test-detail" class="wf-panel">
+      <div class="text-xs text-slate-500 mb-2">/tests/:slug — <span data-i18n="path_test_detail">시험 상세</span></div>
+      <div class="wf-box-solid p-0">
+        <div class="flex items-center justify-between p-4 border-b border-slate-200">
+          <div class="wf-fill" style="width:80px;height:32px;"></div>
+          <div class="wf-text text-xs" data-i18n="page_title_test_detail">시험 상세</div>
+          <div class="flex gap-2"><span class="wf-text text-xs" data-i18n="auth_login">로그인</span></div>
+        </div>
+        <div class="p-6 bg-slate-50">
+          <div class="flex flex-col md:flex-row gap-6">
+            <div class="wf-img" style="width:240px;height:160px;flex-shrink:0;"></div>
+            <div class="flex-1">
+              <h2 class="wf-title text-2xl mb-2" lang="ko">TOPIK 말하기 초급</h2>
+              <span class="wf-badge wf-badge-grey" data-i18n="level_beginner">초급</span>
+              <span class="wf-badge wf-badge-grey"><span>25</span><span data-i18n="unit_minutes">분</span> · <span>23</span><span data-i18n="unit_questions">문항</span></span>
+              <div class="wf-text text-xs mt-3" data-i18n="test_one_liner">한 줄 설명 텍스트</div>
+            </div>
+          </div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 p-4">
+          <div class="md:col-span-2 space-y-4">
+            <div class="wf-box"><div class="wf-label" data-i18n="block_intro">시험 소개</div><div class="wf-text" data-i18n="block_intro_text">3-4 paragraph 텍스트</div></div>
+            <div class="wf-box"><div class="wf-label" data-i18n="block_question_structure">문항 구성</div><div class="wf-text" data-i18n="block_question_structure_text">5영역 / 23문항 — 영역별 카드</div></div>
+            <div class="wf-box"><div class="wf-label" data-i18n="block_expected">기대 효과</div><div class="wf-text" data-i18n="block_expected_text">학습 효과 설명</div></div>
+            <div class="wf-box"><div class="wf-label" data-i18n="block_sample">샘플 문항</div><div class="wf-fill" style="height:80px;"></div></div>
+            <div class="wf-box"><div class="wf-label" data-i18n="block_ai_method">AI 평가 방식 + 5각 차트 안내</div><div class="wf-fill" style="height:80px;"></div></div>
+          </div>
+          <div>
+            <div class="wf-box-solid bg-white sticky top-16">
+              <div class="wf-text text-xs" data-i18n="price_label">가격</div>
+              <div class="wf-title text-2xl mb-2">¥X,XXX</div>
+              <div class="wf-divider"></div>
+              <div class="wf-text text-xs" data-i18n="available_period_label">응시 가능 기간</div>
+              <div class="wf-text font-bold text-sm mb-2" data-i18n="available_period_value">결제 후 14일 이내</div>
+              <div class="wf-text text-xs" data-i18n="exam_time_label">시험 시간</div>
+              <div class="wf-text font-bold text-sm mb-2"><span>25</span><span data-i18n="unit_minutes">분</span></div>
+              <div class="wf-text text-xs" data-i18n="env_label">응시 환경</div>
+              <div class="wf-text font-bold text-sm mb-3" data-i18n="env_required">마이크 필수 · 헤드셋 권장</div>
+              <div class="wf-cta wf-cta-primary w-full" data-i18n="btn_purchase">구매하기</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. 회원가입 -->
+    <div id="wf-signup" class="wf-panel">
+      <div class="text-xs text-slate-500 mb-2">/signup — <span data-i18n="path_signup">회원가입</span></div>
+      <div class="wf-box-solid p-0">
+        <div class="p-4 border-b border-slate-200 flex items-center">
+          <div class="wf-fill" style="width:80px;height:28px;"></div>
+        </div>
+        <div class="flex justify-center p-8 bg-slate-50">
+          <div class="wf-card max-w-md w-full">
+            <h2 class="wf-title text-xl mb-1" data-i18n="page_title_signup">회원가입</h2>
+            <div class="wf-text text-xs mb-4">
+              <span data-i18n="already_member">이미 계정이 있으신가요?</span>
+              <span class="font-semibold" style="color:#000000;text-decoration:underline;text-underline-offset:3px;" data-i18n="auth_login">로그인</span>
+            </div>
+
+            <div class="space-y-2 mb-4">
+              <div class="wf-box-solid text-center wf-text" style="background:#06C755;color:white;"><span data-i18n="continue_with_line">LINE으로 계속</span></div>
+              <div class="wf-box-solid text-center wf-text" style="border-color:#afafaf;"><span data-i18n="continue_with_google">Google로 계속</span></div>
+              <div class="wf-box-solid text-center wf-text" style="background:#000;color:white;"><span data-i18n="continue_with_apple">Apple로 계속</span></div>
+            </div>
+            <div class="text-center wf-text text-xs my-3">— <span data-i18n="form_or">또는</span> —</div>
+
+            <div class="space-y-3">
+              <div>
+                <div class="wf-text text-xs font-semibold mb-1" data-i18n="form_email">이메일</div>
+                <div class="wf-input">your@email.com</div>
+              </div>
+              <div>
+                <div class="wf-text text-xs font-semibold mb-1" data-i18n="form_password">비밀번호</div>
+                <div class="wf-input">••••••••</div>
+              </div>
+              <div>
+                <div class="wf-text text-xs font-semibold mb-1" data-i18n="form_name">이름</div>
+                <div class="wf-input" data-i18n="form_name_placeholder">홍길동</div>
+              </div>
+              <div class="space-y-1 pt-2">
+                <div class="wf-text text-xs"><span data-i18n="form_terms">☐ 이용약관에 동의 (필수)</span></div>
+                <div class="wf-text text-xs"><span data-i18n="form_privacy">☐ 개인정보처리방침에 동의 (필수)</span></div>
+                <div class="wf-text text-xs"><span data-i18n="form_marketing">☐ 마케팅 수신에 동의 (선택)</span></div>
+              </div>
+              <div class="wf-cta wf-cta-primary w-full text-center mt-3" data-i18n="btn_register">등록하기</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. 결제 -->
+    <div id="wf-checkout" class="wf-panel">
+      <div class="text-xs text-slate-500 mb-2">/checkout/:cartId — <span data-i18n="path_checkout">결제</span></div>
+      <div class="wf-box-solid p-0">
+        <div class="p-4 border-b border-slate-200 flex items-center">
+          <div class="wf-fill" style="width:80px;height:28px;"></div>
+          <div class="wf-text ml-4 text-sm" data-i18n="page_title_checkout">결제</div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 p-6">
+          <div class="md:col-span-2 space-y-4">
+            <div class="wf-box">
+              <div class="wf-label" data-i18n="order_info">주문 정보</div>
+              <div class="flex items-center gap-3">
+                <div class="wf-img" style="width:80px;height:60px;"></div>
+                <div class="flex-1">
+                  <div class="wf-text font-bold" lang="ko">TOPIK 말하기 초급</div>
+                  <div class="wf-text text-xs"><span>25</span><span data-i18n="unit_minutes">분</span> · <span>23</span><span data-i18n="unit_questions">문항</span> · <span data-i18n="available_period_value">결제 후 14일 이내</span></div>
+                </div>
+                <div class="wf-text font-bold">¥X,XXX</div>
+              </div>
+            </div>
+
+            <div class="wf-box" style="border-color:#fbbf24;background:#fffbeb;">
+              <div class="wf-label" style="color:#92400e;">⚠ <span data-i18n="env_check_gate">환경 점검 (필수)</span></div>
+              <div class="wf-text text-sm mb-3" data-i18n="env_check_gate_text">결제 전 마이크·음성·녹음 확인이 필요합니다.</div>
+              <div class="wf-cta wf-cta-primary inline-block" data-i18n="btn_start_env_check">환경 점검 시작</div>
+            </div>
+
+            <div class="wf-box">
+              <div class="wf-label" data-i18n="payment_method">결제 방법</div>
+              <div class="space-y-2">
+                <div class="wf-box-solid wf-text text-sm">○ <span data-i18n="pay_credit_card">신용카드</span></div>
+                <div class="wf-box-solid wf-text text-sm">○ PayPay</div>
+              </div>
+              <div class="wf-text text-xs mt-3"><span data-i18n="pg_label">PG</span>: <span data-i18n="pg_undecided">일본 PG 1개사 (GAP-12 — 미확정)</span></div>
+            </div>
+
+            <div class="wf-text text-xs">📄 <span data-i18n="invoice_notice">적격청구서(인보이스) PDF를 발행합니다.</span></div>
+          </div>
+
+          <div>
+            <div class="wf-box-solid sticky top-16">
+              <div class="wf-text text-xs" data-i18n="pay_subtotal">소계</div>
+              <div class="wf-text font-bold">¥X,XXX</div>
+              <div class="wf-divider"></div>
+              <div class="wf-text text-xs" data-i18n="pay_tax">소비세</div>
+              <div class="wf-text font-bold">¥XXX</div>
+              <div class="wf-divider"></div>
+              <div class="wf-text text-xs" data-i18n="pay_total">합계</div>
+              <div class="wf-title text-2xl mb-3">¥X,XXX</div>
+              <div class="wf-cta wf-cta-disabled w-full text-center"><span data-i18n="btn_pay_disabled">결제하기 (환경 점검 미완료)</span></div>
+              <div class="wf-text text-xs mt-2" data-i18n="btn_pay_hint">환경 점검 통과 후 활성화</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6. 환경 점검 -->
+    <div id="wf-env-check" class="wf-panel">
+      <div class="text-xs text-slate-500 mb-2"><span data-i18n="env_label_path">환경 점검 — 결제 게이트</span></div>
+      <div class="wf-box-solid p-0">
+        <div class="p-4 border-b border-slate-200 flex items-center justify-between">
+          <div class="wf-text text-sm font-bold" data-i18n="env_check_title">환경 점검</div>
+          <div class="wf-text text-xs"><span data-i18n="env_step_label">단계</span> 2/4</div>
+        </div>
+        <div class="p-8 max-w-2xl mx-auto">
+          <h2 class="wf-title text-xl mb-1" data-i18n="env_mic_test_title">마이크 테스트</h2>
+          <div class="wf-text text-sm mb-6" data-i18n="env_mic_test_text">"아~"라고 말하면 레벨 미터가 움직여야 합니다.</div>
+
+          <div class="wf-box mb-4">
+            <div class="wf-label" data-i18n="level_meter">레벨 미터</div>
+            <div class="flex gap-1 items-end h-16">
+              <div class="wf-fill" style="height:30%;width:8%;"></div>
+              <div class="wf-fill" style="height:50%;width:8%;background:#4b4b4b;"></div>
+              <div class="wf-fill" style="height:70%;width:8%;background:#4b4b4b;"></div>
+              <div class="wf-fill" style="height:90%;width:8%;background:#000000;"></div>
+              <div class="wf-fill" style="height:60%;width:8%;background:#4b4b4b;"></div>
+              <div class="wf-fill" style="height:40%;width:8%;background:#4b4b4b;"></div>
+              <div class="wf-fill" style="height:20%;width:8%;"></div>
+            </div>
+          </div>
+
+          <div class="wf-box mb-4">
+            <div class="wf-label"><span data-i18n="env_5sec_label">5초 녹음 → 재생</span></div>
+            <div class="flex gap-3 items-center">
+              <div class="wf-cta wf-cta-primary">🎤 <span data-i18n="btn_record_start">녹음 시작</span></div>
+              <div class="wf-text text-xs" data-i18n="env_after_record">녹음 후 자동 재생됩니다</div>
+            </div>
+          </div>
+
+          <div class="wf-box mb-4">
+            <div class="wf-label" data-i18n="env_checklist">체크리스트</div>
+            <div class="space-y-2">
+              <div class="flex items-center gap-2"><span class="font-bold" style="color:#000000;">✓</span><span class="wf-text text-sm" data-i18n="env_check_mic">마이크 허용</span></div>
+              <div class="flex items-center gap-2"><span class="font-bold" style="color:#000000;">✓</span><span class="wf-text text-sm" data-i18n="env_check_volume">음량</span></div>
+              <div class="flex items-center gap-2"><span class="font-bold" style="color:#000000;">●</span><span class="wf-text text-sm font-bold"><span data-i18n="env_check_5sec">5초 녹음</span> (<span data-i18n="env_current">현재</span>)</span></div>
+              <div class="flex items-center gap-2"><span class="text-slate-400">○</span><span class="wf-text text-sm" data-i18n="env_check_network">네트워크</span></div>
+            </div>
+          </div>
+
+          <div class="wf-text text-xs mb-4" data-i18n="env_consent">☐ 점검 통과 후 발생한 개인 기기 문제는 응시자 책임이라는 약관에 동의합니다.</div>
+          <div class="flex gap-2">
+            <div class="wf-cta wf-cta-disabled flex-1 text-center" data-i18n="btn_prev">이전</div>
+            <div class="wf-cta wf-cta-primary flex-1 text-center" data-i18n="btn_next">다음</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 7. 시험 안내 모달 -->
+    <div id="wf-exam-intro" class="wf-panel">
+      <div class="text-xs text-slate-500 mb-2"><span data-i18n="exam_intro_path">시험 안내 모달 (마이페이지 진입 시)</span></div>
+      <div class="wf-box-solid p-0 relative" style="background:#afafaf;">
+        <div class="p-12">
+          <div class="wf-card max-w-md mx-auto">
+            <div class="flex justify-end"><span class="wf-text text-xs cursor-pointer">✕</span></div>
+            <h2 class="wf-title text-xl mb-3" lang="ko">TOPIK 말하기 (초급1)</h2>
+
+            <div class="wf-box mb-3">
+              <div class="wf-label" data-i18n="exam_intro_label">시험 안내</div>
+              <div class="wf-text text-xs font-semibold mb-1" data-i18n="exam_basic_info">기본 정보</div>
+              <ul class="wf-text text-xs space-y-1 list-disc ml-4" lang="ko">
+                <li>본 모의고사는 IBT(컴퓨터 기반) 방식</li>
+                <li>총 6문항으로 구성, 시험 시간은 약 30분</li>
+                <li>모든 답변은 녹음, 한국어 교육 전문가 채점</li>
+              </ul>
+              <div class="wf-text text-xs font-semibold mt-2 mb-1" data-i18n="exam_passing_criteria">합격 기준</div>
+              <div class="wf-text text-xs" lang="ko">총점에 따라 1급~6급 등급 부여</div>
+            </div>
+
+            <div class="wf-box mb-3">
+              <div class="wf-label" data-i18n="exam_paper_info">시험지 정보</div>
+              <div class="wf-text text-xs"><span data-i18n="exam_available_period">응시 가능 기간</span>: 2026/01/01 ~ 2026/12/31</div>
+              <div class="wf-text text-xs"><span data-i18n="exam_time_limit">시험 제한 시간</span>: <span>30</span><span data-i18n="unit_minutes">분</span></div>
+              <div class="wf-text text-xs"><span data-i18n="exam_question_count">문항수</span>: <span data-i18n="exam_total_6">총 6문항</span></div>
+            </div>
+
+            <div class="wf-cta wf-cta-primary w-full text-center" data-i18n="exam_take">응시하기</div>
+            <div class="wf-text text-xs text-center mt-2" data-i18n="exam_take_hint">응시하기 버튼을 클릭하면 시험이 시작됩니다</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 8. 응시 화면 (데스크탑 2단) -->
+    <div id="wf-exam" class="wf-panel">
+      <div class="text-xs text-slate-500 mb-2">/exam/:attemptId — <span data-i18n="exam_screen_label">응시 화면 (데스크탑 2단)</span></div>
+      <div class="wf-box-solid p-0">
+        <div class="p-3 border-b border-slate-200 flex items-center justify-between bg-slate-50">
+          <div class="flex items-center gap-3">
+            <span class="wf-text text-xs">✕</span>
+            <span class="wf-text text-sm font-bold" lang="ko">TOPIK 말하기 (초급1)</span>
+          </div>
+          <div class="wf-timer-prep" style="background:#0ea5e9;font-size:13px;">⏰ 00:29:59</div>
+          <div class="wf-text text-sm">1 / 6</div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-5 gap-0" style="min-height:480px;">
+          <div class="md:col-span-3 p-6 border-r border-slate-200">
+            <div class="mb-3">
+              <span class="wf-badge wf-badge-blue"><span>10</span><span data-i18n="unit_score">점</span></span>
+              <span class="wf-text text-sm font-bold ml-2" lang="ko">1. 질문을 듣고 대답하십시오.</span>
+            </div>
+            <div class="wf-box mb-4 bg-gray-100" style="border-color:#000000;">
+              <div class="wf-text text-sm" lang="ko">20초 동안 준비하십시오. '삐' 소리가 끝나면 30초 동안 말하십시오.</div>
+            </div>
+            <div class="text-center my-12">
+              <div class="wf-title text-3xl" lang="ko">만나서 반갑습니다.</div>
+            </div>
+          </div>
+
+          <div class="md:col-span-2 p-6 bg-slate-50">
+            <div class="wf-box mb-3 text-center">
+              <div class="wf-text text-xs mb-1" data-i18n="exam_status_label">상태</div>
+              <div class="wf-text font-bold" data-i18n="exam_status_preparing">준비 중</div>
+            </div>
+            <div class="wf-timer-prep mb-3 text-center">⏱ <span data-i18n="exam_prep_time">준비 시간</span> 00:18</div>
+            <div class="wf-box mb-3">
+              <div class="wf-label" data-i18n="exam_memo">메모장</div>
+              <div class="wf-input" style="min-height:120px;color:#4b4b4b;" data-i18n="exam_memo_placeholder">답변 구상...</div>
+            </div>
+            <div class="wf-divider"></div>
+            <div class="wf-text text-xs mb-2" data-i18n="exam_next_step">다음 단계: 비프음 → 녹음 (30초)</div>
+            <div class="wf-fill" style="height:6px;width:60%;background:#000000;border-radius:3px;"></div>
+          </div>
+        </div>
+
+        <div class="p-3 border-t border-slate-200 flex justify-between bg-slate-50">
+          <div class="wf-cta wf-cta-disabled">◂ <span data-i18n="btn_prev">이전</span></div>
+          <div class="wf-text text-sm font-bold">1 / 6</div>
+          <div class="wf-cta wf-cta-primary">▸</div>
+        </div>
+      </div>
+      <div class="callout mt-4 p-4 text-sm" style="background:#efefef; border-left:4px solid #000000;">
+        <strong data-i18n="recording_phase_title">녹음 단계 변환 예시</strong>: <span data-i18n="recording_phase_text">우측 상단 타이머가 강조 색으로 바뀌고, "녹음 중" 인디케이터와 Waveform 4도트 펄스 애니메이션이 표시됩니다.</span>
+      </div>
+    </div>
+
+    <!-- 9. AI 피드백 모달 -->
+    <div id="wf-ai-feedback" class="wf-panel">
+      <div class="text-xs text-slate-500 mb-2"><span data-i18n="aif_path">AI 피드백 모달 (응시 종료 후 또는 결과에서)</span></div>
+      <div class="wf-box-solid p-12" style="background:#afafaf;">
+        <div class="wf-card max-w-md mx-auto">
+          <h2 class="wf-title text-lg mb-4" data-i18n="aif_title">AI 피드백</h2>
+
+          <div class="text-center mb-4">
+            <div class="inline-flex items-center justify-center w-20 h-20 rounded-full text-3xl font-bold" style="background:#d1fae5;color:#065f46;">B</div>
+            <div class="wf-badge wf-badge-green mt-2">Good</div>
+          </div>
+          <div class="wf-text text-center font-bold mb-4" lang="ko">발음은 전체적으로 좋아요!</div>
+
+          <div class="wf-box mb-2" style="background:#efefef; border-color:#000000;">
+            <div class="wf-label" data-i18n="aif_answer">답안</div>
+            <div class="wf-text font-bold" style="color:#000000;" lang="ko">만나서 반갑습니다.</div>
+          </div>
+
+          <div class="wf-box mb-3" style="background:#000000; color:#ffffff; border-color:#000000;">
+            <div class="wf-label" style="color:#afafaf;"><span data-i18n="aif_recording">녹음</span> (STT)</div>
+            <div class="wf-text font-bold" style="color:#ffffff; text-decoration:line-through;" lang="ko">마나서 반갑습니다.</div>
+          </div>
+
+          <div class="wf-box mb-4">
+            <div class="wf-label" data-i18n="aif_recommended">추천 연습</div>
+            <ul class="wf-text text-xs space-y-1 list-disc ml-4" lang="ko">
+              <li>자음 보강: '만나서'의 ㄴ 발음을 확실히</li>
+              <li>받침 연습: '반-갑-습-니-다' 한 글자씩 끝까지</li>
+              <li>억양 연습: 말끝은 살짝 내려 ↘로 자연스럽게</li>
+            </ul>
+          </div>
+
+          <div class="wf-cta wf-cta-primary w-full text-center" data-i18n="btn_confirm">확인</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 10. 결과 화면 -->
+    <div id="wf-result" class="wf-panel">
+      <div class="text-xs text-slate-500 mb-2">/me/results/:id — <span data-i18n="path_result">결과 화면</span></div>
+      <div class="wf-box-solid p-0">
+        <div class="p-4 border-b border-slate-200 flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <span class="wf-text text-xs">✕</span>
+            <h2 class="wf-title text-lg" data-i18n="result_title">시험 결과</h2>
+          </div>
+        </div>
+        <div class="p-6 max-w-3xl mx-auto">
+          <div class="wf-card mb-4">
+            <div class="wf-label" data-i18n="result_test_name">시험명</div>
+            <div class="wf-title text-lg" lang="ko">TOPIK 말하기 초급</div>
+            <div class="wf-text text-xs mt-2"><span data-i18n="result_taken_date">응시일</span>: 2025-10-23 00:13:24</div>
+          </div>
+
+          <div class="wf-card mb-4 text-center">
+            <div class="wf-text text-xs mb-1" data-i18n="result_final_score">최종 점수</div>
+            <div class="text-5xl font-bold mb-1" style="color:#000000;">30<span data-i18n="unit_score">점</span></div>
+            <div class="wf-text text-xs">/ 200<span data-i18n="result_full_score">점 만점</span></div>
+            <div class="wf-divider my-3"></div>
+            <div class="wf-text text-xs mb-1" data-i18n="result_grade">등급</div>
+            <div class="text-2xl font-bold" style="color:#03b26c;">1<span data-i18n="unit_grade">급</span> ✓ <span class="text-slate-400 text-base">/ 6<span data-i18n="unit_grade">급</span></span></div>
+          </div>
+
+          <div class="wf-card mb-4 text-center">
+            <div class="wf-label mb-3" data-i18n="result_radar">5각 레이더 차트</div>
+            <svg class="radar-svg mx-auto" viewBox="-130 -130 260 260">
+              <polygon points="0,-100 95,-31 59,81 -59,81 -95,-31" fill="none" stroke="#afafaf" stroke-width="1"/>
+              <polygon points="0,-75 71,-23 44,61 -44,61 -71,-23" fill="none" stroke="#efefef" stroke-width="1"/>
+              <polygon points="0,-50 48,-15 30,40 -30,40 -48,-15" fill="none" stroke="#efefef" stroke-width="1"/>
+              <polygon points="0,-25 24,-8 15,20 -15,20 -24,-8" fill="none" stroke="#efefef" stroke-width="1"/>
+              <polygon points="0,-65 60,-20 35,50 -40,55 -60,-20" fill="rgba(0,0,0,0.15)" stroke="#000000" stroke-width="2"/>
+              <line x1="0" y1="0" x2="0" y2="-100" stroke="#4b4b4b" stroke-width="0.5"/>
+              <line x1="0" y1="0" x2="95" y2="-31" stroke="#4b4b4b" stroke-width="0.5"/>
+              <line x1="0" y1="0" x2="59" y2="81" stroke="#4b4b4b" stroke-width="0.5"/>
+              <line x1="0" y1="0" x2="-59" y2="81" stroke="#4b4b4b" stroke-width="0.5"/>
+              <line x1="0" y1="0" x2="-95" y2="-31" stroke="#4b4b4b" stroke-width="0.5"/>
+              <text class="radar-axis" x="0" y="-110" text-anchor="middle" font-size="11" fill="#4b4b4b" data-i18n="axis_pronunciation">발음</text>
+              <text class="radar-axis" x="105" y="-31" text-anchor="start" font-size="11" fill="#4b4b4b" data-i18n="axis_fluency">유창성</text>
+              <text class="radar-axis" x="65" y="95" text-anchor="middle" font-size="11" fill="#4b4b4b" data-i18n="axis_vocab">어휘</text>
+              <text class="radar-axis" x="-65" y="95" text-anchor="middle" font-size="11" fill="#4b4b4b" data-i18n="axis_grammar">문법</text>
+              <text class="radar-axis" x="-105" y="-31" text-anchor="end" font-size="11" fill="#4b4b4b" data-i18n="axis_content">내용 구성</text>
+            </svg>
+          </div>
+
+          <div class="wf-card mb-4 bg-gray-100" style="border-color:#000000;">
+            <div class="wf-label" style="color:#1d4ed8;">🤖 <span data-i18n="result_ai_feedback">AI 종합 피드백</span></div>
+            <div class="wf-text text-sm font-bold mb-2" lang="ko">한국어 말하기, 1급에 도달하셨습니다. 잘하셨습니다! 👍</div>
+            <div class="wf-text text-xs" lang="ko">간단한 질문에 단어나 짧은 문장으로 응답하고, 최소한의 의사소통이 가능함을 확인했습니다. 하지만 아직 발음이 부정확하거나, 문장 구조가 단순하여 의미 전달에 어려움을 겪을 수 있습니다...</div>
+          </div>
+
+          <div class="wf-card mb-4">
+            <div class="wf-label mb-3" data-i18n="result_per_question">문항별 점수</div>
+            <div class="space-y-2">
+              <div class="flex justify-between items-center py-2 border-b border-slate-100"><span class="wf-text text-sm" lang="ko">1. 질문을 듣고 대답</span><span class="wf-text font-bold">8/10</span><span class="wf-cta-secondary text-xs px-3 py-1 rounded">Ai <span data-i18n="aif_short">피드백</span></span></div>
+              <div class="flex justify-between items-center py-2 border-b border-slate-100"><span class="wf-text text-sm" lang="ko">2. 그림을 보고 대답</span><span class="wf-text font-bold">8/12</span><span class="wf-cta-secondary text-xs px-3 py-1 rounded">Ai <span data-i18n="aif_short">피드백</span></span></div>
+              <div class="flex justify-between items-center py-2"><span class="wf-text text-sm" lang="ko">3. 일상 대화</span><span class="wf-text font-bold">14/12</span><span class="wf-cta-secondary text-xs px-3 py-1 rounded">Ai <span data-i18n="aif_short">피드백</span></span></div>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2 mb-2">
+            <div class="wf-cta wf-cta-primary text-center">📄 <span data-i18n="btn_cert_download">인증서 다운로드</span></div>
+            <div class="wf-cta wf-cta-secondary text-center" data-i18n="btn_review_problems">문제 다시보기</div>
+          </div>
+          <div class="wf-cta w-full text-center" style="background:#4b4b4b;color:white;" data-i18n="btn_close_exam">시험 창 닫기</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 11. 인증서 -->
+    <div id="wf-certificate" class="wf-panel">
+      <div class="text-xs text-slate-500 mb-2">/me/certificates — <span data-i18n="path_certificate">인증서</span></div>
+      <div class="wf-box-solid p-0">
+        <div class="p-4 border-b border-slate-200 flex items-center">
+          <div class="wf-fill" style="width:80px;height:28px;"></div>
+          <h2 class="wf-title text-lg ml-4" data-i18n="cert_title">인증서</h2>
+        </div>
+        <div class="p-6">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="wf-card">
+              <div class="wf-img mb-3" style="height:200px;"><span data-i18n="cert_pdf_preview">인증서 PDF 미리보기</span></div>
+              <div class="wf-text font-bold" lang="ko">TOPIK 말하기 초급</div>
+              <div class="wf-text text-xs"><span data-i18n="result_taken_date">응시일</span>: 2025-10-23 · 1<span data-i18n="unit_grade">급</span></div>
+              <div class="wf-divider"></div>
+              <div class="wf-text text-xs mb-2">📌 <span data-i18n="cert_verify_url">위변조 검증 URL</span></div>
+              <div class="wf-input text-xs" style="word-break:break-all;">https://kopass.example.jp/verify/ABC-DEF-123</div>
+              <div class="grid grid-cols-2 gap-2 mt-3">
+                <div class="wf-cta wf-cta-primary text-center text-xs"><span data-i18n="btn_pdf_download">PDF 다운로드</span></div>
+                <div class="wf-cta wf-cta-secondary text-center text-xs"><span data-i18n="btn_url_copy">URL 복사</span></div>
+              </div>
+            </div>
+            <div class="wf-card opacity-50">
+              <div class="wf-img mb-3" style="height:200px;background:#f1f5f9;color:#4b4b4b;"><span data-i18n="cert_no_taken">미응시</span></div>
+              <div class="wf-text font-bold text-slate-400" data-i18n="cert_other_test">다른 시험</div>
+              <div class="wf-text text-xs text-slate-400" data-i18n="cert_no_taken">미응시</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 12. 마이페이지 대시보드 -->
+    <div id="wf-mypage" class="wf-panel">
+      <div class="text-xs text-slate-500 mb-2">/me — <span data-i18n="path_mypage">마이페이지 대시보드</span></div>
+      <div class="wf-box-solid p-0">
+        <div class="p-4 border-b border-slate-200 flex items-center justify-between">
+          <div class="flex items-center gap-4">
+            <div class="wf-fill" style="width:80px;height:28px;"></div>
+            <span class="wf-text text-sm" data-i18n="nav_mypage">마이페이지</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <div class="wf-fill rounded-full" style="width:32px;height:32px;"></div>
+            <span class="wf-text text-xs" data-i18n="user_sample_name">홍길동</span>
+          </div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-0">
+          <div class="hidden md:block p-4 border-r border-slate-200 bg-slate-50 space-y-1">
+            <div class="wf-label" data-i18n="my_group_test_result">시험·결과</div>
+            <div class="wf-text text-sm font-bold px-3 py-2" style="background:#000000;color:#ffffff;border-radius:999px;" data-i18n="my_dashboard">대시보드</div>
+            <div class="wf-text text-sm px-3 py-2" data-i18n="my_tests">응시할 시험</div>
+            <div class="wf-text text-sm px-3 py-2" data-i18n="my_results">결과</div>
+            <div class="wf-text text-sm px-3 py-2" data-i18n="my_certificates">인증서</div>
+            <div class="wf-label mt-3" data-i18n="my_group_payment">결제</div>
+            <div class="wf-text text-sm px-3 py-2" data-i18n="my_payments">결제 내역</div>
+            <div class="wf-text text-sm px-3 py-2" data-i18n="my_refunds">환불</div>
+            <div class="wf-label mt-3" data-i18n="my_group_account">계정</div>
+            <div class="wf-text text-sm px-3 py-2" data-i18n="my_profile">프로필</div>
+            <div class="wf-text text-sm px-3 py-2" data-i18n="my_withdraw">회원 탈퇴</div>
+            <div class="wf-label mt-3" data-i18n="my_group_support">고객센터</div>
+            <div class="wf-text text-sm px-3 py-2" data-i18n="my_inquiries">문의 내역</div>
+          </div>
+
+          <div class="md:col-span-3 p-6">
+            <h2 class="wf-title text-xl mb-1" id="my-greet"><span data-i18n="my_greet_prefix">안녕하세요,</span> <span data-i18n="user_sample_name">홍길동</span><span data-i18n="my_greet_suffix">님</span> 👋</h2>
+            <div class="wf-text text-sm mb-6"><span data-i18n="my_summary">응시 가능한 시험 1건 · 최근 결과 1건</span></div>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+              <div class="wf-box text-center"><div class="wf-text text-xs" data-i18n="my_quick_take">응시</div><div class="wf-title text-2xl mt-1">1</div></div>
+              <div class="wf-box text-center"><div class="wf-text text-xs" data-i18n="my_quick_result">결과</div><div class="wf-title text-2xl mt-1">1</div></div>
+              <div class="wf-box text-center"><div class="wf-text text-xs" data-i18n="my_quick_cert">인증서</div><div class="wf-title text-2xl mt-1">1</div></div>
+              <div class="wf-box text-center"><div class="wf-text text-xs" data-i18n="my_quick_payment">결제</div><div class="wf-title text-2xl mt-1">1</div></div>
+            </div>
+
+            <div class="wf-box mb-4">
+              <div class="wf-label" data-i18n="my_available">응시 가능한 시험</div>
+              <div class="flex items-center gap-3 mb-2">
+                <div class="wf-img" style="width:80px;height:60px;flex-shrink:0;"></div>
+                <div class="flex-1">
+                  <div class="wf-text font-bold" lang="ko">TOPIK 말하기 초급</div>
+                  <div class="wf-text text-xs"><span data-i18n="my_remaining_prefix">남은 기간</span> 12<span data-i18n="unit_days">일</span></div>
+                </div>
+                <div class="wf-cta wf-cta-primary text-xs" data-i18n="exam_take">응시하기</div>
+              </div>
+              <div class="wf-text text-xs">📌 <span data-i18n="my_device_hint">데스크탑 또는 iOS/Android 앱에서 응시 가능</span></div>
+            </div>
+
+            <div class="wf-box">
+              <div class="wf-label" data-i18n="my_recent">최근 결과</div>
+              <div class="flex items-center gap-3">
+                <div class="wf-fill rounded-full" style="width:40px;height:40px;flex-shrink:0;"></div>
+                <div class="flex-1">
+                  <div class="wf-text font-bold" lang="ko">TOPIK 말하기 초급</div>
+                  <div class="wf-text text-xs">2025-10-23 · 30/200 · <span class="wf-badge wf-badge-green">1<span data-i18n="unit_grade">급</span></span></div>
+                </div>
+                <div class="wf-cta wf-cta-secondary text-xs" data-i18n="btn_view_result">결과 보기</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 관리자단 — 기획 예정 placeholder -->
+    <div id="wf-admin-soon" class="wf-panel">
+      <div class="text-xs mb-2" style="color:#afafaf;">/admin — <span data-i18n="path_admin">관리자단</span></div>
+
+      <div style="border: 1.5px dashed #000000; border-radius: 8px; padding: 80px 48px; background: #ffffff; text-align: center;">
+        <div style="display:inline-flex; padding: 6px 14px; border-radius: 999px; background: #000000; color: #ffffff; font-size: 12px; font-weight: 700; letter-spacing: 0.04em; margin-bottom: 32px;" data-i18n="admin_status">기획 예정</div>
+        <div style="font-size: 28px; font-weight: 700; color: #000000; margin-bottom: 16px; letter-spacing: -0.01em;" data-i18n="admin_title">관리자단 와이어프레임</div>
+        <div style="font-size: 15px; color: #4b4b4b; max-width: 640px; margin: 0 auto 40px; line-height: 1.65;" data-i18n="admin_desc">본 패키지는 응시자단 와이어프레임만 포함합니다. 관리자단(시험 관리·평가/채점·회원/권한·통계·시스템 설정·문제 만들기)은 별도 라운드에서 정리되어 추후 합류 예정입니다.</div>
+
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; max-width: 720px; margin: 0 auto 40px;">
+          <div style="border: 1px solid #efefef; border-radius: 8px; padding: 20px; text-align: left;">
+            <div style="font-size: 11px; font-weight: 700; color: #afafaf; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px;" data-i18n="admin_area_1_label">예정 화면 영역 ①</div>
+            <div style="font-size: 15px; font-weight: 700; color: #000000; margin-bottom: 4px;" data-i18n="admin_area_1_title">시험 관리</div>
+            <div style="font-size: 13px; color: #4b4b4b; line-height: 1.55;" data-i18n="admin_area_1_desc">시험 목록 · 시험 등록(가격·기간·공개) · 시험지 구성 · 미리보기</div>
+          </div>
+          <div style="border: 1px solid #efefef; border-radius: 8px; padding: 20px; text-align: left;">
+            <div style="font-size: 11px; font-weight: 700; color: #afafaf; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px;" data-i18n="admin_area_2_label">예정 화면 영역 ②</div>
+            <div style="font-size: 15px; font-weight: 700; color: #000000; margin-bottom: 4px;" data-i18n="admin_area_2_title">평가 및 채점</div>
+            <div style="font-size: 13px; color: #4b4b4b; line-height: 1.55;" data-i18n="admin_area_2_desc">응시자 목록 · 응시자 상세(답안·녹음·STT) · AI 채점 보정 · 결과 공개</div>
+          </div>
+          <div style="border: 1px solid #efefef; border-radius: 8px; padding: 20px; text-align: left;">
+            <div style="font-size: 11px; font-weight: 700; color: #afafaf; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px;" data-i18n="admin_area_3_label">예정 화면 영역 ③</div>
+            <div style="font-size: 15px; font-weight: 700; color: #000000; margin-bottom: 4px;" data-i18n="admin_area_3_title">회원 및 권한</div>
+            <div style="font-size: 13px; color: #4b4b4b; line-height: 1.55;" data-i18n="admin_area_3_desc">회원 조회·관리 · 관리자 계정 · 권한 설정</div>
+          </div>
+          <div style="border: 1px solid #efefef; border-radius: 8px; padding: 20px; text-align: left;">
+            <div style="font-size: 11px; font-weight: 700; color: #afafaf; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px;" data-i18n="admin_area_4_label">예정 화면 영역 ④</div>
+            <div style="font-size: 15px; font-weight: 700; color: #000000; margin-bottom: 4px;" data-i18n="admin_area_4_title">통계 및 분석</div>
+            <div style="font-size: 13px; color: #4b4b4b; line-height: 1.55;" data-i18n="admin_area_4_desc">응시 통계 · 문항 분석 · 매출 분석</div>
+          </div>
+          <div style="border: 1px solid #efefef; border-radius: 8px; padding: 20px; text-align: left;">
+            <div style="font-size: 11px; font-weight: 700; color: #afafaf; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px;" data-i18n="admin_area_5_label">예정 화면 영역 ⑤</div>
+            <div style="font-size: 15px; font-weight: 700; color: #000000; margin-bottom: 4px;" data-i18n="admin_area_5_title">시스템 설정 · 보안</div>
+            <div style="font-size: 13px; color: #4b4b4b; line-height: 1.55;" data-i18n="admin_area_5_desc">콘텐츠 관리 · 알림 템플릿 · SEO · 인증서 템플릿 · 관리자 2FA</div>
+          </div>
+          <div style="border: 1px solid #000000; border-radius: 8px; padding: 20px; text-align: left; background: #efefef;">
+            <div style="font-size: 11px; font-weight: 700; color: #000000; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px;" data-i18n="admin_area_6_label">★ 향후 핵심</div>
+            <div style="font-size: 15px; font-weight: 700; color: #000000; margin-bottom: 4px;" data-i18n="admin_area_6_title">문제 만들기</div>
+            <div style="font-size: 13px; color: #4b4b4b; line-height: 1.55;" data-i18n="admin_area_6_desc">5영역 단일 등록 · 문제 은행 · 라이브 프리뷰 · TTS · LLM 자동 생성(라운드 2)</div>
+          </div>
+        </div>
+
+        <div style="font-size: 13px; color: #afafaf; max-width: 560px; margin: 0 auto;" data-i18n="admin_footnote">관리자단은 Newin에서 개발하며, KOEN 운영자 계정이 별도 발급됩니다. 화면별 와이어프레임은 응시자단 합의 직후 작업이 시작됩니다.</div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<script>
+// ─── i18n Dictionary ─────────────────────────────────────────────
+// 키 네이밍: 섹션_의미. 한국어 기본, 일본어 가설 (네이티브 검수 대상).
+const i18n = {
+  ko: {
+    // sidebar
+    group_user: '응시자단', group_admin: '관리자단', group_main: '메인·접수', group_auth: '회원·결제', group_exam: '응시', group_result: '결과·인증', group_my: '마이페이지',
+    wf_1: '1. 홈', wf_2: '2. 시험 목록', wf_3: '3. 시험 상세', wf_4: '4. 회원가입', wf_5: '5. 결제', wf_6: '6. 환경 점검', wf_7: '7. 시험 안내 모달', wf_8: '8. 응시 화면', wf_9: '9. AI 피드백 모달', wf_10: '10. 결과 화면', wf_11: '11. 인증서', wf_12: '12. 마이페이지 대시보드',
+    wf_admin: '시험 · 채점 · 회원 · 통계 · 시스템 · 문제 만들기',
+    legend_title: '와이어프레임 표기', legend_dashed: '— 점선 박스 = 컴포넌트 영역', legend_grey: '— 회색 박스 = 콘텐츠 자리', legend_blue: '— 검정 강조 = Primary CTA', legend_red: '— 검정 박스 = 녹음/오류 상태',
+    path_admin: '관리자단',
+    admin_status: '기획 예정', admin_title: '관리자단 와이어프레임',
+    admin_desc: '본 패키지는 응시자단 와이어프레임만 포함합니다. 관리자단(시험 관리·평가/채점·회원/권한·통계·시스템 설정·문제 만들기)은 별도 라운드에서 정리되어 추후 합류 예정입니다.',
+    admin_area_1_label: '예정 화면 영역 ①', admin_area_1_title: '시험 관리', admin_area_1_desc: '시험 목록 · 시험 등록(가격·기간·공개) · 시험지 구성 · 미리보기',
+    admin_area_2_label: '예정 화면 영역 ②', admin_area_2_title: '평가 및 채점', admin_area_2_desc: '응시자 목록 · 응시자 상세(답안·녹음·STT) · AI 채점 보정 · 결과 공개',
+    admin_area_3_label: '예정 화면 영역 ③', admin_area_3_title: '회원 및 권한', admin_area_3_desc: '회원 조회·관리 · 관리자 계정 · 권한 설정',
+    admin_area_4_label: '예정 화면 영역 ④', admin_area_4_title: '통계 및 분석', admin_area_4_desc: '응시 통계 · 문항 분석 · 매출 분석',
+    admin_area_5_label: '예정 화면 영역 ⑤', admin_area_5_title: '시스템 설정 · 보안', admin_area_5_desc: '콘텐츠 관리 · 알림 템플릿 · SEO · 인증서 템플릿 · 관리자 2FA',
+    admin_area_6_label: '★ 향후 핵심', admin_area_6_title: '문제 만들기', admin_area_6_desc: '5영역 단일 등록 · 문제 은행 · 라이브 프리뷰 · TTS · LLM 자동 생성(라운드 2)',
+    admin_footnote: '관리자단은 Newin에서 개발하며, KOEN 운영자 계정이 별도 발급됩니다. 화면별 와이어프레임은 응시자단 합의 직후 작업이 시작됩니다.',
+
+    // navigation
+    nav_tests: '시험 목록', nav_mypage: '마이페이지', nav_support: '고객센터', auth_login: '로그인', auth_signup: '회원가입',
+
+    // paths
+    path_home: '홈', path_tests: '시험 목록', path_test_detail: '시험 상세', path_signup: '회원가입', path_checkout: '결제',
+    path_result: '결과 화면', path_certificate: '인증서', path_mypage: '마이페이지 대시보드',
+
+    // home
+    hero_banner: 'HERO 배너 (롤링 3~5장)', topik_relation_label: 'TOPIK과의 관계 안내', topik_relation_text: 'KoPASS IBT는 TOPIK을 보완하는 진단형 시험입니다. (1 paragraph)', btn_view_detail: '자세히 보기',
+    recommended_tests: '추천 시험 (3카드)', card_test_name: '시험명', level_beginner: '초급', level_intermediate: '중상급',
+    service_intro: '서비스 소개 (AI 평가 방식)', feat_ai_grading: 'AI 채점', feat_ai_grading_desc: '즉시 채점·5각 차트', feat_env_check: '환경 점검', feat_env_check_desc: '결제 전 마이크 테스트', feat_certificate: '인증서', feat_certificate_desc: 'PDF + 위변조 검증',
+    faq_excerpt: 'FAQ 발췌 (5~8개)', faq_q1: '▸ 응시 가능 디바이스는?', faq_q2: '▸ 환불 정책은?', faq_q3: '▸ 인증서 어떻게 받나요?',
+    footer_terms: '이용약관', footer_privacy: '개인정보처리방침', footer_commerce: '특정상거래법 표시', footer_company: '사업자 정보',
+
+    // tests list
+    page_title_tests: '시험 목록', search_placeholder: '검색...', filter_all: '전체', sort_label: '정렬', sort_newest: '최신순',
+    page_title_test_detail: '시험 상세',
+
+    // test detail
+    test_one_liner: '한 줄 설명 텍스트', block_intro: '시험 소개', block_intro_text: '3-4 paragraph 텍스트', block_question_structure: '문항 구성', block_question_structure_text: '5영역 / 23문항 — 영역별 카드', block_expected: '기대 효과', block_expected_text: '학습 효과 설명', block_sample: '샘플 문항', block_ai_method: 'AI 평가 방식 + 5각 차트 안내',
+    price_label: '가격', available_period_label: '응시 가능 기간', available_period_value: '결제 후 14일 이내', exam_time_label: '시험 시간', env_label: '응시 환경', env_required: '마이크 필수 · 헤드셋 권장', btn_purchase: '구매하기',
+
+    // signup
+    page_title_signup: '회원가입', already_member: '이미 계정이 있으신가요?',
+    continue_with_line: 'LINE으로 계속', continue_with_google: 'Google로 계속', continue_with_apple: 'Apple로 계속', form_or: '또는',
+    form_email: '이메일', form_password: '비밀번호', form_name: '이름', form_name_placeholder: '홍길동',
+    form_terms: '☐ 이용약관에 동의 (필수)', form_privacy: '☐ 개인정보처리방침에 동의 (필수)', form_marketing: '☐ 마케팅 수신에 동의 (선택)',
+    btn_register: '등록하기',
+
+    // checkout
+    page_title_checkout: '결제', order_info: '주문 정보',
+    env_check_gate: '환경 점검 (필수)', env_check_gate_text: '결제 전 마이크·음성·녹음 확인이 필요합니다.', btn_start_env_check: '환경 점검 시작',
+    payment_method: '결제 방법', pay_credit_card: '신용카드', pg_label: 'PG', pg_undecided: '일본 PG 1개사 (GAP-12 — 미확정)',
+    invoice_notice: '적격청구서(인보이스) PDF를 발행합니다.',
+    pay_subtotal: '소계', pay_tax: '소비세', pay_total: '합계', btn_pay_disabled: '결제하기 (환경 점검 미완료)', btn_pay_hint: '환경 점검 통과 후 활성화',
+
+    // env check
+    env_label_path: '환경 점검 — 결제 게이트', env_check_title: '환경 점검', env_step_label: '단계',
+    env_mic_test_title: '마이크 테스트', env_mic_test_text: '"아~"라고 말하면 레벨 미터가 움직여야 합니다.',
+    level_meter: '레벨 미터', env_5sec_label: '5초 녹음 → 재생', btn_record_start: '녹음 시작', env_after_record: '녹음 후 자동 재생됩니다',
+    env_checklist: '체크리스트', env_check_mic: '마이크 허용', env_check_volume: '음량', env_check_5sec: '5초 녹음', env_current: '현재', env_check_network: '네트워크',
+    env_consent: '☐ 점검 통과 후 발생한 개인 기기 문제는 응시자 책임이라는 약관에 동의합니다.',
+    btn_prev: '이전', btn_next: '다음',
+
+    // exam intro modal
+    exam_intro_path: '시험 안내 모달 (마이페이지 진입 시)', exam_intro_label: '시험 안내', exam_basic_info: '기본 정보', exam_passing_criteria: '합격 기준',
+    exam_paper_info: '시험지 정보', exam_available_period: '응시 가능 기간', exam_time_limit: '시험 제한 시간', exam_question_count: '문항수', exam_total_6: '총 6문항',
+    exam_take: '응시하기', exam_take_hint: '응시하기 버튼을 클릭하면 시험이 시작됩니다',
+
+    // exam screen
+    exam_screen_label: '응시 화면 (데스크탑 2단)', exam_status_label: '상태', exam_status_preparing: '준비 중', exam_prep_time: '준비 시간', exam_memo: '메모장', exam_memo_placeholder: '답변 구상...', exam_next_step: '다음 단계: 비프음 → 녹음 (30초)',
+    recording_phase_title: '녹음 단계 변환 예시', recording_phase_text: '우측 상단 타이머가 강조 색으로 바뀌고, "녹음 중" 인디케이터와 Waveform 4도트 펄스 애니메이션이 표시됩니다.',
+
+    // AI feedback
+    aif_path: 'AI 피드백 모달 (응시 종료 후 또는 결과에서)', aif_title: 'AI 피드백', aif_answer: '답안', aif_recording: '녹음', aif_recommended: '추천 연습', aif_short: '피드백', btn_confirm: '확인',
+
+    // result
+    result_title: '시험 결과', result_test_name: '시험명', result_taken_date: '응시일', result_final_score: '최종 점수', result_full_score: '점 만점', result_grade: '등급',
+    result_radar: '5각 레이더 차트', axis_pronunciation: '발음', axis_fluency: '유창성', axis_vocab: '어휘', axis_grammar: '문법', axis_content: '내용 구성',
+    result_ai_feedback: 'AI 종합 피드백', result_per_question: '문항별 점수',
+    btn_cert_download: '인증서 다운로드', btn_review_problems: '문제 다시보기', btn_close_exam: '시험 창 닫기',
+
+    // certificate
+    cert_title: '인증서', cert_pdf_preview: '인증서 PDF 미리보기', cert_verify_url: '위변조 검증 URL', btn_pdf_download: 'PDF 다운로드', btn_url_copy: 'URL 복사', cert_other_test: '다른 시험', cert_no_taken: '미응시',
+
+    // mypage
+    user_sample_name: '홍길동', my_greet_prefix: '안녕하세요,', my_greet_suffix: '님', my_summary: '응시 가능한 시험 1건 · 최근 결과 1건',
+    my_group_test_result: '시험·결과', my_group_payment: '결제', my_group_account: '계정', my_group_support: '고객센터',
+    my_dashboard: '대시보드', my_tests: '응시할 시험', my_results: '결과', my_certificates: '인증서', my_payments: '결제 내역', my_refunds: '환불', my_profile: '프로필', my_withdraw: '회원 탈퇴', my_inquiries: '문의 내역',
+    my_quick_take: '응시', my_quick_result: '결과', my_quick_cert: '인증서', my_quick_payment: '결제',
+    my_available: '응시 가능한 시험', my_remaining_prefix: '남은 기간', my_device_hint: '데스크탑 또는 iOS/Android 앱에서 응시 가능',
+    my_recent: '최근 결과', btn_view_result: '결과 보기',
+
+    // units
+    unit_minutes: '분', unit_questions: '문항', unit_score: '점', unit_grade: '급', unit_days: '일',
+  },
+  ja: {
+    // sidebar (sidebar group/items kept Korean for our review convenience; ja for visible UI)
+    group_user: '受験者側', group_admin: '管理者側', group_main: 'メイン・受付', group_auth: '会員・決済', group_exam: '受験', group_result: '結果・認証', group_my: 'マイページ',
+    wf_admin: '試験 · 採点 · 会員 · 統計 · システム · 問題作成',
+    path_admin: '管理者側',
+    admin_status: '企画予定', admin_title: '管理者側ワイヤーフレーム',
+    admin_desc: '本パッケージは受験者側のワイヤーフレームのみを含みます。管理者側(試験管理·評価/採点·会員/権限·統計·システム設定·問題作成)は別ラウンドで整理され、後日合流予定です。',
+    admin_area_1_label: '予定画面領域 ①', admin_area_1_title: '試験管理', admin_area_1_desc: '試験一覧 · 試験登録(価格·期間·公開) · 試験紙構成 · プレビュー',
+    admin_area_2_label: '予定画面領域 ②', admin_area_2_title: '評価・採点', admin_area_2_desc: '受験者一覧 · 受験者詳細(回答·録音·STT) · AI採点補正 · 結果公開',
+    admin_area_3_label: '予定画面領域 ③', admin_area_3_title: '会員・権限', admin_area_3_desc: '会員照会·管理 · 管理者アカウント · 権限設定',
+    admin_area_4_label: '予定画面領域 ④', admin_area_4_title: '統計・分析', admin_area_4_desc: '受験統計 · 問題分析 · 売上分析',
+    admin_area_5_label: '予定画面領域 ⑤', admin_area_5_title: 'システム設定・セキュリティ', admin_area_5_desc: 'コンテンツ管理 · 通知テンプレート · SEO · 証明書テンプレート · 管理者2FA',
+    admin_area_6_label: '★ 今後の核心', admin_area_6_title: '問題作成', admin_area_6_desc: '5領域単一登録 · 問題バンク · ライブプレビュー · TTS · LLM自動生成(ラウンド2)',
+    admin_footnote: '管理者側はNewinが開発し、KOEN運営者アカウントが別途発行されます。画面別ワイヤーフレームは受験者側合意後に着手します。',
+    wf_1: '1. ホーム', wf_2: '2. 試験一覧', wf_3: '3. 試験詳細', wf_4: '4. 会員登録', wf_5: '5. 決済', wf_6: '6. 環境チェック', wf_7: '7. 試験案内モーダル', wf_8: '8. 受験画面', wf_9: '9. AIフィードバックモーダル', wf_10: '10. 結果画面', wf_11: '11. 証明書', wf_12: '12. マイページダッシュボード',
+    legend_title: 'ワイヤーフレーム表記', legend_dashed: '— 点線ボックス = コンポーネント領域', legend_grey: '— グレーボックス = コンテンツ位置', legend_blue: '— 黒強調 = Primary CTA', legend_red: '— 黒ボックス = 録音/エラー状態',
+
+    nav_tests: '試験一覧', nav_mypage: 'マイページ', nav_support: 'サポート', auth_login: 'ログイン', auth_signup: '会員登録',
+
+    path_home: 'ホーム', path_tests: '試験一覧', path_test_detail: '試験詳細', path_signup: '会員登録', path_checkout: '決済',
+    path_result: '結果画面', path_certificate: '証明書', path_mypage: 'マイページダッシュボード',
+
+    hero_banner: 'HEROバナー (ローテーション 3〜5枚)', topik_relation_label: 'TOPIKとの関係', topik_relation_text: 'KoPASS IBTはTOPIKを補完する診断型試験です。(1 paragraph)', btn_view_detail: '詳細を見る',
+    recommended_tests: 'おすすめ試験 (3カード)', card_test_name: '試験名', level_beginner: '初級', level_intermediate: '中上級',
+    service_intro: 'サービス紹介 (AI評価方式)', feat_ai_grading: 'AI採点', feat_ai_grading_desc: '即時採点・5角チャート', feat_env_check: '環境チェック', feat_env_check_desc: '決済前のマイクテスト', feat_certificate: '証明書', feat_certificate_desc: 'PDF + 偽造防止検証',
+    faq_excerpt: 'FAQ抜粋 (5〜8件)', faq_q1: '▸ 受験可能なデバイスは?', faq_q2: '▸ 返金ポリシーは?', faq_q3: '▸ 証明書の取得方法は?',
+    footer_terms: '利用規約', footer_privacy: 'プライバシーポリシー', footer_commerce: '特定商取引法に基づく表記', footer_company: '会社情報',
+
+    page_title_tests: '試験一覧', search_placeholder: '検索...', filter_all: 'すべて', sort_label: '並び替え', sort_newest: '新着順',
+    page_title_test_detail: '試験詳細',
+
+    test_one_liner: '一行説明テキスト', block_intro: '試験について', block_intro_text: '3-4 paragraphテキスト', block_question_structure: '問題構成', block_question_structure_text: '5領域 / 23問 — 領域別カード', block_expected: '期待される効果', block_expected_text: '学習効果の説明', block_sample: 'サンプル問題', block_ai_method: 'AI評価方式 + 5角チャート案内',
+    price_label: '価格', available_period_label: '受験可能期間', available_period_value: '決済後14日以内', exam_time_label: '試験時間', env_label: '受験環境', env_required: 'マイク必須・ヘッドセット推奨', btn_purchase: '購入する',
+
+    page_title_signup: '会員登録', already_member: 'すでにアカウントをお持ちですか?',
+    continue_with_line: 'LINEで続行', continue_with_google: 'Googleで続行', continue_with_apple: 'Appleで続行', form_or: 'または',
+    form_email: 'メール', form_password: 'パスワード', form_name: '名前', form_name_placeholder: '山田 太郎',
+    form_terms: '☐ 利用規約に同意 (必須)', form_privacy: '☐ プライバシーポリシーに同意 (必須)', form_marketing: '☐ マーケティング受信に同意 (任意)',
+    btn_register: '登録する',
+
+    page_title_checkout: '決済', order_info: '注文情報',
+    env_check_gate: '動作環境チェック (必須)', env_check_gate_text: '決済前にマイク・音声・ネットワークの確認が必要です。', btn_start_env_check: '環境チェックを開始',
+    payment_method: '決済方法', pay_credit_card: 'クレジットカード', pg_label: 'PG', pg_undecided: '日本PG1社 (GAP-12 — 未確定)',
+    invoice_notice: '適格請求書(インボイス)PDFを発行します。',
+    pay_subtotal: '小計', pay_tax: '消費税', pay_total: '合計', btn_pay_disabled: '支払う (環境チェック未完了)', btn_pay_hint: '環境チェック通過後に有効化',
+
+    env_label_path: '環境チェック — 決済ゲート', env_check_title: '動作環境チェック', env_step_label: 'ステップ',
+    env_mic_test_title: 'マイクテスト', env_mic_test_text: '「あー」と話すとレベルメーターが動きます。',
+    level_meter: 'レベルメーター', env_5sec_label: '5秒録音 → 再生', btn_record_start: '録音開始', env_after_record: '録音後、自動で再生します',
+    env_checklist: 'チェックリスト', env_check_mic: 'マイク許可', env_check_volume: '音量', env_check_5sec: '5秒録音', env_current: '現在', env_check_network: 'ネットワーク',
+    env_consent: '☐ チェック通過後に発生した個別機器の問題は応試者の責任となることに同意します',
+    btn_prev: '前へ', btn_next: '次へ',
+
+    exam_intro_path: '試験案内モーダル (マイページ進入時)', exam_intro_label: '試験案内', exam_basic_info: '基本情報', exam_passing_criteria: '合格基準',
+    exam_paper_info: '試験紙情報', exam_available_period: '受験可能期間', exam_time_limit: '試験制限時間', exam_question_count: '問題数', exam_total_6: '全6問',
+    exam_take: '受験する', exam_take_hint: '受験するボタンをクリックすると試験が開始',
+
+    exam_screen_label: '受験画面 (デスクトップ 2カラム)', exam_status_label: 'ステータス', exam_status_preparing: '準備中', exam_prep_time: '準備', exam_memo: 'メモ帳', exam_memo_placeholder: '回答を考える...', exam_next_step: '次のステップ: ビープ音 → 録音 (30秒)',
+    recording_phase_title: '録音段階の変換例', recording_phase_text: '右上のタイマーが強調色に変わり、「録音中」インジケーターとWaveform 4ドットのパルスアニメーションが表示されます。',
+
+    aif_path: 'AIフィードバックモーダル (受験終了後または結果から)', aif_title: 'AIフィードバック', aif_answer: '回答', aif_recording: '録音', aif_recommended: '推奨練習', aif_short: 'フィードバック', btn_confirm: '確認',
+
+    result_title: '試験結果', result_test_name: '試験名', result_taken_date: '受験日', result_final_score: '最終点数', result_full_score: '点満点', result_grade: '等級',
+    result_radar: '5角レーダーチャート', axis_pronunciation: '発音', axis_fluency: '流暢さ', axis_vocab: '語彙', axis_grammar: '文法', axis_content: '内容構成',
+    result_ai_feedback: 'AI総合フィードバック', result_per_question: '問題別点数',
+    btn_cert_download: '証明書ダウンロード', btn_review_problems: '問題を見直す', btn_close_exam: '試験ウィンドウを閉じる',
+
+    cert_title: '証明書', cert_pdf_preview: '証明書 PDF プレビュー', cert_verify_url: '偽造防止検証URL', btn_pdf_download: 'PDF ダウンロード', btn_url_copy: 'URL コピー', cert_other_test: 'その他の試験', cert_no_taken: '未受験',
+
+    user_sample_name: '山田 太郎', my_greet_prefix: 'こんにちは、', my_greet_suffix: 'さん', my_summary: '受験可能な試験 1件 · 最近の結果 1件',
+    my_group_test_result: '試験・結果', my_group_payment: '決済', my_group_account: 'アカウント', my_group_support: 'サポート',
+    my_dashboard: 'ダッシュボード', my_tests: '受験する試験', my_results: '結果', my_certificates: '証明書', my_payments: '決済履歴', my_refunds: '返金', my_profile: 'プロフィール', my_withdraw: '退会', my_inquiries: 'お問い合わせ履歴',
+    my_quick_take: '受験', my_quick_result: '結果', my_quick_cert: '証明書', my_quick_payment: '決済',
+    my_available: '受験可能な試験', my_remaining_prefix: '残り', my_device_hint: 'デスクトップまたはiOS/Androidアプリで受験可能',
+    my_recent: '最近の結果', btn_view_result: '結果を見る',
+
+    unit_minutes: '分', unit_questions: '問', unit_score: '点', unit_grade: '級', unit_days: '日',
+  }
+};
+
+let locale = localStorage.getItem('kopass_locale') || 'ko';
+
+function t(key) {
+  return i18n[locale]?.[key] ?? i18n.ko?.[key] ?? key;
+}
+
+function setLocale(loc) {
+  locale = loc;
+  localStorage.setItem('kopass_locale', loc);
+  document.documentElement.lang = loc;
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    const v = t(key);
+    if (v) el.textContent = v;
+  });
+  document.querySelectorAll('.toggle-btn[data-locale]').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll(`.toggle-btn[data-locale="${loc}"]`).forEach(b => b.classList.add('active'));
+}
+
+// ─── Wireframe navigation ────────────────────────────────────────
+function showWf(id) {
+  document.querySelectorAll('.wf-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('wf-' + id).classList.add('active');
+  document.querySelectorAll('.sidebar-item').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('[data-wf="' + id + '"]').forEach(s => s.classList.add('active'));
+  closeMobileSidebar();
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+function setDevice(d) {
+  document.querySelectorAll('.toggle-btn[data-device]').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll(`[data-device="${d}"]`).forEach(t => t.classList.add('active'));
+  const frame = document.getElementById('wf-frame-container');
+  if (d === 'mobile') frame.classList.add('mobile');
+  else frame.classList.remove('mobile');
+}
+
+function toggleSidebar() { document.getElementById('wf-sidebar').classList.toggle('open'); }
+function closeMobileSidebar() { document.getElementById('wf-sidebar').classList.remove('open'); }
+
+// ─── Test cards renderer ────────────────────────────────────────
+function renderTestCards() {
+  const container = document.getElementById('test-cards');
+  if (!container) return;
+  const testCards = [
+    { name: '말하기 초급', level: 'level_beginner', minutes: 25, q: 23 },
+    { name: '말하기 중상급', level: 'level_intermediate', minutes: 35, q: 14 },
+    { name: '시험명', level: 'level_beginner', minutes: 25, q: 23 },
+    { name: '시험명', level: 'level_beginner', minutes: 25, q: 23 },
+    { name: '시험명', level: 'level_beginner', minutes: 25, q: 23 },
+    { name: '시험명', level: 'level_beginner', minutes: 25, q: 23 },
+    { name: '시험명', level: 'level_beginner', minutes: 25, q: 23 },
+    { name: '시험명', level: 'level_beginner', minutes: 25, q: 23 },
+  ];
+  container.innerHTML = testCards.map(c => `
+    <div class="wf-card">
+      <div class="wf-img mb-3" style="height:140px;"></div>
+      <div class="wf-text font-bold" lang="ko">TOPIK ${c.name}</div>
+      <div class="wf-text text-xs">${c.minutes}<span data-i18n="unit_minutes">분</span> · ${c.q}<span data-i18n="unit_questions">문항</span></div>
+      <div class="wf-text font-bold mt-2">¥X,XXX</div>
+    </div>
+  `).join('');
+}
+
+// ─── Init ────────────────────────────────────────────────────────
+renderTestCards();
+setLocale(locale);
+</script>
+
+</body>
+</html>
