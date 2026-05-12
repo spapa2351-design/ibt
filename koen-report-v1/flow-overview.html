@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KoPASS IBT 동선 개요 v1 초안</title>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+  :root {
+    --black: #000000;
+    --white: #ffffff;
+    --hover-gray: #e2e2e2;
+    --chip-gray: #efefef;
+    --body-gray: #4b4b4b;
+    --muted-gray: #afafaf;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: "Pretendard Variable", Pretendard, system-ui, -apple-system, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: var(--black);
+    background: var(--white);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  .container { max-width: 1136px; margin: 0 auto; padding: 0 32px; }
+
+  /* Cover */
+  .cover { background: var(--black); color: var(--white); padding: 88px 32px 96px; }
+  .cover-inner { max-width: 1136px; margin: 0 auto; }
+  .cover .label { font-size: 14px; font-weight: 500; color: var(--muted-gray); margin-bottom: 12px; letter-spacing: 0.02em; }
+  .cover h1 { font-size: 36px; font-weight: 700; line-height: 1.25; margin: 0 0 12px; letter-spacing: -0.01em; }
+  .cover .lede { font-size: 16px; color: var(--muted-gray); max-width: 720px; line-height: 1.55; }
+  .cover .lede strong { color: var(--white); font-weight: 700; }
+  .cover-meta { margin-top: 28px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .pill {
+    display: inline-flex; align-items: center;
+    padding: 10px 14px; border-radius: 999px;
+    font-size: 14px; font-weight: 500;
+    background: rgba(255,255,255,0.1); color: var(--white);
+    border: 1px solid rgba(255,255,255,0.2);
+  }
+  .pill.warn { background: var(--white); color: var(--black); border-color: var(--white); }
+  .back-link {
+    display: inline-flex; align-items: center;
+    padding: 10px 14px; border-radius: 999px;
+    font-size: 14px; font-weight: 500;
+    background: var(--white); color: var(--black);
+    text-decoration: none;
+  }
+  .back-link:hover { background: var(--hover-gray); }
+
+  /* Step */
+  main { padding: 120px 0; }
+  .step { margin-bottom: 120px; }
+  .step:last-of-type { margin-bottom: 64px; }
+  .step-head {
+    display: grid; grid-template-columns: 80px 1fr; gap: 28px;
+    align-items: center; margin-bottom: 40px;
+    padding-bottom: 28px; border-bottom: 1px solid var(--black);
+  }
+  .step-num {
+    width: 64px; height: 64px; border-radius: 999px;
+    background: var(--black); color: var(--white);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px; font-weight: 700;
+  }
+  .step-num.alt {
+    background: var(--white); color: var(--black);
+    border: 2px solid var(--black); font-size: 20px;
+  }
+  .step-title { font-size: 28px; font-weight: 700; line-height: 1.25; margin: 0 0 6px; letter-spacing: -0.01em; }
+  .step-desc { font-size: 15px; color: var(--body-gray); margin: 0; }
+
+  /* Wire diagram */
+  .flow {
+    display: grid;
+    grid-template-columns: 1fr 32px 1fr 32px 1fr;
+    gap: 0; margin: 32px 0 0;
+    align-items: stretch;
+  }
+  @media (max-width: 900px) {
+    .flow { grid-template-columns: 1fr; gap: 16px; }
+    .flow-arrow { display: none; }
+  }
+  .wire {
+    background: var(--white);
+    border: 1.5px dashed var(--black);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .wire.modal { border-color: var(--body-gray); }
+  .wire-bar {
+    background: var(--black);
+    color: var(--white);
+    padding: 10px 14px;
+    font-size: 12px; font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .wire.modal .wire-bar { background: var(--body-gray); }
+  .wire-body { padding: 16px; min-height: 240px; display: flex; flex-direction: column; gap: 8px; }
+  .box {
+    background: var(--chip-gray);
+    border: 1px solid var(--hover-gray);
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 13px;
+    color: var(--body-gray);
+  }
+  .box.fill {
+    background: var(--black); color: var(--white);
+    border-color: var(--black); font-weight: 500;
+  }
+  .box.btn {
+    background: var(--black); color: var(--white);
+    border-color: var(--black); border-radius: 999px;
+    padding: 10px 14px; text-align: center; font-weight: 500;
+  }
+  .box.btn-ghost {
+    background: var(--white); color: var(--black);
+    border-color: var(--black); border-radius: 999px;
+    padding: 10px 14px; text-align: center; font-weight: 500;
+  }
+  .box.success {
+    background: var(--white); border: 2px solid var(--black);
+    color: var(--black); font-weight: 700;
+  }
+  .label {
+    font-size: 10px; font-weight: 700;
+    color: var(--muted-gray);
+    text-transform: uppercase; letter-spacing: 0.08em;
+    margin-top: 6px;
+  }
+  .label:first-child { margin-top: 0; }
+  .flow-arrow {
+    display: flex; align-items: center; justify-content: center;
+    color: var(--black); font-size: 18px;
+  }
+
+  /* Note */
+  .note {
+    background: var(--chip-gray);
+    padding: 18px 22px;
+    border-radius: 12px;
+    font-size: 14.5px;
+    color: var(--body-gray);
+    line-height: 1.55;
+    margin: 32px 0 0;
+  }
+  .note strong { color: var(--black); font-weight: 700; }
+
+  /* Footer */
+  footer {
+    background: var(--black); color: var(--muted-gray);
+    padding: 64px 32px;
+    margin-top: 96px;
+    font-size: 14px;
+  }
+  .footer-inner { max-width: 1136px; margin: 0 auto; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+  footer strong { color: var(--white); font-weight: 700; }
+  footer a { color: var(--white); text-decoration: underline; text-underline-offset: 3px; }
+
+  /* Print button */
+  .print-btn {
+    position: fixed; bottom: 24px; right: 24px;
+    background: var(--black); color: var(--white);
+    border: none; border-radius: 999px;
+    padding: 14px 22px; font-size: 14px; font-weight: 500;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.16);
+    font-family: inherit;
+  }
+  .print-btn:hover { background: var(--body-gray); }
+
+  @media print {
+    body { background: white; }
+    .cover { -webkit-print-color-adjust: exact; print-color-adjust: exact; padding: 48px 32px; }
+    .step { page-break-inside: avoid; break-inside: avoid; }
+    .wire-bar, .box.fill, .box.btn { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    footer { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .print-btn { display: none; }
+  }
+
+  @media (max-width: 720px) {
+    .container { padding: 0 20px; }
+    .cover { padding: 64px 20px 72px; }
+    .cover h1 { font-size: 26px; }
+    main { padding: 72px 0 80px; }
+    .step { margin-bottom: 80px; }
+    .step-head { grid-template-columns: 56px 1fr; gap: 18px; margin-bottom: 28px; padding-bottom: 20px; }
+    .step-num { width: 48px; height: 48px; font-size: 18px; }
+    .step-title { font-size: 22px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="cover">
+  <div class="cover-inner">
+    <div class="label">KOPASS IBT · 동선 개요 v1 초안</div>
+    <h1>응시자 동선 박스 다이어그램</h1>
+    <p class="lede">화면별 정교한 와이어프레임은 별도 페이지에 있습니다. 본 문서는 <strong>응시자가 처음부터 끝까지 어떤 단계를 거치는지</strong> 한눈에 보여주는 박스+화살표 흐름도입니다. 실제 UI 디자인이 아닙니다.</p>
+    <div class="cover-meta">
+      <span class="pill">v1 초안</span>
+      <span class="pill warn">실제 UI 아님 — 종이 시안</span>
+      <a href="index.html" class="back-link">통합 보고서</a>
+      <a href="wireframes.html" class="back-link">화면별 와이어프레임 →</a>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+
+<!-- STEP 1 -->
+<section class="step">
+  <div class="step-head">
+    <div class="step-num">1</div>
+    <div>
+      <h2 class="step-title">가입 · 로그인</h2>
+      <p class="step-desc">학습자가 처음 만나는 진입점. 이메일 또는 소셜 가입.</p>
+    </div>
+  </div>
+
+  <div class="flow">
+    <div class="wire">
+      <div class="wire-bar">메인 홈</div>
+      <div class="wire-body">
+        <div class="box">GNB — 로고 · 메뉴 · 로그인</div>
+        <div class="box fill">Hero — 서비스 소개 · CTA</div>
+        <div class="box">시험 추천 리스트</div>
+        <div class="box">TOPIK과의 관계 안내</div>
+        <div class="box">FAQ · Footer</div>
+      </div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="wire">
+      <div class="wire-bar">가입 / 로그인</div>
+      <div class="wire-body">
+        <div class="label">소셜 가입</div>
+        <div class="box btn-ghost">LINE 로그인</div>
+        <div class="box btn-ghost">Google 로그인</div>
+        <div class="box btn-ghost">Apple 로그인</div>
+        <div class="label">또는 이메일</div>
+        <div class="box">이메일 · 비밀번호 입력</div>
+        <div class="box">약관 동의 체크</div>
+        <div class="box btn">가입 / 로그인</div>
+      </div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="wire">
+      <div class="wire-bar">시험 목록</div>
+      <div class="wire-body">
+        <div class="box">검색 · 카테고리</div>
+        <div class="box fill">시험 카드 — 썸네일 · 가격 · 시간</div>
+        <div class="box">시험 카드</div>
+        <div class="box">시험 카드</div>
+        <div class="box">시험 카드 …</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="note">
+    일본 시장 표준 소셜 3종(LINE · Google · Apple)만 지원합니다. 카카오와 네이버는 포함하지 않습니다.
+  </div>
+</section>
+
+<!-- STEP 2 -->
+<section class="step">
+  <div class="step-head">
+    <div class="step-num">2</div>
+    <div>
+      <h2 class="step-title">시험 선택 · 결제</h2>
+      <p class="step-desc">시험 상세에서 결제로. 환경 점검은 이 단계에서 다루지 않습니다.</p>
+    </div>
+  </div>
+
+  <div class="flow">
+    <div class="wire">
+      <div class="wire-bar">시험 상세 (탭 없는 1페이지)</div>
+      <div class="wire-body">
+        <div class="box fill">시험 소개</div>
+        <div class="box">5개 영역 / 23문항</div>
+        <div class="box">샘플 문항 (재생 가능)</div>
+        <div class="box">응시 후 받는 것</div>
+        <div class="box">미니 FAQ</div>
+        <div class="label">우측 sticky 카드</div>
+        <div class="box">¥4,950 · 14일 · 25분</div>
+        <div class="box btn">바로 구매하기</div>
+        <div class="box btn-ghost">무료 샘플 응시</div>
+      </div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="wire">
+      <div class="wire-bar">결제 (Step 1 / 2)</div>
+      <div class="wire-body">
+        <div class="box">주문 내역</div>
+        <div class="box">환경 점검은 응시 직전에 진행</div>
+        <div class="label">결제 수단</div>
+        <div class="box">○ 신용카드 (VISA · JCB · Master)</div>
+        <div class="box">○ PayPay (QR)</div>
+        <div class="box">약관 동의</div>
+        <div class="box btn">결제하기</div>
+      </div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="wire">
+      <div class="wire-bar">결제 완료</div>
+      <div class="wire-body">
+        <div class="box success">결제 완료</div>
+        <div class="box">주문번호 · 결제 정보</div>
+        <div class="box btn">바로 응시하러 가기</div>
+        <div class="box btn-ghost">영수증 PDF 다운로드</div>
+        <div class="box">14일 이내 응시 안내</div>
+        <div class="box">응시 시작 직전 환경 점검 게이트 안내</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="note">
+    비로그인 학습자가 <strong>바로 구매</strong> 또는 <strong>무료 샘플 응시</strong>를 누르면 가입/로그인 페이지로 이동한 뒤, 가입 완료 시 원래 동작이 자동으로 이어집니다.
+  </div>
+</section>
+
+<!-- STEP 3 -->
+<section class="step">
+  <div class="step-head">
+    <div class="step-num">3</div>
+    <div>
+      <h2 class="step-title">응시 대기 (14일 윈도우)</h2>
+      <p class="step-desc">결제 후 학습자가 시험을 시작하기 전까지의 대기 상태.</p>
+    </div>
+  </div>
+
+  <div class="flow">
+    <div class="wire">
+      <div class="wire-bar">마이페이지 · 대시보드</div>
+      <div class="wire-body">
+        <div class="box fill">나의 현황 카드</div>
+        <div class="box">진행 중 N건 · 완료 N건</div>
+        <div class="box">응시 진입 — 데스크탑/앱 분기 안내</div>
+        <div class="box">최근 활동</div>
+      </div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="wire">
+      <div class="wire-bar">마이페이지 · 나의 시험</div>
+      <div class="wire-body">
+        <div class="label">응시 대기 목록</div>
+        <div class="box fill">시험명 · D-12</div>
+        <div class="box fill">시험명 · D-3 (임박)</div>
+        <div class="box btn">응시하기</div>
+        <div class="box">14일 경과 시 자동 만료</div>
+        <div class="box">본인 확인 → 환경 점검 → 응시 진입 안내</div>
+      </div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="wire">
+      <div class="wire-bar">자동 발송 메일</div>
+      <div class="wire-body">
+        <div class="box">결제 완료 메일</div>
+        <div class="box">D-1 리마인더</div>
+        <div class="box">D-day 리마인더</div>
+        <div class="box">결과 공개 알림</div>
+        <div class="box">환불 처리 완료</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="note">
+    14일 경과 시 자동 만료되며 <strong>환불은 제공되지 않습니다.</strong> 시스템 장애 등 예외는 운영자(KOEN) 수동 검토 후 처리합니다.
+  </div>
+</section>
+
+<!-- STEP 4 -->
+<section class="step">
+  <div class="step-head">
+    <div class="step-num">4</div>
+    <div>
+      <h2 class="step-title">응시 — 본인 확인 → 환경 점검 → 시험</h2>
+      <p class="step-desc">실제 시험 진행. 세 개의 게이트를 차례로 통과합니다.</p>
+    </div>
+  </div>
+
+  <div class="flow">
+    <div class="wire modal">
+      <div class="wire-bar">① 본인 확인</div>
+      <div class="wire-body">
+        <div class="box fill">이름 · 이메일 · 시험명 표시</div>
+        <div class="box">○ 본인이 맞습니다 (체크)</div>
+        <div class="box btn">다음</div>
+      </div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="wire modal">
+      <div class="wire-bar">② 환경 점검 게이트</div>
+      <div class="wire-body">
+        <div class="box">① 마이크 권한 ✓</div>
+        <div class="box">② 마이크 볼륨 ✓</div>
+        <div class="box">③ 녹음 재생 ✓</div>
+        <div class="box">④ 네트워크 · 브라우저 ✓</div>
+        <div class="box success">모두 통과</div>
+        <div class="box btn">시험 시작</div>
+      </div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="wire">
+      <div class="wire-bar">③ 응시 클라이언트</div>
+      <div class="wire-body">
+        <div class="box">시간 카운트다운 (남은 시간)</div>
+        <div class="box fill">현재 문항 (N / 23)</div>
+        <div class="box">문제 지시문 + 시각 자료</div>
+        <div class="box">녹음 중 — 마이크 표시</div>
+        <div class="box">답안 진행 게이지</div>
+        <div class="box btn">다음 문항</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="note">
+    <strong>응시 중 사고 대응.</strong> 네트워크 끊김 자동 재연결, 마이크 권한 회수 가드, 타이머, 답안 자동 제출, 이탈 차단을 시스템이 처리합니다. 환경 점검 미통과 시 가이드 표시 후 재시도 또는 1:1 문의로 안내합니다.
+  </div>
+</section>
+
+<!-- STEP 5 -->
+<section class="step">
+  <div class="step-head">
+    <div class="step-num">5</div>
+    <div>
+      <h2 class="step-title">결과 · 인증서</h2>
+      <p class="step-desc">AI 채점 → 운영자 공개 → 학습자 확인 → 다운로드.</p>
+    </div>
+  </div>
+
+  <div class="flow">
+    <div class="wire">
+      <div class="wire-bar">시험 종료 직후</div>
+      <div class="wire-body">
+        <div class="box success">응시 완료</div>
+        <div class="box">AI 채점 진행 중 안내</div>
+        <div class="box">결과 공개는 운영자 검토 후</div>
+        <div class="box btn-ghost">마이페이지로 돌아가기</div>
+      </div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="wire">
+      <div class="wire-bar">결과 화면 (공개 후)</div>
+      <div class="wire-body">
+        <div class="box fill">종합 등급 (예: 3급)</div>
+        <div class="label">선개발 · 필수</div>
+        <div class="box">5영역 점수표</div>
+        <div class="box">종합 AI 피드백</div>
+        <div class="label">리포트 부가</div>
+        <div class="box">5각 레이더 차트</div>
+        <div class="box">문항별 AI 피드백</div>
+      </div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="wire">
+      <div class="wire-bar">다운로드</div>
+      <div class="wire-body">
+        <div class="box btn">결과지 PDF 다운로드</div>
+        <div class="box btn">인증서 PDF 다운로드</div>
+        <div class="box">위변조 검증 URL 포함</div>
+        <div class="box">결과·인증서 무기한 보관</div>
+        <div class="box">재다운로드 횟수 제한 없음</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="note">
+    결과 공개 트리거는 <strong>KOEN 운영자가 관리자 콘솔에서 수동 처리</strong>합니다. 공개 즉시 학습자에게 메일 알림이 자동 발송됩니다.
+  </div>
+</section>
+
+<!-- KOEN 운영자 -->
+<section class="step">
+  <div class="step-head">
+    <div class="step-num alt">★</div>
+    <div>
+      <h2 class="step-title">KOEN 운영자 동선</h2>
+      <p class="step-desc">학습자 문의 대응 · 환불 · 결과 공개 — 코엔 영역의 일상 업무.</p>
+    </div>
+  </div>
+
+  <div class="flow">
+    <div class="wire">
+      <div class="wire-bar">관리자 대시보드</div>
+      <div class="wire-body">
+        <div class="box fill">오늘 응시자 N명</div>
+        <div class="box">대기 중 문의 N건</div>
+        <div class="box">대기 중 환불 N건</div>
+        <div class="box">결과 공개 대기 N건</div>
+      </div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="wire">
+      <div class="wire-bar">응시자 관리</div>
+      <div class="wire-body">
+        <div class="box">시험별 응시자 리스트</div>
+        <div class="box">검색 · 필터 · CSV</div>
+        <div class="box fill">응시자 상세 (답안 · 녹음 · STT)</div>
+        <div class="box btn">결과 공개</div>
+        <div class="box btn-ghost">답안 초기화 (재응시)</div>
+        <div class="box btn-ghost">AI 점수 보정</div>
+      </div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="wire">
+      <div class="wire-bar">문의 · 환불 처리</div>
+      <div class="wire-body">
+        <div class="box">1:1 문의 큐</div>
+        <div class="box">유형별 필터</div>
+        <div class="box fill">문의 상세 + 학습자 정보</div>
+        <div class="box btn">답변 작성</div>
+        <div class="box btn-ghost">환불 승인 / 거절</div>
+        <div class="box btn-ghost">재응시 티켓 발행</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="note">
+    관리자 콘솔은 Newin에서 개발하며, KOEN 운영자 계정을 별도 발급합니다. 권한 매트릭스는 별도 합의 문서로 발행됩니다.
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div><strong>KoPASS IBT 동선 개요 v1 초안</strong> · 종이 시안 — 실제 디자인 아님</div>
+    <div><a href="index.html">통합 보고서</a> · <a href="wireframes.html">화면별 와이어프레임 →</a></div>
+  </div>
+</footer>
+
+<button class="print-btn" onclick="window.print()">인쇄 / PDF 저장</button>
+
+</body>
+</html>
