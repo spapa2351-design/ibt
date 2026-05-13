@@ -82,9 +82,13 @@
   .wf-panel { display: none; }
   .wf-panel.active { display: block; }
 
-  /* Locale / device toggle */
-  .toggle-btn { padding: 6px 14px; font-size: 12px; font-weight: 500; cursor: pointer; border-radius: 999px; color: var(--muted-gray); transition: all 0.15s; background: transparent; border: none; }
-  .toggle-btn.active { background: var(--white); color: var(--black); }
+  /* Locale / device toggle — context-independent (works on both dark header and white bg) */
+  .toggle-btn { padding: 6px 14px; font-size: 12px; font-weight: 600; cursor: pointer; border-radius: 999px; color: #4b4b4b; transition: all 0.15s; background: transparent; border: none; }
+  .toggle-btn.active { background: #000000 !important; color: #ffffff !important; }
+  .toggle-btn:not(.active):hover { color: #000000; background: rgba(0,0,0,0.06); }
+  /* Toggle group backdrop — explicit light pill, visible regardless of context */
+  .header-toggle-group { background: #ffffff !important; border: 1px solid #d4d4d8 !important; padding: 3px !important; }
+  .header-toggle-label { color: #6b7280 !important; }
 
   /* 5각 차트 SVG */
   .radar-svg { width: 240px; height: 240px; }
@@ -154,7 +158,6 @@
       <button class="toggle-btn active" data-device="desktop" onclick="setDevice('desktop')"><span class="toggle-btn-long" data-i18n="device_desktop_btn">Desktop · 2단</span><span class="toggle-btn-short">PC</span></button>
       <button class="toggle-btn" data-device="mobile" onclick="setDevice('mobile')"><span class="toggle-btn-long" data-i18n="device_mobile_btn">Mobile · 1단</span><span class="toggle-btn-short">M</span></button>
     </div>
-    <span class="text-xs header-device-note" style="color:#afafaf;margin-left:8px;" data-i18n="device_note">앱은 라운드 2</span>
   </div>
 </header>
 
@@ -251,7 +254,7 @@
           <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div class="wf-box"><div class="wf-text font-bold" data-i18n="feat_ai_grading">자동 채점</div><div class="wf-text text-xs mt-1" data-i18n="feat_ai_grading_desc">즉시 채점 + 평가자 코멘트</div></div>
             <div class="wf-box"><div class="wf-text font-bold" data-i18n="feat_env_check">환경 점검</div><div class="wf-text text-xs mt-1" data-i18n="feat_env_check_desc">결제 전 마이크 테스트</div></div>
-            <div class="wf-box"><div class="wf-text font-bold" data-i18n="feat_certificate">인증서</div><div class="wf-text text-xs mt-1" data-i18n="feat_certificate_desc">PDF + 위변조 검증</div></div>
+            <div class="wf-box"><div class="wf-text font-bold" data-i18n="feat_certificate">인증서</div><div class="wf-text text-xs mt-1" data-i18n="feat_certificate_desc">PDF 발행</div></div>
           </div>
         </div>
 
@@ -768,11 +771,8 @@
               <div class="wf-text font-bold" lang="ko">TOPIK 말하기 초급</div>
               <div class="wf-text text-xs"><span data-i18n="result_taken_date">응시일</span>: 2025-10-23 · 1<span data-i18n="unit_grade">급</span></div>
               <div class="wf-divider"></div>
-              <div class="wf-text text-xs mb-2">📌 <span data-i18n="cert_verify_url">위변조 검증 URL</span></div>
-              <div class="wf-input text-xs" style="word-break:break-all;">https://kopass.example.jp/verify/ABC-DEF-123</div>
-              <div class="grid grid-cols-2 gap-2 mt-3">
+              <div class="mt-3">
                 <div class="wf-cta wf-cta-primary text-center text-xs"><span data-i18n="btn_pdf_download">PDF 다운로드</span></div>
-                <div class="wf-cta wf-cta-secondary text-center text-xs"><span data-i18n="btn_url_copy">URL 복사</span></div>
               </div>
             </div>
             <div class="wf-card opacity-50">
@@ -863,7 +863,7 @@
       <div style="border: 1.5px dashed #000000; border-radius: 8px; padding: 80px 48px; background: #ffffff; text-align: center;">
         <div style="display:inline-flex; padding: 6px 14px; border-radius: 999px; background: #000000; color: #ffffff; font-size: 12px; font-weight: 700; letter-spacing: 0.04em; margin-bottom: 32px;" data-i18n="admin_status">기획 예정</div>
         <div style="font-size: 28px; font-weight: 700; color: #000000; margin-bottom: 16px; letter-spacing: -0.01em;" data-i18n="admin_title">관리자단 와이어프레임</div>
-        <div style="font-size: 15px; color: #4b4b4b; max-width: 640px; margin: 0 auto 40px; line-height: 1.65;" data-i18n="admin_desc">본 패키지는 응시자단 와이어프레임만 포함합니다. 관리자단(시험 관리·평가/채점·회원/권한·통계·시스템 설정·문제 만들기)은 별도 라운드에서 정리되어 추후 합류 예정입니다.</div>
+        <div style="font-size: 15px; color: #4b4b4b; max-width: 640px; margin: 0 auto 40px; line-height: 1.65;" data-i18n="admin_desc">본 패키지는 응시자단 와이어프레임만 포함합니다. 관리자단(시험 관리·평가/채점·회원/권한·통계·시스템 설정·문제 만들기)은 별도 패키지에서 정리되어 추후 합류 예정입니다.</div>
 
         <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; max-width: 720px; margin: 0 auto 40px;">
           <div style="border: 1px solid #efefef; border-radius: 8px; padding: 20px; text-align: left;">
@@ -894,7 +894,7 @@
           <div style="border: 1px solid #000000; border-radius: 8px; padding: 20px; text-align: left; background: #efefef;">
             <div style="font-size: 11px; font-weight: 700; color: #000000; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px;" data-i18n="admin_area_6_label">★ 향후 핵심</div>
             <div style="font-size: 15px; font-weight: 700; color: #000000; margin-bottom: 4px;" data-i18n="admin_area_6_title">문제 만들기</div>
-            <div style="font-size: 13px; color: #4b4b4b; line-height: 1.55;" data-i18n="admin_area_6_desc">5영역 단일 등록 · 문제 은행 · 라이브 프리뷰 · TTS · LLM 자동 생성(라운드 2)</div>
+            <div style="font-size: 13px; color: #4b4b4b; line-height: 1.55;" data-i18n="admin_area_6_desc">5영역 단일 등록 · 문제 은행 · 라이브 프리뷰 · TTS · LLM 자동 생성</div>
           </div>
         </div>
 
@@ -934,13 +934,13 @@ const i18n = {
     legend_title: '와이어프레임 표기', legend_dashed: '— 점선 박스 = 컴포넌트 영역', legend_grey: '— 회색 박스 = 콘텐츠 자리', legend_blue: '— 검정 강조 = Primary CTA', legend_red: '— 검정 박스 = 녹음/오류 상태',
     path_admin: '관리자단',
     admin_status: '기획 예정', admin_title: '관리자단 와이어프레임',
-    admin_desc: '본 패키지는 응시자단 와이어프레임만 포함합니다. 관리자단(시험 관리·평가/채점·회원/권한·통계·시스템 설정·문제 만들기)은 별도 라운드에서 정리되어 추후 합류 예정입니다.',
+    admin_desc: '본 패키지는 응시자단 와이어프레임만 포함합니다. 관리자단(시험 관리·평가/채점·회원/권한·통계·시스템 설정·문제 만들기)은 별도 패키지에서 정리되어 추후 합류 예정입니다.',
     admin_area_1_label: '예정 화면 영역 ①', admin_area_1_title: '시험 관리', admin_area_1_desc: '시험 목록 · 시험 등록(가격·기간·공개) · 시험지 구성 · 미리보기',
     admin_area_2_label: '예정 화면 영역 ②', admin_area_2_title: '평가 및 채점', admin_area_2_desc: '응시자 목록 · 응시자 상세(답안·녹음·STT) · 자동 채점 보정 · 결과 공개',
     admin_area_3_label: '★ 신규 메뉴', admin_area_3_title: '회원 목록 (신규)', admin_area_3_desc: '서비스 사이트에서 발생한 회원가입·결제·환불 데이터를 모음. 회원별 응시 이력·결제 이력 통합 조회',
     admin_area_4_label: '예정 화면 영역 ④', admin_area_4_title: '통계 및 분석', admin_area_4_desc: '응시 통계 · 문항 분석 · 매출 분석',
     admin_area_5_label: '예정 화면 영역 ⑤', admin_area_5_title: '시스템 설정 · 보안', admin_area_5_desc: '콘텐츠 관리 · 알림 템플릿 · SEO · 인증서 템플릿 · 관리자 2FA',
-    admin_area_6_label: '★ 향후 핵심', admin_area_6_title: '문제 만들기', admin_area_6_desc: '5영역 단일 등록 · 문제 은행 · 라이브 프리뷰 · TTS · LLM 자동 생성(라운드 2)',
+    admin_area_6_label: '★ 향후 핵심', admin_area_6_title: '문제 만들기', admin_area_6_desc: '5영역 단일 등록 · 문제 은행 · 라이브 프리뷰 · TTS · LLM 자동 생성',
     admin_footnote: '관리자단은 Newin에서 개발하며, KOEN 운영자 계정이 별도 발급됩니다. 화면별 와이어프레임은 응시자단 합의 직후 작업이 시작됩니다.',
 
     // navigation
@@ -953,7 +953,7 @@ const i18n = {
     // home
     hero_banner: 'HERO 배너 (롤링 3~5장)', topik_relation_label: 'TOPIK과의 관계 안내', topik_relation_text: 'MaroPass IBT는 TOPIK을 보완하는 진단형 시험입니다. (1 paragraph)', btn_view_detail: '자세히 보기',
     recommended_tests: '추천 시험 (3카드)', card_test_name: '시험명', level_beginner: '초급', level_intermediate: '중상급',
-    service_intro: '서비스 소개 (평가 방식)', feat_ai_grading: '자동 채점', feat_ai_grading_desc: '즉시 채점 + 평가자 코멘트', feat_env_check: '환경 점검', feat_env_check_desc: '응시 직전 마이크 테스트', feat_certificate: '인증서', feat_certificate_desc: 'PDF + 위변조 검증',
+    service_intro: '서비스 소개 (평가 방식)', feat_ai_grading: '자동 채점', feat_ai_grading_desc: '즉시 채점 + 평가자 코멘트', feat_env_check: '환경 점검', feat_env_check_desc: '응시 직전 마이크 테스트', feat_certificate: '인증서', feat_certificate_desc: 'PDF 발행',
     faq_excerpt: 'FAQ 발췌 (5~8개)', faq_q1: '▸ 응시 가능 디바이스는?', faq_q2: '▸ 환불 정책은?', faq_q3: '▸ 인증서 어떻게 받나요?',
     footer_terms: '이용약관', footer_privacy: '개인정보처리방침', footer_commerce: '특정상거래법 표시', footer_company: '사업자 정보',
 
@@ -1011,14 +1011,14 @@ const i18n = {
     result_title: '시험 결과', result_test_name: '시험명', result_taken_date: '응시일', result_final_score: '최종 점수', result_full_score: '점 만점', result_grade: '등급',
     axis_pronunciation: '발음', axis_fluency: '유창성', axis_vocab: '어휘', axis_grammar: '문법', axis_content: '내용 구성',
     result_per_question: '문항별 점수',
-    device_label: '디바이스', device_desktop_btn: 'Desktop · 2단', device_mobile_btn: 'Mobile · 1단', device_note: '앱은 라운드 2',
+    device_label: '디바이스', device_desktop_btn: 'Desktop · 2단', device_mobile_btn: 'Mobile · 1단',
     btn_cert_download: '인증서 다운로드', btn_review_problems: '문제 다시보기', btn_close_exam: '시험 창 닫기',
     result_pdf_notice_label: '📄 PDF 다운로드 안내',
     result_pdf_notice: '인증서 PDF · 결과지 PDF는 <strong>서비스 사이트 마이페이지 → 인증서</strong>에서 다운로드합니다. 응시 결과 확인은 본 사용자 web에서, 보관 자료(PDF)는 서비스 사이트에 일원화됩니다.',
     btn_open_service_mypage: '서비스 사이트 마이페이지 열기',
 
     // certificate
-    cert_title: '인증서', cert_pdf_preview: '인증서 PDF 미리보기', cert_verify_url: '위변조 검증 URL', btn_pdf_download: 'PDF 다운로드', btn_url_copy: 'URL 복사', cert_other_test: '다른 시험', cert_no_taken: '미응시',
+    cert_title: '인증서', cert_pdf_preview: '인증서 PDF 미리보기', btn_pdf_download: 'PDF 다운로드', cert_other_test: '다른 시험', cert_no_taken: '미응시',
 
     // mypage
     user_sample_name: '홍길동', my_greet_prefix: '안녕하세요,', my_greet_suffix: '님', my_summary: '응시 가능한 시험 1건 · 최근 결과 1건',
@@ -1039,13 +1039,13 @@ const i18n = {
     wf_admin: '既存ソリューション + 会員一覧(新規)',
     path_admin: '管理者側',
     admin_status: '企画予定', admin_title: '管理者側ワイヤーフレーム',
-    admin_desc: '本パッケージは受験者側のワイヤーフレームのみを含みます。管理者側(試験管理·評価/採点·会員/権限·統計·システム設定·問題作成)は別ラウンドで整理され、後日合流予定です。',
+    admin_desc: '本パッケージは受験者側のワイヤーフレームのみを含みます。管理者側(試験管理·評価/採点·会員/権限·統計·システム設定·問題作成)は別パッケージで整理され、後日合流予定です。',
     admin_area_1_label: '予定画面領域 ①', admin_area_1_title: '試験管理', admin_area_1_desc: '試験一覧 · 試験登録(価格·期間·公開) · 試験紙構成 · プレビュー',
     admin_area_2_label: '予定画面領域 ②', admin_area_2_title: '評価・採点', admin_area_2_desc: '受験者一覧 · 受験者詳細(回答·録音·STT) · 自動採点補正 · 結果公開',
     admin_area_3_label: '★ 新規メニュー', admin_area_3_title: '会員一覧(新規)', admin_area_3_desc: 'サービスサイトで発生した会員登録·決済·返金データを集約。会員別の受験履歴·決済履歴を統合照会',
     admin_area_4_label: '予定画面領域 ④', admin_area_4_title: '統計・分析', admin_area_4_desc: '受験統計 · 問題分析 · 売上分析',
     admin_area_5_label: '予定画面領域 ⑤', admin_area_5_title: 'システム設定・セキュリティ', admin_area_5_desc: 'コンテンツ管理 · 通知テンプレート · SEO · 証明書テンプレート · 管理者2FA',
-    admin_area_6_label: '★ 今後の核心', admin_area_6_title: '問題作成', admin_area_6_desc: '5領域単一登録 · 問題バンク · ライブプレビュー · TTS · LLM自動生成(ラウンド2)',
+    admin_area_6_label: '★ 今後の核心', admin_area_6_title: '問題作成', admin_area_6_desc: '5領域単一登録 · 問題バンク · ライブプレビュー · TTS · LLM自動生成',
     admin_footnote: '管理者側はNewinが開発し、KOEN運営者アカウントが別途発行されます。画面別ワイヤーフレームは受験者側合意後に着手します。',
     wf_1: '1. ホーム', wf_2: '2. 試験一覧', wf_3: '3. 試験詳細', wf_4: '4. 会員登録', wf_5: '5. 決済', wf_12: '6. マイページダッシュボード', wf_11: '7. 証明書',
     wf_user_home: '8. ユーザーweb home(決済済み試験リスト)',
@@ -1072,7 +1072,7 @@ const i18n = {
 
     hero_banner: 'HEROバナー (ローテーション 3〜5枚)', topik_relation_label: 'TOPIKとの関係', topik_relation_text: 'MaroPass IBTはTOPIKを補完する診断型試験です。(1 paragraph)', btn_view_detail: '詳細を見る',
     recommended_tests: 'おすすめ試験 (3カード)', card_test_name: '試験名', level_beginner: '初級', level_intermediate: '中上級',
-    service_intro: 'サービス紹介(評価方式)', feat_ai_grading: '自動採点', feat_ai_grading_desc: '即時採点 + 評価者コメント', feat_env_check: '環境チェック', feat_env_check_desc: '受験直前のマイクテスト', feat_certificate: '証明書', feat_certificate_desc: 'PDF + 偽造防止検証',
+    service_intro: 'サービス紹介(評価方式)', feat_ai_grading: '自動採点', feat_ai_grading_desc: '即時採点 + 評価者コメント', feat_env_check: '環境チェック', feat_env_check_desc: '受験直前のマイクテスト', feat_certificate: '証明書', feat_certificate_desc: 'PDF発行',
     faq_excerpt: 'FAQ抜粋 (5〜8件)', faq_q1: '▸ 受験可能なデバイスは?', faq_q2: '▸ 返金ポリシーは?', faq_q3: '▸ 証明書の取得方法は?',
     footer_terms: '利用規約', footer_privacy: 'プライバシーポリシー', footer_commerce: '特定商取引法に基づく表記', footer_company: '会社情報',
 
@@ -1121,13 +1121,13 @@ const i18n = {
     result_title: '試験結果', result_test_name: '試験名', result_taken_date: '受験日', result_final_score: '最終点数', result_full_score: '点満点', result_grade: '等級',
     axis_pronunciation: '発音', axis_fluency: '流暢さ', axis_vocab: '語彙', axis_grammar: '文法', axis_content: '内容構成',
     result_per_question: '問題別点数',
-    device_label: 'デバイス', device_desktop_btn: 'Desktop · 2段', device_mobile_btn: 'Mobile · 1段', device_note: 'アプリはラウンド2',
+    device_label: 'デバイス', device_desktop_btn: 'Desktop · 2段', device_mobile_btn: 'Mobile · 1段',
     btn_cert_download: '証明書ダウンロード', btn_review_problems: '問題を見直す', btn_close_exam: '試験ウィンドウを閉じる',
     result_pdf_notice_label: '📄 PDFダウンロード案内',
     result_pdf_notice: '証明書PDF · 結果レポートPDFは<strong>サービスサイトのマイページ → 証明書</strong>からダウンロードします。受験結果の確認は本ユーザーwebで、保管資料(PDF)はサービスサイトに一元化されます。',
     btn_open_service_mypage: 'サービスサイトのマイページを開く',
 
-    cert_title: '証明書', cert_pdf_preview: '証明書 PDF プレビュー', cert_verify_url: '偽造防止検証URL', btn_pdf_download: 'PDF ダウンロード', btn_url_copy: 'URL コピー', cert_other_test: 'その他の試験', cert_no_taken: '未受験',
+    cert_title: '証明書', cert_pdf_preview: '証明書 PDF プレビュー', btn_pdf_download: 'PDF ダウンロード', cert_other_test: 'その他の試験', cert_no_taken: '未受験',
 
     user_sample_name: '山田 太郎', my_greet_prefix: 'こんにちは、', my_greet_suffix: 'さん', my_summary: '受験可能な試験 1件 · 最近の結果 1件',
     my_group_test_result: '試験・結果', my_group_payment: '決済', my_group_account: 'アカウント', my_group_support: 'サポート',
