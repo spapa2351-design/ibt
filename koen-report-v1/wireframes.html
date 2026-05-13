@@ -253,7 +253,7 @@
           <div class="wf-label mb-3" data-i18n="service_intro">서비스 소개 (평가 방식)</div>
           <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div class="wf-box"><div class="wf-text font-bold" data-i18n="feat_ai_grading">자동 채점</div><div class="wf-text text-xs mt-1" data-i18n="feat_ai_grading_desc">즉시 채점 + 평가자 코멘트</div></div>
-            <div class="wf-box"><div class="wf-text font-bold" data-i18n="feat_env_check">환경 점검</div><div class="wf-text text-xs mt-1" data-i18n="feat_env_check_desc">결제 전 마이크 테스트</div></div>
+            <div class="wf-box"><div class="wf-text font-bold" data-i18n="feat_env_check">환경 점검</div><div class="wf-text text-xs mt-1" data-i18n="feat_env_check_desc">응시 직전 마이크 테스트</div></div>
             <div class="wf-box"><div class="wf-text font-bold" data-i18n="feat_certificate">인증서</div><div class="wf-text text-xs mt-1" data-i18n="feat_certificate_desc">PDF 발행</div></div>
           </div>
         </div>
@@ -421,12 +421,6 @@
               </div>
             </div>
 
-            <div class="wf-box" style="border-color:#fbbf24;background:#fffbeb;">
-              <div class="wf-label" style="color:#92400e;">⚠ <span data-i18n="env_check_gate">환경 점검 (필수)</span></div>
-              <div class="wf-text text-sm mb-3" data-i18n="env_check_gate_text">결제 전 마이크·음성·녹음 확인이 필요합니다.</div>
-              <div class="wf-cta wf-cta-primary inline-block" data-i18n="btn_start_env_check">환경 점검 시작</div>
-            </div>
-
             <div class="wf-box">
               <div class="wf-label" data-i18n="payment_method">결제 방법</div>
               <div class="space-y-2">
@@ -449,8 +443,7 @@
               <div class="wf-divider"></div>
               <div class="wf-text text-xs" data-i18n="pay_total">합계</div>
               <div class="wf-title text-2xl mb-3">¥X,XXX</div>
-              <div class="wf-cta wf-cta-disabled w-full text-center"><span data-i18n="btn_pay_disabled">결제하기 (환경 점검 미완료)</span></div>
-              <div class="wf-text text-xs mt-2" data-i18n="btn_pay_hint">환경 점검 통과 후 활성화</div>
+              <div class="wf-cta wf-cta-primary w-full text-center" data-i18n="btn_pay">결제하기</div>
             </div>
           </div>
         </div>
@@ -974,10 +967,10 @@ const i18n = {
 
     // checkout
     page_title_checkout: '결제', order_info: '주문 정보',
-    env_check_gate: '환경 점검 (필수)', env_check_gate_text: '결제 전 마이크·음성·녹음 확인이 필요합니다.', btn_start_env_check: '환경 점검 시작',
+    btn_pay: '결제하기',
     payment_method: '결제 방법', pay_credit_card: '신용카드', pg_label: 'PG', pg_undecided: '일본 PG 1개사 (GAP-12 — 미확정)',
     invoice_notice: '적격청구서(인보이스) PDF를 발행합니다.',
-    pay_subtotal: '소계', pay_tax: '소비세', pay_total: '합계', btn_pay_disabled: '결제하기 (환경 점검 미완료)', btn_pay_hint: '환경 점검 통과 후 활성화',
+    pay_subtotal: '소계', pay_tax: '소비세', pay_total: '합계',
 
     // env check
     env_label_path: '환경 점검 — 결제 게이트', env_check_title: '환경 점검', env_step_label: '단계',
@@ -1089,10 +1082,10 @@ const i18n = {
     btn_register: '登録する',
 
     page_title_checkout: '決済', order_info: '注文情報',
-    env_check_gate: '動作環境チェック (必須)', env_check_gate_text: '受験直前にマイク・音声の確認が必要です。', btn_start_env_check: '環境チェックを開始',
+    btn_pay: '支払う',
     payment_method: '決済方法', pay_credit_card: 'クレジットカード', pg_label: 'PG', pg_undecided: '日本PG1社 (GAP-12 — 未確定)',
     invoice_notice: '適格請求書(インボイス)PDFを発行します。',
-    pay_subtotal: '小計', pay_tax: '消費税', pay_total: '合計', btn_pay_disabled: '支払う (環境チェック未完了)', btn_pay_hint: '環境チェック通過後に有効化',
+    pay_subtotal: '小計', pay_tax: '消費税', pay_total: '合計',
 
     env_label_path: '環境チェック — 決済ゲート', env_check_title: '動作環境チェック', env_step_label: 'ステップ',
     env_mic_test_title: 'マイクテスト', env_mic_test_text: '「あー」と話すとレベルメーターが動きます。',
