@@ -185,27 +185,27 @@
   }
   .print-btn:hover { background: var(--body-gray); }
 
-  /* Locale toggle */
+  /* Locale toggle — context-independent (visible on both dark cover and white body) */
   .locale-toggle {
     position: fixed; top: 20px; right: 20px;
     display: inline-flex; align-items: center; gap: 4px;
-    padding: 4px;
-    background: rgba(255,255,255,0.1);
-    border: 1px solid rgba(255,255,255,0.2);
+    padding: 3px;
+    background: #ffffff;
+    border: 1px solid #d4d4d8;
     border-radius: 999px;
     z-index: 100;
-    backdrop-filter: blur(8px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
   }
   .locale-toggle button {
-    padding: 6px 14px; font-size: 12px; font-weight: 500;
+    padding: 6px 14px; font-size: 12px; font-weight: 600;
     background: transparent; border: none;
-    color: rgba(255,255,255,0.75); cursor: pointer;
+    color: #4b4b4b; cursor: pointer;
     border-radius: 999px;
     font-family: inherit;
     transition: all 0.15s;
   }
-  .locale-toggle button.active { background: var(--white); color: var(--black); font-weight: 600; }
-  .locale-toggle button:hover:not(.active) { color: var(--white); }
+  .locale-toggle button.active { background: #000000; color: #ffffff; }
+  .locale-toggle button:hover:not(.active) { color: #000000; background: rgba(0,0,0,0.06); }
 
   @media print {
     body { background: white; }
