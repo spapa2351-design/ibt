@@ -21,6 +21,34 @@
   .wf-frame { max-width: 1136px; margin: 0 auto; }
   .wf-frame.mobile { max-width: 390px; }
 
+  /* Mobile frame toggle — viewport-independent narrow layout */
+  .wf-frame.mobile .md\:grid-cols-2,
+  .wf-frame.mobile .md\:grid-cols-3,
+  .wf-frame.mobile .md\:grid-cols-4,
+  .wf-frame.mobile .md\:grid-cols-5,
+  .wf-frame.mobile .lg\:grid-cols-4 { grid-template-columns: 1fr !important; }
+  .wf-frame.mobile .md\:col-span-2,
+  .wf-frame.mobile .md\:col-span-3 { grid-column: span 1 / span 1 !important; }
+  .wf-frame.mobile .md\:flex-row { flex-direction: column !important; }
+  .wf-frame.mobile .hidden.md\:flex,
+  .wf-frame.mobile .hidden.md\:block { display: none !important; }
+  .wf-frame.mobile .sticky { position: static !important; top: auto !important; }
+  .wf-frame.mobile .wf-badge { white-space: nowrap; }
+  .wf-frame.mobile [style*="width:240px"] { width: 100% !important; max-width: 100% !important; height: 180px !important; }
+  .wf-frame.mobile [style*="width:200px"] { width: 100% !important; max-width: 100% !important; }
+  .wf-frame.mobile .wf-card { padding: 16px !important; }
+  .wf-frame.mobile .wf-cta { padding: 10px 14px; font-size: 12px; }
+  .wf-frame.mobile .border-r { border-right: 0 !important; border-bottom: 1px solid #e2e2e2; }
+  .wf-frame.mobile .max-w-md,
+  .wf-frame.mobile .max-w-2xl,
+  .wf-frame.mobile .max-w-3xl { max-width: 100% !important; }
+  .wf-frame.mobile .p-6,
+  .wf-frame.mobile .p-8,
+  .wf-frame.mobile .p-12 { padding: 16px !important; }
+  .wf-frame.mobile .text-2xl { font-size: 1.25rem !important; }
+  .wf-frame.mobile .text-3xl { font-size: 1.5rem !important; }
+  .wf-frame.mobile .text-5xl { font-size: 2.25rem !important; }
+
   /* Wireframe styling — Uber 흑백 보고용 톤 */
   .wf-box { border: 1.5px dashed var(--black); background: var(--white); border-radius: 8px; padding: 16px; }
   .wf-box-solid { border: 1px solid var(--black); background: var(--white); border-radius: 8px; padding: 16px; }
@@ -61,12 +89,38 @@
   /* 5각 차트 SVG */
   .radar-svg { width: 240px; height: 240px; }
 
+  @media (max-width: 1100px) {
+    .header-secondary-link { display: none !important; }
+    .header-device-note { display: none !important; }
+  }
   @media (max-width: 900px) {
     aside#wf-sidebar { transform: translateX(-100%); transition: transform 0.25s; }
     aside#wf-sidebar.open { transform: translateX(0); }
     #wf-main, .wf-canvas { margin-left: 0 !important; }
     #mobile-toggle { display: flex !important; }
+    .wf-canvas { padding: 32px 20px 48px !important; }
+    .header-subtitle { display: none !important; }
+    .header-toggle-label { display: none !important; }
   }
+  @media (max-width: 640px) {
+    header { padding-left: 12px !important; padding-right: 12px !important; }
+    .wf-canvas { padding: 24px 12px 36px !important; }
+    .header-brand-text { display: none !important; }
+    .toggle-btn { padding: 5px 9px !important; font-size: 11px !important; }
+    .header-toggle-group { gap: 6px !important; }
+    .header-toggle-wrap { gap: 6px !important; }
+    .toggle-btn-long { display: none !important; }
+    .toggle-btn-short { display: inline-block !important; }
+    /* Wireframe inner: stack horizontal flex rows */
+    .wf-stack-sm { flex-direction: column !important; align-items: stretch !important; }
+    .wf-stack-sm > * { width: 100% !important; }
+    .wf-row-card { flex-wrap: wrap !important; }
+    .wf-row-card > .wf-cta { margin-left: auto; }
+    .wf-fixed-w-sm { width: 100% !important; max-width: 100% !important; height: auto !important; min-height: 120px; }
+    .wf-card { padding: 16px !important; }
+    .wf-box, .wf-box-solid { padding: 12px !important; }
+  }
+  .toggle-btn-short { display: none; }
   @media print {
     aside, #mobile-toggle, header { display: none !important; }
     .wf-canvas { padding: 0 !important; margin: 0 !important; }
@@ -82,25 +136,25 @@
   <button id="mobile-toggle" onclick="toggleSidebar()" class="hidden mr-3 items-center justify-center" aria-label="메뉴">
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
   </button>
-  <div class="font-bold text-sm mr-3">MaroPass IBT</div>
-  <span class="text-xs" style="color: #afafaf;">화면별 와이어프레임 v1 초안</span>
-  <a href="flow-overview.html" class="ml-3 text-xs font-medium" style="padding: 4px 12px; background: rgba(255,255,255,0.1); color: #ffffff; border-radius: 999px; text-decoration: none;">← 플로우 개요</a>
-  <a href="index.html" class="ml-2 text-xs font-medium" style="padding: 4px 12px; background: rgba(255,255,255,0.1); color: #ffffff; border-radius: 999px; text-decoration: none;">통합 보고서</a>
+  <div class="font-bold text-sm mr-3 header-brand-text">MaroPass IBT</div>
+  <span class="text-xs header-subtitle" style="color: #afafaf;">화면별 와이어프레임 v1 초안</span>
+  <a href="flow-overview.html" class="ml-3 text-xs font-medium header-secondary-link" style="padding: 4px 12px; background: rgba(255,255,255,0.1); color: #ffffff; border-radius: 999px; text-decoration: none;">← 플로우 개요</a>
+  <a href="index.html" class="ml-2 text-xs font-medium header-secondary-link" style="padding: 4px 12px; background: rgba(255,255,255,0.1); color: #ffffff; border-radius: 999px; text-decoration: none;">통합 보고서</a>
 
-  <div class="ml-auto flex items-center gap-3">
+  <div class="ml-auto flex items-center gap-3 header-toggle-wrap">
     <!-- Locale toggle -->
-    <div class="flex items-center gap-1 p-1" style="background: rgba(255,255,255,0.1); border-radius: 999px;">
-      <span class="text-xs px-3" style="color: #afafaf;">언어</span>
-      <button class="toggle-btn active" data-locale="ko" onclick="setLocale('ko')">한국어</button>
-      <button class="toggle-btn" data-locale="ja" onclick="setLocale('ja')">日本語</button>
+    <div class="flex items-center gap-1 p-1 header-toggle-group" style="background: rgba(255,255,255,0.1); border-radius: 999px;">
+      <span class="text-xs px-3 header-toggle-label" style="color: #afafaf;">언어</span>
+      <button class="toggle-btn active" data-locale="ko" onclick="setLocale('ko')"><span class="toggle-btn-long">한국어</span><span class="toggle-btn-short">한</span></button>
+      <button class="toggle-btn" data-locale="ja" onclick="setLocale('ja')"><span class="toggle-btn-long">日本語</span><span class="toggle-btn-short">日</span></button>
     </div>
     <!-- Device toggle -->
-    <div class="flex items-center gap-1 p-1" style="background: rgba(255,255,255,0.1); border-radius: 999px;">
-      <span class="text-xs px-3" style="color: #afafaf;" data-i18n="device_label">디바이스</span>
-      <button class="toggle-btn active" data-device="desktop" onclick="setDevice('desktop')" data-i18n="device_desktop_btn">Desktop · 2단</button>
-      <button class="toggle-btn" data-device="mobile" onclick="setDevice('mobile')" data-i18n="device_mobile_btn">Mobile · 1단</button>
+    <div class="flex items-center gap-1 p-1 header-toggle-group" style="background: rgba(255,255,255,0.1); border-radius: 999px;">
+      <span class="text-xs px-3 header-toggle-label" style="color: #afafaf;" data-i18n="device_label">디바이스</span>
+      <button class="toggle-btn active" data-device="desktop" onclick="setDevice('desktop')"><span class="toggle-btn-long" data-i18n="device_desktop_btn">Desktop · 2단</span><span class="toggle-btn-short">PC</span></button>
+      <button class="toggle-btn" data-device="mobile" onclick="setDevice('mobile')"><span class="toggle-btn-long" data-i18n="device_mobile_btn">Mobile · 1단</span><span class="toggle-btn-short">M</span></button>
     </div>
-    <span class="text-xs" style="color:#afafaf;margin-left:8px;" data-i18n="device_note">앱은 라운드 2</span>
+    <span class="text-xs header-device-note" style="color:#afafaf;margin-left:8px;" data-i18n="device_note">앱은 라운드 2</span>
   </div>
 </header>
 
@@ -565,10 +619,10 @@
     <div id="wf-exam" class="wf-panel">
       <div class="text-xs text-slate-500 mb-2">/exam/:attemptId — <span data-i18n="exam_screen_label">응시 화면 (데스크탑 2단)</span></div>
       <div class="wf-box-solid p-0">
-        <div class="p-3 border-b border-slate-200 flex items-center justify-between bg-slate-50">
-          <div class="flex items-center gap-3">
+        <div class="p-3 border-b border-slate-200 flex flex-wrap items-center justify-between gap-2 bg-slate-50">
+          <div class="flex items-center gap-3 min-w-0">
             <span class="wf-text text-xs">✕</span>
-            <span class="wf-text text-sm font-bold" lang="ko">TOPIK 말하기 (초급1)</span>
+            <span class="wf-text text-sm font-bold truncate" lang="ko">TOPIK 말하기 (초급1)</span>
           </div>
           <div class="wf-timer-prep" style="background:#0ea5e9;font-size:13px;">⏰ 00:29:59</div>
           <div class="wf-text text-sm">1 / 6</div>
