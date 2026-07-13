@@ -27,10 +27,10 @@
   .gnb-logo { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 20px; color: var(--grey-900); cursor: pointer; }
   .gnb-logo-mark { width: 32px; height: 32px; background: linear-gradient(135deg, var(--blue-500) 0%, var(--green-500) 100%); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 800; font-size: 14px; }
   .gnb-menu { display: flex; gap: 28px; flex: 1; }
-  .gnb-item { color: var(--grey-700); font-weight: 500; font-size: 15px; padding: 6px 0; border-bottom: 2px solid transparent; cursor: pointer; transition: all 0.15s; }
+  .gnb-item { color: var(--grey-700); font-weight: 500; font-size: 15px; padding: 6px 0; border-bottom: 2px solid transparent; cursor: pointer; transition: color 0.15s, border-color 0.15s; }
   .gnb-item:hover { color: var(--blue-500); }
   .gnb-item.active { color: var(--blue-500); font-weight: 600; border-bottom-color: var(--blue-500); }
-  .btn-primary { background: var(--blue-500); color: white; font-weight: 600; font-size: 14px; padding: 8px 16px; border-radius: 8px; cursor: pointer; border: none; transition: all 0.15s; }
+  .btn-primary { background: var(--blue-500); color: white; font-weight: 600; font-size: 14px; padding: 8px 16px; border-radius: 8px; cursor: pointer; border: none; transition: background-color 0.15s; }
   .btn-primary:hover { background: var(--blue-600); }
   .btn-ghost { background: transparent; color: var(--grey-700); font-weight: 600; font-size: 14px; padding: 8px 16px; border-radius: 8px; cursor: pointer; border: none; }
   .btn-ghost:hover { color: var(--blue-500); }
@@ -59,6 +59,7 @@
   .toolbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
   .search-box { background: white; border: 1px solid var(--grey-200); border-radius: 8px; padding: 8px 12px; display: flex; align-items: center; gap: 8px; flex: 1; max-width: 400px; }
   .search-box input { border: none; outline: none; flex: 1; font-size: 14px; }
+  .search-box input:focus-visible { outline: 2px solid var(--blue-500); outline-offset: 2px; }
   .sort-select { background: white; border: 1px solid var(--grey-200); border-radius: 8px; padding: 8px 12px; font-size: 14px; cursor: pointer; }
   .result-count { font-size: 13px; color: var(--grey-600); }
 
@@ -66,7 +67,7 @@
   @media (max-width: 1100px) { .grid { grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 600px) { .grid { grid-template-columns: 1fr; } }
 
-  .test-card { background: white; border: 1px solid var(--grey-200); border-radius: 16px; overflow: hidden; cursor: pointer; transition: all 0.25s; }
+  .test-card { background: white; border: 1px solid var(--grey-200); border-radius: 16px; overflow: hidden; cursor: pointer; transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s; }
   .test-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(15,23,42,0.1); border-color: var(--blue-500); }
   .test-card-img { height: 160px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 17px; position: relative; }
   .test-card-img.blue { background: var(--gradient-cta-blue); color: var(--blue-600); }
@@ -112,13 +113,17 @@
       padding: 12px 20px 16px !important; box-sizing: border-box;
     }
   }
+
+  .dev-index-link { position: fixed; bottom: 24px; left: 24px; background: rgba(15,23,42,0.85); color: white; padding: 8px 14px; border-radius: 999px; text-decoration: none; font-size: 12px; font-weight: 600; backdrop-filter: blur(8px); z-index: 40; }
+
+  a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, [role="button"]:focus-visible { outline: 2px solid var(--blue-500); outline-offset: 2px; }
 </style>
 </head>
 <body>
 
 <header class="gnb">
 <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
-  <a href="ui-main-home.html" class="gnb-logo" style="text-decoration: none;"><div class="gnb-logo-mark">K</div><span>MaroPass</span></a>
+  <a href="ui-main-home.html" class="gnb-logo" style="text-decoration: none;"><span>MaroPass</span></a>
   <nav class="gnb-menu">
     <a href="ui-main-home.html" class="gnb-item" style="text-decoration: none;" data-i18n="nav_home">홈</a>
     <a href="ui-tests-list.html" class="gnb-item active" style="text-decoration: none;" data-i18n="nav_tests">시험 목록</a>
@@ -178,7 +183,7 @@
       <div class="flex gap-2 items-center">
         <div class="search-box">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--grey-400);"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-          <input type="text" data-i18n-placeholder="search_placeholder" placeholder="시험명 검색..."/>
+          <input type="text" autocomplete="off" aria-label="시험명 검색" data-i18n-placeholder="search_placeholder" placeholder="시험명 검색..."/>
         </div>
         <select class="sort-select">
           <option data-i18n="sort_newest">최신순</option>
@@ -317,7 +322,7 @@
   </div>
 </footer>
 
-<a href="../ui-index.html" style="position: fixed; bottom: 24px; left: 24px; background: rgba(15,23,42,0.85); color: white; padding: 8px 14px; border-radius: 999px; text-decoration: none; font-size: 12px; font-weight: 600; backdrop-filter: blur(8px); z-index: 40;">← UI 인덱스</a>
+<a href="../ui-index.html" class="dev-index-link">← UI 인덱스</a>
 
 <script>
 const i18n = {
@@ -362,7 +367,7 @@ function setLocale(loc) {
   locale = loc; localStorage.setItem('kopass_main_locale', loc);
   document.documentElement.lang = loc;
   document.querySelectorAll('[data-i18n]').forEach(el => el.textContent = t(el.getAttribute('data-i18n')));
-  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => el.placeholder = t(el.getAttribute('data-i18n-placeholder')));
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => { const v = t(el.getAttribute('data-i18n-placeholder')); el.placeholder = v; el.setAttribute('aria-label', v); });
   document.querySelectorAll('.locale-toggle button').forEach((b, i) => b.classList.toggle('active', (i===0&&loc==='ko')||(i===1&&loc==='ja')));
 }
 setLocale(locale);

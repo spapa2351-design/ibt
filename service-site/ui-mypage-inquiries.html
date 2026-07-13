@@ -34,7 +34,7 @@
   .chip { padding: 6px 14px; border-radius: 999px; font-size: 13px; font-weight: 600; background: white; border: 1px solid var(--grey-200); color: var(--grey-700); cursor: pointer; }
   .chip.active { background: var(--blue-500); border-color: var(--blue-500); color: white; }
   .inq-list { background: white; border: 1px solid var(--grey-200); border-radius: 16px; overflow: hidden; }
-  .inq-row { padding: 18px 20px; cursor: pointer; transition: all 0.15s; }
+  .inq-row { padding: 18px 20px; cursor: pointer; transition: background-color 0.15s; }
   .inq-row + .inq-row { border-top: 1px solid var(--grey-100); }
   .inq-row:hover { background: var(--grey-50); }
   .inq-meta { display: flex; gap: 8px; align-items: center; margin-bottom: 6px; }
@@ -48,6 +48,9 @@
   .reply-block { background: var(--blue-50); border-left: 3px solid var(--blue-500); border-radius: 0 8px 8px 0; padding: 10px 14px; margin-top: 8px; font-size: 12px; color: var(--grey-700); }
   .reply-block strong { color: var(--blue-600); display: block; margin-bottom: 4px; font-size: 11px; }
   .gnb-burger { display: none; background: var(--grey-100); border: 1px solid var(--grey-200); border-radius: 8px; cursor: pointer; padding: 8px; color: var(--grey-700); align-items: center; justify-content: center; }
+  .inq-note { margin-top:24px; padding:16px; background:white; border:1px solid var(--grey-200); border-radius:12px; font-size:13px; color:var(--grey-600); text-align:center; }
+  .dev-index-link { position:fixed; bottom:24px; left:24px; background:rgba(15,23,42,0.85); color:white; padding:8px 14px; border-radius:999px; text-decoration:none; font-size:12px; font-weight:600; z-index:40; }
+  a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible, [role="button"]:focus-visible { outline: 2px solid var(--blue-500); outline-offset: 2px; }
   @media (max-width: 768px) {
     .gnb { flex-wrap: wrap; padding: 0 20px !important; height: auto; min-height: 64px; gap: 12px; }
     .gnb-burger { display: flex; }
@@ -68,7 +71,7 @@
 <body>
 <header class="gnb">
 <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
-  <a href="ui-main-home.html" class="gnb-logo"><div class="gnb-logo-mark">K</div><span>MaroPass</span></a>
+  <a href="ui-main-home.html" class="gnb-logo"><span>MaroPass</span></a>
   <nav class="gnb-menu">
     <a href="ui-main-home.html" class="gnb-item">홈</a>
     <a href="ui-tests-list.html" class="gnb-item">시험 목록</a>
@@ -135,12 +138,12 @@
       </div>
     </div>
 
-    <div style="margin-top:24px; padding:16px; background:white; border:1px solid var(--grey-200); border-radius:12px; font-size:13px; color:var(--grey-600); text-align:center;">
+    <div class="inq-note">
       💡 답변은 영업일 기준 1~2일 이내 도착합니다. 자주 묻는 질문은 <a href="#" style="color:var(--blue-500); font-weight:600; text-decoration:underline;">FAQ</a>에서 먼저 확인해 보세요.
     </div>
   </main>
 </div>
 
-<a href="../ui-index.html" style="position:fixed; bottom:24px; left:24px; background:rgba(15,23,42,0.85); color:white; padding:8px 14px; border-radius:999px; text-decoration:none; font-size:12px; font-weight:600; z-index:40;">← UI 인덱스</a>
+<a href="../ui-index.html" class="dev-index-link">← UI 인덱스</a>
 </body>
 </html>

@@ -61,12 +61,14 @@
       padding: 12px 20px 16px !important; box-sizing: border-box;
     }
   }
+  .dev-index-link { position: fixed; bottom: 24px; left: 24px; background: rgba(15,23,42,0.85); color: white; padding: 8px 14px; border-radius: 999px; text-decoration: none; font-size: 12px; font-weight: 600; z-index: 40; }
+  a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, [role="button"]:focus-visible { outline: 2px solid var(--blue-500); outline-offset: 2px; }
 </style>
 </head>
 <body>
 <header class="gnb">
 <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
-  <a href="ui-main-home.html" class="gnb-logo"><div class="gnb-logo-mark">K</div><span>MaroPass</span></a>
+  <a href="ui-main-home.html" class="gnb-logo"><span>MaroPass</span></a>
   <nav class="gnb-menu">
     <a href="ui-main-home.html" class="gnb-item">홈</a>
     <a href="ui-tests-list.html" class="gnb-item">시험 목록</a>
@@ -148,6 +150,6 @@
   </main>
 </div>
 
-<a href="../ui-index.html" style="position:fixed; bottom:24px; left:24px; background:rgba(15,23,42,0.85); color:white; padding:8px 14px; border-radius:999px; text-decoration:none; font-size:12px; font-weight:600; z-index:40;">← UI 인덱스</a>
+<a href="../ui-index.html" class="dev-index-link">← UI 인덱스</a>
 </body>
 </html>

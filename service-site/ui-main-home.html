@@ -4,7 +4,7 @@
 <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MaroPass IBT — メインホーム (UI Design v0.1)</title>
+<title>MaroPass IBT · メインホーム (UI Design v0.1)</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
   html, body { font-family: "Pretendard Variable", "Pretendard JP Variable", Pretendard, "Pretendard JP", -apple-system, BlinkMacSystemFont, system-ui, sans-serif; }
@@ -89,7 +89,7 @@
     padding: 6px 0;
     border-bottom: 2px solid transparent;
     cursor: pointer;
-    transition: all 0.15s;
+    transition: color 0.15s, border-bottom-color 0.15s;
   }
   .gnb-item:hover { color: var(--blue-500); }
   .gnb-item.active { color: var(--blue-500); font-weight: 600; border-bottom-color: var(--blue-500); }
@@ -106,7 +106,7 @@
     padding: 8px 16px;
     border-radius: 8px;
     cursor: pointer;
-    transition: all 0.15s;
+    transition: background-color 0.15s, transform 0.15s, box-shadow 0.15s;
     border: none;
   }
   .btn-primary:hover { background: var(--blue-600); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(46,132,255,0.25); }
@@ -191,7 +191,7 @@
     font-weight: 700;
     border-radius: 12px;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s, color 0.2s;
   }
   .btn-large.btn-primary {
     background: var(--blue-500);
@@ -252,7 +252,7 @@
     border-radius: 16px;
     overflow: hidden;
     cursor: pointer;
-    transition: all 0.25s;
+    transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
   }
   .test-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(15, 23, 42, 0.1); border-color: var(--blue-500); }
   .test-card-img {
@@ -360,7 +360,7 @@
     background: white;
     border-radius: 20px;
     border: 1px solid var(--grey-200);
-    transition: all 0.2s;
+    transition: border-color 0.2s, box-shadow 0.2s;
   }
   .feature-card:hover { border-color: var(--blue-500); box-shadow: 0 8px 24px rgba(46,132,255,0.08); }
   .feature-icon {
@@ -385,7 +385,7 @@
     border-radius: 12px;
     padding: 20px 24px;
     cursor: pointer;
-    transition: all 0.15s;
+    transition: border-color 0.15s, box-shadow 0.15s;
   }
   .faq-item:hover { border-color: var(--blue-500); }
   .faq-item.open { border-color: var(--blue-500); box-shadow: 0 4px 16px rgba(46,132,255,0.08); }
@@ -432,9 +432,28 @@
     box-shadow: 0 8px 24px rgba(46,132,255,0.4);
     z-index: 40;
     font-size: 24px;
-    transition: all 0.2s;
+    transition: transform 0.2s, box-shadow 0.2s;
   }
   .float-help:hover { transform: translateY(-2px) scale(1.05); box-shadow: 0 12px 32px rgba(46,132,255,0.5); }
+
+  /* Accessible focus ring */
+  a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, [role="button"]:focus-visible { outline: 2px solid var(--blue-500); outline-offset: 2px; }
+
+  /* Demo index link (bottom-left) */
+  .demo-index-link {
+    position: fixed;
+    bottom: 24px;
+    left: 24px;
+    background: rgba(15,23,42,0.85);
+    color: white;
+    padding: 8px 14px;
+    border-radius: 999px;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 600;
+    backdrop-filter: blur(8px);
+    z-index: 40;
+  }
 
   /* Locale toggle */
   .locale-toggle {
@@ -491,7 +510,7 @@
 <!-- Notice ticker bar (운영) -->
 <div class="notice-bar" id="notice-bar">
   <span class="notice-bar-tag" data-i18n="notice_tag">공지</span>
-  <span class="notice-bar-text" data-i18n="notice_text">2026년 9월 1일 서비스 개시 예정 — 사전 등록 신청 받습니다 →</span>
+  <span class="notice-bar-text" data-i18n="notice_text">2026년 9월 1일 서비스 개시 예정. 사전 등록 신청 받습니다 →</span>
   <span class="notice-bar-close" onclick="document.getElementById('notice-bar').style.display='none'">×</span>
 </div>
 
@@ -499,7 +518,6 @@
 <header class="gnb">
 <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
   <a href="ui-main-home.html" class="gnb-logo" style="text-decoration: none;">
-    <div class="gnb-logo-mark">K</div>
     <span>MaroPass</span>
   </a>
   <nav class="gnb-menu">
@@ -706,7 +724,7 @@
     <div class="faq-list">
       <div class="faq-item" onclick="this.classList.toggle('open')">
         <div class="faq-q"><span class="faq-q-text" data-i18n="faq_q1">응시 가능한 디바이스는 무엇인가요?</span><span class="faq-icon">+</span></div>
-        <div class="faq-a" data-i18n-html="faq_a1">1차 오픈은 <strong>데스크탑 브라우저</strong> (Chrome, Safari, Edge — 최신 버전 권장) 와 <strong>모바일 브라우저</strong>에서 응시 가능합니다. 마이크 권한이 필수이며, 헤드셋 사용을 권장드려요. iOS / Android 네이티브 앱은 라운드 2 이후에 제공될 예정입니다.</div>
+        <div class="faq-a" data-i18n-html="faq_a1">1차 오픈은 <strong>데스크탑 브라우저</strong> (Chrome, Safari, Edge · 최신 버전 권장) 와 <strong>모바일 브라우저</strong>에서 응시 가능합니다. 마이크 권한이 필수이며, 헤드셋 사용을 권장드려요. iOS / Android 네이티브 앱은 라운드 2 이후에 제공될 예정입니다.</div>
       </div>
       <div class="faq-item" onclick="this.classList.toggle('open')">
         <div class="faq-q"><span class="faq-q-text" data-i18n="faq_q2">결제 후 언제까지 응시할 수 있나요?</span><span class="faq-icon">+</span></div>
@@ -740,7 +758,6 @@
   <div class="footer-grid">
     <div>
       <div class="gnb-logo" style="color: white;">
-        <div class="gnb-logo-mark">K</div>
         <span>MaroPass</span>
       </div>
       <p class="footer-brand-text" data-i18n="footer_about">
@@ -774,7 +791,7 @@
     </div>
   </div>
   <div class="footer-bottom">
-    <span>© 2026 MaroPass — Newin Japan</span>
+    <span>© 2026 MaroPass · Newin Japan</span>
     <span data-i18n="footer_company_info">사업자 정보 · 회사명 · 주소</span>
   </div>
 </footer>
@@ -785,12 +802,12 @@
 </button>
 
 <!-- Demo Index Link -->
-<a href="../ui-index.html" style="position: fixed; bottom: 24px; left: 24px; background: rgba(15,23,42,0.85); color: white; padding: 8px 14px; border-radius: 999px; text-decoration: none; font-size: 12px; font-weight: 600; backdrop-filter: blur(8px); z-index: 40;">← UI 인덱스</a>
+<a href="../ui-index.html" class="demo-index-link">← UI 인덱스</a>
 
 <script>
 const i18n = {
   ko: {
-    notice_tag: '공지', notice_text: '2026년 9월 1일 서비스 개시 예정 — 사전 등록 신청 받습니다 →',
+    notice_tag: '공지', notice_text: '2026년 9월 1일 서비스 개시 예정. 사전 등록 신청 받습니다 →',
     nav_home: '홈', nav_tests: '시험 목록', nav_mypage: '마이페이지', nav_support: '고객센터',
     auth_login: '로그인', auth_signup: '회원가입',
     hero_tag: '📍 일본 시장 한정 · TOPIK 보완형',
@@ -824,7 +841,7 @@ const i18n = {
     faq_q4: '인증서는 어떻게 발급받나요?',
     faq_q5: '시험 도중 마이크가 작동하지 않으면?',
     faq_q6: '응시는 어디에서 진행되나요?',
-    faq_a1: '1차 오픈은 <strong>데스크탑 브라우저</strong> (Chrome, Safari, Edge — 최신 버전 권장) 와 <strong>모바일 브라우저</strong>에서 응시 가능합니다. 마이크 권한이 필수이며, 헤드셋 사용을 권장드려요. iOS / Android 네이티브 앱은 라운드 2 이후에 제공될 예정입니다.',
+    faq_a1: '1차 오픈은 <strong>데스크탑 브라우저</strong> (Chrome, Safari, Edge · 최신 버전 권장) 와 <strong>모바일 브라우저</strong>에서 응시 가능합니다. 마이크 권한이 필수이며, 헤드셋 사용을 권장드려요. iOS / Android 네이티브 앱은 라운드 2 이후에 제공될 예정입니다.',
     faq_a2: '<p>결제일로부터 <strong>14일 이내</strong> 24시간 언제든 응시 가능합니다. 시험 시작 시각이 별도로 정해져 있지 않아 본인의 일정에 맞춰 진행할 수 있어요.</p><p>응시 가능 기간이 지나면 자동 만료되며 환불되지 않으니 기간 내에 응시해 주세요.</p>',
     faq_a3: '<p><strong>접수 기간 내 미응시</strong>인 경우 마이페이지 → 1:1 문의에서 환불 신청이 가능합니다. 운영팀 검토 후 영업일 기준 3~5일 이내 결제 수단으로 환원됩니다.</p><p><strong>응시 후 변심 또는 결과 불만족</strong>의 경우는 환불이 적용되지 않습니다. 단, 시스템·네트워크 장애로 응시 진행 불가 시는 자동 환불 또는 재응시 티켓이 발행됩니다.</p>',
     faq_a4: '응시 후 결과 발표가 되면 <strong>MaroPass 마이페이지 → 인증서</strong>에서 PDF 인증서를 다운로드할 수 있어요. <strong>위변조 검증 URL</strong>이 함께 발급되며, 검증 페이지는 <code>kopass.*</code> 도메인이라 외부 학교·기업이 직접 MaroPass에 접속해 진위를 확인할 수 있습니다.',
@@ -837,7 +854,7 @@ const i18n = {
     footer_company_info: '사업자 정보 · 회사명 · 주소',
   },
   ja: {
-    notice_tag: 'お知らせ', notice_text: '2026年9月1日サービス開始予定 — 事前登録を受け付けています →',
+    notice_tag: 'お知らせ', notice_text: '2026年9月1日サービス開始予定。事前登録を受け付けています →',
     nav_home: 'ホーム', nav_tests: '試験一覧', nav_mypage: 'マイページ', nav_support: 'サポート',
     auth_login: 'ログイン', auth_signup: '会員登録',
     hero_tag: '📍 日本市場限定 · TOPIK補完型',
@@ -871,7 +888,7 @@ const i18n = {
     faq_q4: '証明書はどのように発行されますか?',
     faq_q5: '試験中にマイクが動作しない場合は?',
     faq_q6: '受験はどこで行われますか?',
-    faq_a1: '1次オープンは<strong>デスクトップブラウザ</strong>(Chrome、Safari、Edge — 最新版推奨)と<strong>モバイルブラウザ</strong>で受験可能です。マイク権限が必須で、ヘッドセットの使用を推奨します。iOS / Android ネイティブアプリはラウンド2以降に提供予定です。',
+    faq_a1: '1次オープンは<strong>デスクトップブラウザ</strong>(Chrome、Safari、Edge · 最新版推奨)と<strong>モバイルブラウザ</strong>で受験可能です。マイク権限が必須で、ヘッドセットの使用を推奨します。iOS / Android ネイティブアプリはラウンド2以降に提供予定です。',
     faq_a2: '<p>決済日から<strong>14日以内</strong>、24時間いつでも受験可能です。試験開始時刻が別途決まっていないため、ご自身のスケジュールに合わせて進められます。</p><p>受験可能期間を過ぎると自動的に失効し、返金されませんので期間内に受験してください。</p>',
     faq_a3: '<p><strong>受付期間内に未受験</strong>の場合、マイページ → 1:1お問い合わせから返金申請が可能です。運営チーム検討後、営業日基準3〜5日以内に決済手段へ返金されます。</p><p><strong>受験後の変心または結果不満</strong>の場合は返金が適用されません。ただし、システム・ネットワーク障害による受験不可の場合は自動返金または再受験チケットが発行されます。</p>',
     faq_a4: '受験後、結果発表されたら<strong>MaroPass マイページ → 証明書</strong>でPDF証明書をダウンロードできます。<strong>偽造防止検証URL</strong>が一緒に発行され、検証ページは <code>kopass.*</code> ドメインのため、提出先の学校・企業が直接 MaroPass にアクセスして真偽を確認できます。',

@@ -50,6 +50,10 @@
   .danger-desc { font-size: 13px; color: #7f1d1d; margin-bottom: 16px; line-height: 1.6; }
   .danger-btn { background: white; color: var(--red-500); border: 1px solid var(--red-500); padding: 10px 20px; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; }
   .gnb-burger { display: none; background: var(--grey-100); border: 1px solid var(--grey-200); border-radius: 8px; cursor: pointer; padding: 8px; color: var(--grey-700); align-items: center; justify-content: center; }
+  .notify-row { display:flex; justify-content:space-between; align-items:center; padding:10px 0; }
+  .notify-row-divider { border-bottom:1px solid var(--grey-100); }
+  .dev-index-link { position:fixed; bottom:24px; left:24px; background:rgba(15,23,42,0.85); color:white; padding:8px 14px; border-radius:999px; text-decoration:none; font-size:12px; font-weight:600; z-index:40; }
+  a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible, [role="button"]:focus-visible { outline: 2px solid var(--blue-500); outline-offset: 2px; }
   @media (max-width: 768px) {
     .gnb { flex-wrap: wrap; padding: 0 20px !important; height: auto; min-height: 64px; gap: 12px; }
     .gnb-burger { display: flex; }
@@ -69,7 +73,7 @@
 <body>
 <header class="gnb">
 <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
-  <a href="ui-main-home.html" class="gnb-logo"><div class="gnb-logo-mark">K</div><span>MaroPass</span></a>
+  <a href="ui-main-home.html" class="gnb-logo"><span>MaroPass</span></a>
   <nav class="gnb-menu">
     <a href="ui-main-home.html" class="gnb-item">홈</a>
     <a href="ui-tests-list.html" class="gnb-item">시험 목록</a>
@@ -114,20 +118,20 @@
       <div class="row-2">
         <div class="form-group">
           <label class="form-label">이름</label>
-          <input type="text" class="form-input" value="길동">
+          <input type="text" class="form-input" value="길동" autocomplete="given-name">
         </div>
         <div class="form-group">
           <label class="form-label">성</label>
-          <input type="text" class="form-input" value="홍">
+          <input type="text" class="form-input" value="홍" autocomplete="family-name">
         </div>
       </div>
       <div class="form-group">
         <label class="form-label">이메일 <span class="verified">✓ 인증됨</span></label>
-        <input type="email" class="form-input" value="hong.gildong@example.com" readonly>
+        <input type="email" class="form-input" value="hong.gildong@example.com" readonly autocomplete="email">
       </div>
       <div class="form-group">
         <label class="form-label">연락처</label>
-        <input type="tel" class="form-input" value="+81 90-1234-5678">
+        <input type="tel" class="form-input" value="+81 90-1234-5678" autocomplete="tel">
       </div>
       <div class="form-group">
         <label class="form-label">한국어 학습 기간</label>
@@ -146,15 +150,15 @@
       <div class="section-title">비밀번호 변경</div>
       <div class="form-group">
         <label class="form-label">현재 비밀번호</label>
-        <input type="password" class="form-input" placeholder="••••••••">
+        <input type="password" class="form-input" placeholder="••••••••" autocomplete="current-password">
       </div>
       <div class="form-group">
         <label class="form-label">새 비밀번호</label>
-        <input type="password" class="form-input" placeholder="8자 이상 · 영문·숫자·특수문자 조합">
+        <input type="password" class="form-input" placeholder="8자 이상 · 영문·숫자·특수문자 조합" autocomplete="new-password">
       </div>
       <div class="form-group">
         <label class="form-label">새 비밀번호 확인</label>
-        <input type="password" class="form-input" placeholder="••••••••">
+        <input type="password" class="form-input" placeholder="••••••••" autocomplete="new-password">
       </div>
       <button class="save-btn">비밀번호 변경</button>
     </div>
@@ -162,14 +166,14 @@
     <!-- 알림 설정 -->
     <div class="section">
       <div class="section-title">알림 설정</div>
-      <label style="display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid var(--grey-100);">
+      <label class="notify-row notify-row-divider">
         <div>
           <div style="font-weight:600; font-size:14px;">채점 완료 알림 (이메일)</div>
           <div style="font-size:12px; color:var(--grey-600); margin-top:2px;">결과 발표 시 메일 발송</div>
         </div>
         <input type="checkbox" checked style="width:18px; height:18px; accent-color: var(--blue-500);">
       </label>
-      <label style="display:flex; justify-content:space-between; align-items:center; padding:10px 0;">
+      <label class="notify-row">
         <div>
           <div style="font-weight:600; font-size:14px;">마케팅 정보 (이메일)</div>
           <div style="font-size:12px; color:var(--grey-600); margin-top:2px;">신규 시험·할인 안내</div>
@@ -187,6 +191,6 @@
   </main>
 </div>
 
-<a href="../ui-index.html" style="position:fixed; bottom:24px; left:24px; background:rgba(15,23,42,0.85); color:white; padding:8px 14px; border-radius:999px; text-decoration:none; font-size:12px; font-weight:600; z-index:40;">← UI 인덱스</a>
+<a href="../ui-index.html" class="dev-index-link">← UI 인덱스</a>
 </body>
 </html>

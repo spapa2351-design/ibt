@@ -41,6 +41,9 @@
   .policy-list .ico { color: var(--green-500); font-weight: 700; flex-shrink: 0; }
   .policy-list .ico-x { color: var(--grey-400); }
   .gnb-burger { display: none; background: var(--grey-100); border: 1px solid var(--grey-200); border-radius: 8px; cursor: pointer; padding: 8px; color: var(--grey-700); align-items: center; justify-content: center; }
+  .policy-note { margin-top:16px; padding-top:16px; border-top:1px solid var(--grey-100); font-size:12px; color:var(--grey-500); }
+  .dev-index-link { position:fixed; bottom:24px; left:24px; background:rgba(15,23,42,0.85); color:white; padding:8px 14px; border-radius:999px; text-decoration:none; font-size:12px; font-weight:600; z-index:40; }
+  a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible, [role="button"]:focus-visible { outline: 2px solid var(--blue-500); outline-offset: 2px; }
   @media (max-width: 768px) {
     .gnb { flex-wrap: wrap; padding: 0 20px !important; height: auto; min-height: 64px; gap: 12px; }
     .gnb-burger { display: flex; }
@@ -60,7 +63,7 @@
 <body>
 <header class="gnb">
 <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
-  <a href="ui-main-home.html" class="gnb-logo"><div class="gnb-logo-mark">K</div><span>MaroPass</span></a>
+  <a href="ui-main-home.html" class="gnb-logo"><span>MaroPass</span></a>
   <nav class="gnb-menu">
     <a href="ui-main-home.html" class="gnb-item">홈</a>
     <a href="ui-tests-list.html" class="gnb-item">시험 목록</a>
@@ -104,18 +107,18 @@
     <div class="policy-card">
       <div class="policy-title">📋 환불 정책 안내</div>
       <ul class="policy-list">
-        <li><span class="ico">✓</span><span><strong>접수 기간 내 응시 전</strong> — 전액 환불 가능 (자율 취소)</span></li>
-        <li><span class="ico">✓</span><span><strong>시스템 장애로 응시 불가</strong> — 자동 환불 또는 재응시 티켓 발행</span></li>
-        <li><span class="ico-x">✗</span><span><strong>응시 후 변심·결과 불만족</strong> — 환불 미적용</span></li>
-        <li><span class="ico-x">✗</span><span><strong>응시 가능 기간 만료(14일)</strong> — 환불 미적용</span></li>
+        <li><span class="ico">✓</span><span><strong>접수 기간 내 응시 전</strong> · 전액 환불 가능 (자율 취소)</span></li>
+        <li><span class="ico">✓</span><span><strong>시스템 장애로 응시 불가</strong> · 자동 환불 또는 재응시 티켓 발행</span></li>
+        <li><span class="ico-x">✗</span><span><strong>응시 후 변심·결과 불만족</strong> · 환불 미적용</span></li>
+        <li><span class="ico-x">✗</span><span><strong>응시 가능 기간 만료(14일)</strong> · 환불 미적용</span></li>
       </ul>
-      <div style="margin-top:16px; padding-top:16px; border-top:1px solid var(--grey-100); font-size:12px; color:var(--grey-500);">
+      <div class="policy-note">
         💡 환불 처리는 영업일 기준 3~5일 이내 결제 수단으로 환원됩니다.
       </div>
     </div>
   </main>
 </div>
 
-<a href="../ui-index.html" style="position:fixed; bottom:24px; left:24px; background:rgba(15,23,42,0.85); color:white; padding:8px 14px; border-radius:999px; text-decoration:none; font-size:12px; font-weight:600; z-index:40;">← UI 인덱스</a>
+<a href="../ui-index.html" class="dev-index-link">← UI 인덱스</a>
 </body>
 </html>

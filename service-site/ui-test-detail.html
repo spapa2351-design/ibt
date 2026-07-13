@@ -4,7 +4,7 @@
 <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MaroPass IBT — 시험 상세</title>
+<title>MaroPass IBT · 시험 상세</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
   html, body { font-family: "Pretendard Variable", "Pretendard JP Variable", Pretendard, "Pretendard JP", -apple-system, BlinkMacSystemFont, system-ui, sans-serif; }
@@ -26,9 +26,9 @@
   .gnb-logo { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 20px; color: var(--grey-900); cursor: pointer; }
   .gnb-logo-mark { width: 32px; height: 32px; background: linear-gradient(135deg, var(--blue-500) 0%, var(--green-500) 100%); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 800; font-size: 14px; }
   .gnb-menu { display: flex; gap: 28px; flex: 1; }
-  .gnb-item { color: var(--grey-700); font-weight: 500; font-size: 15px; padding: 6px 0; border-bottom: 2px solid transparent; cursor: pointer; transition: all 0.15s; }
+  .gnb-item { color: var(--grey-700); font-weight: 500; font-size: 15px; padding: 6px 0; border-bottom: 2px solid transparent; cursor: pointer; transition: color 0.15s, border-color 0.15s; }
   .gnb-item.active { color: var(--blue-500); font-weight: 600; border-bottom-color: var(--blue-500); }
-  .btn-primary { background: var(--blue-500); color: white; font-weight: 600; font-size: 14px; padding: 8px 16px; border-radius: 8px; cursor: pointer; border: none; transition: all 0.15s; }
+  .btn-primary { background: var(--blue-500); color: white; font-weight: 600; font-size: 14px; padding: 8px 16px; border-radius: 8px; cursor: pointer; border: none; transition: background-color 0.15s; }
   .btn-primary:hover { background: var(--blue-600); }
   .btn-ghost { background: transparent; color: var(--grey-700); font-weight: 600; font-size: 14px; padding: 8px 16px; border-radius: 8px; cursor: pointer; border: none; }
   .locale-toggle { display: inline-flex; background: var(--grey-100); border-radius: 8px; padding: 2px; }
@@ -82,7 +82,7 @@
   .info-row:last-child { border-bottom: none; }
   .info-label { color: var(--grey-600); }
   .info-value { color: var(--grey-900); font-weight: 600; }
-  .btn-large { width: 100%; padding: 14px; border-radius: 12px; font-size: 15px; font-weight: 700; cursor: pointer; transition: all 0.2s; border: none; }
+  .btn-large { width: 100%; padding: 14px; border-radius: 12px; font-size: 15px; font-weight: 700; cursor: pointer; transition: background-color 0.2s, transform 0.2s; border: none; }
   .btn-large.primary { background: var(--blue-500); color: white; box-shadow: 0 8px 16px rgba(46,132,255,0.2); }
   .btn-large.primary:hover { background: var(--blue-600); transform: translateY(-1px); }
   .btn-large.secondary { background: var(--grey-100); color: var(--grey-900); }
@@ -115,13 +115,17 @@
       padding: 12px 20px 16px !important; box-sizing: border-box;
     }
   }
+
+  .dev-index-link { position: fixed; bottom: 24px; left: 24px; background: rgba(15,23,42,0.85); color: white; padding: 8px 14px; border-radius: 999px; text-decoration: none; font-size: 12px; font-weight: 600; backdrop-filter: blur(8px); z-index: 40; }
+
+  a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, [role="button"]:focus-visible { outline: 2px solid var(--blue-500); outline-offset: 2px; }
 </style>
 </head>
 <body>
 
 <header class="gnb">
 <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
-  <a href="ui-main-home.html" class="gnb-logo" style="text-decoration: none;"><div class="gnb-logo-mark">K</div><span>MaroPass</span></a>
+  <a href="ui-main-home.html" class="gnb-logo" style="text-decoration: none;"><span>MaroPass</span></a>
   <nav class="gnb-menu">
     <a href="ui-main-home.html" class="gnb-item" style="text-decoration: none;" data-i18n="nav_home">홈</a>
     <a href="ui-tests-list.html" class="gnb-item active" style="text-decoration: none;" data-i18n="nav_tests">시험 목록</a>
@@ -207,7 +211,7 @@
         <div class="area-item" style="grid-column: span 2;">
           <div class="area-num">05</div>
           <div class="area-name" data-i18n="area_content">내용 구성</div>
-          <div class="area-desc" data-i18n="area_content_desc">논리적 응답 구성·일관성 (5문항) — 그림 보고 답하기·일상 대화 포함</div>
+          <div class="area-desc" data-i18n="area_content_desc">논리적 응답 구성·일관성 (5문항), 그림 보고 답하기·일상 대화 포함</div>
         </div>
       </div>
     </div>
@@ -215,7 +219,7 @@
     <div class="content-block">
       <div class="block-title" data-i18n="block_sample_title">🎤 샘플 문항</div>
       <div class="sample-card">
-        <div class="sample-tag" data-i18n="sample_tag">유형 1 — 텍스트 지시</div>
+        <div class="sample-tag" data-i18n="sample_tag">유형 1 · 텍스트 지시</div>
         <div class="sample-q" lang="ko">1. 질문을 듣고 대답하십시오.</div>
         <div class="sample-text" lang="ko">20초 동안 준비하십시오. '삐' 소리가 끝나면 30초 동안 말하십시오.</div>
         <div style="margin-top: 16px; padding: 16px; background: white; border-radius: 8px; text-align: center;">
@@ -307,12 +311,12 @@
 
 <footer>
   <div class="footer-bottom">
-    <span>© 2026 MaroPass — Newin Japan</span>
+    <span>© 2026 MaroPass · Newin Japan</span>
     <span data-i18n="footer_company_info">사업자 정보 · 회사명 · 주소</span>
   </div>
 </footer>
 
-<a href="../ui-index.html" style="position: fixed; bottom: 24px; left: 24px; background: rgba(15,23,42,0.85); color: white; padding: 8px 14px; border-radius: 999px; text-decoration: none; font-size: 12px; font-weight: 600; backdrop-filter: blur(8px); z-index: 40;">← UI 인덱스</a>
+<a href="../ui-index.html" class="dev-index-link">← UI 인덱스</a>
 
 <script>
 const i18n = {
@@ -332,8 +336,8 @@ const i18n = {
     area_fluency: '유창성', area_fluency_desc: '발화 속도·끊김 없는 응답 (5문항)',
     area_vocab: '어휘', area_vocab_desc: '상황별 적절한 단어 선택 (4문항)',
     area_grammar: '문법', area_grammar_desc: '기초 문법·종결 어미 정확도 (5문항)',
-    area_content: '내용 구성', area_content_desc: '논리적 응답 구성·일관성 (5문항) — 그림 보고 답하기·일상 대화 포함',
-    block_sample_title: '🎤 샘플 문항', sample_tag: '유형 1 — 텍스트 지시', sample_play: '샘플 듣기', sample_more: '다른 샘플 보기',
+    area_content: '내용 구성', area_content_desc: '논리적 응답 구성·일관성 (5문항), 그림 보고 답하기·일상 대화 포함',
+    block_sample_title: '🎤 샘플 문항', sample_tag: '유형 1 · 텍스트 지시', sample_play: '샘플 듣기', sample_more: '다른 샘플 보기',
     block_expected_title: '✨ 응시 후 받는 것',
     bullet_1: '결과 점수표 + 5각 레이더 차트(부가)로 영역별 약점 시각화',
     bullet_2: '문항별 AI 피드백 (답안 vs STT 비교, 추천 연습)',
@@ -373,8 +377,8 @@ const i18n = {
     area_fluency: '流暢さ', area_fluency_desc: '発話速度・途切れない応答 (5問)',
     area_vocab: '語彙', area_vocab_desc: '状況別の適切な単語選択 (4問)',
     area_grammar: '文法', area_grammar_desc: '基礎文法・終結語尾正確度 (5問)',
-    area_content: '内容構成', area_content_desc: '論理的応答構成・一貫性 (5問) — 絵を見て答える・日常会話含む',
-    block_sample_title: '🎤 サンプル問題', sample_tag: 'タイプ1 — テキスト指示', sample_play: 'サンプル再生', sample_more: '他のサンプルを見る',
+    area_content: '内容構成', area_content_desc: '論理的応答構成・一貫性 (5問), 絵を見て答える・日常会話含む',
+    block_sample_title: '🎤 サンプル問題', sample_tag: 'タイプ1 · テキスト指示', sample_play: 'サンプル再生', sample_more: '他のサンプルを見る',
     block_expected_title: '✨ 受験後に得られるもの',
     bullet_1: '結果スコア表 + 5角レーダーチャート(付加)で領域別弱点を視覚化',
     bullet_2: '問題別AIフィードバック (回答 vs STT比較、推奨練習)',
