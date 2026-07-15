@@ -1,0 +1,1126 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+<title>MaroPass IBT 기능명세서</title>
+<style>
+  :root {
+    --ink: #1a1d24; --ink-soft: #4a515c; --muted: #8b929d;
+    --line: #e3e6ea; --line-soft: #eef0f3; --accent: #2e5bff;
+    --th-bg: #f6f7f9; --code-bg: #f5f6f8; --page: #ffffff; --shell: #f0f1f4;
+    --max: 880px;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--shell);
+    color: var(--ink);
+    font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, "Malgun Gothic", sans-serif;
+    font-size: 15px; line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+  .page {
+    max-width: var(--max);
+    margin: 32px auto;
+    background: var(--page);
+    padding: 64px 72px 80px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 12px 32px rgba(0,0,0,0.06);
+    border-radius: 4px;
+  }
+  h1 {
+    font-size: 27px; font-weight: 800; letter-spacing: -0.02em;
+    margin: 0 0 24px; padding-bottom: 18px; border-bottom: 2px solid var(--ink);
+    line-height: 1.35;
+  }
+  h2 {
+    font-size: 20px; font-weight: 700; letter-spacing: -0.01em;
+    margin: 44px 0 14px; padding-bottom: 8px; border-bottom: 1px solid var(--line);
+  }
+  h3 { font-size: 16.5px; font-weight: 700; margin: 30px 0 10px; color: var(--ink); }
+  h4 { font-size: 15px; font-weight: 700; margin: 22px 0 8px; color: var(--ink-soft); }
+  p { margin: 10px 0; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  strong { font-weight: 700; }
+  em { color: var(--ink-soft); }
+  ul, ol { margin: 10px 0; padding-left: 22px; }
+  li { margin: 4px 0; }
+  hr { border: none; border-top: 1px solid var(--line); margin: 32px 0; }
+  blockquote {
+    margin: 14px 0; padding: 10px 18px; color: var(--ink-soft);
+    border-left: 3px solid var(--line); background: var(--line-soft);
+    border-radius: 0 6px 6px 0; font-size: 14px;
+  }
+  blockquote p { margin: 4px 0; }
+  table {
+    border-collapse: collapse; width: 100%; margin: 16px 0; font-size: 13.5px;
+    display: block; overflow-x: auto;
+  }
+  thead { background: var(--th-bg); }
+  th, td {
+    border: 1px solid var(--line); padding: 8px 12px; text-align: left;
+    vertical-align: top; line-height: 1.55;
+  }
+  th { font-weight: 700; color: var(--ink); white-space: nowrap; }
+  tbody tr:nth-child(even) { background: #fafbfc; }
+  code {
+    font-family: "SFMono-Regular", Consolas, "D2Coding", "Courier New", monospace;
+    font-size: 0.88em; background: var(--code-bg); padding: 1px 5px; border-radius: 4px;
+    color: #b02a4a;
+  }
+  pre {
+    background: var(--code-bg); border: 1px solid var(--line); border-radius: 8px;
+    padding: 16px 18px; overflow-x: auto; margin: 16px 0; line-height: 1.5;
+  }
+  pre code {
+    background: none; padding: 0; color: var(--ink); font-size: 12.5px; white-space: pre;
+  }
+  /* 문서 상단 메타 표 (첫 표) 강조 */
+  .page > table:first-of-type th,
+  .page > table:first-of-type td { font-size: 13px; }
+  @media (max-width: 768px) {
+    .page { margin: 0; padding: 32px 20px 48px; border-radius: 0; box-shadow: none; }
+    h1 { font-size: 22px; }
+    h2 { font-size: 18px; }
+  }
+  @media print {
+    body { background: #fff; font-size: 11pt; }
+    .page { margin: 0; max-width: none; box-shadow: none; padding: 0; border-radius: 0; }
+    h2 { page-break-after: avoid; }
+    table, pre, blockquote { page-break-inside: avoid; }
+    thead { display: table-header-group; }
+  }
+</style>
+</head>
+<body>
+<main class="page">
+<h1>MaroPass IBT 기능명세서</h1>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>문서명</td>
+<td>MaroPass IBT 기능명세서 (Functional Specification)</td>
+</tr>
+<tr>
+<td>프로젝트</td>
+<td>MaroPass IBT (한국어 말하기 진단평가) 1차 오픈</td>
+</tr>
+<tr>
+<td>문서번호</td>
+<td>KP-PLN-FS-001</td>
+</tr>
+<tr>
+<td>버전</td>
+<td>v1.1</td>
+</tr>
+<tr>
+<td>작성일</td>
+<td>2026-07-10 (최종 수정 2026-07-13)</td>
+</tr>
+<tr>
+<td>작성자</td>
+<td>박지원 (PM)</td>
+</tr>
+<tr>
+<td>검토</td>
+<td>김도현 (개발 리드), 이수민 (디자인 리드)</td>
+</tr>
+<tr>
+<td>승인</td>
+<td>정한별 (PO)</td>
+</tr>
+<tr>
+<td>배포범위</td>
+<td>개발팀, 디자인팀, QA, 운영(뉴인재팬)</td>
+</tr>
+</tbody></table>
+<h2>개정이력</h2>
+<table>
+<thead>
+<tr>
+<th>버전</th>
+<th>일자</th>
+<th>작성/수정</th>
+<th>변경 사유</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>v0.1</td>
+<td>2026-06-26</td>
+<td>박지원</td>
+<td>초안. 기능 목록 및 도메인 분류 확정</td>
+</tr>
+<tr>
+<td>v0.9</td>
+<td>2026-07-03</td>
+<td>박지원</td>
+<td>개발/디자인 1차 검토 반영. 회원 게이트(정책9)·새 창 진입(정책10) 흐름 보강</td>
+</tr>
+<tr>
+<td>v1.0</td>
+<td>2026-07-10</td>
+<td>박지원</td>
+<td>PO 승인본. 결제 PG 미확정(TBD) 표기, 미결정 항목 담당·기한 정리</td>
+</tr>
+<tr>
+<td>v1.1</td>
+<td>2026-07-13</td>
+<td>박지원</td>
+<td>전체 일정 재수립 반영(정식 오픈 12월 초, 테스트 납품 11월 초, 기획 착수 5월 초). 개요 일정 문구 정정</td>
+</tr>
+</tbody></table>
+<h2>관련 문서</h2>
+<ul>
+<li>WBS (KP-PLN-WBS-001) — 일정·담당·마일스톤</li>
+<li>IA 설계서 (<code>docs/07-ia.md</code>) — 정보 구조, 화면 계층</li>
+<li>화면 인벤토리 (<code>docs/05-screen-inventory.md</code>) — 화면 목록, 반응형 매트릭스, 발주 우선순위</li>
+<li>운영 정책 문서 (<code>docs/04-policy.md</code>) — 정책 1~10 원문</li>
+<li>용어집 (<code>docs/01-glossary.md</code>)</li>
+<li>관리자 기능 명세 (<code>docs/06-admin-feature-spec.md</code>) — 관리자 web 신규 메뉴 상세</li>
+</ul>
+<p>본 명세서는 위 문서와 상호 참조 관계이며, 정책 판단이 필요한 지점은 개별 항목에서 <code>※ 04-policy 참조</code>로 표기함. 화면번호는 디자인 발주 후 화면 인벤토리 기준으로 매핑 예정.</p>
+<hr>
+<h2>1. 개요</h2>
+<h3>1.1 목적</h3>
+<p>MaroPass IBT는 일본인 한국어 학습자를 대상으로 하는 &#39;말하기&#39; 진단평가 서비스임. TOPIK을 대체하지 않고 보완·진단하는 포지션으로, 말하기 5개 영역을 IBT(인터넷 기반 시험) 방식으로 응시·채점·결과 제공함. 브랜드는 MaroPass(도메인 kopass.*), 운영사는 뉴인재팬.</p>
+<p>본 문서는 세 개 표면 중 신규 개발 비중이 가장 큰 <strong>MaroPass portal</strong>의 기능을 중심으로 기술함. 실제 응시가 이루어지는 <strong>터치클래스 사용자 web</strong>, 운영이 이루어지는 <strong>터치클래스 관리자 web</strong>은 기존 자산 재사용을 전제로 하되, MaroPass 특화 신규 영역과 portal에서 넘어오는 연계 흐름만 이 문서에서 다룸.</p>
+<p>일정은 기획 착수 2026년 5월 초, 테스트 납품 11월 초, 정식 오픈 12월 초. 1차 오픈은 데스크탑·모바일 웹만 지원하며, 네이티브 앱은 라운드 2 이후.</p>
+<h3>1.2 범위</h3>
+<p>포함:</p>
+<ul>
+<li>MaroPass portal 전 기능 (가입·로그인, 시험 목록/상세, 결제, 마이페이지, 결과 진입 링크, 고객센터, 알림)</li>
+<li>portal → 사용자 web 응시 진입(새 창, SSO) 연계</li>
+<li>사용자 web 응시·본인확인·환경점검·결과 확인의 연계 기술 (상세 구현은 사용자 web 팀 소관)</li>
+<li>관리자 web MaroPass 신규 메뉴 5개 및 문제 만들기 말하기 5영역 탭의 연계 기술</li>
+</ul>
+<p>제외(별도 문서 또는 후속 라운드):</p>
+<ul>
+<li>부정행위 방지, 관리자 등급별 권한, 데이터 보존/삭제 정책 (라운드 3, <code>12-security.md</code>/<code>13-anti-cheat.md</code>)</li>
+<li>평가자 2차 채점 UI 및 워크플로우 (라운드 2)</li>
+<li>성능·보안 상세 요구 (라운드 3에서 별도 명세)</li>
+</ul>
+<h3>1.3 용어</h3>
+<p>산문 중 반복 사용하는 약어를 아래에 정리함. 전체 용어는 용어집(<code>01-glossary.md</code>) 참조.</p>
+<table>
+<thead>
+<tr>
+<th>용어</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>portal</td>
+<td>MaroPass portal. 신규 개발되는 브랜드·결제·인증서 표면 (kopass.*)</td>
+</tr>
+<tr>
+<td>사용자 web</td>
+<td>기존 터치클래스 사용자 web. 본인확인·환경점검·응시·결과가 이루어지는 학습 자산 표면</td>
+</tr>
+<tr>
+<td>IBT</td>
+<td>Internet-Based Test. 인터넷 기반 응시 방식</td>
+</tr>
+<tr>
+<td>PG</td>
+<td>Payment Gateway. 결제 대행. 1차 오픈은 일본 PG(신용카드+QR), 사업자 미확정(TBD)</td>
+</tr>
+<tr>
+<td>STT</td>
+<td>Speech-to-Text. 응시자 음성 답안을 텍스트로 변환. 결과 화면에서 답안과 대조 노출</td>
+</tr>
+<tr>
+<td>SSO</td>
+<td>Single Sign-On. portal 로그인 세션을 사용자 web에 토큰으로 전달해 자동 로그인</td>
+</tr>
+<tr>
+<td>응시 윈도우</td>
+<td>결제 후 응시 가능한 기간. 1차 오픈 14일, 기간 내 24시간 언제나 응시 가능 (정책8)</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>2. 사용자·역할 정의</h2>
+<table>
+<thead>
+<tr>
+<th>역할</th>
+<th>설명</th>
+<th>주 사용 표면</th>
+<th>비고</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>비회원</td>
+<td>미로그인 방문자. 시험 목록·상세 열람, 샘플 미리듣기 가능</td>
+<td>portal</td>
+<td>무료 샘플 응시·구매 클릭 시 회원 게이트 발동(정책9)</td>
+</tr>
+<tr>
+<td>회원(응시자)</td>
+<td>가입·로그인한 일반 사용자. 구매·응시·결과 확인·환불 신청 주체</td>
+<td>portal + 사용자 web</td>
+<td>이메일 또는 소셜(LINE·Google·Apple) 가입</td>
+</tr>
+<tr>
+<td>운영자(관리자)</td>
+<td>뉴인재팬 운영 담당. 회원·결제·환불 승인·결과 공개·인증서 템플릿 관리</td>
+<td>관리자 web</td>
+<td>등급별 권한 모델은 라운드 3</td>
+</tr>
+<tr>
+<td>평가자</td>
+<td>2차 채점 담당</td>
+<td>관리자 web</td>
+<td>라운드 2 도입. 1차 오픈은 운영자가 수동 검수로 흡수(정책5)</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>3. 기능 목록 (요약)</h2>
+<p>우선순위는 상/중/하. 관련 화면은 디자인 발주 후 확정, 현재는 논리 화면명으로 표기.</p>
+<h3>3.1 회원 (FS-MEM)</h3>
+<table>
+<thead>
+<tr>
+<th>기능ID</th>
+<th>기능명</th>
+<th>우선순위</th>
+<th>관련 화면</th>
+<th>비고</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>FS-MEM-01</td>
+<td>이메일 회원가입 (인증·약관 동의)</td>
+<td>상</td>
+<td>회원가입</td>
+<td>최소 개인정보. 이메일 인증 필수</td>
+</tr>
+<tr>
+<td>FS-MEM-02</td>
+<td>소셜 회원가입·로그인 (LINE·Google·Apple)</td>
+<td>상</td>
+<td>회원가입/로그인</td>
+<td>최초 소셜 연동 시 약관 동의 화면 경유</td>
+</tr>
+<tr>
+<td>FS-MEM-03</td>
+<td>로그인</td>
+<td>상</td>
+<td>로그인</td>
+<td>이메일+소셜</td>
+</tr>
+<tr>
+<td>FS-MEM-04</td>
+<td>비밀번호 재설정</td>
+<td>중</td>
+<td>비밀번호 재설정</td>
+<td>이메일 링크 방식</td>
+</tr>
+<tr>
+<td>FS-MEM-05</td>
+<td>계정(이메일) 찾기</td>
+<td>중</td>
+<td>계정 찾기</td>
+<td></td>
+</tr>
+<tr>
+<td>FS-MEM-06</td>
+<td>회원 게이트 (intent 복귀)</td>
+<td>상</td>
+<td>로그인/가입 → 원래 화면</td>
+<td>정책9. sample/purchase 분기</td>
+</tr>
+<tr>
+<td>FS-MEM-07</td>
+<td>회원정보 수정</td>
+<td>중</td>
+<td>마이페이지</td>
+<td></td>
+</tr>
+<tr>
+<td>FS-MEM-08</td>
+<td>회원 탈퇴</td>
+<td>중</td>
+<td>마이페이지</td>
+<td>경고 모달. 데이터 삭제 정책은 라운드3</td>
+</tr>
+</tbody></table>
+<h3>3.2 시험 (FS-EXM)</h3>
+<table>
+<thead>
+<tr>
+<th>기능ID</th>
+<th>기능명</th>
+<th>우선순위</th>
+<th>관련 화면</th>
+<th>비고</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>FS-EXM-01</td>
+<td>시험 목록 (레벨·말하기 필터)</td>
+<td>상</td>
+<td>시험 목록</td>
+<td>초급/중상급</td>
+</tr>
+<tr>
+<td>FS-EXM-02</td>
+<td>시험 상세 (콘텐츠 + 구매 사이드바)</td>
+<td>상</td>
+<td>시험 상세</td>
+<td>좌 콘텐츠 / 우 가격·응시기간·시간·환경</td>
+</tr>
+<tr>
+<td>FS-EXM-03</td>
+<td>무료 샘플 3문항 응시</td>
+<td>상</td>
+<td>시험 상세 → 샘플</td>
+<td>회원 게이트 발동</td>
+</tr>
+<tr>
+<td>FS-EXM-04</td>
+<td>샘플 음성 미리듣기</td>
+<td>하</td>
+<td>시험 상세</td>
+<td>비로그인 허용 (정책9 예외)</td>
+</tr>
+</tbody></table>
+<h3>3.3 결제 (FS-PAY)</h3>
+<table>
+<thead>
+<tr>
+<th>기능ID</th>
+<th>기능명</th>
+<th>우선순위</th>
+<th>관련 화면</th>
+<th>비고</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>FS-PAY-01</td>
+<td>결제 (신용카드)</td>
+<td>상</td>
+<td>결제</td>
+<td>일본 PG. 사업자 TBD</td>
+</tr>
+<tr>
+<td>FS-PAY-02</td>
+<td>결제 (QR)</td>
+<td>상</td>
+<td>결제</td>
+<td>일본 PG. 사업자 TBD</td>
+</tr>
+<tr>
+<td>FS-PAY-03</td>
+<td>결제 완료·실패 처리</td>
+<td>상</td>
+<td>결제 결과</td>
+<td>완료 시 응시 윈도우 14일 부여</td>
+</tr>
+<tr>
+<td>FS-PAY-04</td>
+<td>영수증 발급/다운로드</td>
+<td>중</td>
+<td>마이페이지</td>
+<td>특정상거래법·적격청구서 대응</td>
+</tr>
+</tbody></table>
+<h3>3.4 응시 (FS-TST)</h3>
+<table>
+<thead>
+<tr>
+<th>기능ID</th>
+<th>기능명</th>
+<th>우선순위</th>
+<th>관련 화면</th>
+<th>비고</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>FS-TST-01</td>
+<td>응시 진입 (새 창 + SSO)</td>
+<td>상</td>
+<td>마이페이지 → 사용자 web</td>
+<td>정책10</td>
+</tr>
+<tr>
+<td>FS-TST-02</td>
+<td>본인 확인 (사용자 web)</td>
+<td>상</td>
+<td>사용자 web</td>
+<td>이름·이메일·시험명</td>
+</tr>
+<tr>
+<td>FS-TST-03</td>
+<td>환경 점검 게이트 (사용자 web)</td>
+<td>상</td>
+<td>사용자 web</td>
+<td>마이크·볼륨·5초 리플레이. 정책1</td>
+</tr>
+<tr>
+<td>FS-TST-04</td>
+<td>응시 클라이언트 (말하기 5영역)</td>
+<td>상</td>
+<td>사용자 web</td>
+<td>자동 진행. 정책2</td>
+</tr>
+<tr>
+<td>FS-TST-05</td>
+<td>자동 저장·재전송</td>
+<td>상</td>
+<td>사용자 web</td>
+<td>정책3</td>
+</tr>
+<tr>
+<td>FS-TST-06</td>
+<td>시험 자동 종료·채점 큐 등록</td>
+<td>상</td>
+<td>사용자 web</td>
+<td>정책4</td>
+</tr>
+</tbody></table>
+<h3>3.5 결과 (FS-RST)</h3>
+<table>
+<thead>
+<tr>
+<th>기능ID</th>
+<th>기능명</th>
+<th>우선순위</th>
+<th>관련 화면</th>
+<th>비고</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>FS-RST-01</td>
+<td>결과 공개 후 노출 제어</td>
+<td>상</td>
+<td>사용자 web/마이페이지</td>
+<td>정책5</td>
+</tr>
+<tr>
+<td>FS-RST-02</td>
+<td>종합 결과 (점수·등급·5각 레이더)</td>
+<td>상</td>
+<td>결과</td>
+<td>등급 1~6급 확정 TBD</td>
+</tr>
+<tr>
+<td>FS-RST-03</td>
+<td>AI 종합 피드백</td>
+<td>중</td>
+<td>결과</td>
+<td></td>
+</tr>
+<tr>
+<td>FS-RST-04</td>
+<td>문항별 점수·AI 피드백 모달</td>
+<td>중</td>
+<td>결과 모달</td>
+<td>답안 vs STT, 추천 연습</td>
+</tr>
+</tbody></table>
+<h3>3.6 마이페이지 (FS-MY)</h3>
+<table>
+<thead>
+<tr>
+<th>기능ID</th>
+<th>기능명</th>
+<th>우선순위</th>
+<th>관련 화면</th>
+<th>비고</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>FS-MY-01</td>
+<td>대시보드 (진행중·미응시 D-day·결과 임박)</td>
+<td>상</td>
+<td>마이페이지 홈</td>
+<td></td>
+</tr>
+<tr>
+<td>FS-MY-02</td>
+<td>응시할 시험 목록</td>
+<td>상</td>
+<td>마이페이지</td>
+<td>응시하기 진입점</td>
+</tr>
+<tr>
+<td>FS-MY-03</td>
+<td>결과 목록·상세 진입</td>
+<td>중</td>
+<td>마이페이지</td>
+<td>결과 확인은 사용자 web</td>
+</tr>
+<tr>
+<td>FS-MY-04</td>
+<td>인증서 목록·PDF 다운로드</td>
+<td>상</td>
+<td>마이페이지</td>
+<td>위변조 검증 URL 포함</td>
+</tr>
+<tr>
+<td>FS-MY-05</td>
+<td>결제 내역·영수증</td>
+<td>중</td>
+<td>마이페이지</td>
+<td></td>
+</tr>
+<tr>
+<td>FS-MY-06</td>
+<td>환불 신청·상태 조회</td>
+<td>상</td>
+<td>마이페이지</td>
+<td>정책7</td>
+</tr>
+<tr>
+<td>FS-MY-07</td>
+<td>1:1 문의 내역</td>
+<td>하</td>
+<td>마이페이지</td>
+<td></td>
+</tr>
+</tbody></table>
+<h3>3.7 고객센터 (FS-CS)</h3>
+<table>
+<thead>
+<tr>
+<th>기능ID</th>
+<th>기능명</th>
+<th>우선순위</th>
+<th>관련 화면</th>
+<th>비고</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>FS-CS-01</td>
+<td>공지사항</td>
+<td>중</td>
+<td>고객센터</td>
+<td></td>
+</tr>
+<tr>
+<td>FS-CS-02</td>
+<td>FAQ (5 카테고리)</td>
+<td>중</td>
+<td>고객센터</td>
+<td>결제·환불/응시환경·기술/시험콘텐츠/인증서·결과/회원·계정</td>
+</tr>
+<tr>
+<td>FS-CS-03</td>
+<td>1:1 문의 작성</td>
+<td>중</td>
+<td>고객센터</td>
+<td>답변은 관리자 web</td>
+</tr>
+</tbody></table>
+<h3>3.8 알림 (FS-NOTI)</h3>
+<table>
+<thead>
+<tr>
+<th>기능ID</th>
+<th>기능명</th>
+<th>우선순위</th>
+<th>관련 화면</th>
+<th>비고</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>FS-NOTI-01</td>
+<td>이메일 알림 6종</td>
+<td>중</td>
+<td>(백그라운드)</td>
+<td>결제완료·D-1·D-day·만료·결과공개·환불처리</td>
+</tr>
+<tr>
+<td>FS-NOTI-02</td>
+<td>푸시 알림</td>
+<td>하</td>
+<td>—</td>
+<td>라운드2</td>
+</tr>
+</tbody></table>
+<h3>3.9 관리자 연계 (FS-ADM)</h3>
+<table>
+<thead>
+<tr>
+<th>기능ID</th>
+<th>기능명</th>
+<th>우선순위</th>
+<th>관련 화면</th>
+<th>비고</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>FS-ADM-01</td>
+<td>MaroPass 회원 메뉴</td>
+<td>상</td>
+<td>관리자 web</td>
+<td>신규</td>
+</tr>
+<tr>
+<td>FS-ADM-02</td>
+<td>결제 관리</td>
+<td>상</td>
+<td>관리자 web</td>
+<td>신규. 결제 5상태</td>
+</tr>
+<tr>
+<td>FS-ADM-03</td>
+<td>환불 승인</td>
+<td>상</td>
+<td>관리자 web</td>
+<td>신규. 정책7</td>
+</tr>
+<tr>
+<td>FS-ADM-04</td>
+<td>결과 공개</td>
+<td>상</td>
+<td>관리자 web</td>
+<td>신규. 정책5</td>
+</tr>
+<tr>
+<td>FS-ADM-05</td>
+<td>인증서 템플릿</td>
+<td>중</td>
+<td>관리자 web</td>
+<td>신규</td>
+</tr>
+<tr>
+<td>FS-ADM-06</td>
+<td>문제 만들기 말하기 5영역 탭</td>
+<td>중</td>
+<td>관리자 web</td>
+<td>기존 문제 만들기에 탭 신설</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>4. 기능 상세 명세</h2>
+<p>우선순위 상 기능을 중심으로 깊이 있게 기술하고, 부수 기능은 요지만 정리함. 흐름 스텝의 버튼·문구는 일본어 UI 기준으로 예시 표기(일본어 라벨 네이티브 검수 TBD).</p>
+<h3>4.1 FS-MEM-01 / 이메일 회원가입</h3>
+<p><strong>개요</strong>
+비회원이 이메일로 계정을 생성하는 기능. 무료 샘플·구매 진입 시 회원 게이트(정책9)를 통해 진입하는 경로가 주 유입이므로, 가입 화면 상단에 진입 의도(intent) 배지를 노출해 이탈을 줄임. 수집 개인정보는 최소화함.</p>
+<p><strong>선행조건</strong></p>
+<ul>
+<li>미로그인 상태</li>
+<li>유효한 수신 가능 이메일 보유</li>
+</ul>
+<p><strong>기본 흐름</strong></p>
+<ol>
+<li>시험 상세에서 &quot;無料サンプル&quot; 또는 &quot;購入する&quot; 클릭, 또는 상단 &quot;会員登録&quot; 진입</li>
+<li>이메일·비밀번호 입력</li>
+<li>약관 동의: 필수(이용약관·개인정보 취급) 체크, 선택(마케팅 수신) 체크</li>
+<li>&quot;認証メール送信&quot; 클릭 → 인증 메일 발송</li>
+<li>메일 내 인증 링크 클릭 → 이메일 인증 완료</li>
+<li>최소 개인정보(이름 등) 입력 후 가입 완료</li>
+<li>intent 값에 따라 원래 동작으로 복귀 (FS-MEM-06)</li>
+</ol>
+<p><strong>예외·대체 흐름</strong></p>
+<ul>
+<li>이미 가입된 이메일: &quot;既に登録済み&quot; 안내 후 로그인 유도</li>
+<li>인증 링크 만료(유효시간 TBD): 재발송 버튼 제공</li>
+<li>소셜 계정과 동일 이메일 존재: 계정 통합 정책 미정(TBD, 라운드2에서 결정 가능)</li>
+</ul>
+<p><strong>관련 화면</strong>: 회원가입, 약관 동의, 이메일 인증 완료</p>
+<p><strong>데이터·입력</strong>: 이메일, 비밀번호, 이름, 약관 동의 항목별 동의 여부·시각, intent, return</p>
+<p><strong>정책·규칙</strong>: 정책9(회원 게이트). 약관 동의 시각은 CS·클레임 대응 근거로 저장.</p>
+<p><strong>비고</strong>: 수집 항목 최종 확정은 개인정보처리방침 확정과 연동. 인증 링크 유효시간 TBD.</p>
+<h3>4.2 FS-MEM-02 / 소셜 회원가입·로그인</h3>
+<p><strong>개요</strong>
+LINE·Google·Apple 소셜 로그인 제공. 일본 시장 특성상 LINE 비중이 높을 것으로 보고 1순위로 배치함. 최초 연동 시 약관 동의를 반드시 경유함.</p>
+<p><strong>기본 흐름</strong></p>
+<ol>
+<li>로그인/가입 화면에서 &quot;LINEで続ける&quot; 등 선택</li>
+<li>각 provider 인증 화면으로 이동·동의</li>
+<li>콜백 복귀 후, 신규 사용자면 약관 동의 화면 → 가입 완료 / 기존 사용자면 로그인 완료</li>
+<li>intent 있으면 원래 동작 복귀</li>
+</ol>
+<p><strong>예외·대체 흐름</strong></p>
+<ul>
+<li>provider 인증 취소·실패: 로그인 화면으로 복귀, 오류 안내</li>
+<li>이메일 미제공 provider(Apple 비공개 릴레이 등): 릴레이 이메일로 계정 생성. 알림 발송 가능 여부 확인 필요(TBD)</li>
+</ul>
+<p><strong>정책·규칙</strong>: 정책9. provider 앱 등록·심사(특히 LINE·Apple)는 오픈 전 완료 필요 — 일정은 WBS 참조.</p>
+<p><strong>비고</strong>: 각 provider 개발자 계정·리다이렉트 URI 등록은 개발 착수 전 선행.</p>
+<h3>4.3 FS-MEM-06 / 회원 게이트 (intent 복귀)</h3>
+<p><strong>개요</strong>
+무료 샘플 응시·구매는 로그인 회원만 가능함(정책9). 비로그인 사용자가 해당 액션을 클릭하면 원래 의도를 파라미터로 실어 가입/로그인으로 유도하고, 인증 완료 후 그 의도로 자동 복귀시킴. 시험 상세 열람과 샘플 미리듣기는 이 게이트의 예외로 비로그인 허용.</p>
+<p><strong>선행조건</strong>: 사용자가 샘플 또는 구매 액션을 트리거</p>
+<p><strong>기본 흐름</strong></p>
+<ol>
+<li>&quot;無料サンプル&quot;(intent=sample) 또는 &quot;購入する&quot;(intent=purchase) 클릭</li>
+<li>로그인 상태 확인</li>
+<li>비로그인 시 <code>ui-auth.html?intent={sample|purchase}&amp;return={원래 URL 또는 마커}</code>로 이동</li>
+<li>가입/로그인 화면 상단에 intent 배지 노출 (예: 무료 체험 안내 / 결제 안내 문구)</li>
+<li>인증 완료</li>
+<li>intent=sample → 시험 상세로 복귀 후 환경 점검(샘플용) 자동 발화</li>
+<li>intent=purchase → 결제 페이지로 이동</li>
+</ol>
+<p><strong>예외·대체 흐름</strong></p>
+<ul>
+<li>이미 로그인 상태에서 액션 클릭: 게이트 미발동, 곧바로 해당 동작 진행</li>
+<li>return 파라미터 유실·변조: 마이페이지 홈으로 안전 복귀</li>
+</ul>
+<p><strong>관련 화면</strong>: 시험 상세, 로그인/가입</p>
+<p><strong>데이터·입력</strong>: intent(sample|purchase), return</p>
+<p><strong>정책·규칙</strong>: 정책9. 본 게이트는 UI 레벨 장치이며, 실제 접근 통제는 API 인증 토큰 검사로 별도 보장. ※ 04-policy 정책9 참조.</p>
+<p><strong>비고</strong>: 배지 문구·이모지 사용 여부는 디자인/카피 검수에서 확정.</p>
+<h3>4.4 FS-EXM-02 / 시험 상세</h3>
+<p><strong>개요</strong>
+시험 한 건의 소개와 구매 진입을 담당하는 화면. 좌측에 콘텐츠(개요·구성·평가 영역·샘플 안내), 우측에 구매 사이드바(가격·응시기간 14일·응시시간·응시 환경 요건)를 배치함. 데스크탑은 우측 sticky 사이드바, 모바일은 하단 sticky CTA로 반응형 전환.</p>
+<p><strong>선행조건</strong>: 없음 (비로그인 열람 허용)</p>
+<p><strong>기본 흐름</strong></p>
+<ol>
+<li>시험 목록 또는 랜딩에서 특정 시험 카드 선택</li>
+<li>좌측 콘텐츠·우측 사이드바 노출</li>
+<li>&quot;無料サンプル(3問)&quot; 또는 &quot;購入する&quot; 클릭 → 회원 게이트(FS-MEM-06) 경유</li>
+</ol>
+<p><strong>예외·대체 흐름</strong></p>
+<ul>
+<li>판매 종료·비공개 시험: 상세 접근 시 안내 후 목록 복귀</li>
+</ul>
+<p><strong>관련 화면</strong>: 시험 상세 (데스크탑 2단 / 모바일 1단 + 하단 CTA)</p>
+<p><strong>데이터·입력</strong>: 시험ID, 레벨(초급/중상급), 가격, 응시기간, 응시시간, 환경 요건</p>
+<p><strong>정책·규칙</strong>: 정책9 예외(상세 열람·미리듣기 비로그인 허용)</p>
+<p><strong>비고</strong>: 중상급 말하기 유형 확정 전까지 중상급 상세 콘텐츠는 플레이스홀더로 노출(TBD).</p>
+<h3>4.5 FS-PAY-01~03 / 결제</h3>
+<p><strong>개요</strong>
+일본 PG를 통한 신용카드·QR 결제. 결제 완료 시 해당 시험에 대한 응시 윈도우(14일)를 부여하고, 기간 내 24시간 언제나 응시 가능하도록 티켓을 발급함(정책8). PG 사업자가 미확정이므로 결제 요청/콜백/영수증 항목의 세부 규격은 사업자 확정 후 보완함.</p>
+<p><strong>선행조건</strong></p>
+<ul>
+<li>로그인 회원 (게이트 통과)</li>
+<li>결제 대상 시험 선택 완료</li>
+</ul>
+<p><strong>기본 흐름</strong></p>
+<ol>
+<li>시험 상세 → &quot;購入する&quot; → 결제 페이지</li>
+<li>결제 수단 선택 (신용카드 / QR)</li>
+<li>PG 결제창 진입·인증·승인</li>
+<li>콜백 수신 → 결제 완료 처리</li>
+<li>응시 윈도우(14일) 부여, 마이페이지 &quot;응시할 시험&quot;에 등록</li>
+<li>결제 완료 이메일 발송 (FS-NOTI-01)</li>
+</ol>
+<p><strong>예외·대체 흐름</strong></p>
+<ul>
+<li>결제 실패: 실패 사유 안내, 재시도 유도. 티켓 미발급</li>
+<li>이중 결제·중복 승인: 결제 모듈에서 자동 회수 (PG 트랜잭션 정합성, 정책7)</li>
+<li>콜백 유실: 운영자가 결제 관리(FS-ADM-02)에서 상태 확인·수동 정합. ※ 04-policy 정책7 참조</li>
+</ul>
+<p><strong>관련 화면</strong>: 결제 페이지, 결제 완료/실패</p>
+<p><strong>데이터·입력</strong>: 주문ID, 시험ID, 결제수단, 금액, PG 거래ID, 승인시각</p>
+<p><strong>정책·규칙</strong>: 정책8(14일 윈도우), 정책7(환불·회수)</p>
+<p><strong>비고</strong>: PG 사업자 TBD. 확정 후 결제 요청·콜백·영수증·부분취소 규격 보완. 특정상거래법·적격청구서(인보이스) 표기 요건은 영수증 항목과 함께 정리.</p>
+<h3>4.6 FS-TST-01 / 응시 진입 (새 창 + SSO)</h3>
+<p><strong>개요</strong>
+응시는 portal이 아니라 사용자 web에서 이루어짐. 마이페이지 &quot;受験する&quot;(응시하기) 클릭 시 <code>window.open()</code>으로 사용자 web을 새 창으로 열고, portal 로그인 세션을 SSO 토큰으로 전달해 자동 로그인시킴. 새 창은 사용자에게 노출되는 UI 수단일 뿐이며, 본질은 브랜드 자산(portal)과 학습 자산(사용자 web)의 소유권 분리임(정책10). 팝업 차단에 대한 안내·재시도 가이드가 필수.</p>
+<p><strong>선행조건</strong></p>
+<ul>
+<li>로그인 상태</li>
+<li>응시 윈도우가 유효한(만료 전) 구매 시험 보유</li>
+</ul>
+<p><strong>기본 흐름</strong></p>
+<ol>
+<li>마이페이지 &quot;응시할 시험&quot;에서 대상 시험의 &quot;受験する&quot; 클릭</li>
+<li>안내 문구 노출: &quot;受験は新しいウィンドウで行います。ポップアップがブロックされた場合は許可してください。&quot;</li>
+<li><code>window.open()</code>으로 사용자 web home 오픈</li>
+<li>새 창이 SSO 토큰으로 사용자 web 자동 로그인</li>
+<li>사용자 web에서 본인 확인(FS-TST-02)으로 진행</li>
+</ol>
+<p><strong>예외·대체 흐름</strong></p>
+<ul>
+<li>팝업 차단 감지: 차단 안내 + &quot;受験画面を開く&quot; 재시도 버튼 노출</li>
+<li>SSO 토큰 만료·검증 실패: 사용자 web에서 재로그인 유도 (portal 세션 확인)</li>
+<li>응시 윈도우 만료: &quot;受験する&quot; 비활성, 만료 안내 (환불·재구매 동선은 정책7·정책8 범위)</li>
+</ul>
+<p><strong>관련 화면</strong>: 마이페이지(portal), 사용자 web home</p>
+<p><strong>데이터·입력</strong>: 시험ID, 응시 인스턴스ID, SSO 토큰</p>
+<p><strong>정책·규칙</strong>: 정책10(새 창·소유권 분리), 정책8(윈도우). ※ 04-policy 정책10 참조</p>
+<p><strong>비고</strong>: SSO 토큰 규격·유효시간은 개발 리드 검토 후 확정(TBD). 사용자 web 결과 화면 하단에 &quot;証明書・結果PDFはMaroPassマイページから&quot; 안내 링크 포함.</p>
+<h3>4.7 FS-TST-03~06 / 사용자 web 응시 (연계)</h3>
+<p><strong>개요</strong>
+본 흐름은 사용자 web(터치클래스) 소관이며, portal은 진입만 담당함. 응시자는 시작·정지·건너뛰기 버튼을 갖지 않고, 시간이 흐르면 자동으로 다음 단계로 이동함(정책2). 아래는 연계 이해를 위한 요지 정리.</p>
+<p><strong>환경 점검 게이트 (FS-TST-03, 정책1)</strong></p>
+<ul>
+<li>점검 항목: 마이크 권한 / 볼륨(데시벨 미터 시각화) / 5초 녹음 후 즉시 재생 / 네트워크</li>
+<li>통과 조건: 4개 항목 통과 + &quot;통과 후 개인 기기 문제는 사용자 책임&quot; 약관 동의</li>
+<li>동일 기기 30일 캐시로 재점검 부담 완화</li>
+<li>미통과 시 응시 진입 차단, 막힌 항목 명시</li>
+</ul>
+<p><strong>응시 클라이언트 (FS-TST-04, 정책2)</strong></p>
+<ul>
+<li>말하기 5영역: 짧은 문장 읽기 / 질문 대답 / 생활 속 대화 / 그림 설명 / 화용 과제</li>
+<li>레이아웃: 데스크탑 2단(좌 문제 / 우 응시), 모바일 1단</li>
+<li>지시문 자동 표시·음성 자동 재생 → 준비 카운트다운(파란 타이머) → 비프음 → 녹음(빨간 타이머 + &quot;녹음 중&quot; + Waveform) → 자동 저장 → 다음 문항 자동 이동</li>
+<li>응시자 조작 버튼 없음</li>
+</ul>
+<p><strong>자동 저장·재전송 (FS-TST-05, 정책3)</strong></p>
+<ul>
+<li>문항별 녹음 종료 직후 단말 로컬(IndexedDB) 저장</li>
+<li>네트워크 복구 시 자동 재전송, 응시자 조작 불요</li>
+<li>오프라인 표시는 하되 응시 중단 강요하지 않음</li>
+</ul>
+<p><strong>시험 자동 종료 (FS-TST-06, 정책4)</strong></p>
+<ul>
+<li>마지막 문항 녹음 시간 종료 시 자동 일괄 전송 → 응시 종료 화면 → AI 채점 큐 등록</li>
+<li>중도 종료 버튼 없음</li>
+<li>끝까지 전송 실패 시 시스템 장애 재응시 티켓 흐름으로 흡수(정책6)</li>
+</ul>
+<p><strong>비고</strong>: 데스크탑 응시 2단 뷰포트 디자인은 미발주 상태(GAP-11, Critical). ※ 05-screen-inventory 참조. 이어서 응시 허용 여부는 1차 오픈 미허용 가능(정책4, 결정 필요).</p>
+<h3>4.8 FS-RST-01~04 / 결과 확인</h3>
+<p><strong>개요</strong>
+AI 1차 채점은 시험 종료 즉시 자동 진행되나, 응시자 노출은 운영자가 관리자 web에서 &quot;결과 공개&quot;를 클릭한 뒤에 이루어짐(정책5). 결과 확인 화면은 사용자 web에 있고, portal 마이페이지에는 진입 링크와 인증서·결과지 다운로드가 위치함.</p>
+<p><strong>선행조건</strong></p>
+<ul>
+<li>응시 완료</li>
+<li>운영자의 결과 공개 완료 (FS-ADM-04)</li>
+</ul>
+<p><strong>기본 흐름</strong></p>
+<ol>
+<li>결과 공개 시 응시자에게 결과 공개 이메일 발송 (FS-NOTI-01)</li>
+<li>마이페이지 또는 사용자 web에서 결과 진입</li>
+<li>종합 결과 노출: 종합 점수(예 30/200), 등급(1~6급), 5각 레이더(발음·유창성·어휘·문법·내용 구성), AI 종합 피드백</li>
+<li>문항 선택 시 문항별 점수·AI 피드백 모달: 답안 vs STT 대조, 추천 연습</li>
+</ol>
+<p><strong>예외·대체 흐름</strong></p>
+<ul>
+<li>결과 미공개 상태 접근: &quot;採点結果は公開後にご確認いただけます&quot; 안내</li>
+<li>채점 지연·실패: 운영자 확인 대상 (재채점·재응시 티켓은 운영 판단)</li>
+</ul>
+<p><strong>관련 화면</strong>: 결과(종합), 문항별 AI 피드백 모달 (사용자 web)</p>
+<p><strong>데이터·입력</strong>: 응시 인스턴스ID, 영역별 점수, 등급, STT 텍스트, AI 피드백</p>
+<p><strong>정책·규칙</strong>: 정책5(결과 공개 후 노출), 정책6(재응시 한정). ※ 04-policy 정책5 참조</p>
+<p><strong>비고</strong>: 등급 1~6급 체계는 한국교육재단 협의 후 확정(TBD). 5각 레이더 차트는 결과 화면 핵심 시각 자산으로 발주 1단계.</p>
+<h3>4.9 FS-MY-04 / 인증서 다운로드</h3>
+<p><strong>개요</strong>
+결과 공개 후 마이페이지에서 인증서 PDF를 내려받는 기능. 인증서에는 kopass.* 도메인의 위변조 검증 URL이 포함되어, 제3자가 해당 URL로 진위를 확인할 수 있음. 인증서 발급은 브랜드 자산이므로 portal에 위치함(정책10).</p>
+<p><strong>선행조건</strong>: 결과 공개 완료된 응시 건 보유</p>
+<p><strong>기본 흐름</strong></p>
+<ol>
+<li>마이페이지 &quot;인증서&quot; 진입</li>
+<li>발급 가능한 인증서 목록 노출</li>
+<li>&quot;PDFダウンロード&quot; 클릭 → PDF 생성·다운로드</li>
+<li>PDF 내 검증 URL 접속 시 검증 페이지에서 진위·발급정보 표시</li>
+</ol>
+<p><strong>예외·대체 흐름</strong></p>
+<ul>
+<li>결과 미공개: 인증서 미노출</li>
+<li>검증 URL 접근(제3자): 로그인 없이 최소 정보만 노출, 위변조 시 무효 표시</li>
+</ul>
+<p><strong>관련 화면</strong>: 마이페이지 인증서 목록, 인증서 PDF, 위변조 검증 페이지</p>
+<p><strong>데이터·입력</strong>: 인증서ID, 검증 토큰/URL, 발급일, 시험명, 점수·등급</p>
+<p><strong>정책·규칙</strong>: 정책5(결과 공개 후), 정책10(브랜드 자산 소유권)</p>
+<p><strong>비고</strong>: 인증서 템플릿은 관리자 web에서 관리(FS-ADM-05). 검증 URL 노출 항목 범위는 개인정보 관점 검토 필요.</p>
+<h3>4.10 FS-MY-06 / 환불 신청·상태</h3>
+<p><strong>개요</strong>
+1차 오픈 환불은 모두 운영 수동 검토 처리(정책7). 응시자는 접수 기간 내 미응시 건에 한해 신청 가능하며, 응시 후 변심·결과 불만족은 신청 대상이 아님. 승인 시 PG 환불 호출 후 영업일 3~5일 내 환원.</p>
+<p><strong>선행조건</strong></p>
+<ul>
+<li>로그인</li>
+<li>응시 윈도우 내 미응시 건 (응시 완료 건은 신청 불가)</li>
+</ul>
+<p><strong>기본 흐름</strong></p>
+<ol>
+<li>마이페이지 &quot;환불 신청&quot; 진입 → 대상 결제 건 선택</li>
+<li>사유 입력 후 &quot;返金を申請する&quot;</li>
+<li>접수 상태로 전환, 운영자 검토 대기 (FS-ADM-03)</li>
+<li>승인 시 PG 환불 호출 → &quot;환불 처리 중&quot; → 완료</li>
+<li>환불 처리 이메일 발송 (FS-NOTI-01)</li>
+</ol>
+<p><strong>예외·대체 흐름</strong></p>
+<ul>
+<li>응시 완료 건: 신청 버튼 비활성, 불가 안내</li>
+<li>시스템 장애로 재응시 불가한 경우: 응시자 신청 없이 운영자가 직접 환불 처리</li>
+<li>반려: 사유와 함께 상태 갱신</li>
+</ul>
+<p><strong>관련 화면</strong>: 마이페이지 환불 신청·상태</p>
+<p><strong>데이터·입력</strong>: 결제 건ID, 환불 사유, 상태(접수/검토/승인/처리중/완료/반려)</p>
+<p><strong>정책·규칙</strong>: 정책7. 접수기간 내 미응시만 신청 가능, 운영 수동 검토, 영업일 3~5일 환원, 응시 후 변심·불만족 불가. ※ 04-policy 정책7 참조</p>
+<p><strong>비고</strong>: 자동 환불 분기는 라운드2. 환불 규정 안내 문안은 특정상거래법 표기와 연계.</p>
+<h3>4.11 FS-ADM-04 / 결과 공개 (관리자 연계)</h3>
+<p><strong>개요</strong>
+운영자가 관리자 web에서 특정 시험·회차의 채점 결과를 응시자에게 공개하는 기능. 이 클릭이 있기 전까지 응시자에게 결과·인증서가 노출되지 않음(정책5). 1차 오픈은 평가자 2차 채점 UI 없이 운영자가 수동 검수 후 공개함.</p>
+<p><strong>기본 흐름</strong></p>
+<ol>
+<li>관리자 web에서 대상 시험·응시자 목록 진입</li>
+<li>AI 1차 채점 결과 확인·수동 검수</li>
+<li>&quot;결과 공개&quot; 클릭</li>
+<li>응시자 마이페이지 결과 노출 활성화 + 결과 공개 이메일 발송</li>
+</ol>
+<p><strong>예외·대체 흐름</strong></p>
+<ul>
+<li>답안 초기화: 관리자만 가능. 초기화 시 해당 응시자 재응시 가능(정책5·정책6 연계)</li>
+</ul>
+<p><strong>관련 화면</strong>: 관리자 web 응시자 관리, 응시자 상세</p>
+<p><strong>정책·규칙</strong>: 정책5. 결과 공개 자동화(채점 후 N분)는 라운드2.</p>
+<p><strong>비고</strong>: 상세는 <code>06-admin-feature-spec.md</code> 참조.</p>
+<h3>4.12 부수 기능 (요지)</h3>
+<ul>
+<li><strong>FS-MEM-04 비밀번호 재설정 / FS-MEM-05 계정 찾기</strong>: 이메일 링크 기반. 재설정 링크 유효시간 TBD.</li>
+<li><strong>FS-MEM-07 회원정보 수정 / FS-MEM-08 회원 탈퇴</strong>: 탈퇴는 경고 모달 경유. 탈퇴 시 데이터 삭제 정책은 라운드3(<code>12-security.md</code>).</li>
+<li><strong>FS-EXM-03 무료 샘플 3문항</strong>: 시험 상세에서 진입, 회원 게이트 발동. 샘플 결과는 본 시험 결제 유도 CTA와 연결.</li>
+<li><strong>FS-PAY-04 영수증</strong>: 마이페이지 결제 내역에서 PDF 다운로드. 특정상거래법·적격청구서 대응. PG 확정 후 항목 보완.</li>
+<li><strong>FS-MY-01 대시보드</strong>: 진행 중 시험, 미응시 D-day, 결과 발표 임박을 카드로 요약.</li>
+<li><strong>FS-CS-01~03 고객센터</strong>: 공지, FAQ 5카테고리, 1:1 문의 작성. 문의 답변은 관리자 web.</li>
+<li><strong>FS-NOTI-01 이메일 알림 6종</strong>: 결제완료·D-1·D-day·만료·결과공개·환불처리. 발송 트리거는 각 기능 흐름에 연결. 푸시는 라운드2.</li>
+<li><strong>FS-ADM-01/02/05 관리자 신규 메뉴</strong>: 회원(가입·결제·환불 집계), 결제 관리(결제 5상태 + 환불 처리), 인증서 템플릿 관리. 상세는 <code>06-admin-feature-spec.md</code>.</li>
+<li><strong>FS-ADM-06 문제 만들기 5영역 탭</strong>: 기존 문제 만들기에 말하기 5영역(짧은 문장 읽기·질문 대답·생활 속 대화·그림 설명·화용 과제) 탭 신설. 영역별 지시문·시간·배점 자동 적용, 응시자 폰 mock 라이브 프리뷰.</li>
+</ul>
+<hr>
+<h2>5. 정책 요약</h2>
+<table>
+<thead>
+<tr>
+<th>정책</th>
+<th>한 줄 요약</th>
+<th>연관 기능ID</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>정책5 결과 공개</td>
+<td>AI 1차 채점은 즉시, 응시자 노출은 운영자 &quot;결과 공개&quot; 후</td>
+<td>FS-RST-01, FS-ADM-04, FS-MY-04</td>
+</tr>
+<tr>
+<td>정책6 재응시</td>
+<td>시스템·네트워크 장애 케이스만, 운영자 수동 재응시 티켓 발행</td>
+<td>FS-TST-05, FS-TST-06, FS-RST-01</td>
+</tr>
+<tr>
+<td>정책7 환불</td>
+<td>접수기간 내 미응시만 신청 가능, 운영 수동 검토 후 영업일 3~5일 환원</td>
+<td>FS-MY-06, FS-ADM-03, FS-PAY-03</td>
+</tr>
+<tr>
+<td>정책9 회원 게이트</td>
+<td>샘플·구매는 로그인 필수, 비로그인 시 가입 유도 후 intent로 복귀</td>
+<td>FS-MEM-06, FS-EXM-03, FS-PAY-01</td>
+</tr>
+<tr>
+<td>정책10 새 창 진입</td>
+<td>응시하기는 새 창 + SSO. brand 자산(portal) vs 학습 자산(사용자 web) 분리</td>
+<td>FS-TST-01, FS-MY-02, FS-MY-04</td>
+</tr>
+</tbody></table>
+<p>전체 정책(1~10) 원문 및 라운드2 이후 확장 계획은 <code>04-policy.md</code> 참조.</p>
+<hr>
+<h2>6. 비기능 요구사항</h2>
+<h3>6.1 브라우저 지원</h3>
+<ul>
+<li>데스크탑: Chrome·Safari·Edge 최신 버전</li>
+<li>모바일: 모바일 브라우저 (iOS Safari·Android Chrome)</li>
+<li>마이크 권한 필수, 헤드셋 권장 (응시 품질 확보)</li>
+<li>IE·구형 브라우저 미지원</li>
+</ul>
+<h3>6.2 반응형</h3>
+<ul>
+<li>브레이크포인트: 데스크탑 ≥1024px / 태블릿 768~1023px / 모바일 ≤767px</li>
+<li>시험 상세·결제: 데스크탑 우측 사이드바, 모바일 하단 sticky CTA</li>
+<li>마이페이지: 데스크탑 좌측 메뉴, 모바일 하단 탭</li>
+<li>응시 화면: 데스크탑 2단(좌 문제/우 응시), 모바일 1단</li>
+<li>관리자 web은 데스크탑 전용 (1차 오픈 모바일 미지원)</li>
+</ul>
+<h3>6.3 다국어(i18n)</h3>
+<ul>
+<li>UI 1차 언어: 일본어</li>
+<li>시험 콘텐츠: 한국어 (지시문 일부 일본어 병기)</li>
+<li>일본어 라벨 네이티브 검수 필요 (TBD)</li>
+<li>폰트: 한·일 동시 지원(Pretendard 계열, <code>:lang(ko)</code> 분기 고려)</li>
+</ul>
+<h3>6.4 접근성</h3>
+<ul>
+<li>키보드 포커스 이동·포커스 표시</li>
+<li>폼 요소 라벨 연결</li>
+<li>1차 오픈은 기본 수준. 세부 WCAG 준수 수준은 라운드 이후 상향 검토</li>
+</ul>
+<h3>6.5 성능·보안</h3>
+<ul>
+<li>라운드3에서 별도 상세 명세 (<code>12-security.md</code>)</li>
+<li>회원 게이트는 UI 장치이며 실제 접근 통제는 API 인증 토큰 검사로 보장</li>
+<li>개인정보 최소 수집, 일본 개인정보보호법 대응은 라운드3</li>
+</ul>
+<hr>
+<h2>7. 미결정·가정 (TBD)</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>항목</th>
+<th>현재 가정/상태</th>
+<th>담당</th>
+<th>기한</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>T1</td>
+<td>등급 1~6급 체계 확정</td>
+<td>한국교육재단 협의 중. 결과 화면은 6급 기준 임시 표기</td>
+<td>박지원 + 콘텐츠</td>
+<td>베타 종료 전</td>
+</tr>
+<tr>
+<td>T2</td>
+<td>결제 PG 사업자</td>
+<td>일본 PG(신용카드+QR) 방향만 확정, 사업자 미정</td>
+<td>정한별</td>
+<td>오픈 D-6주</td>
+</tr>
+<tr>
+<td>T3</td>
+<td>데스크탑 응시 2단 뷰포트 디자인</td>
+<td>미발주(GAP-11, Critical)</td>
+<td>이수민</td>
+<td>즉시 발주</td>
+</tr>
+<tr>
+<td>T4</td>
+<td>일본어 라벨 네이티브 검수</td>
+<td>미검수. 개발용 임시 카피 사용 중</td>
+<td>운영(뉴인재팬)</td>
+<td>베타 중</td>
+</tr>
+<tr>
+<td>T5</td>
+<td>중상급 말하기 유형</td>
+<td>미확정. 상세 콘텐츠 플레이스홀더</td>
+<td>콘텐츠 + 하정일 교수 협의</td>
+<td>베타 종료 전</td>
+</tr>
+<tr>
+<td>T6</td>
+<td>SSO 토큰 규격·유효시간</td>
+<td>개발 리드 검토 대상</td>
+<td>김도현</td>
+<td>응시 진입 개발 착수 전</td>
+</tr>
+<tr>
+<td>T7</td>
+<td>이어서 응시 허용 여부</td>
+<td>1차 오픈 미허용 가능(정책4)</td>
+<td>박지원 + 김도현</td>
+<td>응시 클라이언트 개발 전</td>
+</tr>
+<tr>
+<td>T8</td>
+<td>이메일 인증·비밀번호 재설정 링크 유효시간</td>
+<td>미정</td>
+<td>김도현</td>
+<td>회원 개발 착수 전</td>
+</tr>
+<tr>
+<td>T9</td>
+<td>소셜/이메일 동일 이메일 계정 통합</td>
+<td>미정, 라운드2 검토 가능</td>
+<td>박지원</td>
+<td>라운드2</td>
+</tr>
+</tbody></table>
+<p>※ 본 명세서는 v1.0 승인본. PG 확정(T2)·디자인 발주(T3) 진행에 따라 관련 기능 흐름·화면번호를 후속 개정에서 보완함.</p>
+
+</main>
+</body>
+</html>

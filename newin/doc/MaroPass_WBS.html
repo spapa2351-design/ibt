@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+<title>MaroPass IBT 구축 작업분해구조서 (WBS)</title>
+<style>
+  :root {
+    --ink: #1a1d24; --ink-soft: #4a515c; --muted: #8b929d;
+    --line: #e3e6ea; --line-soft: #eef0f3; --accent: #2e5bff;
+    --th-bg: #f6f7f9; --code-bg: #f5f6f8; --page: #ffffff; --shell: #f0f1f4;
+    --max: 880px;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--shell);
+    color: var(--ink);
+    font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, "Malgun Gothic", sans-serif;
+    font-size: 15px; line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+  .page {
+    max-width: var(--max);
+    margin: 32px auto;
+    background: var(--page);
+    padding: 64px 72px 80px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 12px 32px rgba(0,0,0,0.06);
+    border-radius: 4px;
+  }
+  h1 {
+    font-size: 27px; font-weight: 800; letter-spacing: -0.02em;
+    margin: 0 0 24px; padding-bottom: 18px; border-bottom: 2px solid var(--ink);
+    line-height: 1.35;
+  }
+  h2 {
+    font-size: 20px; font-weight: 700; letter-spacing: -0.01em;
+    margin: 44px 0 14px; padding-bottom: 8px; border-bottom: 1px solid var(--line);
+  }
+  h3 { font-size: 16.5px; font-weight: 700; margin: 30px 0 10px; color: var(--ink); }
+  h4 { font-size: 15px; font-weight: 700; margin: 22px 0 8px; color: var(--ink-soft); }
+  p { margin: 10px 0; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  strong { font-weight: 700; }
+  em { color: var(--ink-soft); }
+  ul, ol { margin: 10px 0; padding-left: 22px; }
+  li { margin: 4px 0; }
+  hr { border: none; border-top: 1px solid var(--line); margin: 32px 0; }
+  blockquote {
+    margin: 14px 0; padding: 10px 18px; color: var(--ink-soft);
+    border-left: 3px solid var(--line); background: var(--line-soft);
+    border-radius: 0 6px 6px 0; font-size: 14px;
+  }
+  blockquote p { margin: 4px 0; }
+  table {
+    border-collapse: collapse; width: 100%; margin: 16px 0; font-size: 13.5px;
+    display: block; overflow-x: auto;
+  }
+  thead { background: var(--th-bg); }
+  th, td {
+    border: 1px solid var(--line); padding: 8px 12px; text-align: left;
+    vertical-align: top; line-height: 1.55;
+  }
+  th { font-weight: 700; color: var(--ink); white-space: nowrap; }
+  tbody tr:nth-child(even) { background: #fafbfc; }
+  code {
+    font-family: "SFMono-Regular", Consolas, "D2Coding", "Courier New", monospace;
+    font-size: 0.88em; background: var(--code-bg); padding: 1px 5px; border-radius: 4px;
+    color: #b02a4a;
+  }
+  pre {
+    background: var(--code-bg); border: 1px solid var(--line); border-radius: 8px;
+    padding: 16px 18px; overflow-x: auto; margin: 16px 0; line-height: 1.5;
+  }
+  pre code {
+    background: none; padding: 0; color: var(--ink); font-size: 12.5px; white-space: pre;
+  }
+  /* 문서 상단 메타 표 (첫 표) 강조 */
+  .page > table:first-of-type th,
+  .page > table:first-of-type td { font-size: 13px; }
+  @media (max-width: 768px) {
+    .page { margin: 0; padding: 32px 20px 48px; border-radius: 0; box-shadow: none; }
+    h1 { font-size: 22px; }
+    h2 { font-size: 18px; }
+  }
+  @media print {
+    body { background: #fff; font-size: 11pt; }
+    .page { margin: 0; max-width: none; box-shadow: none; padding: 0; border-radius: 0; }
+    h2 { page-break-after: avoid; }
+    table, pre, blockquote { page-break-inside: avoid; }
+    thead { display: table-header-group; }
+  }
+</style>
+</head>
+<body>
+<main class="page">
+<h1>MaroPass IBT 구축 작업분해구조서 (WBS)</h1>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>문서명</td>
+<td>MaroPass IBT 구축 작업분해구조서(WBS)</td>
+</tr>
+<tr>
+<td>프로젝트명</td>
+<td>MaroPass IBT (한국어 말하기 진단평가) 신규 구축</td>
+</tr>
+<tr>
+<td>문서번호</td>
+<td>KP-PLN-WBS-001</td>
+</tr>
+<tr>
+<td>버전</td>
+<td>v1.1</td>
+</tr>
+<tr>
+<td>작성일</td>
+<td>2026-07-10 (최종 수정 2026-07-13)</td>
+</tr>
+<tr>
+<td>작성자</td>
+<td>박지원 (기획/PM)</td>
+</tr>
+<tr>
+<td>검토</td>
+<td>김도현 (개발 리드), 이수민 (디자인 리드)</td>
+</tr>
+<tr>
+<td>승인</td>
+<td>정한별 (PO/총괄)</td>
+</tr>
+<tr>
+<td>배포범위</td>
+<td>프로젝트 내부(뉴인재팬), 외주 파트너는 해당 섹션 발췌 공유</td>
+</tr>
+</tbody></table>
+<h2>개정이력 (Revision History)</h2>
+<table>
+<thead>
+<tr>
+<th>버전</th>
+<th>일자</th>
+<th>작성/수정</th>
+<th>주요 변경</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>v0.9</td>
+<td>2026-07-02</td>
+<td>박지원</td>
+<td>1차 초안 작성</td>
+</tr>
+<tr>
+<td>v0.95</td>
+<td>2026-07-07</td>
+<td>박지원</td>
+<td>디자인·개발 리드 검토 반영(3.0/6.0 추정 조정, 선행관계 정리)</td>
+</tr>
+<tr>
+<td>v1.0</td>
+<td>2026-07-10</td>
+<td>박지원</td>
+<td>킥오프 확정본. 마일스톤·리스크 확정, 결제 PG 항목 TBD 표기</td>
+</tr>
+<tr>
+<td>v1.1</td>
+<td>2026-07-13</td>
+<td>박지원</td>
+<td>전체 일정 재수립. 정식 오픈 12월 초, 테스트 납품 11월 초 신설, 기획 착수 5월 초 기준으로 마일스톤·리스크 기한 재조정</td>
+</tr>
+</tbody></table>
+<h2>관련 문서</h2>
+<ul>
+<li>KP-PLN-IA-001 IA 설계서 (<code>doc/MaroPass_IA.md</code>)</li>
+<li>KP-PLN-FS-001 기능명세서 (<code>doc/MaroPass_기능명세서.md</code>) <em>일부 작성 중, 8.0 채점 연동부 미확정</em></li>
+<li>KP-DSN-INV-001 화면 인벤토리 / Hi-Fi 시안 목록 (<code>doc/MaroPass_화면인벤토리.md</code>)</li>
+<li>KP-PLN-POL-001 응시·결제 정책 정의서(정책1~정책12), 별첨</li>
+<li>터치클래스 기존 관리자/사용자 web 자산 명세(기존 사내 위키 참조)</li>
+</ul>
+<hr>
+<h2>1. 개요</h2>
+<p>본 문서는 MaroPass IBT(일본인 한국어 학습자 대상 &#39;말하기&#39; 진단평가) 정식 오픈까지의 작업을 분해하여 담당·선행관계·공수를 산정한 작업분해구조서임. MaroPass는 TOPIK을 대체하는 시험이 아니라 학습자의 말하기 능력을 진단·보완하는 IBT 상품이며, 운영은 뉴인재팬(Newin Japan), 서비스 브랜드는 MaroPass(kopass.*)로 함.</p>
+<p>WBS 기준선은 Phase 1(2026년 12월 초 정식 오픈, 11월 초 테스트 납품) 범위로 한정함. 앱(iOS/Android), 2차 인간 평가자 UI, 푸시 알림 등은 라운드2 항목으로 본 기준선에서 제외하며, 별도 표기함. 산정 단위는 man-day(M/D)이고, 1 M/D = 1인 기준 실작업 1일(회의·리뷰 제외)로 봄. 추정치는 확정 스펙 기준이며, 미확정 항목(결제 PG, 등급체계)은 확정 후 재산정 전제임.</p>
+<p>팀 구성 전제: PM 1(박지원), 디자인 2(이수민 외 1), 프론트 2, 백엔드 2, QA 1(최유진), 운영 1. 개발 리드(김도현)는 백엔드 겸임. 외부는 일본어 네이티브 검수(외주), 한국교육재단(등급 협의)임. 기존 터치클래스 사용자/관리자 web 자산을 최대한 재사용하고, MaroPass 고유 영역만 신규 개발하는 것을 원칙으로 함.</p>
+<hr>
+<h2>2. WBS 요약 (대분류)</h2>
+<table>
+<thead>
+<tr>
+<th>코드</th>
+<th>대분류</th>
+<th>주 담당</th>
+<th>추정(M/D)</th>
+<th>상태</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1.0</td>
+<td>프로젝트 관리</td>
+<td>박지원</td>
+<td>20</td>
+<td>진행</td>
+</tr>
+<tr>
+<td>2.0</td>
+<td>기획·설계</td>
+<td>박지원</td>
+<td>34</td>
+<td>진행</td>
+</tr>
+<tr>
+<td>3.0</td>
+<td>UX·디자인</td>
+<td>이수민</td>
+<td>40</td>
+<td>진행</td>
+</tr>
+<tr>
+<td>4.0</td>
+<td>portal 프론트·백엔드</td>
+<td>김도현</td>
+<td>96</td>
+<td>예정</td>
+</tr>
+<tr>
+<td>5.0</td>
+<td>결제 PG 연동</td>
+<td>백엔드</td>
+<td>22</td>
+<td>보류</td>
+</tr>
+<tr>
+<td>6.0</td>
+<td>사용자 web 응시영역</td>
+<td>프론트</td>
+<td>78</td>
+<td>예정</td>
+</tr>
+<tr>
+<td>7.0</td>
+<td>관리자 web MaroPass 메뉴</td>
+<td>백엔드</td>
+<td>46</td>
+<td>예정</td>
+</tr>
+<tr>
+<td>8.0</td>
+<td>AI 채점·평가 연동</td>
+<td>김도현</td>
+<td>30</td>
+<td>예정</td>
+</tr>
+<tr>
+<td>9.0</td>
+<td>데이터·인프라·i18n</td>
+<td>백엔드</td>
+<td>34</td>
+<td>예정</td>
+</tr>
+<tr>
+<td>10.0</td>
+<td>QA·테스트·오픈</td>
+<td>최유진</td>
+<td>42</td>
+<td>예정</td>
+</tr>
+<tr>
+<td></td>
+<td>합계</td>
+<td></td>
+<td>442</td>
+<td></td>
+</tr>
+</tbody></table>
+<p><em>합계는 5.0 PG 연동 확정 전 잠정치. PG사 확정 후 재산정.</em></p>
+<hr>
+<h2>3. WBS 상세</h2>
+<p>상태 표기: 예정 / 진행 / 완료 / 보류. 선행은 선행 WBS 코드로 표기(없으면 -).</p>
+<h3>1.0 프로젝트 관리</h3>
+<p>프로젝트 전 기간 상시 진행 항목. 공수는 오픈까지 누적 기준으로 계상함.</p>
+<table>
+<thead>
+<tr>
+<th>WBS</th>
+<th>작업명</th>
+<th>주요 산출물</th>
+<th>담당</th>
+<th>선행</th>
+<th>추정</th>
+<th>상태</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1.1</td>
+<td>킥오프·범위 확정</td>
+<td>킥오프 자료, 범위 합의서</td>
+<td>박지원</td>
+<td>-</td>
+<td>3</td>
+<td>완료</td>
+</tr>
+<tr>
+<td>1.2</td>
+<td>일정·리소스 관리</td>
+<td>마스터 일정, 주간 스탠드업</td>
+<td>박지원</td>
+<td>1.1</td>
+<td>8</td>
+<td>진행</td>
+</tr>
+<tr>
+<td>1.3</td>
+<td>이슈·리스크 트래킹</td>
+<td>이슈 로그, 리스크 대장(5장 참조)</td>
+<td>박지원</td>
+<td>-</td>
+<td>5</td>
+<td>진행</td>
+</tr>
+<tr>
+<td>1.4</td>
+<td>외부 협의 관리</td>
+<td>교육재단·PG·검수 협의록</td>
+<td>박지원, 정한별</td>
+<td>-</td>
+<td>4</td>
+<td>진행</td>
+</tr>
+</tbody></table>
+<h3>2.0 기획·설계</h3>
+<p>정책·IA·기능명세·화면 확정. 2.1~2.3은 v1.0 시점 대부분 확정, 8.0 관련 채점 스펙만 진행 중.</p>
+<table>
+<thead>
+<tr>
+<th>WBS</th>
+<th>작업명</th>
+<th>주요 산출물</th>
+<th>담당</th>
+<th>선행</th>
+<th>추정</th>
+<th>상태</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>2.1</td>
+<td>응시·결제 정책 정의</td>
+<td>정책 정의서(정책1~12)</td>
+<td>박지원</td>
+<td>1.1</td>
+<td>6</td>
+<td>완료</td>
+</tr>
+<tr>
+<td>2.2</td>
+<td>IA 설계</td>
+<td>IA 설계서, 사이트맵</td>
+<td>박지원</td>
+<td>2.1</td>
+<td>6</td>
+<td>완료</td>
+</tr>
+<tr>
+<td>2.3</td>
+<td>기능명세 작성</td>
+<td>기능명세서</td>
+<td>박지원</td>
+<td>2.2</td>
+<td>12</td>
+<td>진행</td>
+</tr>
+<tr>
+<td>2.3.1</td>
+<td>portal 기능명세</td>
+<td>회원·상품·결제·마이페이지·고객센터 명세</td>
+<td>박지원</td>
+<td>2.2</td>
+<td>5</td>
+<td>완료</td>
+</tr>
+<tr>
+<td>2.3.2</td>
+<td>사용자 web 응시 명세</td>
+<td>본인확인·환경점검·응시·결과 명세</td>
+<td>박지원</td>
+<td>2.2</td>
+<td>4</td>
+<td>진행</td>
+</tr>
+<tr>
+<td>2.3.3</td>
+<td>관리자 신규 메뉴 명세</td>
+<td>5개 메뉴 + 5영역 탭 명세</td>
+<td>박지원</td>
+<td>2.2</td>
+<td>3</td>
+<td>진행</td>
+</tr>
+<tr>
+<td>2.4</td>
+<td>시험 콘텐츠 설계</td>
+<td>말하기 5영역 문항 구조, 평가 5축 루브릭</td>
+<td>박지원, 운영</td>
+<td>2.1</td>
+<td>6</td>
+<td>진행</td>
+</tr>
+<tr>
+<td>2.5</td>
+<td>등급체계 정의</td>
+<td>1~6급 산출 기준 정의</td>
+<td>박지원</td>
+<td>2.4</td>
+<td>4</td>
+<td>보류</td>
+</tr>
+</tbody></table>
+<p><em>2.5는 한국교육재단 협의 결과 대기(리스크 R-01). 협의 전까지 6급 잠정 구간으로 진행.</em></p>
+<h3>3.0 UX·디자인</h3>
+<p>portal 신규 화면 및 응시/결과 화면 디자인. Hi-Fi 시안은 v1.0 시점 제작 완료 상태이며(portal 16, 사용자web 5, 관리자 5), 데스크탑 응시 2단 뷰포트만 별도 발주 진행 중.</p>
+<table>
+<thead>
+<tr>
+<th>WBS</th>
+<th>작업명</th>
+<th>주요 산출물</th>
+<th>담당</th>
+<th>선행</th>
+<th>추정</th>
+<th>상태</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>3.1</td>
+<td>디자인 시스템·토큰</td>
+<td>컬러(#2e84ff)·타이포(Pretendard 한·일)·컴포넌트</td>
+<td>이수민</td>
+<td>2.2</td>
+<td>6</td>
+<td>완료</td>
+</tr>
+<tr>
+<td>3.2</td>
+<td>portal Hi-Fi 시안(16종)</td>
+<td>홈·시험목록/상세·가입/로그인·결제·마이페이지·고객센터</td>
+<td>이수민 외 1</td>
+<td>3.1</td>
+<td>14</td>
+<td>완료</td>
+</tr>
+<tr>
+<td>3.3</td>
+<td>사용자 web 응시 시안(5종)</td>
+<td>본인확인·환경점검·응시(모바일 1단)·결과·레이더</td>
+<td>이수민</td>
+<td>3.1</td>
+<td>6</td>
+<td>완료</td>
+</tr>
+<tr>
+<td>3.3.1</td>
+<td>데스크탑 응시 2단 뷰포트</td>
+<td>2단 레이아웃 시안</td>
+<td>외주(디자인)</td>
+<td>3.3</td>
+<td>TBD</td>
+<td>진행</td>
+</tr>
+<tr>
+<td>3.4</td>
+<td>관리자 신규 메뉴 시안(5종)</td>
+<td>회원·결제·환불·결과공개·인증서템플릿</td>
+<td>이수민 외 1</td>
+<td>3.1</td>
+<td>5</td>
+<td>완료</td>
+</tr>
+<tr>
+<td>3.5</td>
+<td>5각 레이더 차트 스펙</td>
+<td>결과 레이더 시각화 규격</td>
+<td>이수민</td>
+<td>3.3</td>
+<td>3</td>
+<td>완료</td>
+</tr>
+<tr>
+<td>3.6</td>
+<td>인증서·결과지 PDF 템플릿</td>
+<td>PDF 레이아웃(kopass 검증 URL 영역 포함)</td>
+<td>이수민</td>
+<td>3.2</td>
+<td>6</td>
+<td>진행</td>
+</tr>
+</tbody></table>
+<p><em>3.3.1 발주 외주사 미정(△). 6/00 회의에서 2단 필요 화면 범위만 우선 확정, 세부 디자인 발주는 스펙 확정 후. 데스크탑 2단 지연 시 모바일 1단 우선 오픈 검토.</em></p>
+<h3>4.0 portal 프론트·백엔드 (service-site, 신규)</h3>
+<p>MaroPass portal 전체 신규 개발. 프론트 2·백엔드 2 병행. 알림메일 5종 포함.</p>
+<table>
+<thead>
+<tr>
+<th>WBS</th>
+<th>작업명</th>
+<th>주요 산출물</th>
+<th>담당</th>
+<th>선행</th>
+<th>추정</th>
+<th>상태</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>4.1</td>
+<td>portal 공통·레이아웃</td>
+<td>반응형 레이아웃(≥1024/768~1023/≤767), 라우팅</td>
+<td>프론트</td>
+<td>3.2</td>
+<td>8</td>
+<td>예정</td>
+</tr>
+<tr>
+<td>4.2</td>
+<td>홈·시험목록·시험상세</td>
+<td>상품 노출, 무료 샘플 3문항 진입</td>
+<td>프론트</td>
+<td>4.1</td>
+<td>10</td>
+<td>예정</td>
+</tr>
+<tr>
+<td>4.3</td>
+<td>회원</td>
+<td>가입·로그인 API/UI</td>
+<td>김도현</td>
+<td>4.1</td>
+<td>-</td>
+<td>예정</td>
+</tr>
+<tr>
+<td>4.3.1</td>
+<td>이메일 가입/로그인</td>
+<td>계정 CRUD, 인증메일</td>
+<td>백엔드</td>
+<td>4.1</td>
+<td>6</td>
+<td>예정</td>
+</tr>
+<tr>
+<td>4.3.2</td>
+<td>소셜 로그인(LINE·Google·Apple)</td>
+<td>OAuth 연동 3종</td>
+<td>백엔드</td>
+<td>4.3.1</td>
+<td>8</td>
+<td>예정</td>
+</tr>
+<tr>
+<td>4.4</td>
+<td>상품·주문</td>
+<td>상품 관리, 주문 생성</td>
+<td>백엔드</td>
+<td>4.3.1</td>
+<td>8</td>
+<td>예정</td>
+</tr>
+<tr>
+<td>4.5</td>
+<td>마이페이지</td>
+<td>응시할 시험/결과/인증서/결제내역/환불/회원정보/1:1문의</td>
+<td>프론트, 백엔드</td>
+<td>4.4, 4.3</td>
+<td>16</td>
+<td>예정</td>
+</tr>
+<tr>
+<td>4.5.1</td>
+<td>응시하기 진입(SSO)</td>
+<td>window.open + 사용자web SSO 자동로그인(정책10)</td>
+<td>김도현</td>
+<td>4.5, 6.1</td>
+<td>6</td>
+<td>예정</td>
+</tr>
+<tr>
+<td>4.5.2</td>
+<td>결과·인증서 다운로드</td>
+<td>PDF 다운로드(위변조 검증 URL)</td>
+<td>백엔드</td>
+<td>4.5, 3.6, 8.4</td>
+<td>6</td>
+<td>예정</td>
+</tr>
+<tr>
+<td>4.6</td>
+<td>고객센터</td>
+<td>공지·FAQ·1:1 문의</td>
+<td>프론트, 백엔드</td>
+<td>4.1</td>
+<td>8</td>
+<td>예정</td>
+</tr>
+<tr>
+<td>4.7</td>
+<td>알림메일 5종</td>
+<td>결제완료·D-1·D-day·만료·결과공개·환불처리 템플릿/발송</td>
+<td>백엔드</td>
+<td>4.4, 8.3</td>
+<td>8</td>
+<td>예정</td>
+</tr>
+<tr>
+<td>4.8</td>
+<td>환불 신청</td>
+<td>환불 요청 접수(승인은 7.3)</td>
+<td>백엔드</td>
+<td>4.4</td>
+<td>4</td>
+<td>예정</td>
+</tr>
+</tbody></table>
+<p><em>4.7 알림 종수: 문서상 &quot;5종&quot;이나 실제 트리거는 6개(결제완료·D-1·D-day·만료·결과공개·환불처리). 명세 2.3.1에서 확정 표기 정정 필요. 푸시는 라운드2.</em></p>
+<h3>5.0 결제 PG 연동</h3>
+<p>일본 PG(신용카드 + QR). PG사 미확정으로 전체 보류, 확정 후 4.4에 연결.</p>
+<table>
+<thead>
+<tr>
+<th>WBS</th>
+<th>작업명</th>
+<th>주요 산출물</th>
+<th>담당</th>
+<th>선행</th>
+<th>추정</th>
+<th>상태</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>5.1</td>
+<td>PG사 선정·계약</td>
+<td>PG 비교표, 계약</td>
+<td>정한별, 박지원</td>
+<td>1.4</td>
+<td>TBD</td>
+<td>보류</td>
+</tr>
+<tr>
+<td>5.2</td>
+<td>결제 연동(신용카드)</td>
+<td>결제 승인/취소 연동</td>
+<td>백엔드</td>
+<td>5.1, 4.4</td>
+<td>10</td>
+<td>보류</td>
+</tr>
+<tr>
+<td>5.3</td>
+<td>결제 연동(QR)</td>
+<td>QR 결제 연동</td>
+<td>백엔드</td>
+<td>5.2</td>
+<td>6</td>
+<td>보류</td>
+</tr>
+<tr>
+<td>5.4</td>
+<td>결제내역·영수증</td>
+<td>내역 조회, 영수증 처리</td>
+<td>백엔드</td>
+<td>5.2</td>
+<td>6</td>
+<td>보류</td>
+</tr>
+</tbody></table>
+<p><em>추정치는 PG사 확정 전 잠정. 카드/QR 스펙에 따라 재산정. 오픈 크리티컬 패스(리스크 R-03).</em></p>
+<h3>6.0 사용자 web 응시영역 (터치클래스 사용자 web, 신규 영역)</h3>
+<p>기존 사용자 web에 MaroPass 응시 영역 신규 추가. 환경점검 게이트, 응시 클라이언트, 결과확인.</p>
+<table>
+<thead>
+<tr>
+<th>WBS</th>
+<th>작업명</th>
+<th>주요 산출물</th>
+<th>담당</th>
+<th>선행</th>
+<th>추정</th>
+<th>상태</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>6.1</td>
+<td>응시 진입·본인확인</td>
+<td>진입 플로우, 본인확인 화면</td>
+<td>프론트</td>
+<td>3.3</td>
+<td>8</td>
+<td>예정</td>
+</tr>
+<tr>
+<td>6.2</td>
+<td>환경점검 게이트</td>
+<td>마이크·볼륨·5초 리플레이 체크, 30일 캐시</td>
+<td>프론트</td>
+<td>6.1</td>
+<td>12</td>
+<td>예정</td>
+</tr>
+<tr>
+<td>6.3</td>
+<td>응시 클라이언트</td>
+<td>데스크탑 2단/모바일 1단, 자동녹음·타이머·자동저장</td>
+<td>프론트</td>
+<td>6.2</td>
+<td>24</td>
+<td>예정</td>
+</tr>
+<tr>
+<td>6.3.1</td>
+<td>말하기 5영역 문항 렌더</td>
+<td>문장읽기/질문대답/생활대화/그림설명/화용과제</td>
+<td>프론트</td>
+<td>6.3</td>
+<td>10</td>
+<td>예정</td>
+</tr>
+<tr>
+<td>6.3.2</td>
+<td>자동녹음·업로드</td>
+<td>녹음 캡처, 응답 오디오 업로드</td>
+<td>프론트, 백엔드</td>
+<td>6.3</td>
+<td>8</td>
+<td>예정</td>
+</tr>
+<tr>
+<td>6.3.3</td>
+<td>자동저장·자동종료</td>
+<td>타이머 만료 자동종료, 채점대기 전환</td>
+<td>프론트</td>
+<td>6.3</td>
+<td>6</td>
+<td>예정</td>
+</tr>
+<tr>
+<td>6.4</td>
+<td>결과확인</td>
+<td>점수·5각 레이더·1~6급·문항별 AI 피드백</td>
+<td>프론트</td>
+<td>6.3, 8.2</td>
+<td>10</td>
+<td>예정</td>
+</tr>
+</tbody></table>
+<p><em>6.3 데스크탑 2단은 3.3.1 시안 확정에 종속. 시안 지연 시 모바일 1단 우선 개발 후 2단 후행.</em></p>
+<h3>7.0 관리자 web MaroPass 메뉴 (터치클래스 관리자 web, 신규 5개 + 5영역 탭)</h3>
+<p>기존 관리자 web에 MaroPass 신규 메뉴 5개 및 문제만들기 &#39;말하기 5영역 탭&#39; 추가. 시험관리·문제은행·응시자관리·채점·통계·설정은 기존 그대로 사용(재사용, 개발 대상 아님).</p>
+<table>
+<thead>
+<tr>
+<th>WBS</th>
+<th>작업명</th>
+<th>주요 산출물</th>
+<th>담당</th>
+<th>선행</th>
+<th>추정</th>
+<th>상태</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>7.1</td>
+<td>회원 관리(신규)</td>
+<td>MaroPass 회원 조회/관리</td>
+<td>백엔드</td>
+<td>4.3</td>
+<td>6</td>
+<td>예정</td>
+</tr>
+<tr>
+<td>7.2</td>
+<td>결제 관리(신규)</td>
+<td>결제 내역 조회/처리</td>
+<td>백엔드</td>
+<td>5.2</td>
+<td>6</td>
+<td>예정</td>
+</tr>
+<tr>
+<td>7.3</td>
+<td>환불 승인(신규)</td>
+<td>환불 요청 승인/반려</td>
+<td>백엔드</td>
+<td>4.8, 5.4</td>
+<td>6</td>
+<td>예정</td>
+</tr>
+<tr>
+<td>7.4</td>
+<td>결과 공개(신규)</td>
+<td>AI 1차 채점분 검토 후 &#39;결과 공개&#39; 트리거</td>
+<td>운영, 백엔드</td>
+<td>8.2</td>
+<td>8</td>
+<td>예정</td>
+</tr>
+<tr>
+<td>7.5</td>
+<td>인증서 템플릿(신규)</td>
+<td>인증서 템플릿 등록/관리</td>
+<td>백엔드</td>
+<td>3.6</td>
+<td>6</td>
+<td>예정</td>
+</tr>
+<tr>
+<td>7.6</td>
+<td>문제만들기 5영역 탭</td>
+<td>말하기 5영역 문항 등록 탭(기존 문제만들기 확장)</td>
+<td>프론트, 백엔드</td>
+<td>2.4</td>
+<td>10</td>
+<td>예정</td>
+</tr>
+</tbody></table>
+<p><em>7.4 결과공개 트리거 시 4.7 결과공개 메일 + 6.4 결과확인 노출 동시 연동. 2차 인간 평가자 UI는 라운드2/Premium으로 본 범위 제외.</em></p>
+<h3>8.0 AI 채점·평가 연동</h3>
+<p>AI 1차 자동채점 파이프라인 연동. 채점 스펙(2.4) 및 응답 오디오(6.3.2)에 종속. 세부 인터페이스 확정 진행 중.</p>
+<table>
+<thead>
+<tr>
+<th>WBS</th>
+<th>작업명</th>
+<th>주요 산출물</th>
+<th>담당</th>
+<th>선행</th>
+<th>추정</th>
+<th>상태</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>8.1</td>
+<td>채점 인터페이스 정의</td>
+<td>오디오 입력/점수 출력 규격, 평가 5축 매핑</td>
+<td>김도현</td>
+<td>2.4</td>
+<td>6</td>
+<td>진행</td>
+</tr>
+<tr>
+<td>8.2</td>
+<td>자동채점 연동</td>
+<td>채점 요청/수신, 5축 점수 산출</td>
+<td>백엔드</td>
+<td>8.1, 6.3.2</td>
+<td>12</td>
+<td>예정</td>
+</tr>
+<tr>
+<td>8.3</td>
+<td>등급 산출</td>
+<td>5축→1~6급 환산 로직</td>
+<td>백엔드</td>
+<td>8.2, 2.5</td>
+<td>4</td>
+<td>예정</td>
+</tr>
+<tr>
+<td>8.4</td>
+<td>문항별 AI 피드백</td>
+<td>문항 단위 피드백 생성/저장</td>
+<td>백엔드</td>
+<td>8.2</td>
+<td>8</td>
+<td>예정</td>
+</tr>
+</tbody></table>
+<p><em>8.3은 2.5(등급체계) 확정 종속. 미확정 구간 임시 매핑으로 개발, 확정 시 파라미터만 교체 예정.</em></p>
+<h3>9.0 데이터·인프라·i18n</h3>
+<p>DB 스키마, 오디오 스토리지, kopass 검증 URL, 일본어/한국어 다국어.</p>
+<table>
+<thead>
+<tr>
+<th>WBS</th>
+<th>작업명</th>
+<th>주요 산출물</th>
+<th>담당</th>
+<th>선행</th>
+<th>추정</th>
+<th>상태</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>9.1</td>
+<td>DB 스키마 설계</td>
+<td>회원·주문·응시·결과 스키마</td>
+<td>김도현</td>
+<td>2.3</td>
+<td>8</td>
+<td>진행</td>
+</tr>
+<tr>
+<td>9.2</td>
+<td>오디오 스토리지</td>
+<td>응답 오디오 저장/보존 정책</td>
+<td>백엔드</td>
+<td>9.1</td>
+<td>6</td>
+<td>예정</td>
+</tr>
+<tr>
+<td>9.3</td>
+<td>인증서 검증 URL</td>
+<td>kopass.* 위변조 검증 URL 발급/검증</td>
+<td>백엔드</td>
+<td>3.6, 9.1</td>
+<td>6</td>
+<td>예정</td>
+</tr>
+<tr>
+<td>9.4</td>
+<td>i18n(한·일)</td>
+<td>라벨 리소스 구조, 일본어 UI 문자열</td>
+<td>프론트</td>
+<td>4.1</td>
+<td>8</td>
+<td>예정</td>
+</tr>
+<tr>
+<td>9.5</td>
+<td>일본어 네이티브 검수</td>
+<td>검수 반영본</td>
+<td>외주, 박지원</td>
+<td>9.4</td>
+<td>6</td>
+<td>예정</td>
+</tr>
+</tbody></table>
+<p><em>9.5 일본어 라벨 네이티브 검수는 외주. 문자열 프리즈 후 일괄 검수(리스크 R-04). 개발 병행 중 임시 라벨 사용.</em></p>
+<h3>10.0 QA·테스트·오픈</h3>
+<p>통합 QA, 베타, 오픈 준비. 응시 흐름 전체(가입→결제→응시→채점→결과→PDF) E2E 검증.</p>
+<table>
+<thead>
+<tr>
+<th>WBS</th>
+<th>작업명</th>
+<th>주요 산출물</th>
+<th>담당</th>
+<th>선행</th>
+<th>추정</th>
+<th>상태</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>10.1</td>
+<td>QA 계획·시나리오</td>
+<td>테스트 계획, 케이스</td>
+<td>최유진</td>
+<td>2.3</td>
+<td>6</td>
+<td>진행</td>
+</tr>
+<tr>
+<td>10.2</td>
+<td>기능 테스트</td>
+<td>표면별 기능 검증</td>
+<td>최유진</td>
+<td>4.x, 6.x, 7.x</td>
+<td>10</td>
+<td>예정</td>
+</tr>
+<tr>
+<td>10.3</td>
+<td>응시 E2E·환경점검 검증</td>
+<td>크로스 브라우저/디바이스, 마이크·녹음</td>
+<td>최유진</td>
+<td>6.3, 8.2</td>
+<td>10</td>
+<td>예정</td>
+</tr>
+<tr>
+<td>10.4</td>
+<td>결제 테스트</td>
+<td>카드/QR 결제·환불 시나리오</td>
+<td>최유진</td>
+<td>5.x</td>
+<td>6</td>
+<td>보류</td>
+</tr>
+<tr>
+<td>10.5</td>
+<td>베타 운영·피드백</td>
+<td>베타 이슈 로그, 개선 반영</td>
+<td>최유진, 운영</td>
+<td>10.2</td>
+<td>6</td>
+<td>예정</td>
+</tr>
+<tr>
+<td>10.6</td>
+<td>오픈 점검·릴리스</td>
+<td>오픈 체크리스트, 릴리스 노트</td>
+<td>최유진, 김도현</td>
+<td>10.3, 10.5</td>
+<td>4</td>
+<td>예정</td>
+</tr>
+</tbody></table>
+<p><em>10.4는 5.0 PG 연동에 종속하여 보류. PG 샌드박스 확보 후 착수.</em></p>
+<hr>
+<h2>4. 마일스톤</h2>
+<p>큰 덩어리로 보면 기획(5월) → 디자인(6<del>7월) → 개발 3트랙 병렬(Portal·응시·관리자, 7</del>10월) → 통합 QA·테스트 납품(11월 초) → 베타·안정화(11월) → 정식 오픈(12월 초) 순임.</p>
+<table>
+<thead>
+<tr>
+<th>마일스톤</th>
+<th>목표 시기</th>
+<th>비고</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>기획 착수(킥오프)</td>
+<td>5월 초</td>
+<td>범위·팀·일정 확정</td>
+</tr>
+<tr>
+<td>설계 확정(정책·IA·명세·디자인 시안)</td>
+<td>6월 말</td>
+<td>등급체계, 데스크탑 2단 시안 범위 확정</td>
+</tr>
+<tr>
+<td>개발 착수(3트랙 병렬)</td>
+<td>7월</td>
+<td>Portal·응시 시스템·관리자 병행</td>
+</tr>
+<tr>
+<td>기능 개발 완료</td>
+<td>10월 중</td>
+<td>결제 PG 연동 포함</td>
+</tr>
+<tr>
+<td>통합 QA(E2E·크로스 디바이스)</td>
+<td>10월 말 ~ 11월 초</td>
+<td>가입→결제→응시→채점→결과→PDF 전 구간</td>
+</tr>
+<tr>
+<td>테스트 납품</td>
+<td>11월 초</td>
+<td>검수용 빌드 전달</td>
+</tr>
+<tr>
+<td>베타·안정화</td>
+<td>11월</td>
+<td>제한 인원 운영, 버그 수정</td>
+</tr>
+<tr>
+<td>정식 오픈</td>
+<td>12월 초</td>
+<td>Phase 1 범위, 최종 데드라인</td>
+</tr>
+</tbody></table>
+<p><em>7~10월 개발 3트랙 병렬 구간이 크리티컬 패스. 테스트 납품(11월 초) 이후 베타·안정화를 거쳐 12월 초 오픈. PG 미확정 시 베타는 무료 샘플·초대코드 기반으로 우선 운영.</em></p>
+<hr>
+<h2>5. 주요 리스크·선결 과제</h2>
+<table>
+<thead>
+<tr>
+<th>No</th>
+<th>항목</th>
+<th>영향</th>
+<th>대응</th>
+<th>기한</th>
+<th>담당</th>
+<th>상태</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>R-01</td>
+<td>등급체계 1~6급 미확정</td>
+<td>8.3 등급 산출, 6.4 결과 표기</td>
+<td>한국교육재단 협의, 확정 전 임시 매핑</td>
+<td>8월 말 목표</td>
+<td>박지원, 정한별</td>
+<td>협의 중</td>
+</tr>
+<tr>
+<td>R-02</td>
+<td>데스크탑 응시 2단 시안 미발주</td>
+<td>6.3 데스크탑 응시 개발</td>
+<td>외주 발주, 지연 시 모바일 1단 우선</td>
+<td>6월 말 발주</td>
+<td>이수민</td>
+<td>발주 준비</td>
+</tr>
+<tr>
+<td>R-03</td>
+<td>결제 PG사 미확정</td>
+<td>5.0 전체, 결제 플로우 오픈</td>
+<td>PG 비교·계약, 확정 후 재산정</td>
+<td>9월 중 목표</td>
+<td>정한별</td>
+<td>후보 검토(△)</td>
+</tr>
+<tr>
+<td>R-04</td>
+<td>일본어 UI 라벨 네이티브 검수 미완</td>
+<td>전 표면 문안 품질</td>
+<td>문자열 프리즈 후 외주 일괄 검수</td>
+<td>10월</td>
+<td>박지원</td>
+<td>미착수</td>
+</tr>
+<tr>
+<td>R-05</td>
+<td>AI 채점 인터페이스 미확정</td>
+<td>8.0 전반, 6.4 피드백</td>
+<td>규격 우선 확정(8.1), 임시 규격 개발</td>
+<td>7월(개발 착수 시)</td>
+<td>김도현</td>
+<td>진행</td>
+</tr>
+</tbody></table>
+<p><em>R-03이 오픈 크리티컬 패스. 후보 2사로 압축해 계약 조건 협의 중. 기능 개발 완료(10월) 전 연동 필요하며, 지연 시 카드 우선 오픈 + QR 후속 릴리스 안 검토.</em></p>
+<hr>
+<h2>6. 가정 및 제약</h2>
+<ul>
+<li>기존 터치클래스 사용자/관리자 web 자산 재사용 전제. MaroPass 고유 영역(응시·신규 메뉴 5개·5영역 탭)만 신규 개발.</li>
+<li>관리자 시험관리·문제은행·응시자관리·채점·통계·설정은 기존 그대로 사용(개발 대상 아님).</li>
+<li>Phase 1은 웹 only(데스크탑 + 모바일 웹). 네이티브 앱은 라운드2.</li>
+<li>2차 인간 평가자 UI, 푸시 알림은 라운드2/Premium으로 본 기준선 제외.</li>
+<li>결제 후 응시기간 14일, 24시간 상시 응시 가능. 무료 샘플 3문항 제공.</li>
+<li>채점은 AI 1차 자동 → 운영자 &#39;결과 공개&#39; 수동 트리거 방식. 자동 공개 아님.</li>
+<li>man-day는 실작업 기준(회의·리뷰·대기 제외). 완료 표기 항목(3.2/3.3/3.4 등)은 시안 산출물 기준 완료이며, 개발 반영은 별개.</li>
+<li>추정 합계(442 M/D)는 5.0 PG 미확정 잠정치. PG·등급 확정 시 재산정.</li>
+</ul>
+<hr>
+<h2>비고 (미결 코멘트)</h2>
+<ul>
+<li>※ 4.7 알림 &quot;5종&quot; 표기 vs 실제 6트리거 불일치. 명세 2.3.1 정정 후 본 WBS 반영 예정.</li>
+<li>※ 3.3.1 데스크탑 2단 필요 화면 범위 확정 필요(응시 클라이언트 전 화면 vs 문항 유형별). 6/00 회의 결정 사항 재확인.</li>
+<li>※ 8.3 등급 산출 로직은 R-01 확정 전까지 파라미터화하여 개발, 확정치만 교체하는 구조로 김도현 확인.</li>
+<li>※ 통합 QA·테스트 납품(11월 초)과 베타·안정화(11월) 오버랩 구간 리소스 배분 1.2에서 조정 필요.</li>
+<li>※ 오디오 보존 기간(9.2) 정책 미정. 개인정보·재채점 요건 검토 후 확정(TBD).</li>
+</ul>
+
+</main>
+</body>
+</html>

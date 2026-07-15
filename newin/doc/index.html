@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MaroPass IBT — 기획 문서</title>
+<style>
+:root{
+  --blue:#2e84ff; --blue-hover:#2272eb; --blue-50:#e8f3ff;
+  --ink:#191f28; --g900:#191f28; --g800:#333d4b; --g700:#4e5968; --g600:#6b7684;
+  --g500:#8b95a1; --g400:#b0b8c1; --g300:#d1d6db; --g200:#e5e8eb; --g100:#f2f4f6; --g50:#f9fafb;
+  --white:#fff; --green:#03b26c;
+  --font:'Toss Product Sans','Pretendard Variable',Pretendard,-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Segoe UI',Roboto,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;height:100%}
+body{font-family:var(--font);color:var(--g800);background:var(--g100);display:flex;flex-direction:column;height:100vh;-webkit-font-smoothing:antialiased}
+a{color:var(--blue);text-decoration:none}
+
+/* Header */
+header{background:var(--white);border-bottom:1px solid var(--g200);padding:18px 28px 0;flex:0 0 auto}
+.htop{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+.htop h1{font-size:18px;font-weight:700;color:var(--g900);margin:0;letter-spacing:-.02em}
+.htop .sub{font-size:12.5px;color:var(--g500)}
+.htop .pill{margin-left:auto;font-size:11px;font-weight:600;color:var(--green);background:#e7f9f1;border-radius:20px;padding:4px 11px}
+
+/* Tabs */
+.tabs{display:flex;gap:4px}
+.tab{appearance:none;border:none;background:none;font-family:inherit;cursor:pointer;
+  padding:11px 18px;font-size:14px;font-weight:600;color:var(--g500);border-radius:10px 10px 0 0;
+  border-bottom:2.5px solid transparent;transition:.13s;display:flex;align-items:center;gap:8px}
+.tab:hover{color:var(--g800);background:var(--g50)}
+.tab.active{color:var(--blue);border-bottom-color:var(--blue)}
+.tab .no{font-size:10px;font-weight:700;color:var(--g400);background:var(--g100);border-radius:5px;padding:1px 5px}
+.tab.active .no{color:var(--blue);background:var(--blue-50)}
+
+/* Prototype links */
+.protolinks{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.protolinks .lbl{font-size:11px;font-weight:700;color:var(--g400);text-transform:uppercase;letter-spacing:.04em;margin-right:2px}
+.plink{display:inline-flex;align-items:center;gap:7px;text-decoration:none;
+  border:1px solid var(--g200);border-radius:10px;padding:7px 13px;background:var(--white);transition:.13s}
+.plink:hover{border-color:var(--blue);background:var(--blue-50);transform:translateY(-1px)}
+.plink .pt{font-size:13px;font-weight:600;color:var(--g800)}
+.plink:hover .pt{color:var(--blue-hover)}
+.plink .ph{font-size:11px;color:var(--g500)}
+.plink .arw{font-size:11px;color:var(--g400)}
+.plink:hover .arw{color:var(--blue)}
+
+/* Meta bar */
+.metabar{flex:0 0 auto;background:var(--white);border-bottom:1px solid var(--g200);
+  padding:9px 28px;display:flex;align-items:center;gap:14px;font-size:12px;color:var(--g500);flex-wrap:wrap}
+.metabar .m{display:flex;align-items:center;gap:5px}
+.metabar .m b{color:var(--g700);font-weight:600}
+.metabar .links{margin-left:auto;display:flex;gap:8px}
+.metabar .links a{font-size:11.5px;font-weight:600;border:1px solid var(--g200);border-radius:8px;
+  padding:5px 11px;color:var(--g700);background:var(--white);transition:.12s}
+.metabar .links a:hover{border-color:var(--blue);color:var(--blue);background:var(--blue-50)}
+
+/* Frame */
+.stage{flex:1;min-height:0;position:relative;background:var(--g100)}
+iframe{position:absolute;inset:0;width:100%;height:100%;border:none;background:var(--white)}
+
+@media (max-width:640px){
+  header{padding:14px 14px 0}
+  .metabar{padding:8px 14px}
+  .tab{padding:10px 12px;font-size:13px}
+  .htop .pill{display:none}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="htop">
+    <h1>MaroPass IBT · 기획 문서</h1>
+    <span class="sub">일본인 대상 한국어 말하기 진단평가 · 뉴인재팬</span>
+    <span class="pill">2026 · v1.1</span>
+  </div>
+  <div class="protolinks">
+    <span class="lbl">프로토타입</span>
+    <a class="plink" href="../ui/user-web/ui-exam-home.html" target="_blank" rel="noopener" title="사용자단 · 응시 web (터치클래스 사용자)">
+      <span class="pt">사용자단</span><span class="ph">응시 web</span><span class="arw">↗</span></a>
+    <a class="plink" href="../ui/admin/ui-admin-dashboard.html" target="_blank" rel="noopener" title="어드민단 · 시험/문제 백오피스 (터치클래스 관리자)">
+      <span class="pt">어드민단</span><span class="ph">시험·문제 백오피스</span><span class="arw">↗</span></a>
+    <a class="plink" href="../ui/service-site/ui-main-home.html" target="_blank" rel="noopener" title="서비스사이트단 · MaroPass 포털">
+      <span class="pt">서비스사이트단</span><span class="ph">MaroPass 포털</span><span class="arw">↗</span></a>
+    <a class="plink" href="../ui/service-admin/admin-dashboard.html" target="_blank" rel="noopener" title="어드민단2 · 서비스 운영 백오피스 (회원·결제·환불·문의)">
+      <span class="pt">어드민단2</span><span class="ph">서비스 운영</span><span class="arw">↗</span></a>
+  </div>
+  <nav class="tabs" id="tabs"></nav>
+</header>
+<div class="metabar" id="metabar"></div>
+<div class="stage"><iframe id="frame" title="문서"></iframe></div>
+
+<script>
+const DOCS=[
+  {key:'ia', tab:'정보구조 (IA)', no:'1', html:'MaroPass_IA.html', md:'MaroPass_IA.md',
+   docno:'KP-PLN-IA-001', ver:'v1.1', date:'2026-06-24 (수정 07-13)', author:'박지원 (PM)'},
+  {key:'fs', tab:'기능명세서', no:'2', html:'MaroPass_기능명세서.html', md:'MaroPass_기능명세서.md',
+   docno:'KP-PLN-FS-001', ver:'v1.1', date:'2026-07-10 (수정 07-13)', author:'박지원 (PM)'},
+  {key:'wbs', tab:'작업분해 (WBS)', no:'3', html:'MaroPass_WBS.html', md:'MaroPass_WBS.md',
+   docno:'KP-PLN-WBS-001', ver:'v1.1', date:'2026-07-10 (수정 07-13)', author:'박지원 (PM)'},
+];
+
+const tabsEl=document.getElementById('tabs');
+const metaEl=document.getElementById('metabar');
+const frame=document.getElementById('frame');
+
+DOCS.forEach((d,i)=>{
+  const b=document.createElement('button');
+  b.className='tab';b.dataset.key=d.key;
+  b.innerHTML='<span class="no">'+d.no+'</span>'+d.tab;
+  b.addEventListener('click',()=>select(d.key));
+  tabsEl.appendChild(b);
+});
+
+function select(key){
+  const d=DOCS.find(x=>x.key===key);if(!d)return;
+  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.key===key));
+  frame.src=d.html;
+  metaEl.innerHTML=
+    '<span class="m"><b>문서번호</b> '+d.docno+'</span>'+
+    '<span class="m"><b>버전</b> '+d.ver+'</span>'+
+    '<span class="m"><b>작성일</b> '+d.date+'</span>'+
+    '<span class="m"><b>작성</b> '+d.author+'</span>'+
+    '<span class="links"><a href="'+d.md+'" target="_blank" rel="noopener">MD 원본 ↗</a>'+
+    '<a href="'+d.html+'" target="_blank" rel="noopener">HTML 새 탭 ↗</a></span>';
+  if(history.replaceState)history.replaceState(null,'','#'+key);
+}
+
+const init=(location.hash||'').replace('#','');
+select(DOCS.some(d=>d.key===init)?init:DOCS[0].key);
+</script>
+</body>
+</html>

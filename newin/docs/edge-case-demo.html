@@ -1,0 +1,1196 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>MaroPass 엣지케이스 데모 — 응시자 시점</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" />
+<style>
+  @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css');
+
+  :root {
+    --bg: #f2f5f9;
+    --surface: #ffffff;
+    --line: #e5e9f0;
+    --line-2: #eef1f6;
+    --ink-1: #0b1220;
+    --ink-2: #3b4456;
+    --ink-3: #6b7385;
+    --ink-4: #98a0b0;
+    --brand: #1f57e8;
+    --brand-soft: #eaf0ff;
+    --ok: #1aa970;
+    --ok-soft: #e6f6ee;
+    --warn: #c98b06;
+    --warn-soft: #fff5dc;
+    --bad: #d23f3f;
+    --bad-soft: #fdecec;
+    --shadow: 0 1px 2px rgba(11,18,32,.04), 0 6px 24px rgba(11,18,32,.05);
+    --radius: 14px;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--ink-1);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: clip;
+  }
+
+  /* 상단 */
+  .topbar {
+    background: var(--surface);
+    border-bottom: 1px solid var(--line);
+    padding: 14px 28px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .topbar .brand {
+    font-weight: 700;
+    letter-spacing: -.01em;
+    font-size: 15px;
+  }
+  .topbar .crumb {
+    color: var(--ink-3);
+    font-size: 13px;
+  }
+  .topbar .crumb b { color: var(--ink-2); font-weight: 600; }
+  .topbar .right {
+    margin-left: auto;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+  .pill {
+    font-size: 11.5px;
+    color: var(--ink-3);
+    background: var(--line-2);
+    border-radius: 999px;
+    padding: 4px 10px;
+  }
+
+  /* 레이아웃 */
+  .wrap {
+    max-width: 1280px;
+    margin: 24px auto 80px;
+    padding: 0 28px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 420px;
+    gap: 24px;
+  }
+  @media (max-width: 1024px) {
+    .wrap { grid-template-columns: 1fr; }
+    .preview-col { position: static; }
+  }
+
+  /* 좌측 — 케이스 카탈로그 */
+  .head {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 20px 22px;
+    margin-bottom: 18px;
+    box-shadow: var(--shadow);
+  }
+  .head h1 {
+    font-size: 18px;
+    margin: 0 0 6px;
+    letter-spacing: -.015em;
+  }
+  .head p {
+    margin: 0;
+    color: var(--ink-3);
+    font-size: 13px;
+    line-height: 1.6;
+  }
+  .head .row {
+    margin-top: 12px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .head .row .pill {
+    background: var(--brand-soft);
+    color: var(--brand);
+    font-weight: 600;
+  }
+
+  .group {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+    margin-bottom: 14px;
+    box-shadow: var(--shadow);
+  }
+  .group h2 {
+    font-size: 14px;
+    margin: 0 0 4px;
+    letter-spacing: -.01em;
+  }
+  .group .desc {
+    color: var(--ink-3);
+    font-size: 12.5px;
+    margin: 0 0 14px;
+    line-height: 1.55;
+  }
+  .group .cases {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 8px;
+  }
+  .case-btn {
+    text-align: left;
+    background: var(--bg);
+    border: 1px solid transparent;
+    border-radius: 10px;
+    padding: 10px 12px;
+    cursor: pointer;
+    font: inherit;
+    color: var(--ink-2);
+    transition: background .12s, border-color .12s, transform .04s;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .case-btn:hover { background: var(--brand-soft); border-color: #d6e1ff; }
+  .case-btn:active { transform: translateY(1px); }
+  .case-btn.active {
+    background: var(--brand-soft);
+    border-color: #b9caff;
+    color: var(--brand);
+  }
+  .case-btn .id {
+    font-size: 11px;
+    color: var(--ink-4);
+    font-weight: 600;
+    letter-spacing: .02em;
+  }
+  .case-btn.active .id { color: var(--brand); opacity: .85; }
+  .case-btn .ttl {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: -.005em;
+    line-height: 1.35;
+  }
+
+  /* 우측 — 프리뷰 */
+  .preview-col {
+    position: sticky;
+    top: 24px;
+    align-self: start;
+  }
+  .preview {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+  .preview-head {
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--line-2);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .preview-head .id {
+    font-size: 11px;
+    color: var(--ink-4);
+    font-weight: 600;
+  }
+  .preview-head .ttl {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: -.01em;
+  }
+  .preview-head .where {
+    margin-left: auto;
+    font-size: 11px;
+    color: var(--ink-3);
+    background: var(--line-2);
+    padding: 4px 8px;
+    border-radius: 999px;
+  }
+
+  .stage {
+    background: #f7f9fc;
+    padding: 22px;
+    min-height: 320px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .stage-inner { width: 100%; }
+
+  /* 토스트 */
+  .toast {
+    background: #16202e;
+    color: #fff;
+    border-radius: 12px;
+    padding: 12px 14px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 13px;
+    line-height: 1.5;
+    box-shadow: 0 8px 22px rgba(11,18,32,.18);
+  }
+  .toast .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: #f59e0b;
+    margin-top: 6px;
+    flex: none;
+  }
+  .toast.ok .dot { background: #34d399; }
+  .toast.bad .dot { background: #fb7185; }
+  .toast b { font-weight: 700; }
+
+  /* 모달 */
+  .modal {
+    background: #fff;
+    border-radius: 14px;
+    padding: 22px 22px 18px;
+    max-width: 320px;
+    margin: 0 auto;
+    box-shadow: 0 18px 36px rgba(11,18,32,.18), 0 2px 4px rgba(11,18,32,.04);
+    border: 1px solid var(--line);
+  }
+  .modal .ico {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: var(--brand-soft);
+    color: var(--brand);
+    display: grid;
+    place-items: center;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+  .modal.warn .ico { background: var(--warn-soft); color: var(--warn); }
+  .modal.bad .ico { background: var(--bad-soft); color: var(--bad); }
+  .modal.ok .ico { background: var(--ok-soft); color: var(--ok); }
+  .modal h3 {
+    margin: 0 0 6px;
+    font-size: 15px;
+    letter-spacing: -.01em;
+  }
+  .modal p {
+    margin: 0 0 14px;
+    font-size: 13px;
+    color: var(--ink-2);
+    line-height: 1.6;
+  }
+  .modal .actions {
+    display: flex;
+    gap: 8px;
+  }
+  .modal .btn {
+    flex: 1;
+    font: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 9px 12px;
+    border-radius: 10px;
+    border: 1px solid var(--line);
+    background: #fff;
+    color: var(--ink-2);
+    cursor: pointer;
+  }
+  .modal .btn.primary {
+    background: var(--brand);
+    color: #fff;
+    border-color: var(--brand);
+  }
+  .modal .btn.ghost { background: var(--line-2); }
+
+  /* 인라인 안내 (페이지 안 박스) */
+  .inline {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 16px 18px;
+    max-width: 340px;
+    margin: 0 auto;
+  }
+  .inline .badge {
+    display: inline-block;
+    background: var(--brand-soft);
+    color: var(--brand);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 9px;
+    border-radius: 999px;
+    margin-bottom: 8px;
+    letter-spacing: .02em;
+  }
+  .inline.warn .badge { background: var(--warn-soft); color: var(--warn); }
+  .inline.bad .badge { background: var(--bad-soft); color: var(--bad); }
+  .inline.ok .badge { background: var(--ok-soft); color: var(--ok); }
+  .inline h4 {
+    margin: 0 0 6px;
+    font-size: 14.5px;
+    letter-spacing: -.005em;
+  }
+  .inline p {
+    margin: 0;
+    font-size: 13px;
+    color: var(--ink-2);
+    line-height: 1.6;
+  }
+  .inline .kv {
+    margin-top: 12px;
+    border-top: 1px dashed var(--line);
+    padding-top: 10px;
+    font-size: 12.5px;
+    color: var(--ink-3);
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+  .inline .kv span b { color: var(--ink-2); font-weight: 600; }
+
+  /* 응시 화면 mock (간소) */
+  .exam-mock {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 14px 14px 12px;
+    max-width: 360px;
+    margin: 0 auto;
+    position: relative;
+  }
+  .exam-mock .bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11.5px;
+    color: var(--ink-3);
+    border-bottom: 1px solid var(--line-2);
+    padding-bottom: 8px;
+    margin-bottom: 10px;
+  }
+  .exam-mock .timer {
+    margin-left: auto;
+    font-weight: 700;
+    color: var(--ink-1);
+    font-variant-numeric: tabular-nums;
+  }
+  .exam-mock .q {
+    background: var(--line-2);
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 13px;
+    color: var(--ink-2);
+    margin-bottom: 10px;
+  }
+  .exam-mock .rec {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--bad);
+  }
+  .exam-mock .rec .pulse {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--bad);
+    animation: pulse 1.2s infinite;
+  }
+  @keyframes pulse {
+    0%,100% { opacity: 1; }
+    50% { opacity: .35; }
+  }
+
+  /* 메일 카드 */
+  .mail {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    max-width: 360px;
+    margin: 0 auto;
+    overflow: hidden;
+  }
+  .mail .mail-head {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--line-2);
+    font-size: 11px;
+    color: var(--ink-3);
+  }
+  .mail .mail-body {
+    padding: 14px 16px;
+  }
+  .mail h5 {
+    margin: 0 0 6px;
+    font-size: 14px;
+    letter-spacing: -.005em;
+  }
+  .mail p {
+    margin: 0;
+    font-size: 12.5px;
+    color: var(--ink-2);
+    line-height: 1.6;
+  }
+
+  /* 본문 — 케이스 메타 */
+  .meta {
+    padding: 16px 18px 18px;
+    border-top: 1px solid var(--line-2);
+    background: #fafbfd;
+    font-size: 12.5px;
+    color: var(--ink-2);
+    line-height: 1.65;
+  }
+  .meta .row { display: flex; gap: 10px; padding: 4px 0; }
+  .meta .row .lbl {
+    flex: 0 0 90px;
+    color: var(--ink-3);
+    font-weight: 600;
+    font-size: 11.5px;
+    letter-spacing: .02em;
+    text-transform: uppercase;
+  }
+  .meta .row .val { flex: 1; }
+  .meta .val code {
+    background: var(--line-2);
+    border-radius: 4px;
+    padding: 1px 6px;
+    font-size: 12px;
+  }
+
+  /* 빈 상태 */
+  .empty {
+    color: var(--ink-4);
+    font-size: 13px;
+    text-align: center;
+    padding: 60px 20px;
+    line-height: 1.7;
+  }
+  .empty b { color: var(--ink-2); font-weight: 600; }
+
+  /* 푸터 */
+  .foot {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 28px 40px;
+    color: var(--ink-4);
+    font-size: 12px;
+    line-height: 1.6;
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">MaroPass</div>
+  <div class="crumb">docs · <b>엣지케이스 응시자 시점 데모</b></div>
+  <div class="right">
+    <span class="pill">Phase 1 · Light</span>
+    <span class="pill">응시자 시점</span>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- 좌측 카탈로그 -->
+  <section class="cat">
+    <div class="head">
+      <h1>응시자가 마주칠 30개 케이스</h1>
+      <p>각 케이스 버튼을 누르면 *그 상황에서 응시자가 실제로 보게 될 화면·메시지*가 우측에 표시된다. 본 페이지는 기획·디자인 합의용 데모이며, 실제 UI는 정책으로 굳어진 후 portal · 사용자 web · 메일에 분기 구현된다.</p>
+      <div class="row">
+        <span class="pill">묶음 6</span>
+        <span class="pill">케이스 30</span>
+        <span class="pill">근거 · 09-edge-cases.md</span>
+      </div>
+    </div>
+
+    <!-- 묶음 1 -->
+    <div class="group" data-group="1">
+      <h2>① 응시 중단·끊김</h2>
+      <p class="desc">시작 후 시간 안에 발생하는 단절. 응시자 조작 없음 원칙(정책 2)·자동 저장(정책 3) 유지.</p>
+      <div class="cases">
+        <button class="case-btn" data-case="E1-1"><span class="id">E1-1</span><span class="ttl">네트워크 일시 끊김</span></button>
+        <button class="case-btn" data-case="E1-2"><span class="id">E1-2</span><span class="ttl">끝까지 복구 안 됨</span></button>
+        <button class="case-btn" data-case="E1-3"><span class="id">E1-3</span><span class="ttl">응시 중 새 창 닫힘</span></button>
+        <button class="case-btn" data-case="E1-4"><span class="id">E1-4</span><span class="ttl">마이크 권한 회수</span></button>
+        <button class="case-btn" data-case="E1-5"><span class="id">E1-5</span><span class="ttl">전화·알람 인터럽션</span></button>
+      </div>
+    </div>
+
+    <!-- 묶음 2 -->
+    <div class="group" data-group="2">
+      <h2>② 환경·기기 변화</h2>
+      <p class="desc">환경 점검은 통과했지만 응시 직전 또는 도중 기기 상태가 달라진 경우.</p>
+      <div class="cases">
+        <button class="case-btn" data-case="E2-1"><span class="id">E2-1</span><span class="ttl">시작 직전 마이크 망가짐</span></button>
+        <button class="case-btn" data-case="E2-2"><span class="id">E2-2</span><span class="ttl">1형부터 마이크 신호 0</span></button>
+        <button class="case-btn" data-case="E2-3"><span class="id">E2-3</span><span class="ttl">디바이스 변경 시도</span></button>
+        <button class="case-btn" data-case="E2-4"><span class="id">E2-4</span><span class="ttl">두 디바이스 동시 진입</span></button>
+        <button class="case-btn" data-case="E2-5"><span class="id">E2-5</span><span class="ttl">OS 강제 업데이트</span></button>
+      </div>
+    </div>
+
+    <!-- 묶음 3 -->
+    <div class="group" data-group="3">
+      <h2>③ 결제·정산 정합성</h2>
+      <p class="desc">돈은 빠져나갔는데 응시 못 하는 상태. 자동 회수 vs 운영 수동 보정 분기.</p>
+      <div class="cases">
+        <button class="case-btn" data-case="E3-1"><span class="id">E3-1</span><span class="ttl">PG 콜백 실패</span></button>
+        <button class="case-btn" data-case="E3-2"><span class="id">E3-2</span><span class="ttl">이중 결제</span></button>
+        <button class="case-btn" data-case="E3-3"><span class="id">E3-3</span><span class="ttl">응시 전 환불 신청</span></button>
+        <button class="case-btn" data-case="E3-4"><span class="id">E3-4</span><span class="ttl">응시 후 단순 변심</span></button>
+        <button class="case-btn" data-case="E3-5"><span class="id">E3-5</span><span class="ttl">14일 미응시 자동 만료</span></button>
+      </div>
+    </div>
+
+    <!-- 묶음 4 -->
+    <div class="group" data-group="4">
+      <h2>④ 윈도우·시간 경계</h2>
+      <p class="desc">14일 응시 윈도우와 응시 도중 시간 경계 처리.</p>
+      <div class="cases">
+        <button class="case-btn" data-case="E4-1"><span class="id">E4-1</span><span class="ttl">자정 직전 응시 시작</span></button>
+        <button class="case-btn" data-case="E4-2"><span class="id">E4-2</span><span class="ttl">만료 직전 미시작</span></button>
+        <button class="case-btn" data-case="E4-3"><span class="id">E4-3</span><span class="ttl">로컬 시각 불일치</span></button>
+        <button class="case-btn" data-case="E4-4"><span class="id">E4-4</span><span class="ttl">SSO 토큰 만료</span></button>
+        <button class="case-btn" data-case="E4-5"><span class="id">E4-5</span><span class="ttl">윈도우 안 재진입</span></button>
+      </div>
+    </div>
+
+    <!-- 묶음 5 -->
+    <div class="group" data-group="5">
+      <h2>⑤ 운영자 누락·SLA</h2>
+      <p class="desc">운영 수동 처리가 미뤄질 때 응시자에게 노출되는 메시지. SLA의 N값은 KOEN 캐파 산정 대기.</p>
+      <div class="cases">
+        <button class="case-btn" data-case="E5-1"><span class="id">E5-1</span><span class="ttl">결과 공개 지연</span></button>
+        <button class="case-btn" data-case="E5-2"><span class="id">E5-2</span><span class="ttl">환불 검토 지연</span></button>
+        <button class="case-btn" data-case="E5-3"><span class="id">E5-3</span><span class="ttl">1:1 문의 답변 지연</span></button>
+        <button class="case-btn" data-case="E5-4"><span class="id">E5-4</span><span class="ttl">일본 연휴·주말</span></button>
+        <button class="case-btn" data-case="E5-5"><span class="id">E5-5</span><span class="ttl">재응시 티켓 누락</span></button>
+      </div>
+    </div>
+
+    <!-- 묶음 6 -->
+    <div class="group" data-group="6">
+      <h2>⑥ 어뷰징·계정 무결성</h2>
+      <p class="desc">회원 자격(정책 9) 안에서도 우회 시도가 발생하는 경우.</p>
+      <div class="cases">
+        <button class="case-btn" data-case="E6-1"><span class="id">E6-1</span><span class="ttl">샘플 반복 응시</span></button>
+        <button class="case-btn" data-case="E6-2"><span class="id">E6-2</span><span class="ttl">계정 다수 생성</span></button>
+        <button class="case-btn" data-case="E6-3"><span class="id">E6-3</span><span class="ttl">대리 응시 의심</span></button>
+        <button class="case-btn" data-case="E6-4"><span class="id">E6-4</span><span class="ttl">문제 유출</span></button>
+        <button class="case-btn" data-case="E6-5"><span class="id">E6-5</span><span class="ttl">탈퇴 신청</span></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 우측 프리뷰 -->
+  <aside class="preview-col">
+    <div class="preview" id="preview">
+      <div class="preview-head">
+        <div>
+          <div class="id" id="pv-id">—</div>
+          <div class="ttl" id="pv-title">케이스를 선택하세요</div>
+        </div>
+        <div class="where" id="pv-where">—</div>
+      </div>
+      <div class="stage">
+        <div class="stage-inner" id="pv-stage">
+          <div class="empty">
+            좌측에서 케이스 버튼을 누르면<br/>
+            <b>응시자가 실제로 보게 될 화면</b>이 여기에 표시됩니다.
+          </div>
+        </div>
+      </div>
+      <div class="meta" id="pv-meta" hidden>
+        <div class="row"><div class="lbl">노출 위치</div><div class="val" id="pv-loc">—</div></div>
+        <div class="row"><div class="lbl">시스템 동작</div><div class="val" id="pv-sys">—</div></div>
+        <div class="row"><div class="lbl">응시자 액션</div><div class="val" id="pv-act">—</div></div>
+        <div class="row"><div class="lbl">근거 정책</div><div class="val" id="pv-pol">—</div></div>
+      </div>
+    </div>
+  </aside>
+</main>
+
+<footer class="foot">
+  본 데모는 정책 결정 전 시각 합의용. 메시지 문구·아이콘·배치는 디자인 발주 시 최종 확정. 노출 위치 = MaroPass portal · 사용자 web (응시 새 창) · 자동 메일 셋 중 하나.
+</footer>
+
+<script>
+const CASES = {
+  /* 묶음 1 — 응시 중단·끊김 */
+  'E1-1': {
+    title: '네트워크 일시 끊김',
+    where: '사용자 web · 응시 중',
+    loc: '응시 화면 상단 토스트',
+    sys: 'IndexedDB 임시 저장 유지 · 복구 시 자동 재전송 · 응시는 멈추지 않음',
+    act: '없음 (조작 불가가 원칙)',
+    pol: '정책 3 · 자동 저장·재전송',
+    render: () => `
+      <div class="exam-mock">
+        <div class="bar">2영역 · 3/5문항 <span class="timer">00:18</span></div>
+        <div class="q">다음 문장을 듣고 자연스럽게 대답하세요.</div>
+        <div class="rec"><span class="pulse"></span> 녹음 중</div>
+      </div>
+      <div style="height:12px"></div>
+      <div class="toast">
+        <span class="dot"></span>
+        <div><b>네트워크가 일시적으로 끊어졌습니다.</b><br/>답안은 자동 저장 중이며, 연결 복구 시 전송됩니다. 응시를 계속해 주세요.</div>
+      </div>`
+  },
+  'E1-2': {
+    title: '끝까지 복구 안 됨',
+    where: '사용자 web · 시험 종료 직후',
+    loc: '시험 종료 화면 인라인 안내',
+    sys: '시험 종료 시 일괄 전송 시도 → 실패 → 재응시 티켓 큐 자동 등록 (운영자 로그 확인 후 발행)',
+    act: '시험 창 닫고 대기',
+    pol: '정책 6 · 시스템 장애 한정 재응시',
+    render: () => `
+      <div class="inline warn">
+        <span class="badge">전송 실패</span>
+        <h4>일부 답안이 전송되지 못했습니다</h4>
+        <p>네트워크 문제로 답안 일부가 서버에 도달하지 못했습니다. 운영팀이 로그를 확인한 뒤 재응시 안내를 메일로 보내드립니다.</p>
+        <div class="kv">
+          <span>예상 응답 <b>영업일 N일 이내</b></span>
+          <span>문의 — MaroPass portal · 1:1 문의</span>
+        </div>
+      </div>`
+  },
+  'E1-3': {
+    title: '응시 중 새 창 닫힘',
+    where: '사용자 web · 재진입 시',
+    loc: '사용자 web home — 시험 카드 상태',
+    sys: '응시 카드 = "진행 중" 상태로 유지 · 동일 시험 재진입 시 마지막 문항부터 자동 이어서 진행 (이어서 응시 미허용 가정 시 = 재응시 티켓 흐름)',
+    act: '같은 디바이스로 다시 응시하기 클릭',
+    pol: '정책 2 / GAP-08',
+    render: () => `
+      <div class="exam-mock">
+        <div class="bar">MaroPass 말하기 · 초급
+          <span class="timer" style="color:var(--warn)">진행 중</span>
+        </div>
+        <div class="q">마지막 문항: 2영역 · 4번<br/><span style="color:var(--ink-3);font-size:12px">자동으로 다음 문항부터 이어서 진행됩니다.</span></div>
+        <div style="display:flex;gap:8px;margin-top:8px">
+          <button class="btn primary" style="flex:1;background:var(--brand);color:#fff;border:0;padding:9px;border-radius:8px;font-weight:700">이어서 응시하기</button>
+        </div>
+      </div>`
+  },
+  'E1-4': {
+    title: '마이크 권한 회수',
+    where: '사용자 web · 응시 중',
+    loc: '응시 화면 상단 토스트 (1회)',
+    sys: '다음 문항부터 빈 답안 누적 · 시험 종료 후 운영자 로그 확인 → 시스템 장애 재응시 티켓',
+    act: '브라우저에서 마이크 권한 다시 허용 시도 가능',
+    pol: '정책 6 · 시스템 장애',
+    render: () => `
+      <div class="exam-mock">
+        <div class="bar">3영역 · 1/4문항 <span class="timer">00:12</span></div>
+        <div class="q">사진을 보고 1분 동안 설명하세요.</div>
+        <div class="rec"><span class="pulse"></span> 녹음 중</div>
+      </div>
+      <div style="height:12px"></div>
+      <div class="toast bad">
+        <span class="dot"></span>
+        <div><b>마이크 신호가 감지되지 않습니다.</b><br/>브라우저 마이크 권한을 확인해 주세요. 끝까지 복구되지 않으면 운영팀이 로그 확인 후 재응시를 안내드립니다.</div>
+      </div>`
+  },
+  'E1-5': {
+    title: '전화·알람 인터럽션',
+    where: '사용자 web (모바일) · 응시 중',
+    loc: '응시 복귀 시 토스트',
+    sys: 'OS 마이크 권한 회수로 처리 — E1-4와 동일 경로 흡수',
+    act: '없음',
+    pol: '정책 6 · 시스템 장애로 흡수',
+    render: () => `
+      <div class="exam-mock">
+        <div class="bar">4영역 · 2/3문항 <span class="timer">00:24</span></div>
+        <div class="q">친구에게 약속을 미루는 상황을 말로 표현하세요.</div>
+        <div class="rec" style="color:var(--ink-4)"><span class="pulse" style="background:var(--ink-4)"></span> 인터럽션 감지</div>
+      </div>
+      <div style="height:12px"></div>
+      <div class="toast">
+        <span class="dot"></span>
+        <div><b>응시 중 인터럽션이 발생했습니다.</b><br/>일부 구간이 녹음되지 않았을 수 있습니다. 시험 종료 후 운영팀이 확인합니다.</div>
+      </div>`
+  },
+
+  /* 묶음 2 */
+  'E2-1': {
+    title: '시작 직전 마이크 망가짐 (캐시 적중 상태)',
+    where: '사용자 web · 환경 점검 페이지',
+    loc: '환경 점검 5초 자동 확인 결과',
+    sys: '캐시 적중이라도 응시 시작 직전 마이크 신호 5초 확인 · 신호 없으면 시작 버튼 비활성',
+    act: '마이크 교체 / 재연결 후 재테스트',
+    pol: '정책 1 · 환경 사전 점검',
+    render: () => `
+      <div class="inline bad">
+        <span class="badge">신호 없음</span>
+        <h4>마이크 신호가 감지되지 않습니다</h4>
+        <p>30일 이내 환경 점검은 통과했지만, 현재 시점에 마이크 신호가 없습니다. 마이크를 다시 연결한 뒤 아래 버튼으로 재확인해 주세요.</p>
+        <div style="display:flex;gap:8px;margin-top:14px">
+          <button class="btn" style="flex:1;font:inherit;border:1px solid var(--line);background:#fff;padding:8px;border-radius:8px;font-weight:600;color:var(--ink-3)" disabled>응시 시작</button>
+          <button class="btn primary" style="flex:1;font:inherit;border:0;background:var(--brand);color:#fff;padding:8px;border-radius:8px;font-weight:700">마이크 재테스트</button>
+        </div>
+      </div>`
+  },
+  'E2-2': {
+    title: '1형부터 마이크 신호 0',
+    where: '사용자 web · 1영역 종료 시점',
+    loc: '응시 중단 안내 모달',
+    sys: '시스템 자동 감지 → 응시 종료 → 운영자 재응시 티켓 발행',
+    act: '모달 확인 후 시험 창 닫기',
+    pol: '정책 6 · 시스템 장애',
+    render: () => `
+      <div class="modal bad">
+        <div class="ico">!</div>
+        <h3>녹음 신호가 감지되지 않습니다</h3>
+        <p>1영역 전체 구간에서 마이크 입력이 확인되지 않아 응시를 중단합니다. 운영팀이 로그를 확인한 뒤 재응시 안내를 메일로 보내드립니다.</p>
+        <div class="actions">
+          <button class="btn primary">확인</button>
+        </div>
+      </div>`
+  },
+  'E2-3': {
+    title: '디바이스 변경 시도',
+    where: '사용자 web · 진행 중인 시험에 다른 디바이스 진입',
+    loc: '진입 거절 모달',
+    sys: '동일 시험 1세션 1디바이스 원칙 · 후입 거절',
+    act: '먼저 시작한 디바이스로 복귀',
+    pol: '정책 2',
+    render: () => `
+      <div class="modal warn">
+        <div class="ico">⊘</div>
+        <h3>다른 디바이스에서 응시 중입니다</h3>
+        <p>이 시험은 이미 다른 디바이스에서 시작되었습니다. 같은 디바이스로 돌아가 응시를 계속해 주세요.</p>
+        <div class="actions">
+          <button class="btn primary">알겠습니다</button>
+        </div>
+      </div>`
+  },
+  'E2-4': {
+    title: '두 디바이스 동시 진입',
+    where: '사용자 web · 후입 디바이스',
+    loc: '진입 거절 토스트',
+    sys: '뒤에 들어온 세션 거절 · 먼저 들어온 세션 유지',
+    act: '먼저 진입한 디바이스 사용',
+    pol: '정책 2',
+    render: () => `
+      <div class="toast bad">
+        <span class="dot"></span>
+        <div><b>같은 계정으로 이미 다른 디바이스에서 응시 중입니다.</b><br/>먼저 시작한 디바이스에서 응시를 마쳐 주세요.</div>
+      </div>`
+  },
+  'E2-5': {
+    title: 'OS 강제 업데이트·재부팅',
+    where: '사용자 web · 재진입',
+    loc: 'home 시험 카드',
+    sys: 'E1-3(새 창 닫힘)과 동일 경로 — 진행 중 카드 유지, 자동 이어서 진행',
+    act: '같은 디바이스로 재로그인 후 응시',
+    pol: '정책 2',
+    render: () => `
+      <div class="exam-mock">
+        <div class="bar">MaroPass 말하기 · 초급
+          <span class="timer" style="color:var(--warn)">진행 중</span>
+        </div>
+        <div class="q" style="background:var(--warn-soft);color:var(--warn)">디바이스 재부팅으로 응시가 일시 중단되었습니다.<br/>이어서 응시를 진행하시겠습니까?</div>
+        <button class="btn primary" style="width:100%;background:var(--brand);color:#fff;border:0;padding:9px;border-radius:8px;font-weight:700">이어서 응시하기</button>
+      </div>`
+  },
+
+  /* 묶음 3 — 결제 */
+  'E3-1': {
+    title: 'PG 콜백 실패',
+    where: 'portal · 마이페이지 응시할 시험',
+    loc: '하단 안내 박스 (24h 미보정 시)',
+    sys: '결제 모듈 5분 간격 트랜잭션 정합성 점검 · 24h 내 자동 보정 · 미보정 시 1:1 문의 → 운영자 수동 등록',
+    act: '24h 대기 또는 1:1 문의',
+    pol: '정책 7 · PG 정합성',
+    render: () => `
+      <div class="inline warn">
+        <span class="badge">처리 중</span>
+        <h4>결제가 확인되었으나 시험이 아직 등록되지 않았습니다</h4>
+        <p>결제 시스템과의 동기화에 시간이 걸리고 있습니다. 보통 5~30분 이내에 자동으로 등록됩니다.</p>
+        <div class="kv">
+          <span>주문번호 <b>MP-2026-04-25-00831</b></span>
+          <span>24시간 경과 시 — 1:1 문의 자동 안내</span>
+        </div>
+      </div>`
+  },
+  'E3-2': {
+    title: '이중 결제',
+    where: 'portal · 마이페이지 결제 내역',
+    loc: '결제 내역 자동 회수 표시',
+    sys: '결제 모듈 PG 트랜잭션 정합성으로 자동 회수 · 잔류 시 환불 흐름(E3-3)',
+    act: '없음',
+    pol: '정책 7',
+    render: () => `
+      <div class="inline ok">
+        <span class="badge">자동 회수 완료</span>
+        <h4>중복 결제가 자동 취소되었습니다</h4>
+        <p>동일 시험에 대한 중복 결제 1건이 확인되어 자동으로 취소·환불 처리되었습니다. 영수증은 발행되지 않습니다.</p>
+        <div class="kv">
+          <span>취소 금액 <b>¥3,300</b></span>
+          <span>환불 예정 — PG사 정책 따라 3~7영업일</span>
+        </div>
+      </div>`
+  },
+  'E3-3': {
+    title: '응시 전 환불 신청',
+    where: 'portal · 마이페이지 환불',
+    loc: '환불 신청 완료 화면',
+    sys: '운영 검토 → 승인 시 PG 환불 호출',
+    act: '대기',
+    pol: '정책 7',
+    render: () => `
+      <div class="inline">
+        <span class="badge">접수 완료</span>
+        <h4>환불 요청이 접수되었습니다</h4>
+        <p>운영팀이 신청 내용을 검토한 뒤 승인·반려 결과를 메일로 보내드립니다. 승인되면 결제하신 수단으로 환불됩니다.</p>
+        <div class="kv">
+          <span>검토 응답 <b>영업일 N일 이내</b></span>
+          <span>접수번호 — RF-2026-04-25-0044</span>
+        </div>
+      </div>`
+  },
+  'E3-4': {
+    title: '응시 후 단순 변심',
+    where: 'portal · 마이페이지 환불',
+    loc: '환불 신청 차단 안내',
+    sys: '신청 자체 차단 (마이페이지 UI)',
+    act: '환불 불가 안내 확인',
+    pol: '정책 7',
+    render: () => `
+      <div class="inline bad">
+        <span class="badge">환불 불가</span>
+        <h4>응시 완료한 시험은 환불이 어렵습니다</h4>
+        <p>본 시험은 이미 응시가 시작·완료되어 환불 대상이 아닙니다. 시스템 장애·기기 문제로 응시가 정상 진행되지 못한 경우에는 1:1 문의로 접수해 주세요.</p>
+      </div>`
+  },
+  'E3-5': {
+    title: '14일 미응시 자동 만료',
+    where: '자동 메일 · portal 마이페이지',
+    loc: 'D-1 / D-day / 만료 후 메일',
+    sys: '14일 경과 시 자동 만료 · 환불 없음 · 만료 직전 리마인더 메일',
+    act: '윈도우 안 응시 또는 만료 수용',
+    pol: '정책 8',
+    render: () => `
+      <div class="mail">
+        <div class="mail-head">From — MaroPass · To — 응시자<br/>Subject — 응시 기간이 내일 마감됩니다 (D-1)</div>
+        <div class="mail-body">
+          <h5>응시 기간 D-1 알림</h5>
+          <p>MaroPass 말하기 · 초급 응시 기간이 내일까지입니다. 기간 내 응시하지 않으면 결제는 자동 만료되며 환불은 진행되지 않습니다.</p>
+          <p style="margin-top:10px;color:var(--ink-3);font-size:12px">만료일 — 2026-05-08 23:59 (JST)</p>
+        </div>
+      </div>`
+  },
+
+  /* 묶음 4 */
+  'E4-1': {
+    title: '자정 직전 응시 시작',
+    where: '사용자 web · 응시 중',
+    loc: '응시 화면 — 시작 시점에 응시권 잠금',
+    sys: '시작 시점 기준 응시권 잠금 · 자정 도과 무관 끝까지 진행',
+    act: '없음',
+    pol: '정책 8',
+    render: () => `
+      <div class="exam-mock">
+        <div class="bar">시작 시각 <b style="color:var(--ink-1)">23:54</b> · 응시권 잠김 ✓
+          <span class="timer">19:12</span>
+        </div>
+        <div class="q">자정이 지나도 응시는 정상 완료됩니다.</div>
+        <div class="rec"><span class="pulse"></span> 녹음 중</div>
+      </div>`
+  },
+  'E4-2': {
+    title: '만료 직전 미시작',
+    where: 'portal · 마이페이지 응시할 시험',
+    loc: '카드 상태 = 만료됨',
+    sys: '만료 시각에 자동 만료 · 환불 없음',
+    act: '없음',
+    pol: '정책 8',
+    render: () => `
+      <div class="inline">
+        <span class="badge" style="background:var(--bad-soft);color:var(--bad)">기간 만료</span>
+        <h4>응시 기간이 종료되었습니다</h4>
+        <p>결제 후 14일의 응시 기간 안에 응시가 시작되지 않아 자동 만료되었습니다. 본 결제 건은 환불되지 않습니다.</p>
+        <div class="kv">
+          <span>결제일 <b>2026-04-24</b></span>
+          <span>만료일 — 2026-05-08 23:59 (JST)</span>
+        </div>
+      </div>`
+  },
+  'E4-3': {
+    title: '로컬 시각 불일치',
+    where: '사용자 web · 응시 시작 시',
+    loc: '내부 처리 (사용자 알림 없음)',
+    sys: '시스템 시각(JST) 단일 진실 · 응시자 로컬 시각 무시',
+    act: '없음',
+    pol: '정책 8',
+    render: () => `
+      <div class="inline ok">
+        <span class="badge">정상 시작</span>
+        <h4>시험이 시작되었습니다</h4>
+        <p>응시 기준 시각은 일본 표준시(JST)입니다. 응시자 디바이스의 시계 설정과 무관하게 시험은 정상 진행됩니다.</p>
+        <div class="kv">
+          <span>시스템 시각 <b>2026-05-14 14:02 JST</b></span>
+        </div>
+      </div>`
+  },
+  'E4-4': {
+    title: 'SSO 토큰 만료',
+    where: '사용자 web · 응시 중 또는 종료 직후',
+    loc: '응시 중 — 알림 없음 / 종료 후 — 재로그인 모달',
+    sys: '응시 중 토큰 자동 갱신 · 실패 시 IndexedDB 저장 유지 · 시험 종료 후 재로그인 유도',
+    act: '재로그인',
+    pol: '정책 3 · 자동 저장',
+    render: () => `
+      <div class="modal">
+        <div class="ico">⟳</div>
+        <h3>응시는 정상 종료되었습니다</h3>
+        <p>답안 전송을 위해 다시 로그인해 주세요. 응시 중 작성한 답안은 안전하게 보관되어 있습니다.</p>
+        <div class="actions">
+          <button class="btn primary">다시 로그인</button>
+        </div>
+      </div>`
+  },
+  'E4-5': {
+    title: '윈도우 안 재진입',
+    where: '사용자 web · home',
+    loc: '시험 카드 — 마지막 전송 문항 표시',
+    sys: '마지막 전송 문항 다음부터 이어서 진행 · 이전 문항 재응시 미허용',
+    act: '이어서 응시',
+    pol: '정책 2',
+    render: () => `
+      <div class="exam-mock">
+        <div class="bar">MaroPass 말하기 · 초급
+          <span class="timer" style="color:var(--warn)">12/23 완료</span>
+        </div>
+        <div class="q">진행 위치 — 3영역 1번부터 자동으로 이어서 진행됩니다. 이전 12문항은 다시 응시할 수 없습니다.</div>
+        <button class="btn primary" style="width:100%;background:var(--brand);color:#fff;border:0;padding:9px;border-radius:8px;font-weight:700;margin-top:8px">이어서 응시하기</button>
+      </div>`
+  },
+
+  /* 묶음 5 — 운영 SLA */
+  'E5-1': {
+    title: '결과 공개 지연',
+    where: 'portal · 마이페이지 결과',
+    loc: '결과 보기 카드 — 대기 상태',
+    sys: '채점 완료 후 영업일 N일 안에 공개 · 관리자 대시보드 누락 카운터',
+    act: '대기 · 공개 시 메일',
+    pol: '정책 5',
+    render: () => `
+      <div class="inline">
+        <span class="badge">채점 완료 · 공개 대기</span>
+        <h4>결과 검수가 진행 중입니다</h4>
+        <p>AI 채점은 완료되었으며, 운영팀의 결과 공개 처리를 기다리고 있습니다. 공개되면 메일로 안내드립니다.</p>
+        <div class="kv">
+          <span>응시일 <b>2026-05-10</b></span>
+          <span>공개 응답 — 영업일 N일 이내</span>
+        </div>
+      </div>`
+  },
+  'E5-2': {
+    title: '환불 검토 지연',
+    where: 'portal · 마이페이지 환불',
+    loc: '신청 건 상태 라벨',
+    sys: '신청 후 영업일 N일 안에 승인·반려 · 미처리 시 관리자 카운터',
+    act: '대기',
+    pol: '정책 7',
+    render: () => `
+      <div class="inline warn">
+        <span class="badge">검토 중</span>
+        <h4>환불 요청을 검토하고 있습니다</h4>
+        <p>운영팀이 신청 내용을 확인 중입니다. 결과는 메일로 안내드리며, 승인 시 결제 수단으로 환불됩니다.</p>
+        <div class="kv">
+          <span>접수번호 <b>RF-2026-04-21-0017</b></span>
+          <span>응답 — 영업일 N일 이내</span>
+        </div>
+      </div>`
+  },
+  'E5-3': {
+    title: '1:1 문의 답변 지연',
+    where: 'portal · 마이페이지 문의 내역',
+    loc: '문의 상태 = 답변 대기',
+    sys: '접수 후 영업일 N일 안에 답변 · 미답변 시 카운터',
+    act: '대기',
+    pol: 'SLA',
+    render: () => `
+      <div class="inline">
+        <span class="badge">답변 대기</span>
+        <h4>문의가 접수되었습니다</h4>
+        <p>운영팀이 순차적으로 확인하고 있습니다. 답변은 portal 마이페이지와 메일로 안내드립니다.</p>
+        <div class="kv">
+          <span>접수일 <b>2026-05-13</b></span>
+          <span>응답 — 영업일 N일 이내</span>
+        </div>
+      </div>`
+  },
+  'E5-4': {
+    title: '일본 연휴·주말',
+    where: 'portal · FAQ · 자동 응답 메일',
+    loc: '안내 문구',
+    sys: 'SLA = 영업일 = 일본 평일',
+    act: '연휴 후 응답 수령',
+    pol: 'SLA',
+    render: () => `
+      <div class="mail">
+        <div class="mail-head">From — MaroPass · 자동 응답</div>
+        <div class="mail-body">
+          <h5>문의가 접수되었습니다</h5>
+          <p>운영 응답은 일본 평일 기준 영업일 N일 이내에 드립니다. 주말·일본 공휴일에는 답변이 지연될 수 있는 점 양해 부탁드립니다.</p>
+          <p style="margin-top:10px;color:var(--ink-3);font-size:12px">다음 영업일 — 2026-05-15 (금)</p>
+        </div>
+      </div>`
+  },
+  'E5-5': {
+    title: '재응시 티켓 발행 누락',
+    where: 'portal · 1:1 문의',
+    loc: '응시자 문의 인입 시 우선 처리',
+    sys: '1:1 문의 SLA(E5-3)와 동일 흐름',
+    act: '1:1 문의 작성',
+    pol: '정책 6 / SLA',
+    render: () => `
+      <div class="inline warn">
+        <span class="badge">우선 처리</span>
+        <h4>재응시 안내가 도착하지 않으셨다면</h4>
+        <p>시스템 장애로 응시가 정상 진행되지 못한 건은 운영팀이 로그를 확인한 뒤 재응시 안내를 보내드립니다. 안내가 늦어지는 경우 1:1 문의로 알려주세요.</p>
+        <div class="kv">
+          <span>응답 — 영업일 N일 이내</span>
+        </div>
+      </div>`
+  },
+
+  /* 묶음 6 — 어뷰징 */
+  'E6-1': {
+    title: '샘플 반복 응시',
+    where: 'portal · 시험 상세',
+    loc: '무료 샘플 버튼 차단 안내',
+    sys: '계정당 샘플 1회 · 2회차 시도 차단 + 본 시험 결제 CTA',
+    act: '본 시험 결제 페이지로 이동',
+    pol: '정책 9',
+    render: () => `
+      <div class="inline">
+        <span class="badge">이미 응시함</span>
+        <h4>무료 샘플은 계정당 1회만 응시할 수 있어요</h4>
+        <p>이미 무료 샘플을 응시하셨습니다. 본 시험으로 진단을 이어가 보세요.</p>
+        <div style="display:flex;gap:8px;margin-top:14px">
+          <button class="btn primary" style="flex:1;font:inherit;border:0;background:var(--brand);color:#fff;padding:9px;border-radius:8px;font-weight:700">본 시험 결제하기</button>
+        </div>
+      </div>`
+  },
+  'E6-2': {
+    title: '계정 다수 생성',
+    where: '운영 — 관리자 대시보드 (응시자 알림 없음)',
+    loc: '운영 알림 카드',
+    sys: '동일 IP에서 X개 이상 가입 시 운영 대시보드 알림 · 자동 차단 미운영',
+    act: '없음',
+    pol: '정책 9 / 라운드 2',
+    render: () => `
+      <div class="inline warn">
+        <span class="badge">운영 대시보드</span>
+        <h4>의심 가입 감지</h4>
+        <p>동일 IP(133.106.xxx.42)에서 최근 24시간 내 X건 이상의 신규 가입이 발생했습니다. 운영자가 검토 후 조치할 수 있습니다.</p>
+        <div class="kv">
+          <span>※ 응시자에게는 노출되지 않음</span>
+        </div>
+      </div>`
+  },
+  'E6-3': {
+    title: '대리 응시 의심',
+    where: '사용자 web · 본인 확인',
+    loc: '본인 확인 체크박스 + 약관',
+    sys: '자동 감지 미운영 · 본인 확인 체크박스로 책임 명시',
+    act: '본인 확인 동의 후 응시',
+    pol: '정책 4',
+    render: () => `
+      <div class="inline">
+        <span class="badge">본인 확인</span>
+        <h4>응시자 본인 확인</h4>
+        <p>아래 정보가 응시자 본인의 정보가 맞는지 확인해 주세요. 본 시험은 응시자 본인이 직접 응시해야 하며, 위반 시 응시 자격이 박탈될 수 있습니다.</p>
+        <div class="kv">
+          <span>이름 <b>야마다 타로</b></span>
+          <span>이메일 — yamada@example.jp</span>
+          <span>시험 — MaroPass 말하기 · 초급</span>
+        </div>
+        <div style="margin-top:12px;display:flex;gap:8px;align-items:center;font-size:12.5px;color:var(--ink-2)">
+          <input type="checkbox" checked style="accent-color:var(--brand)"/> 본인이며 약관을 확인했습니다
+        </div>
+      </div>`
+  },
+  'E6-4': {
+    title: '문제 유출',
+    where: 'portal · 회원가입 약관 · 응시 동의',
+    loc: '약관 조항',
+    sys: '자동 감지 미운영 · 약관 조항으로 책임 명시',
+    act: '동의 후 가입',
+    pol: '약관 · 정책 9',
+    render: () => `
+      <div class="inline bad">
+        <span class="badge">약관 조항 6.3</span>
+        <h4>문제 유출 시 응시 자격이 박탈됩니다</h4>
+        <p>본 시험의 문항·답안·녹음 음원은 저작권 보호 대상입니다. SNS·블로그·메신저 등에 무단 게시·복제·전송하는 경우 응시 자격이 박탈되며, 발생한 손해에 대한 책임이 청구될 수 있습니다.</p>
+      </div>`
+  },
+  'E6-5': {
+    title: '탈퇴 신청',
+    where: 'portal · 마이페이지 프로필',
+    loc: '탈퇴 신청 차단 안내',
+    sys: '미사용 응시권·미응시 시험 있으면 탈퇴 미허용 · 정리 후 가능',
+    act: '응시권 사용 또는 환불 후 재신청',
+    pol: '라운드 3 · 일본 개인정보보호법',
+    render: () => `
+      <div class="inline warn">
+        <span class="badge">탈퇴 진행 불가</span>
+        <h4>사용하지 않은 응시권이 남아 있습니다</h4>
+        <p>현재 응시 가능한 시험 1건이 있어 탈퇴를 진행할 수 없습니다. 응시를 완료하거나 환불 처리 후 다시 신청해 주세요.</p>
+        <div class="kv">
+          <span>잔여 응시권 <b>1건 (만료 2026-05-08)</b></span>
+          <span>환불 가능 — 마이페이지 · 환불 요청</span>
+        </div>
+      </div>`
+  },
+};
+
+const ids = {
+  id:    document.getElementById('pv-id'),
+  title: document.getElementById('pv-title'),
+  where: document.getElementById('pv-where'),
+  stage: document.getElementById('pv-stage'),
+  meta:  document.getElementById('pv-meta'),
+  loc:   document.getElementById('pv-loc'),
+  sys:   document.getElementById('pv-sys'),
+  act:   document.getElementById('pv-act'),
+  pol:   document.getElementById('pv-pol'),
+};
+
+let activeBtn = null;
+
+function show(caseId) {
+  const c = CASES[caseId];
+  if (!c) return;
+  ids.id.textContent = caseId;
+  ids.title.textContent = c.title;
+  ids.where.textContent = c.where;
+  ids.stage.innerHTML = c.render();
+  ids.loc.textContent = c.loc;
+  ids.sys.textContent = c.sys;
+  ids.act.textContent = c.act;
+  ids.pol.innerHTML = c.pol.replace(/(정책\s*\d+|GAP-\d+|SLA)/g, '<code>$1</code>');
+  ids.meta.hidden = false;
+}
+
+document.querySelectorAll('.case-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    if (activeBtn) activeBtn.classList.remove('active');
+    btn.classList.add('active');
+    activeBtn = btn;
+    show(btn.dataset.case);
+  });
+});
+
+/* 첫 케이스 자동 활성 */
+const first = document.querySelector('.case-btn');
+if (first) first.click();
+</script>
+
+</body>
+</html>

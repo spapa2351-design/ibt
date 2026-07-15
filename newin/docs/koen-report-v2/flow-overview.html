@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MaroPass IBT 중간보고 v2 — 서비스 사이트 화면 흐름도</title>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+  :root{--black:#000;--white:#fff;--hover-gray:#e2e2e2;--chip-gray:#efefef;--body-gray:#4b4b4b;--muted-gray:#afafaf;--line:#e6e6e6;}
+  *,*::before,*::after{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{font-family:"Pretendard Variable",Pretendard,system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;color:var(--black);background:var(--white);line-height:1.5;-webkit-font-smoothing:antialiased}
+  .container{max-width:1136px;margin:0 auto;padding:0 32px}
+
+  .cover{background:var(--black);color:var(--white);padding:88px 32px 96px}
+  .cover-inner{max-width:1136px;margin:0 auto}
+  .cover .label{font-size:14px;font-weight:500;color:var(--muted-gray);margin-bottom:12px;letter-spacing:.02em}
+  .cover h1{font-size:36px;font-weight:700;line-height:1.25;margin:0 0 12px;letter-spacing:-.01em}
+  .cover .lede{font-size:16px;color:var(--muted-gray);max-width:760px;line-height:1.55}
+  .cover .lede strong{color:var(--white);font-weight:700}
+  .cover-meta{margin-top:28px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+  .pill{display:inline-flex;align-items:center;padding:10px 14px;border-radius:999px;font-size:14px;font-weight:500;background:rgba(255,255,255,.1);color:var(--white);border:1px solid rgba(255,255,255,.2)}
+  .pill.solid{background:var(--white);color:var(--black);border-color:var(--white)}
+  .back-link{display:inline-flex;align-items:center;padding:10px 14px;border-radius:999px;font-size:14px;font-weight:500;background:var(--white);color:var(--black);text-decoration:none}
+  .back-link:hover{background:var(--hover-gray)}
+
+  main{padding:112px 0}
+  .step{margin-bottom:104px}
+  .step:last-of-type{margin-bottom:56px}
+  .step-head{display:grid;grid-template-columns:64px 1fr;gap:24px;align-items:center;margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid var(--black)}
+  .step-num{width:56px;height:56px;border-radius:999px;background:var(--black);color:var(--white);display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700}
+  .step-num.alt{background:var(--white);color:var(--black);border:2px solid var(--black);font-size:26px}
+  .step-title{font-size:26px;font-weight:700;line-height:1.25;margin:0 0 6px;letter-spacing:-.01em}
+  .step-desc{font-size:15px;color:var(--body-gray);margin:0}
+  .sys-tag{display:inline-block;padding:4px 12px;border-radius:999px;background:var(--chip-gray);color:var(--black);font-size:11px;font-weight:700;letter-spacing:.04em;margin-bottom:8px}
+
+  /* Journey flow */
+  .journey{display:flex;flex-wrap:wrap;align-items:stretch;gap:0}
+  .j-arrow{display:flex;align-items:center;justify-content:center;color:var(--black);font-size:18px;padding:0 6px;flex:0 0 auto}
+  @media(max-width:820px){.journey{flex-direction:column;gap:12px}.j-arrow{transform:rotate(90deg);padding:2px 0}}
+
+  /* Screen box (clickable link) */
+  .sbox{flex:1;min-width:150px;display:flex;flex-direction:column;text-decoration:none;color:var(--black);
+    border:1.5px solid var(--black);border-radius:10px;overflow:hidden;background:var(--white);transition:all .16s}
+  .sbox:hover{box-shadow:0 8px 22px rgba(0,0,0,.13);transform:translateY(-2px)}
+  .sbox .sb-bar{background:var(--black);color:var(--white);padding:9px 12px;font-size:11px;font-weight:700;letter-spacing:.04em;
+    display:flex;align-items:center;justify-content:space-between;gap:8px}
+  .sbox .sb-bar .rt{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-weight:500;color:#cfcfcf;font-size:10.5px}
+  .sbox .sb-body{padding:14px 14px 15px;display:flex;flex-direction:column;gap:6px;flex:1}
+  .sbox .sb-name{font-size:15px;font-weight:700;line-height:1.35}
+  .sbox .sb-desc{font-size:12px;color:var(--body-gray);line-height:1.5;flex:1}
+  .sbox .sb-open{font-size:11.5px;font-weight:700;color:var(--black);margin-top:4px}
+  .sbox:hover .sb-open{text-decoration:underline;text-underline-offset:3px}
+  .sbox.ghost .sb-bar{background:var(--body-gray)}
+  .sbox.entry{border-style:dashed}
+
+  /* Hub layout */
+  .hub{display:grid;grid-template-columns:1fr;gap:16px}
+  .hub-top{max-width:420px;margin:0 auto}
+  .hub-line{height:24px;width:1px;background:var(--black);margin:0 auto}
+  .spokes{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+  @media(max-width:900px){.spokes{grid-template-columns:1fr 1fr}}
+  @media(max-width:560px){.spokes{grid-template-columns:1fr}}
+
+  .extras{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  @media(max-width:700px){.extras{grid-template-columns:1fr}}
+
+  .note{background:var(--chip-gray);padding:18px 22px;border-radius:12px;font-size:14.5px;color:var(--body-gray);line-height:1.6;margin:28px 0 0}
+  .note strong{color:var(--black);font-weight:700}
+  .newwin{display:inline-block;padding:2px 9px;border-radius:999px;background:var(--white);color:var(--black);border:1.5px solid var(--black);font-size:10.5px;font-weight:700;margin-left:6px}
+
+  footer{background:var(--black);color:var(--muted-gray);padding:64px 32px;margin-top:96px;font-size:14px}
+  .footer-inner{max-width:1136px;margin:0 auto;display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px}
+  footer strong{color:var(--white);font-weight:700}
+  footer a{color:var(--white);text-decoration:underline;text-underline-offset:3px}
+
+  .print-btn{position:fixed;bottom:24px;right:24px;background:var(--black);color:var(--white);border:none;border-radius:999px;padding:14px 22px;font-size:14px;font-weight:600;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.16);font-family:inherit}
+  .print-btn:hover{background:var(--body-gray)}
+  .locale-toggle{position:fixed;top:20px;right:20px;display:inline-flex;gap:4px;padding:3px;background:#fff;border:1px solid #d4d4d8;border-radius:999px;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+  .locale-toggle button{padding:6px 14px;font-size:12px;font-weight:600;background:transparent;border:none;color:#4b4b4b;cursor:pointer;border-radius:999px;font-family:inherit;transition:all .15s}
+  .locale-toggle button.active{background:#000;color:#fff}
+  .locale-toggle button:hover:not(.active){color:#000;background:rgba(0,0,0,.06)}
+
+  @media print{
+    body{background:#fff}
+    .cover{-webkit-print-color-adjust:exact;print-color-adjust:exact;padding:48px 32px}
+    .step{page-break-inside:avoid;break-inside:avoid}
+    .sbox .sb-bar,.sbox.ghost .sb-bar,footer{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    .print-btn,.locale-toggle{display:none}
+  }
+  @media(max-width:720px){
+    .container{padding:0 20px}
+    .cover{padding:64px 20px 72px}.cover h1{font-size:26px}
+    main{padding:64px 0 72px}.step{margin-bottom:72px}
+    .step-head{grid-template-columns:48px 1fr;gap:16px}
+    .step-num{width:44px;height:44px;font-size:18px}.step-title{font-size:21px}
+  }
+</style>
+</head>
+<body>
+
+<div class="locale-toggle">
+  <button class="active" data-locale="ko" onclick="setLocale('ko')">한국어</button>
+  <button data-locale="ja" onclick="setLocale('ja')">日本語</button>
+</div>
+
+<header class="cover">
+  <div class="cover-inner">
+    <div class="label" data-i18n="cover_label">MAROPASS IBT · 중간보고 v2</div>
+    <h1 data-i18n="cover_title">서비스 사이트 화면 흐름도</h1>
+    <p class="lede" data-i18n-html="cover_lede">서비스 사이트 화면이 <strong>어떻게 이어지는지</strong> 한눈에 보는 구조 뷰입니다. 각 박스를 누르면 실제 화면이 새 탭으로 열립니다. 통합 카드 목록은 보고서 본문에 있습니다.</p>
+    <div class="cover-meta">
+      <span class="pill solid" data-i18n="pill_v2">v2 중간보고</span>
+      <a href="index.html" class="back-link" data-i18n="link_report">← 중간보고서</a>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+
+<section class="step">
+  <div class="step-head">
+    <div class="step-num">1</div>
+    <div>
+      <span class="sys-tag" data-i18n="sys_service">서비스 사이트</span>
+      <h2 class="step-title" data-i18n="j_title">구매 여정</h2>
+      <p class="step-desc" data-i18n="j_desc">처음 방문에서 결제 완료까지 학습자가 순서대로 지나는 화면.</p>
+    </div>
+  </div>
+  <div class="journey" id="journey"></div>
+  <div class="note" data-i18n-html="j_note">
+    비로그인 상태에서 <strong>바로 구매</strong>를 누르면 가입 · 로그인으로 이동한 뒤, 완료 시 원래 흐름으로 자동 복귀합니다. 결제 완료 후에는 마이페이지의 응시 대기로 이어집니다.
+  </div>
+</section>
+
+<section class="step">
+  <div class="step-head">
+    <div class="step-num">2</div>
+    <div>
+      <span class="sys-tag" data-i18n="sys_service">서비스 사이트</span>
+      <h2 class="step-title" data-i18n="h_title">마이페이지 (허브)</h2>
+      <p class="step-desc" data-i18n="h_desc">결제 이후 학습자의 활동 중심. 응시 진입과 보관 자료가 모두 여기서 갈라집니다.</p>
+    </div>
+  </div>
+  <div class="hub">
+    <div class="hub-top" id="hubTop"></div>
+    <div class="hub-line"></div>
+    <div class="spokes" id="spokes"></div>
+  </div>
+  <div class="note" data-i18n-html="h_note">
+    <strong>응시할 시험</strong>의 "응시하기"는 <span class="newwin" data-i18n="newwin">새 창 ↗</span> 으로 터치클래스 사용자 web(응시 전용)을 엽니다. <strong>결과지 · 인증서 · 영수증 PDF</strong>는 모두 이 마이페이지에서 다운로드됩니다.
+  </div>
+</section>
+
+<section class="step">
+  <div class="step-head">
+    <div class="step-num alt">＋</div>
+    <div>
+      <span class="sys-tag" data-i18n="sys_common">공통</span>
+      <h2 class="step-title" data-i18n="e_title">공통 · 안내</h2>
+      <p class="step-desc" data-i18n="e_desc">여정 어디서나 접근하는 안내 화면.</p>
+    </div>
+  </div>
+  <div class="extras" id="extras"></div>
+</section>
+
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div data-i18n-html="footer_left"><strong>MaroPass IBT 중간보고 v2 — 서비스 사이트 화면 흐름도</strong></div>
+    <div data-i18n-html="footer_right"><a href="index.html">중간보고서</a> · Newin → KOEN</div>
+  </div>
+</footer>
+
+<button class="print-btn" onclick="window.print()" data-i18n="btn_print">인쇄 / PDF 저장</button>
+
+<script>
+const BASE='../../ui/service-site/';
+/* screen definitions reused across sections */
+const S = {
+  home:{href:'ui-main-home-v2.html',route:'/',ko:{n:'메인 홈',d:'서비스 소개 · 포지셔닝 · 응시 시작 CTA'},ja:{n:'メインホーム',d:'サービス紹介 · ポジショニング · 受験開始CTA'}},
+  auth:{href:'ui-auth.html',route:'/auth',ko:{n:'회원가입 · 로그인',d:'이메일 · Google'},ja:{n:'会員登録 · ログイン',d:'メール · Google'}},
+  tests:{href:'ui-tests-list.html',route:'/tests',ko:{n:'시험 목록',d:'초급 · 중상급 선택'},ja:{n:'試験一覧',d:'初級 · 中上級を選択'}},
+  detail:{href:'ui-test-detail.html',route:'/tests/:id',ko:{n:'시험 상세',d:'구성 · 샘플 · 가격'},ja:{n:'試験詳細',d:'構成 · サンプル · 価格'}},
+  checkout:{href:'ui-checkout.html',route:'/checkout',ko:{n:'결제',d:'카드 · QR'},ja:{n:'決済',d:'カード · QR'}},
+  complete:{href:'ui-checkout-complete.html',route:'/checkout/complete',ko:{n:'결제 완료',d:'영수증 · 응시 안내'},ja:{n:'決済完了',d:'領収書 · 受験案内'}},
+  mypage:{href:'ui-mypage.html',route:'/mypage',ko:{n:'마이페이지 홈',d:'학습자 활동 대시보드'},ja:{n:'マイページ ホーム',d:'学習者活動ダッシュボード'}},
+  mytests:{href:'ui-mypage-tests.html',route:'/mypage/tests',ko:{n:'응시할 시험',d:'응시하기(새 창) · D-day'},ja:{n:'受験する試験',d:'受験する(新しい窓) · D-day'}},
+  results:{href:'ui-mypage-results.html',route:'/mypage/results',ko:{n:'결과',d:'점수 · 피드백'},ja:{n:'結果',d:'スコア · フィードバック'}},
+  certs:{href:'ui-mypage-certificates.html',route:'/mypage/certificates',ko:{n:'인증서',d:'인증서 PDF'},ja:{n:'証明書',d:'証明書PDF'}},
+  payments:{href:'ui-mypage-payments.html',route:'/mypage/payments',ko:{n:'결제 내역',d:'영수증 PDF'},ja:{n:'決済履歴',d:'領収書PDF'}},
+  refunds:{href:'ui-mypage-refunds.html',route:'/mypage/refunds',ko:{n:'환불',d:'환불 신청 · 상태'},ja:{n:'返金',d:'返金申請 · 状態'}},
+  inquiries:{href:'ui-mypage-inquiries.html',route:'/mypage/inquiries',ko:{n:'1:1 문의',d:'접수 · 답변완료'},ja:{n:'1:1 問い合わせ',d:'受付 · 回答完了'}},
+  profile:{href:'ui-mypage-profile.html',route:'/mypage/profile',ko:{n:'프로필',d:'계정 · 설정'},ja:{n:'プロフィール',d:'アカウント · 設定'}},
+  faq:{href:'ui-faq.html',route:'/faq',ko:{n:'FAQ',d:'자주 묻는 질문'},ja:{n:'FAQ',d:'よくある質問'}},
+};
+
+const i18n={
+  ko:{
+    cover_label:'MAROPASS IBT · 중간보고 v2',
+    cover_title:'서비스 사이트 화면 흐름도',
+    cover_lede:'서비스 사이트 화면이 <strong>어떻게 이어지는지</strong> 한눈에 보는 구조 뷰입니다. 각 박스를 누르면 실제 화면이 새 탭으로 열립니다. 통합 카드 목록은 보고서 본문에 있습니다.',
+    pill_v2:'v2 중간보고', link_report:'← 중간보고서',
+    sys_service:'서비스 사이트', sys_common:'공통',
+    j_title:'구매 여정', j_desc:'처음 방문에서 결제 완료까지 학습자가 순서대로 지나는 화면.',
+    j_note:'비로그인 상태에서 <strong>바로 구매</strong>를 누르면 가입 · 로그인으로 이동한 뒤, 완료 시 원래 흐름으로 자동 복귀합니다. 결제 완료 후에는 마이페이지의 응시 대기로 이어집니다.',
+    h_title:'마이페이지 (허브)', h_desc:'결제 이후 학습자의 활동 중심. 응시 진입과 보관 자료가 모두 여기서 갈라집니다.',
+    h_note:'<strong>응시할 시험</strong>의 "응시하기"는 <span class="newwin">새 창 ↗</span> 으로 터치클래스 사용자 web(응시 전용)을 엽니다. <strong>결과지 · 인증서 · 영수증 PDF</strong>는 모두 이 마이페이지에서 다운로드됩니다.',
+    e_title:'공통 · 안내', e_desc:'여정 어디서나 접근하는 안내 화면.',
+    open:'열기 ↗',
+    footer_left:'<strong>MaroPass IBT 중간보고 v2 — 서비스 사이트 화면 흐름도</strong>',
+    footer_right:'<a href="index.html">중간보고서</a> · Newin → KOEN',
+    btn_print:'인쇄 / PDF 저장',
+  },
+  ja:{
+    cover_label:'MAROPASS IBT · 中間報告 v2',
+    cover_title:'サービスサイト画面フロー図',
+    cover_lede:'サービスサイトの画面が<strong>どうつながるか</strong>を一目で見る構造ビューです。各ボックスを押すと実際の画面が新しいタブで開きます。統合カード一覧は報告書本文にあります。',
+    pill_v2:'v2 中間報告', link_report:'← 中間報告書',
+    sys_service:'サービスサイト', sys_common:'共通',
+    j_title:'購入ジャーニー', j_desc:'初回訪問から決済完了まで学習者が順に通る画面。',
+    j_note:'未ログイン状態で<strong>今すぐ購入</strong>を押すと登録 · ログインへ遷移し、完了後に元の流れへ自動復帰します。決済完了後はマイページの受験待機へ続きます。',
+    h_title:'マイページ (ハブ)', h_desc:'決済以降の学習者活動の中心。受験進入と保管資料はすべてここから分岐します。',
+    h_note:'<strong>受験する試験</strong>の「受験する」は <span class="newwin">新しい窓 ↗</span> でタッチクラスユーザーweb(受験専用)を開きます。<strong>結果レポート · 証明書 · 領収書PDF</strong>はすべてこのマイページからダウンロードされます。',
+    e_title:'共通 · 案内', e_desc:'ジャーニーのどこからでもアクセスする案内画面。',
+    open:'開く ↗',
+    footer_left:'<strong>MaroPass IBT 中間報告 v2 — サービスサイト画面フロー図</strong>',
+    footer_right:'<a href="index.html">中間報告書</a> · Newin → KOEN',
+    btn_print:'印刷 / PDF保存',
+  }
+};
+
+let locale=localStorage.getItem('kopass_koen_locale')||'ko';
+function t(k){return i18n[locale]?.[k]??i18n.ko?.[k]??k;}
+function box(key,opts){
+  opts=opts||{};
+  const s=S[key];const L=s[locale]||s.ko;
+  const cls='sbox'+(opts.ghost?' ghost':'')+(opts.entry?' entry':'');
+  return '<a class="'+cls+'" href="'+BASE+s.href+'" target="_blank" rel="noopener">'+
+    '<span class="sb-bar"><span>'+(opts.bar||'')+'</span><span class="rt">'+s.route+'</span></span>'+
+    '<span class="sb-body"><span class="sb-name">'+L.n+'</span><span class="sb-desc">'+L.d+'</span>'+
+    '<span class="sb-open">'+t('open')+'</span></span></a>';
+}
+function renderDiagram(){
+  const arrow='<div class="j-arrow">→</div>';
+  const journey=['home','auth','tests','detail','checkout','complete'];
+  document.getElementById('journey').innerHTML=journey.map(k=>box(k)).join(arrow);
+  document.getElementById('hubTop').innerHTML=box('mypage');
+  const spokes=['mytests','results','certs','payments','refunds','inquiries','profile'];
+  document.getElementById('spokes').innerHTML=spokes.map(k=>box(k,{ghost:k!=='mytests'})).join('');
+  document.getElementById('extras').innerHTML=['faq'].map(k=>box(k,{ghost:true})).join('');
+}
+function applyLocale(){
+  document.documentElement.lang=locale==='ja'?'ja':'ko';
+  document.querySelectorAll('[data-i18n]').forEach(el=>{el.textContent=t(el.getAttribute('data-i18n'));});
+  document.querySelectorAll('[data-i18n-html]').forEach(el=>{el.innerHTML=t(el.getAttribute('data-i18n-html'));});
+  document.querySelectorAll('.locale-toggle button').forEach(b=>{b.classList.toggle('active',b.getAttribute('data-locale')===locale);});
+  renderDiagram();
+}
+function setLocale(loc){locale=loc;localStorage.setItem('kopass_koen_locale',loc);applyLocale();}
+applyLocale();
+</script>
+
+</body>
+</html>

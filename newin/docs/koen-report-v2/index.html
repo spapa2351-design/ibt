@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MaroPass IBT 중간보고 v2 — 서비스 사이트</title>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+  :root{
+    --black:#000; --white:#fff;
+    --body-gray:#4b4b4b; --muted-gray:#afafaf; --chip-gray:#efefef; --line:#e6e6e6;
+    --hover-light:#f7f7f7;
+    --shadow-light:rgba(0,0,0,0.10); --shadow-medium:rgba(0,0,0,0.16);
+  }
+  *,*::before,*::after{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    font-family:"Pretendard Variable",Pretendard,system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;
+    color:var(--black);background:var(--white);line-height:1.5;-webkit-font-smoothing:antialiased;
+  }
+  .container{max-width:1136px;margin:0 auto;padding:0 32px}
+
+  /* Cover */
+  .cover{background:var(--black);color:var(--white);padding:104px 32px}
+  .cover-inner{max-width:1136px;margin:0 auto}
+  .cover .label{font-size:14px;font-weight:500;color:var(--muted-gray);margin-bottom:16px;letter-spacing:.02em}
+  .cover h1{font-size:50px;font-weight:700;line-height:1.24;margin:0 0 18px;letter-spacing:-.01em}
+  .cover .lede{font-size:18px;font-weight:500;line-height:1.5;max-width:760px;color:#e8e8e8}
+  .cover-meta{margin-top:36px;display:flex;flex-wrap:wrap;gap:8px}
+  .pill{display:inline-flex;align-items:center;padding:10px 16px;border-radius:999px;font-size:14px;font-weight:600;
+    background:rgba(255,255,255,.1);color:var(--white);border:1px solid rgba(255,255,255,.22)}
+  .pill.solid{background:var(--white);color:var(--black);border-color:var(--white)}
+
+  main{padding:112px 0 40px}
+  section+section{margin-top:104px}
+  h2{font-size:32px;font-weight:700;line-height:1.25;margin:0 0 10px;letter-spacing:-.01em}
+  h2 .n{font-size:14px;font-weight:500;color:var(--muted-gray);display:block;margin-bottom:12px;letter-spacing:.04em;text-transform:uppercase}
+  h3{font-size:19px;font-weight:700;margin:44px 0 14px}
+  .lede-sm{font-size:16px;color:var(--body-gray);margin:0 0 32px;max-width:760px}
+  p{font-size:16px;color:var(--body-gray);margin:0 0 12px}
+  strong{color:var(--black);font-weight:700}
+
+  .note{background:var(--chip-gray);padding:18px 22px;border-radius:12px;font-size:15px;color:var(--body-gray);line-height:1.6;margin:24px 0}
+  .note strong{color:var(--black)}
+
+  /* Progress rail */
+  .rail{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:24px 0 8px}
+  @media(max-width:820px){.rail{grid-template-columns:1fr 1fr}}
+  @media(max-width:520px){.rail{grid-template-columns:1fr}}
+  .rstep{border:1.5px solid var(--line);border-radius:12px;padding:18px 18px 20px;position:relative;background:var(--white)}
+  .rstep .rlabel{font-size:11px;font-weight:700;letter-spacing:.06em;color:var(--muted-gray);text-transform:uppercase;margin-bottom:10px}
+  .rstep .rname{font-size:15px;font-weight:700;line-height:1.4;margin-bottom:4px}
+  .rstep .rdesc{font-size:12.5px;color:var(--body-gray);line-height:1.5}
+  .rstep.done{background:var(--black);color:var(--white);border-color:var(--black)}
+  .rstep.done .rlabel{color:#bcbcbc}
+  .rstep.done .rdesc{color:#cfcfcf}
+  .rstep.now{border-color:var(--black);border-width:2px}
+  .rstep .rmark{position:absolute;top:16px;right:16px;font-size:11px;font-weight:700;padding:3px 9px;border-radius:999px}
+  .rstep.done .rmark{background:var(--white);color:var(--black)}
+  .rstep.now .rmark{background:var(--black);color:var(--white)}
+  .rstep.todo .rmark{background:var(--chip-gray);color:var(--body-gray)}
+
+  /* Screen cards */
+  .grp-title{font-size:13px;font-weight:700;letter-spacing:.04em;color:var(--black);text-transform:uppercase;
+    margin:40px 0 4px;display:flex;align-items:center;gap:10px}
+  .grp-title .gcount{font-size:11px;font-weight:600;color:var(--muted-gray)}
+  .grp-sub{font-size:14px;color:var(--body-gray);margin:0 0 18px}
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  @media(max-width:900px){.cards{grid-template-columns:1fr 1fr}}
+  @media(max-width:600px){.cards{grid-template-columns:1fr}}
+  .card{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:14px;padding:20px 20px 18px;
+    text-decoration:none;color:var(--black);background:var(--white);transition:all .18s;position:relative;min-height:150px}
+  .card:hover{border-color:var(--black);box-shadow:0 8px 24px var(--shadow-light);transform:translateY(-2px)}
+  .card .cno{font-size:11px;font-weight:700;color:var(--muted-gray);letter-spacing:.05em}
+  .card .cname{font-size:16.5px;font-weight:700;line-height:1.35;margin:8px 0 6px}
+  .card .cdesc{font-size:13px;color:var(--body-gray);line-height:1.55;flex:1}
+  .card .cfoot{display:flex;align-items:center;justify-content:space-between;margin-top:14px}
+  .card .route{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:11.5px;color:var(--muted-gray)}
+  .card .open{font-size:12.5px;font-weight:700;color:var(--black);white-space:nowrap}
+  .card:hover .open{text-decoration:underline;text-underline-offset:3px}
+
+  /* Flow strip */
+  .flow{display:flex;flex-wrap:wrap;gap:8px;margin:20px 0 8px;align-items:stretch}
+  .fstep{flex:1;min-width:150px;border:1.5px solid var(--line);border-radius:12px;padding:16px 16px 18px}
+  .fstep.owned{border-color:var(--black);background:var(--black);color:var(--white)}
+  .fstep .fs-step{font-size:11px;font-weight:700;letter-spacing:.05em;color:var(--muted-gray);text-transform:uppercase}
+  .fstep.owned .fs-step{color:#bcbcbc}
+  .fstep .fs-name{font-size:15px;font-weight:700;margin:8px 0 4px;line-height:1.35}
+  .fstep .fs-who{font-size:12px;color:var(--body-gray)}
+  .fstep.owned .fs-who{color:#cfcfcf}
+
+  /* Future list */
+  .future{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:20px 0}
+  @media(max-width:720px){.future{grid-template-columns:1fr}}
+  .future-item{border:1px solid var(--line);border-radius:12px;padding:20px}
+  .future-item .ft-title{font-size:16px;font-weight:700;margin-bottom:6px}
+  .future-item .ft-desc{font-size:13.5px;color:var(--body-gray);line-height:1.55}
+
+  a.inline-link{color:var(--black);text-decoration:underline;text-underline-offset:3px;font-weight:600}
+
+  footer{background:var(--black);color:var(--muted-gray);padding:72px 32px;margin-top:104px;font-size:14px}
+  .footer-inner{max-width:1136px;margin:0 auto;display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px}
+  footer strong{color:var(--white);font-weight:700}
+
+  .print-btn{position:fixed;bottom:24px;right:24px;background:var(--black);color:var(--white);border:none;border-radius:999px;
+    padding:14px 22px;font-size:14px;font-weight:600;cursor:pointer;box-shadow:0 4px 16px var(--shadow-medium);font-family:inherit}
+  .print-btn:hover{background:var(--body-gray)}
+  .locale-toggle{position:fixed;top:20px;right:20px;display:inline-flex;gap:4px;padding:3px;background:#fff;
+    border:1px solid #d4d4d8;border-radius:999px;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+  .locale-toggle button{padding:6px 14px;font-size:12px;font-weight:600;background:transparent;border:none;color:#4b4b4b;
+    cursor:pointer;border-radius:999px;font-family:inherit;transition:all .15s}
+  .locale-toggle button.active{background:#000;color:#fff}
+  .locale-toggle button:hover:not(.active){color:#000;background:rgba(0,0,0,.06)}
+
+  @media print{
+    body{background:#fff}
+    .cover{-webkit-print-color-adjust:exact;print-color-adjust:exact;padding:56px 32px}
+    section{break-inside:avoid;page-break-inside:avoid}
+    .print-btn,.locale-toggle{display:none}
+    .rstep.done,.fstep.owned,footer{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    .card{break-inside:avoid}
+    h2,h3{page-break-after:avoid}
+  }
+  @media(max-width:720px){
+    .container{padding:0 20px}
+    .cover{padding:64px 20px 72px}
+    .cover h1{font-size:34px}
+    .cover .lede{font-size:16px}
+    main{padding:64px 0 32px}
+    section+section{margin-top:76px}
+    h2{font-size:24px}
+  }
+</style>
+</head>
+<body>
+
+<div class="locale-toggle">
+  <button class="active" data-locale="ko" onclick="setLocale('ko')">한국어</button>
+  <button data-locale="ja" onclick="setLocale('ja')">日本語</button>
+</div>
+
+<header class="cover">
+  <div class="cover-inner">
+    <div class="label" data-i18n="cover_label">MAROPASS IBT · 중간보고 v2</div>
+    <h1 data-i18n-html="cover_title">서비스 사이트 화면<br>중간 보고</h1>
+    <p class="lede" data-i18n-html="cover_lede">v1(5월)에서 합의한 시스템 구조·플로우·정책을 바탕으로, 이번에는 학습자가 실제로 만나는 <strong>서비스 사이트</strong> 화면이 나왔습니다. 각 화면을 직접 열어 확인하실 수 있습니다.</p>
+    <div class="cover-meta">
+      <span class="pill solid" data-i18n="pill_v2">v2 중간보고</span>
+      <span class="pill" data-i18n="pill_focus">초점 · 서비스 사이트</span>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+
+<section>
+  <h2><span class="n">00 / This Report</span><span data-i18n="sec_intro">이번 보고 내용</span></h2>
+  <p class="lede-sm" data-i18n="intro_lede">지난 보고 이후 무엇이 진행되었고, 이 문서에서 무엇을 보실 수 있는지.</p>
+  <div class="note" data-i18n-html="intro_note">
+    <strong>v1(5월 전달)</strong>에서는 3개 시스템 구조 · 응시자 플로우 · 운영 정책 · 역할 분담을 합의했고, 화면은 흐름 확인용 <strong>박스 와이어프레임</strong>이었습니다.<br><br>
+    <strong>이번 v2 중간보고</strong>는 그중 <strong>서비스 사이트(MaroPass 본 사이트)</strong>의 실제 화면이 설계된 것을 공유합니다. 가입부터 결제, 마이페이지까지 학습자가 직접 사용하는 회원·결제 영역입니다. 응시(터치클래스 사용자 web)·운영(관리자 web) 화면은 다음 보고에서 이어집니다.
+  </div>
+</section>
+
+<section>
+  <h2><span class="n">01 / Progress</span><span data-i18n="sec_progress">진행 현황</span></h2>
+  <p class="lede-sm" data-i18n="progress_lede">전체 여정에서 지금 위치. 날짜는 합의 후 확정합니다.</p>
+  <div class="rail">
+    <div class="rstep done">
+      <span class="rmark" data-i18n="mark_done">완료</span>
+      <div class="rlabel">STEP 1</div>
+      <div class="rname" data-i18n="p1_name">기획 v1 합의</div>
+      <div class="rdesc" data-i18n="p1_desc">구조 · 플로우 · 정책 · 역할 분담 (5월 전달)</div>
+    </div>
+    <div class="rstep now">
+      <span class="rmark" data-i18n="mark_now">이번 보고</span>
+      <div class="rlabel">STEP 2</div>
+      <div class="rname" data-i18n="p2_name">서비스 사이트 화면</div>
+      <div class="rdesc" data-i18n="p2_desc">회원 · 결제 · 마이페이지 실제 화면 1차 완성</div>
+    </div>
+    <div class="rstep todo">
+      <span class="rmark" data-i18n="mark_next">예정</span>
+      <div class="rlabel">STEP 3</div>
+      <div class="rname" data-i18n="p3_name">응시 · 관리자 화면</div>
+      <div class="rdesc" data-i18n="p3_desc">터치클래스 사용자 web(응시) · 관리자 web(운영)</div>
+    </div>
+    <div class="rstep todo">
+      <span class="rmark" data-i18n="mark_next">예정</span>
+      <div class="rlabel">STEP 4</div>
+      <div class="rname" data-i18n="p4_name">개발 · 베타</div>
+      <div class="rdesc" data-i18n="p4_desc">시스템 개발 착수 → 베타 오픈 → 정식 개시</div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2><span class="n">02 / Service Site</span><span data-i18n="sec_screens">서비스 사이트 화면</span></h2>
+  <p class="lede-sm" data-i18n-html="screens_lede">아래 카드에서 <strong>화면 열기 ↗</strong>를 누르면 실제 화면이 새 탭으로 열립니다. 학습자 동선 순서로 정리했습니다.</p>
+  <p style="margin:-20px 0 30px"><a class="inline-link" href="flow-overview.html" data-i18n="flow_link">→ 서비스 사이트 화면 흐름도(구조 뷰) 보기</a></p>
+
+  <div class="grp-title" data-i18n="grp1">진입 · 회원 <span class="gcount">3</span></div>
+  <p class="grp-sub" data-i18n="grp1_sub">학습자가 처음 만나는 화면과 계정 생성.</p>
+  <div class="cards" id="cards1"></div>
+
+  <div class="grp-title" data-i18n="grp2">시험 · 결제 <span class="gcount">4</span></div>
+  <p class="grp-sub" data-i18n="grp2_sub">시험을 고르고 결제하기까지.</p>
+  <div class="cards" id="cards2"></div>
+
+  <div class="grp-title" data-i18n="grp3">마이페이지 <span class="gcount">8</span></div>
+  <p class="grp-sub" data-i18n="grp3_sub">응시 진입(새 창), 결과·인증서·영수증, 환불·문의 등 학습자 보관·관리 영역.</p>
+  <div class="cards" id="cards3"></div>
+
+  <div class="note" data-i18n-html="screens_note">
+    표시되는 문구·데이터·금액은 <strong>예시 값</strong>이며, 색상·레이아웃 등 세부 디자인은 검수 과정에서 조정될 수 있습니다. 메인 홈은 최신 시안(v0.2)을 연결했습니다.
+  </div>
+</section>
+
+<section>
+  <h2><span class="n">03 / In the Flow</span><span data-i18n="sec_flow">응시자 플로우 상의 위치</span></h2>
+  <p class="lede-sm" data-i18n="flow_lede">5단계 여정 중 서비스 사이트가 담당하는 구간(강조 표시).</p>
+  <div class="flow">
+    <div class="fstep owned"><div class="fs-step">STEP 1</div><div class="fs-name" data-i18n="f1_name">가입 · 로그인</div><div class="fs-who" data-i18n="f_svc">서비스 사이트</div></div>
+    <div class="fstep owned"><div class="fs-step">STEP 2</div><div class="fs-name" data-i18n="f2_name">시험 선택 · 결제</div><div class="fs-who" data-i18n="f_svc">서비스 사이트</div></div>
+    <div class="fstep owned"><div class="fs-step">STEP 3</div><div class="fs-name" data-i18n="f3_name">응시 대기 (마이페이지)</div><div class="fs-who" data-i18n="f_svc">서비스 사이트</div></div>
+    <div class="fstep"><div class="fs-step">STEP 4</div><div class="fs-name" data-i18n="f4_name">응시</div><div class="fs-who" data-i18n="f_user">사용자 web (새 창)</div></div>
+    <div class="fstep"><div class="fs-step">STEP 5</div><div class="fs-name" data-i18n="f5_name">결과 · 인증서</div><div class="fs-who" data-i18n="f_mixed">사용자 web + 서비스 사이트(PDF)</div></div>
+  </div>
+  <div class="note" data-i18n-html="flow_note">
+    <strong>서비스 사이트</strong>는 가입 · 결제 · 응시 대기(마이페이지) 구간과, 응시 후 <strong>결과지 · 인증서 · 영수증 PDF 다운로드</strong>를 담당합니다. 실제 <strong>응시</strong>는 마이페이지의 "응시하기"에서 <strong>새 창</strong>으로 열리는 터치클래스 사용자 web에서 진행됩니다.
+  </div>
+</section>
+
+<section>
+  <h2><span class="n">04 / Next</span><span data-i18n="sec_next">다음 단계</span></h2>
+  <p class="lede-sm" data-i18n="next_lede">이어질 보고와 진행 항목.</p>
+  <div class="future">
+    <div class="future-item">
+      <div class="ft-title" data-i18n="nx1_title">응시 화면 (사용자 web)</div>
+      <div class="ft-desc" data-i18n="nx1_desc">본인 확인 → 환경 점검 게이트 → 응시 클라이언트 → 응시 결과. 새 창으로 열리는 응시 전용 영역.</div>
+    </div>
+    <div class="future-item">
+      <div class="ft-title" data-i18n="nx2_title">관리자 화면 (관리자 web)</div>
+      <div class="ft-desc" data-i18n="nx2_desc">회원 목록(신규) · 채점 보정 · 결과 공개 · 1:1 문의 답변 · 환불 승인 등 운영 콘솔.</div>
+    </div>
+    <div class="future-item">
+      <div class="ft-title" data-i18n="nx3_title">화면 검수 · 확정</div>
+      <div class="ft-desc" data-i18n="nx3_desc">서비스 사이트 화면에 대한 KOEN 검토 코멘트를 받아 문구·구성을 확정합니다.</div>
+    </div>
+    <div class="future-item">
+      <div class="ft-title" data-i18n="nx4_title">개발 착수</div>
+      <div class="ft-desc" data-i18n="nx4_desc">확정된 화면 기준으로 시스템 개발 시작. 이후 베타 오픈 · 정식 개시로 이어집니다.</div>
+    </div>
+  </div>
+  <div class="note" data-i18n-html="ref_note">
+    지난 <strong>v1 기획문서</strong>는 <a class="inline-link" href="../koen-report-v1/index.html" target="_blank" rel="noopener">koen-report-v1</a>에서 확인하실 수 있습니다 (시스템 구조 · 플로우 · 정책 전체).
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div><strong data-i18n="footer_title">MaroPass IBT 중간보고 v2 — 서비스 사이트</strong></div>
+    <div data-i18n="footer_from">Newin 기획팀 → KOEN</div>
+  </div>
+</footer>
+
+<button class="print-btn" onclick="window.print()" data-i18n="btn_print">인쇄 / PDF 저장</button>
+
+<script>
+/* ---- Screen cards data (locale-aware) ---- */
+const BASE = '../../ui/service-site/';
+const SCREENS = {
+  g1: [
+    {no:'01', href:'ui-main-home-v2.html', route:'/', ko:{n:'메인 홈',d:'서비스 소개, TOPIK 진단·모의고사 포지셔닝, 시험 안내와 응시 시작 CTA.'}, ja:{n:'メインホーム',d:'サービス紹介、TOPIK診断·模擬試験のポジショニング、試験案内と受験開始CTA。'}},
+    {no:'02', href:'ui-auth.html', route:'/auth', ko:{n:'회원가입 · 로그인',d:'이메일 인증 가입 또는 Google 소셜 로그인. 약관 동의와 최소 개인정보 수집.'}, ja:{n:'会員登録 · ログイン',d:'メール認証登録またはGoogleソーシャルログイン。規約同意と最小限の個人情報収集。'}},
+    {no:'03', href:'ui-faq.html', route:'/faq', ko:{n:'FAQ · 자주 묻는 질문',d:'시험·결제·응시·환불 관련 자주 묻는 질문과 서비스 안내.'}, ja:{n:'FAQ · よくある質問',d:'試験·決済·受験·返金に関するよくある質問とサービス案内。'}},
+  ],
+  g2: [
+    {no:'04', href:'ui-tests-list.html', route:'/tests', ko:{n:'시험 목록',d:'초급 · 중상급 등 응시 가능한 시험 목록. 레벨·가격·구성을 비교해 선택.'}, ja:{n:'試験一覧',d:'初級·中上級など受験可能な試験一覧。レベル·価格·構成を比較して選択。'}},
+    {no:'05', href:'ui-test-detail.html', route:'/tests/:id', ko:{n:'시험 상세',d:'시험 구성, 문항 수·시간, 샘플 문항, 가격 확인 후 결제로 진입.'}, ja:{n:'試験詳細',d:'試験構成、問題数·時間、サンプル問題、価格を確認して決済へ。'}},
+    {no:'06', href:'ui-checkout.html', route:'/checkout', ko:{n:'결제',d:'신용카드 또는 QR 결제. 일본 PG 연동. 단건 결제 방식.'}, ja:{n:'決済',d:'クレジットカードまたはQR決済。日本PG連携。単件決済方式。'}},
+    {no:'07', href:'ui-checkout-complete.html', route:'/checkout/complete', ko:{n:'결제 완료',d:'결제 확인, 영수증 PDF 안내, 마이페이지 응시 대기로 이어지는 안내.'}, ja:{n:'決済完了',d:'決済確認、領収書PDF案内、マイページの受験待機への案内。'}},
+  ],
+  g3: [
+    {no:'08', href:'ui-mypage.html', route:'/mypage', ko:{n:'마이페이지 홈',d:'응시할 시험·결과·결제·문의 등 학습자 활동을 한눈에 모은 대시보드.'}, ja:{n:'マイページ ホーム',d:'受験する試験·結果·決済·問い合わせなど学習者の活動を集約したダッシュボード。'}},
+    {no:'09', href:'ui-mypage-tests.html', route:'/mypage/tests', ko:{n:'응시할 시험',d:'결제한 시험 목록과 D-day. "응시하기 ↗"로 새 창(사용자 web) 진입.'}, ja:{n:'受験する試験',d:'決済した試験リストとD-day。「受験する ↗」で新しい窓(ユーザーweb)へ。'}},
+    {no:'10', href:'ui-mypage-results.html', route:'/mypage/results', ko:{n:'결과',d:'공개된 응시 결과 목록. 점수·피드백 요약과 결과지 접근.'}, ja:{n:'結果',d:'公開された受験結果の一覧。スコア·フィードバック要約と結果レポートへのアクセス。'}},
+    {no:'11', href:'ui-mypage-certificates.html', route:'/mypage/certificates', ko:{n:'인증서',d:'인증서 PDF 다운로드. 무기한 보관, 재발급 횟수 제한 없음.'}, ja:{n:'証明書',d:'証明書PDFダウンロード。無期限保管、再発行回数の制限なし。'}},
+    {no:'12', href:'ui-mypage-payments.html', route:'/mypage/payments', ko:{n:'결제 내역',d:'결제 이력과 영수증 PDF 다운로드. 결제가 발생한 곳에서 영수증 관리.'}, ja:{n:'決済履歴',d:'決済履歴と領収書PDFダウンロード。決済が発生した場所で領収書を管理。'}},
+    {no:'13', href:'ui-mypage-refunds.html', route:'/mypage/refunds', ko:{n:'환불',d:'응시 전 미사용 환불 신청·상태 확인. 운영팀 검토 후 처리.'}, ja:{n:'返金',d:'受験前·未使用の返金申請·状態確認。運営チーム審査後に処理。'}},
+    {no:'14', href:'ui-mypage-inquiries.html', route:'/mypage/inquiries', ko:{n:'1:1 문의',d:'유형별 문의 작성과 답변 확인. 접수 / 답변완료 2단계 상태 관리.'}, ja:{n:'1:1 問い合わせ',d:'種別ごとの問い合わせ作成と回答確認。受付 / 回答完了の2段階で管理。'}},
+    {no:'15', href:'ui-mypage-profile.html', route:'/mypage/profile', ko:{n:'프로필',d:'계정 정보·비밀번호·알림 설정 등 개인 설정 관리.'}, ja:{n:'プロフィール',d:'アカウント情報·パスワード·通知設定など個人設定の管理。'}},
+  ],
+};
+
+/* ---- i18n (chrome) ---- */
+const i18n = {
+  ko:{
+    cover_label:'MAROPASS IBT · 중간보고 v2',
+    cover_title:'서비스 사이트 화면<br>중간 보고',
+    cover_lede:'v1(5월)에서 합의한 시스템 구조·플로우·정책을 바탕으로, 이번에는 학습자가 실제로 만나는 <strong>서비스 사이트</strong> 화면이 나왔습니다. 각 화면을 직접 열어 확인하실 수 있습니다.',
+    pill_v2:'v2 중간보고', pill_focus:'초점 · 서비스 사이트',
+    sec_intro:'이번 보고 내용',
+    intro_lede:'지난 보고 이후 무엇이 진행되었고, 이 문서에서 무엇을 보실 수 있는지.',
+    intro_note:'<strong>v1(5월 전달)</strong>에서는 3개 시스템 구조 · 응시자 플로우 · 운영 정책 · 역할 분담을 합의했고, 화면은 흐름 확인용 <strong>박스 와이어프레임</strong>이었습니다.<br><br><strong>이번 v2 중간보고</strong>는 그중 <strong>서비스 사이트(MaroPass 본 사이트)</strong>의 실제 화면이 설계된 것을 공유합니다. 가입부터 결제, 마이페이지까지 학습자가 직접 사용하는 회원·결제 영역입니다. 응시(터치클래스 사용자 web)·운영(관리자 web) 화면은 다음 보고에서 이어집니다.',
+    sec_progress:'진행 현황',
+    progress_lede:'전체 여정에서 지금 위치. 날짜는 합의 후 확정합니다.',
+    mark_done:'완료', mark_now:'이번 보고', mark_next:'예정',
+    p1_name:'기획 v1 합의', p1_desc:'구조 · 플로우 · 정책 · 역할 분담 (5월 전달)',
+    p2_name:'서비스 사이트 화면', p2_desc:'회원 · 결제 · 마이페이지 실제 화면 1차 완성',
+    p3_name:'응시 · 관리자 화면', p3_desc:'터치클래스 사용자 web(응시) · 관리자 web(운영)',
+    p4_name:'개발 · 베타', p4_desc:'시스템 개발 착수 → 베타 오픈 → 정식 개시',
+    sec_screens:'서비스 사이트 화면',
+    screens_lede:'아래 카드에서 <strong>화면 열기 ↗</strong>를 누르면 실제 화면이 새 탭으로 열립니다. 학습자 동선 순서로 정리했습니다.',
+    grp1:'진입 · 회원', grp1_sub:'학습자가 처음 만나는 화면과 계정 생성.',
+    grp2:'시험 · 결제', grp2_sub:'시험을 고르고 결제하기까지.',
+    grp3:'마이페이지', grp3_sub:'응시 진입(새 창), 결과·인증서·영수증, 환불·문의 등 학습자 보관·관리 영역.',
+    flow_link:'→ 서비스 사이트 화면 흐름도(구조 뷰) 보기',
+    screens_note:'표시되는 문구·데이터·금액은 <strong>예시 값</strong>이며, 색상·레이아웃 등 세부 디자인은 검수 과정에서 조정될 수 있습니다. 메인 홈은 최신 시안(v0.2)을 연결했습니다.',
+    open_label:'화면 열기 ↗',
+    sec_flow:'응시자 플로우 상의 위치',
+    flow_lede:'5단계 여정 중 서비스 사이트가 담당하는 구간(강조 표시).',
+    f_svc:'서비스 사이트', f_user:'사용자 web (새 창)', f_mixed:'사용자 web + 서비스 사이트(PDF)',
+    f1_name:'가입 · 로그인', f2_name:'시험 선택 · 결제', f3_name:'응시 대기 (마이페이지)', f4_name:'응시', f5_name:'결과 · 인증서',
+    flow_note:'<strong>서비스 사이트</strong>는 가입 · 결제 · 응시 대기(마이페이지) 구간과, 응시 후 <strong>결과지 · 인증서 · 영수증 PDF 다운로드</strong>를 담당합니다. 실제 <strong>응시</strong>는 마이페이지의 "응시하기"에서 <strong>새 창</strong>으로 열리는 터치클래스 사용자 web에서 진행됩니다.',
+    sec_next:'다음 단계',
+    next_lede:'이어질 보고와 진행 항목.',
+    nx1_title:'응시 화면 (사용자 web)', nx1_desc:'본인 확인 → 환경 점검 게이트 → 응시 클라이언트 → 응시 결과. 새 창으로 열리는 응시 전용 영역.',
+    nx2_title:'관리자 화면 (관리자 web)', nx2_desc:'회원 목록(신규) · 채점 보정 · 결과 공개 · 1:1 문의 답변 · 환불 승인 등 운영 콘솔.',
+    nx3_title:'화면 검수 · 확정', nx3_desc:'서비스 사이트 화면에 대한 KOEN 검토 코멘트를 받아 문구·구성을 확정합니다.',
+    nx4_title:'개발 착수', nx4_desc:'확정된 화면 기준으로 시스템 개발 시작. 이후 베타 오픈 · 정식 개시로 이어집니다.',
+    ref_note:'지난 <strong>v1 기획문서</strong>는 <a class="inline-link" href="../koen-report-v1/index.html" target="_blank" rel="noopener">koen-report-v1</a>에서 확인하실 수 있습니다 (시스템 구조 · 플로우 · 정책 전체).',
+    footer_title:'MaroPass IBT 중간보고 v2 — 서비스 사이트', footer_from:'Newin 기획팀 → KOEN',
+    btn_print:'인쇄 / PDF 저장',
+  },
+  ja:{
+    cover_label:'MAROPASS IBT · 中間報告 v2',
+    cover_title:'サービスサイト画面<br>中間報告',
+    cover_lede:'v1(5月)で合意したシステム構造·フロー·ポリシーをもとに、今回は学習者が実際に触れる<strong>サービスサイト</strong>の画面ができました。各画面を直接開いてご確認いただけます。',
+    pill_v2:'v2 中間報告', pill_focus:'焦点 · サービスサイト',
+    sec_intro:'本報告の内容',
+    intro_lede:'前回の報告以降に何が進み、この文書で何をご覧いただけるか。',
+    intro_note:'<strong>v1(5月納品)</strong>では3システム構造 · 受験者フロー · 運営ポリシー · 役割分担を合意し、画面は流れ確認用の<strong>ボックスワイヤーフレーム</strong>でした。<br><br><strong>今回のv2中間報告</strong>では、そのうち<strong>サービスサイト(MaroPass本サイト)</strong>の実際の画面が設計されたことを共有します。会員登録から決済、マイページまで学習者が直接使用する会員·決済領域です。受験(タッチクラスユーザーweb)·運営(管理者web)画面は次回の報告で続きます。',
+    sec_progress:'進行状況',
+    progress_lede:'全体の中での現在地。日程は合意後に確定します。',
+    mark_done:'完了', mark_now:'今回報告', mark_next:'予定',
+    p1_name:'企画v1合意', p1_desc:'構造 · フロー · ポリシー · 役割分担 (5月納品)',
+    p2_name:'サービスサイト画面', p2_desc:'会員 · 決済 · マイページの実画面 一次完成',
+    p3_name:'受験 · 管理者画面', p3_desc:'タッチクラスユーザーweb(受験) · 管理者web(運営)',
+    p4_name:'開発 · ベータ', p4_desc:'システム開発着手 → ベータオープン → 正式開始',
+    sec_screens:'サービスサイト画面',
+    screens_lede:'下のカードで<strong>画面を開く ↗</strong>を押すと、実際の画面が新しいタブで開きます。学習者の動線順に並べています。',
+    grp1:'入口 · 会員', grp1_sub:'学習者が最初に出会う画面とアカウント作成。',
+    grp2:'試験 · 決済', grp2_sub:'試験を選び決済するまで。',
+    grp3:'マイページ', grp3_sub:'受験進入(新しい窓)、結果·証明書·領収書、返金·問い合わせなど学習者の保管·管理領域。',
+    flow_link:'→ サービスサイト画面フロー図(構造ビュー)を見る',
+    screens_note:'表示される文言·データ·金額は<strong>サンプル値</strong>であり、色·レイアウトなどの詳細デザインは検収過程で調整される場合があります。メインホームは最新案(v0.2)にリンクしています。',
+    open_label:'画面を開く ↗',
+    sec_flow:'受験者フロー上の位置',
+    flow_lede:'5段階の中でサービスサイトが担当する区間(強調表示)。',
+    f_svc:'サービスサイト', f_user:'ユーザーweb (新しい窓)', f_mixed:'ユーザーweb + サービスサイト(PDF)',
+    f1_name:'会員登録 · ログイン', f2_name:'試験選択 · 決済', f3_name:'受験待機 (マイページ)', f4_name:'受験', f5_name:'結果 · 証明書',
+    flow_note:'<strong>サービスサイト</strong>は会員登録 · 決済 · 受験待機(マイページ)の区間と、受験後の<strong>結果レポート · 証明書 · 領収書PDFのダウンロード</strong>を担当します。実際の<strong>受験</strong>はマイページの「受験する」から<strong>新しい窓</strong>で開くタッチクラスユーザーwebで進行します。',
+    sec_next:'次のステップ',
+    next_lede:'今後の報告と進行項目。',
+    nx1_title:'受験画面 (ユーザーweb)', nx1_desc:'本人確認 → 動作環境チェックゲート → 受験クライアント → 受験結果。新しい窓で開く受験専用領域。',
+    nx2_title:'管理者画面 (管理者web)', nx2_desc:'会員一覧(新規) · 採点補正 · 結果公開 · 1:1問い合わせ回答 · 返金承認などの運営コンソール。',
+    nx3_title:'画面検収 · 確定', nx3_desc:'サービスサイト画面へのKOEN検討コメントを受けて、文言·構成を確定します。',
+    nx4_title:'開発着手', nx4_desc:'確定した画面を基準にシステム開発を開始。以降ベータオープン · 正式開始へ続きます。',
+    ref_note:'前回の<strong>v1企画書</strong>は <a class="inline-link" href="../koen-report-v1/index.html" target="_blank" rel="noopener">koen-report-v1</a> でご確認いただけます(システム構造 · フロー · ポリシー全体)。',
+    footer_title:'MaroPass IBT 中間報告 v2 — サービスサイト', footer_from:'Newin 企画チーム → KOEN',
+    btn_print:'印刷 / PDF保存',
+  }
+};
+
+let locale = localStorage.getItem('kopass_koen_locale') || 'ko';
+function t(k){ return i18n[locale]?.[k] ?? i18n.ko?.[k] ?? k; }
+
+function renderCards(){
+  const openLabel = t('open_label');
+  const groups = [['cards1','g1'],['cards2','g2'],['cards3','g3']];
+  for(const [elId,gKey] of groups){
+    const el = document.getElementById(elId);
+    el.innerHTML = SCREENS[gKey].map(s=>{
+      const L = s[locale] || s.ko;
+      return '<a class="card" href="'+BASE+s.href+'" target="_blank" rel="noopener">'+
+        '<span class="cno">'+s.no+'</span>'+
+        '<span class="cname">'+L.n+'</span>'+
+        '<span class="cdesc">'+L.d+'</span>'+
+        '<span class="cfoot"><span class="route">'+s.route+'</span><span class="open">'+openLabel+'</span></span>'+
+      '</a>';
+    }).join('');
+  }
+}
+function applyLocale(){
+  document.documentElement.lang = locale==='ja'?'ja':'ko';
+  document.querySelectorAll('[data-i18n]').forEach(el=>{ el.textContent = t(el.getAttribute('data-i18n')); });
+  document.querySelectorAll('[data-i18n-html]').forEach(el=>{ el.innerHTML = t(el.getAttribute('data-i18n-html')); });
+  document.querySelectorAll('.locale-toggle button').forEach(b=>{ b.classList.toggle('active', b.getAttribute('data-locale')===locale); });
+  renderCards();
+}
+function setLocale(loc){ locale=loc; localStorage.setItem('kopass_koen_locale',loc); applyLocale(); }
+applyLocale();
+</script>
+
+</body>
+</html>
