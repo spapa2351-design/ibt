@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>터치클래스 사용자 web — 응시 홈 (MaroPass · KoPASS)</title>
+<style>
+  html, body { font-family: "Pretendard Variable", "Pretendard JP Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, sans-serif; }
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  img, svg, video { max-width: 100%; height: auto; }
+
+  :root {
+    --blue-500:#2e84ff; --blue-600:#2272eb; --blue-50:#e8f3ff; --blue-100:#dbeafe;
+    --grey-900:#191f28; --grey-800:#222933; --grey-700:#4e5968; --grey-600:#6b7684;
+    --grey-500:#8b95a1; --grey-400:#b0b8c1; --grey-300:#d1d6db; --grey-200:#e5e8eb;
+    --grey-150:#eceef1; --grey-100:#f2f4f6; --grey-50:#f9fafb; --grey-25:#fcfcfd;
+    --green-500:#03b26c; --green-50:#ecfdf5;
+    --orange-500:#fe9800; --orange-50:#fff7ed;
+    --red-500:#f04452;
+    --bg-canvas:#f5f6f8;
+  }
+  body { background: var(--bg-canvas); color: var(--grey-900); min-height: 100vh; }
+
+  /* ── App shell ── */
+  .app { display: flex; min-height: 100vh; }
+
+  /* ── Sidebar ── */
+  .sidebar {
+    width: 220px; flex-shrink: 0;
+    background: #ffffff;
+    border-right: 1px solid var(--grey-200);
+    display: flex; flex-direction: column;
+    position: sticky; top: 0; height: 100vh;
+  }
+  .sidebar-logo {
+    height: 64px; padding: 0 20px;
+    display: flex; align-items: center; gap: 8px;
+    border-bottom: 1px solid var(--grey-100);
+  }
+  .sidebar-logo svg { flex-shrink: 0; }
+  .sidebar-logo-text {
+    font-weight: 800; font-size: 16px; letter-spacing: -0.3px;
+    color: var(--grey-900);
+  }
+  .sidebar-profile {
+    padding: 20px 20px 18px;
+    text-align: center;
+    border-bottom: 1px solid var(--grey-100);
+  }
+  .profile-avatar {
+    width: 64px; height: 64px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #e8f3ff, #dbeafe);
+    margin: 0 auto 10px;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+    border: 1px solid var(--grey-150);
+  }
+  .profile-avatar svg { width: 40px; height: 40px; }
+  .profile-name { font-size: 15px; font-weight: 700; color: var(--grey-900); margin-bottom: 4px; }
+  .profile-bio { font-size: 11px; color: var(--grey-500); line-height: 1.4; }
+
+  .sidebar-menu { flex: 1; padding: 10px 12px; overflow-y: auto; }
+  .menu-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    color: var(--grey-700);
+    font-size: 14px; font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-decoration: none;
+    margin-bottom: 2px;
+  }
+  .menu-item:hover { background: var(--grey-100); color: var(--grey-900); }
+  .menu-item.active {
+    background: var(--blue-50);
+    color: var(--blue-500);
+    font-weight: 700;
+  }
+  .menu-item.active .menu-icon { color: var(--blue-500); }
+  .menu-icon {
+    width: 20px; height: 20px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--grey-500);
+    flex-shrink: 0;
+  }
+  .menu-item.active .menu-icon { color: var(--blue-500); }
+
+  .sidebar-footer { padding: 12px; border-top: 1px solid var(--grey-100); }
+  .logout-btn {
+    width: 100%; padding: 10px;
+    background: var(--grey-50); color: var(--grey-700);
+    border: 1px solid var(--grey-200); border-radius: 10px;
+    font-size: 13px; font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .logout-btn:hover { background: var(--grey-100); }
+
+  /* ── Main area ── */
+  .main { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+
+  /* ── Top bar (search + actions) ── */
+  .topbar {
+    height: 64px;
+    background: var(--bg-canvas);
+    padding: 0 32px;
+    display: flex; align-items: center; gap: 20px;
+    border-bottom: 1px solid transparent;
+    position: sticky; top: 0; z-index: 30;
+    backdrop-filter: blur(8px);
+  }
+  .search-bar {
+    flex: 1; max-width: 720px;
+    height: 44px;
+    background: #ffffff;
+    border: 1px solid var(--grey-200);
+    border-radius: 999px;
+    padding: 0 18px;
+    display: flex; align-items: center; gap: 10px;
+    transition: all 0.15s;
+  }
+  .search-bar:focus-within { border-color: var(--blue-500); box-shadow: 0 0 0 3px rgba(46,132,255,0.1); }
+  .search-bar svg { flex-shrink: 0; color: var(--grey-500); }
+  .search-bar input {
+    flex: 1; border: 0; outline: 0; background: transparent;
+    font-size: 14px; color: var(--grey-900);
+    font-family: inherit;
+  }
+  .search-bar input::placeholder { color: var(--grey-500); }
+
+  .topbar-actions { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+  .icon-btn {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: transparent; border: 0;
+    color: var(--grey-700);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; transition: all 0.15s;
+    position: relative;
+  }
+  .icon-btn:hover { background: rgba(0,0,0,0.05); }
+  .icon-btn .dot {
+    position: absolute; top: 9px; right: 10px;
+    width: 7px; height: 7px;
+    background: var(--red-500);
+    border-radius: 50%;
+    border: 1.5px solid var(--bg-canvas);
+  }
+  .topbar-locale {
+    display: inline-flex; background: #ffffff;
+    border: 1px solid var(--grey-200); border-radius: 999px;
+    padding: 2px; margin-right: 4px;
+  }
+  .topbar-locale button {
+    padding: 5px 11px; font-size: 12px; font-weight: 600;
+    background: transparent; border: 0; color: var(--grey-600);
+    cursor: pointer; border-radius: 999px;
+  }
+  .topbar-locale button.active { background: var(--grey-900); color: white; }
+
+  .topbar-avatar {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #e8f3ff, #dbeafe);
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden; cursor: pointer;
+    border: 1px solid var(--grey-150);
+  }
+  .topbar-avatar svg { width: 26px; height: 26px; }
+
+  /* ── Content ── */
+  .content { flex: 1; padding: 24px 32px 48px; max-width: 1280px; width: 100%; }
+
+  /* ── Chip row ── */
+  .chip-row {
+    display: grid; grid-template-columns: 1fr 1fr 1fr;
+    gap: 14px; margin-bottom: 16px;
+  }
+  .chip {
+    height: 56px;
+    background: #ffffff;
+    border: 1px solid var(--grey-200);
+    border-radius: 10px;
+    font-size: 15px; font-weight: 700;
+    color: var(--grey-900);
+    cursor: pointer;
+    transition: all 0.15s;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    font-family: inherit;
+  }
+  .chip:hover { border-color: var(--blue-500); color: var(--blue-500); }
+  .chip.active { background: var(--blue-500); color: white; border-color: var(--blue-500); }
+  .chip .chip-count {
+    background: rgba(255,255,255,0.25);
+    color: inherit;
+    font-size: 12px; font-weight: 700;
+    padding: 2px 8px; border-radius: 999px;
+    min-width: 22px; text-align: center;
+  }
+  .chip:not(.active) .chip-count { background: var(--grey-100); color: var(--grey-600); }
+
+  /* ── Stat cards ── */
+  .stat-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 14px; margin-bottom: 32px;
+  }
+  .stat-card {
+    background: #ffffff;
+    border: 1px solid var(--grey-200);
+    border-radius: 12px;
+    padding: 22px 24px;
+    cursor: pointer;
+    transition: all 0.15s;
+    display: flex; align-items: center; justify-content: space-between;
+    text-decoration: none; color: inherit;
+  }
+  .stat-card:hover { border-color: var(--grey-300); box-shadow: 0 6px 18px rgba(15,23,42,0.06); }
+  .stat-card-left { min-width: 0; }
+  .stat-card-label { font-size: 13px; color: var(--grey-600); margin-bottom: 6px; }
+  .stat-card-value { font-size: 28px; font-weight: 800; color: var(--grey-900); line-height: 1; }
+  .stat-card-chev { color: var(--grey-400); flex-shrink: 0; }
+
+  /* ── Section ── */
+  .section { margin-bottom: 36px; }
+  .section-head {
+    display: flex; align-items: baseline; justify-content: space-between;
+    padding: 0 2px;
+    margin-bottom: 14px;
+  }
+  .section-title { font-size: 18px; font-weight: 800; color: var(--grey-900); }
+  .section-link {
+    font-size: 13px; color: var(--grey-500); font-weight: 600;
+    text-decoration: none; cursor: pointer;
+  }
+  .section-link:hover { color: var(--grey-700); }
+
+  /* ── Exam cards row (horizontal scroll) ── */
+  .cards-scroll {
+    position: relative;
+  }
+  .cards-row {
+    display: flex; gap: 14px;
+    overflow-x: auto;
+    padding: 2px 2px 18px;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: thin;
+  }
+  .cards-row::-webkit-scrollbar { height: 6px; }
+  .cards-row::-webkit-scrollbar-thumb { background: var(--grey-200); border-radius: 3px; }
+  .scroll-btn {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    width: 36px; height: 36px;
+    background: #ffffff;
+    border: 1px solid var(--grey-200);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(15,23,42,0.08);
+    z-index: 2;
+  }
+  .scroll-btn:hover { border-color: var(--blue-500); color: var(--blue-500); }
+  .scroll-btn.right { right: -8px; }
+  .scroll-btn.left { left: -8px; }
+  .scroll-btn.hidden { display: none; }
+
+  .exam-card {
+    width: 280px; flex-shrink: 0;
+    background: #ffffff;
+    border: 1px solid var(--grey-200);
+    border-radius: 14px;
+    padding: 18px 18px 16px;
+    scroll-snap-align: start;
+    display: flex; flex-direction: column;
+    transition: all 0.15s;
+  }
+  .exam-card:hover { transform: translateY(-2px); border-color: var(--grey-300); box-shadow: 0 12px 28px rgba(15,23,42,0.08); }
+  .exam-card.autostart-highlight {
+    border-color: var(--blue-500);
+    box-shadow: 0 0 0 3px rgba(46,132,255,0.15), 0 12px 28px rgba(46,132,255,0.18);
+    animation: pulseHighlight 1.6s ease-out 2;
+  }
+  @keyframes pulseHighlight {
+    0%, 100% { box-shadow: 0 0 0 3px rgba(46,132,255,0.15), 0 12px 28px rgba(46,132,255,0.18); }
+    50% { box-shadow: 0 0 0 6px rgba(46,132,255,0.25), 0 12px 32px rgba(46,132,255,0.28); }
+  }
+
+  .exam-card-head {
+    display: flex; align-items: center; gap: 8px;
+    margin-bottom: 12px;
+  }
+  .exam-tag {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 3px 9px; border-radius: 999px;
+    font-size: 11px; font-weight: 700;
+  }
+  .exam-tag.speaking { background: var(--blue-50); color: var(--blue-500); }
+  .exam-tag.diagnosis { background: var(--green-50); color: var(--green-500); }
+  .exam-tag-chev { color: inherit; opacity: 0.6; }
+
+  .exam-card-body { flex: 1; margin-bottom: 14px; }
+  .exam-card-meta {
+    display: flex; align-items: center; gap: 8px;
+    margin-bottom: 10px;
+    font-size: 11px; color: var(--grey-500);
+  }
+  .exam-thumb {
+    width: 36px; height: 36px; flex-shrink: 0;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #e8f3ff, #dbeafe);
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+    border: 1px solid var(--grey-150);
+  }
+  .exam-thumb svg { width: 22px; height: 22px; }
+  .exam-thumb.green { background: linear-gradient(135deg, #d1fae5, #a7f3d0); }
+  .exam-meta-inline { display: flex; flex-direction: column; gap: 2px; min-width: 0; flex: 1; }
+  .exam-meta-name { font-size: 13px; font-weight: 600; color: var(--grey-700); }
+  .exam-meta-date { font-size: 11px; color: var(--grey-500); }
+  .exam-card-title {
+    font-size: 15px; font-weight: 700; color: var(--grey-900);
+    line-height: 1.4; margin-bottom: 6px;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+  }
+  .exam-card-sub {
+    font-size: 12px; color: var(--grey-600);
+    display: flex; gap: 6px; align-items: center; flex-wrap: wrap;
+  }
+  .exam-card-sub .sep { color: var(--grey-300); }
+
+  .exam-card-foot {
+    display: flex; align-items: center; gap: 8px;
+    padding-top: 12px;
+    border-top: 1px solid var(--grey-100);
+  }
+  .badge {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 4px 10px; border-radius: 999px;
+    font-size: 11px; font-weight: 700;
+    white-space: nowrap;
+  }
+  .badge.ready { background: var(--green-50); color: var(--green-500); }
+  .badge.warn { background: var(--orange-50); color: var(--orange-500); }
+  .badge.published { background: var(--blue-50); color: var(--blue-500); }
+  .cta-start {
+    margin-left: auto;
+    background: var(--grey-900); color: white;
+    border: 0; border-radius: 8px;
+    padding: 7px 14px;
+    font-size: 12px; font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-family: inherit;
+  }
+  .cta-start:hover { background: var(--grey-800); transform: translateY(-1px); }
+  .cta-view {
+    margin-left: auto;
+    background: #ffffff; color: var(--blue-500);
+    border: 1.5px solid var(--blue-500); border-radius: 8px;
+    padding: 6px 14px;
+    font-size: 12px; font-weight: 700;
+    cursor: pointer; text-decoration: none;
+    transition: all 0.15s;
+  }
+  .cta-view:hover { background: var(--blue-50); }
+
+  /* ── Done section: list-style cards ── */
+  .done-row {
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .done-card {
+    background: #ffffff;
+    border: 1px solid var(--grey-200);
+    border-radius: 12px;
+    padding: 16px 18px;
+    display: flex; align-items: center; gap: 14px;
+    transition: all 0.15s;
+  }
+  .done-card:hover { border-color: var(--grey-300); box-shadow: 0 6px 16px rgba(15,23,42,0.05); }
+  .done-info { flex: 1; min-width: 0; }
+  .done-name { font-size: 15px; font-weight: 700; color: var(--grey-900); margin-bottom: 4px; }
+  .done-meta { font-size: 12px; color: var(--grey-600); display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .grade-pill {
+    display: inline-block;
+    background: var(--grey-900); color: white;
+    padding: 2px 10px;
+    border-radius: 999px;
+    font-size: 11px; font-weight: 800;
+  }
+
+  /* ── Notice ── */
+  .notice {
+    background: #ffffff;
+    border: 1px solid var(--grey-200);
+    border-radius: 12px;
+    padding: 18px 22px;
+    margin-top: 8px;
+  }
+  .notice-title { font-size: 13px; font-weight: 700; color: var(--grey-700); margin-bottom: 10px; }
+  .notice-list { list-style: none; padding: 0; margin: 0; }
+  .notice-list li {
+    padding: 4px 0;
+    font-size: 12.5px; color: var(--grey-700); line-height: 1.6;
+    display: flex; align-items: flex-start; gap: 8px;
+  }
+  .notice-list li::before { content: "•"; color: var(--grey-400); flex-shrink: 0; }
+  .notice-list strong { color: var(--grey-900); }
+  .pill-mini {
+    display: inline-block;
+    background: var(--grey-50);
+    border: 1px solid var(--grey-200);
+    color: var(--grey-600);
+    padding: 1px 8px; border-radius: 999px;
+    font-size: 11px; font-weight: 600;
+    margin-left: 4px; white-space: nowrap;
+  }
+
+  /* ── Identity confirmation modal ── */
+  .ic-overlay {
+    position: fixed; inset: 0;
+    background: rgba(15,23,42,0.6); backdrop-filter: blur(4px);
+    display: none; align-items: center; justify-content: center;
+    z-index: 1200; padding: 20px;
+  }
+  .ic-overlay.open { display: flex; animation: ic-fade 0.2s ease-out; }
+  @keyframes ic-fade { from { opacity: 0; } to { opacity: 1; } }
+  .ic-modal {
+    background: white;
+    border-radius: 20px;
+    width: min(460px, 100%);
+    max-height: 92vh; overflow-y: auto;
+    padding: 28px 26px 22px;
+    box-shadow: 0 24px 80px rgba(0,0,0,0.3);
+    animation: ic-pop 0.25s ease-out;
+  }
+  @keyframes ic-pop { from { transform: translateY(20px) scale(0.98); opacity: 0; } to { transform: none; opacity: 1; } }
+  .ic-step { font-size: 11px; font-weight: 700; color: var(--blue-500); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+  .ic-title { font-size: 20px; font-weight: 800; color: var(--grey-900); margin-bottom: 16px; line-height: 1.3; }
+  .ic-rows { background: var(--grey-50); border-radius: 12px; padding: 14px 16px; margin-bottom: 14px; }
+  .ic-row { display: flex; justify-content: space-between; padding: 6px 0; font-size: 13px; }
+  .ic-row + .ic-row { border-top: 1px solid var(--grey-200); }
+  .ic-row-label { color: var(--grey-500); }
+  .ic-row-value { font-weight: 700; color: var(--grey-900); }
+  .ic-check { display: flex; gap: 8px; align-items: flex-start; padding: 12px 0; font-size: 13px; color: var(--grey-700); cursor: pointer; }
+  .ic-check input { accent-color: var(--blue-500); margin-top: 2px; }
+  .ic-actions { display: flex; gap: 8px; margin-top: 12px; }
+  .ic-btn { flex: 1; padding: 12px; border-radius: 10px; font-size: 14px; font-weight: 700; cursor: pointer; border: none; }
+  .ic-btn.primary { background: var(--grey-900); color: white; }
+  .ic-btn.primary:disabled { background: var(--grey-300); cursor: not-allowed; }
+  .ic-btn.ghost { background: var(--grey-100); color: var(--grey-700); }
+
+  /* ── Mobile ── */
+  @media (max-width: 1024px) {
+    .sidebar { width: 200px; }
+    .chip-row, .stat-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 768px) {
+    .app { flex-direction: column; }
+    .sidebar {
+      position: relative; top: auto; height: auto;
+      width: 100%;
+      flex-direction: row; align-items: center;
+      padding: 8px 12px;
+      gap: 10px;
+    }
+    .sidebar-logo { height: auto; padding: 0; border: 0; }
+    .sidebar-profile { display: none; }
+    .sidebar-menu {
+      flex: 1; overflow-x: auto; overflow-y: hidden;
+      padding: 0; display: flex; gap: 4px;
+      white-space: nowrap;
+    }
+    .menu-item { padding: 8px 12px; flex-shrink: 0; }
+    .sidebar-footer { padding: 0; border: 0; }
+    .logout-btn { padding: 8px 14px; font-size: 12px; }
+    .topbar { padding: 0 16px; gap: 10px; height: 56px; }
+    .search-bar { height: 38px; }
+    .content { padding: 18px 16px 48px; }
+    .chip-row, .stat-grid { grid-template-columns: 1fr; }
+    .stat-card-value { font-size: 22px; }
+    .exam-card { width: 260px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- ── Sidebar ── -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
+        <rect width="32" height="32" rx="7" fill="#2e84ff"/>
+        <path d="M10 11h3v10h-3V11zm5 0h2.5l4 5v-5H24v10h-2.5l-4-5v5H15V11z" fill="white"/>
+      </svg>
+      <span class="sidebar-logo-text">Maropass</span>
+    </div>
+
+    <div class="sidebar-profile">
+      <div class="profile-avatar" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="#2e84ff"><circle cx="12" cy="9" r="4"/><path d="M4 21c0-4 4-7 8-7s8 3 8 7v1H4v-1z"/></svg>
+      </div>
+      <div class="profile-name" id="profileName">홍길동</div>
+      <div class="profile-bio" data-i18n="profile_bio">KoPASS 응시자 · 한국어 학습 중</div>
+    </div>
+
+    <nav class="sidebar-menu" aria-label="메뉴">
+      <a class="menu-item active" href="#" aria-current="page">
+        <span class="menu-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span>
+        <span data-i18n="menu_home">홈</span>
+      </a>
+      <a class="menu-item" href="ui-mypage.html">
+        <span class="menu-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
+        <span data-i18n="menu_my">MY</span>
+      </a>
+      <a class="menu-item" href="#">
+        <span class="menu-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l18-7-3 18-7-7-8-4z"/></svg></span>
+        <span data-i18n="menu_notice">공지사항</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <button class="logout-btn" onclick="logoutAndClose()" data-i18n="logout">로그아웃</button>
+    </div>
+  </aside>
+
+  <!-- ── Main ── -->
+  <main class="main">
+    <!-- Top bar -->
+    <header class="topbar">
+      <div class="search-bar">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" data-i18n-attr="search_placeholder" placeholder="응시할 시험을 검색하세요" />
+      </div>
+      <div class="topbar-actions">
+        <div class="topbar-locale" role="group" aria-label="locale">
+          <button class="active" onclick="setLocale('ko')">한국어</button>
+          <button onclick="setLocale('ja')">日本語</button>
+        </div>
+        <button class="icon-btn" aria-label="알림">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          <span class="dot"></span>
+        </button>
+        <button class="icon-btn" aria-label="채팅">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </button>
+        <div class="topbar-avatar" aria-label="내 프로필">
+          <svg viewBox="0 0 24 24" fill="#2e84ff"><circle cx="12" cy="9" r="4"/><path d="M4 21c0-4 4-7 8-7s8 3 8 7v1H4v-1z"/></svg>
+        </div>
+      </div>
+    </header>
+
+    <!-- Content -->
+    <div class="content">
+      <!-- Chip row -->
+      <div class="chip-row">
+        <button class="chip active" data-tab="available">
+          <span data-i18n="tab_available">응시 가능</span>
+          <span class="chip-count" id="countAvail">2</span>
+        </button>
+        <button class="chip" data-tab="done">
+          <span data-i18n="tab_done">응시 완료</span>
+          <span class="chip-count" id="countDone">1</span>
+        </button>
+        <button class="chip" data-tab="cert">
+          <span data-i18n="tab_cert">인증서</span>
+          <span class="chip-count" id="countCert">0</span>
+        </button>
+      </div>
+
+      <!-- Stat cards -->
+      <div class="stat-grid">
+        <a class="stat-card" href="#available">
+          <div class="stat-card-left">
+            <div class="stat-card-label" data-i18n="stat_avail_label">응시 가능 (결제된 시험)</div>
+            <div class="stat-card-value">2</div>
+          </div>
+          <svg class="stat-card-chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </a>
+        <a class="stat-card" href="#done">
+          <div class="stat-card-left">
+            <div class="stat-card-label" data-i18n="stat_done_label">응시 완료</div>
+            <div class="stat-card-value">1</div>
+          </div>
+          <svg class="stat-card-chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </a>
+        <a class="stat-card" href="#cert">
+          <div class="stat-card-left">
+            <div class="stat-card-label" data-i18n="stat_cert_label">보유 인증서</div>
+            <div class="stat-card-value">0</div>
+          </div>
+          <svg class="stat-card-chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </a>
+      </div>
+
+      <!-- 응시 가능 (가로 스크롤) -->
+      <section class="section" id="available">
+        <div class="section-head">
+          <h2 class="section-title" data-i18n="sec_avail_title">응시 가능 시험</h2>
+          <a class="section-link" data-i18n="link_view_all">전체보기 ›</a>
+        </div>
+
+        <div class="cards-scroll">
+          <div class="cards-row" id="availRow">
+            <!-- Card 1 -->
+            <div class="exam-card">
+              <div class="exam-card-head">
+                <span class="exam-tag speaking">
+                  <span data-i18n="tag_speaking">말하기</span>
+                  <svg class="exam-tag-chev" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+                </span>
+              </div>
+              <div class="exam-card-body">
+                <div class="exam-card-meta">
+                  <div class="exam-thumb"><svg viewBox="0 0 24 24" fill="#2272eb"><path d="M12 2a4 4 0 0 0-4 4v6a4 4 0 0 0 8 0V6a4 4 0 0 0-4-4zM5 12a7 7 0 0 0 14 0h-2a5 5 0 0 1-10 0H5zm6 8h2v2h-2z"/></svg></div>
+                  <div class="exam-meta-inline">
+                    <span class="exam-meta-name">TOPIK</span>
+                    <span class="exam-meta-date">결제일 2026.05.10</span>
+                  </div>
+                </div>
+                <div class="exam-card-title" lang="ko">TOPIK 말하기 초급</div>
+                <div class="exam-card-sub">
+                  <span>25분</span>
+                  <span class="sep">·</span>
+                  <span>23문항</span>
+                </div>
+              </div>
+              <div class="exam-card-foot">
+                <span class="badge ready" data-i18n="badge_ready">남은 12일</span>
+                <button class="cta-start"
+                  data-exam-name="TOPIK 말하기 초급"
+                  data-exam-mode="IBT 진단평가(말하기)"
+                  data-exam-period="2026/05/12 ~ 2026/05/24"
+                  data-exam-time="25"
+                  data-exam-questions="23"
+                  data-exam-d-day="D-12"
+                  data-exam-email="hong@example.com"
+                  data-next="ui-exam.html"
+                  data-i18n="btn_start">응시 시작</button>
+              </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="exam-card">
+              <div class="exam-card-head">
+                <span class="exam-tag diagnosis">
+                  <span data-i18n="tag_diagnosis">발음 진단</span>
+                  <svg class="exam-tag-chev" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+                </span>
+              </div>
+              <div class="exam-card-body">
+                <div class="exam-card-meta">
+                  <div class="exam-thumb green"><svg viewBox="0 0 24 24" fill="#03b26c"><path d="M12 2a4 4 0 0 0-4 4v6a4 4 0 0 0 8 0V6a4 4 0 0 0-4-4zM5 12a7 7 0 0 0 14 0h-2a5 5 0 0 1-10 0H5zm6 8h2v2h-2z"/></svg></div>
+                  <div class="exam-meta-inline">
+                    <span class="exam-meta-name">KoPASS</span>
+                    <span class="exam-meta-date">결제일 2026.05.12</span>
+                  </div>
+                </div>
+                <div class="exam-card-title" lang="ko">발음 집중 진단 (초급)</div>
+                <div class="exam-card-sub">
+                  <span>15분</span>
+                  <span class="sep">·</span>
+                  <span>10문항</span>
+                </div>
+              </div>
+              <div class="exam-card-foot">
+                <span class="badge warn" data-i18n="badge_d3">D-3 임박</span>
+                <button class="cta-start"
+                  data-exam-name="발음 집중 진단 (초급)"
+                  data-exam-mode="발음 진단(말하기)"
+                  data-exam-period="2026/05/12 ~ 2026/05/15"
+                  data-exam-time="15"
+                  data-exam-questions="10"
+                  data-exam-d-day="D-3"
+                  data-exam-email="hong@example.com"
+                  data-next="ui-exam.html"
+                  data-i18n="btn_start">응시 시작</button>
+              </div>
+            </div>
+          </div>
+          <button class="scroll-btn right" id="scrollRight" aria-label="다음">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+        </div>
+      </section>
+
+      <!-- 응시 완료 -->
+      <section class="section" id="done">
+        <div class="section-head">
+          <h2 class="section-title" data-i18n="sec_done_title">응시 완료 · 결과</h2>
+          <a class="section-link" data-i18n="link_view_all">전체보기 ›</a>
+        </div>
+
+        <div class="done-row">
+          <div class="done-card">
+            <div class="exam-thumb"><svg viewBox="0 0 24 24" fill="#6b7684"><path d="M12 2a4 4 0 0 0-4 4v6a4 4 0 0 0 8 0V6a4 4 0 0 0-4-4zM5 12a7 7 0 0 0 14 0h-2a5 5 0 0 1-10 0H5zm6 8h2v2h-2z"/></svg></div>
+            <div class="done-info">
+              <div class="done-name" lang="ko">TOPIK 말하기 초급 (1회차)</div>
+              <div class="done-meta">
+                <span>2025-09-30</span>
+                <span class="meta-sep">·</span>
+                <span data-i18n-html="meta_score_30">점수 <strong>30/200</strong></span>
+                <span class="grade-pill">1<span data-i18n="unit_grade">급</span></span>
+              </div>
+            </div>
+            <span class="badge published" data-i18n="badge_published">결과 공개</span>
+            <a class="cta-view" href="ui-result.html" data-i18n="btn_view">결과 보기 →</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- 안내 -->
+      <section class="section">
+        <div class="notice">
+          <div class="notice-title" data-i18n="notice_title">📌 응시 안내</div>
+          <ul class="notice-list">
+            <li data-i18n-html="notice_1">인증서·결과지 PDF 다운로드는 <strong>MaroPass 마이페이지</strong>에서 진행돼요.</li>
+            <li data-i18n-html="notice_2">응시 시작 시 <strong>본인 확인 → 환경 점검 게이트</strong> 순으로 통과합니다. 30일 내 동일 기기 통과 이력이 있으면 환경 점검은 자동 생략됩니다.</li>
+            <li data-i18n-html="notice_3">14일 응시 윈도우 정책은 MaroPass 마이페이지 참고 <span class="pill-mini" data-i18n="pill_review">표시 방식 검토 중</span></li>
+          </ul>
+        </div>
+      </section>
+    </div>
+  </main>
+</div>
+
+<!-- ── Identity confirmation modal ── -->
+<div class="ic-overlay" id="icOverlay" role="dialog" aria-modal="true">
+  <div class="ic-modal">
+    <div class="ic-step" data-i18n="ic_step">STEP 1 / 2 · 본인 확인</div>
+    <h2 class="ic-title" data-i18n="ic_title">응시 시작 전 본인 확인</h2>
+    <div class="ic-rows">
+      <div class="ic-row"><span class="ic-row-label" data-i18n="ic_name">이름</span><span class="ic-row-value" id="icName">홍길동</span></div>
+      <div class="ic-row"><span class="ic-row-label" data-i18n="ic_email">이메일</span><span class="ic-row-value" id="icEmail">hong@example.com</span></div>
+      <div class="ic-row"><span class="ic-row-label" data-i18n="ic_exam">시험명</span><span class="ic-row-value" id="icExam" lang="ko">TOPIK 말하기 초급</span></div>
+      <div class="ic-row"><span class="ic-row-label" data-i18n="ic_period">응시 가능 기간</span><span class="ic-row-value" id="icPeriod">2026/05/12 ~ 2026/05/24</span></div>
+    </div>
+    <label class="ic-check">
+      <input type="checkbox" id="icAgree">
+      <span data-i18n-html="ic_agree">위 정보가 본인의 응시 정보임을 확인하며, <strong>본 시험은 단일 시도</strong>로 진행되고 시간 만료 시 자동 종료되는 점에 동의합니다.</span>
+    </label>
+    <div class="ic-actions">
+      <button class="ic-btn ghost" onclick="closeIdentityModal()" data-i18n="ic_cancel">취소</button>
+      <button class="ic-btn primary" id="icContinue" disabled onclick="proceedAfterIdentity()" data-i18n="ic_continue">환경 점검으로 →</button>
+    </div>
+  </div>
+</div>
+
+<!-- Index demo link -->
+<a href="../ui-index.html" style="position:fixed; bottom:16px; left:16px; background:rgba(15,23,42,0.85); color:white; padding:8px 14px; border-radius:999px; text-decoration:none; font-size:12px; font-weight:600; z-index:40;">← UI 인덱스</a>
+
+<script>
+// ── i18n ──────────────────────────────────────────────
+const i18n = {
+  ko: {
+    profile_bio: 'KoPASS 응시자 · 한국어 학습 중',
+    logout: '로그아웃',
+    menu_home: '홈', menu_etube: '이튜브', menu_my: 'MY', menu_category: '카테고리',
+    menu_report: '학습 보고서', menu_shortclass: '숏클래스', menu_board: '사내게시판',
+    menu_ranking: '랭킹', menu_live: 'LIVE', menu_notice: '공지사항',
+    menu_archive: '보관함', menu_safety: '산업안전보건교육',
+    search_placeholder: '응시할 시험을 검색하세요',
+    tab_available: '응시 가능', tab_done: '응시 완료', tab_cert: '인증서',
+    stat_avail_label: '응시 가능 (결제된 시험)',
+    stat_done_label: '응시 완료',
+    stat_cert_label: '보유 인증서',
+    sec_avail_title: '응시 가능 시험',
+    sec_done_title: '응시 완료 · 결과',
+    link_view_all: '전체보기 ›',
+    tag_speaking: '말하기', tag_diagnosis: '발음 진단',
+    unit_grade: '급',
+    badge_ready: '남은 12일', badge_d3: 'D-3 임박', badge_published: '결과 공개',
+    meta_score_30: '점수 <strong>30/200</strong>',
+    btn_start: '응시 시작', btn_view: '결과 보기 →',
+    notice_title: '📌 응시 안내',
+    notice_1: '인증서·결과지 PDF 다운로드는 <strong>MaroPass 마이페이지</strong>에서 진행돼요.',
+    notice_2: '응시 시작 시 <strong>본인 확인 → 환경 점검 게이트</strong> 순으로 통과합니다. 30일 내 동일 기기 통과 이력이 있으면 환경 점검은 자동 생략됩니다.',
+    notice_3: '14일 응시 윈도우 정책은 MaroPass 마이페이지 참고 <span class="pill-mini">표시 방식 검토 중</span>',
+    pill_review: '표시 방식 검토 중',
+    ic_step: 'STEP 1 / 2 · 본인 확인', ic_title: '응시 시작 전 본인 확인',
+    ic_name: '이름', ic_email: '이메일', ic_exam: '시험명', ic_period: '응시 가능 기간',
+    ic_agree: '위 정보가 본인의 응시 정보임을 확인하며, <strong>본 시험은 단일 시도</strong>로 진행되고 시간 만료 시 자동 종료되는 점에 동의합니다.',
+    ic_cancel: '취소', ic_continue: '환경 점검으로 →',
+  },
+  ja: {
+    profile_bio: 'KoPASS 受験者 · 韓国語学習中',
+    logout: 'ログアウト',
+    menu_home: 'ホーム', menu_etube: 'eチューブ', menu_my: 'MY', menu_category: 'カテゴリ',
+    menu_report: '学習レポート', menu_shortclass: 'ショートクラス', menu_board: '社内掲示板',
+    menu_ranking: 'ランキング', menu_live: 'LIVE', menu_notice: 'お知らせ',
+    menu_archive: '保管箱', menu_safety: '産業安全保健教育',
+    search_placeholder: '受験する試験を検索',
+    tab_available: '受験可能', tab_done: '受験完了', tab_cert: '証明書',
+    stat_avail_label: '受験可能 (決済済み)',
+    stat_done_label: '受験完了',
+    stat_cert_label: '保有証明書',
+    sec_avail_title: '受験可能な試験',
+    sec_done_title: '受験完了 · 結果',
+    link_view_all: 'すべて見る ›',
+    tag_speaking: 'スピーキング', tag_diagnosis: '発音診断',
+    unit_grade: '級',
+    badge_ready: '残り 12日', badge_d3: 'D-3 間近', badge_published: '結果公開',
+    meta_score_30: '点数 <strong>30/200</strong>',
+    btn_start: '受験開始', btn_view: '結果を見る →',
+    notice_title: '📌 受験のご案内',
+    notice_1: '証明書・結果レポートPDFのダウンロードは<strong>MaroPass のマイページ</strong>から行います。',
+    notice_2: '受験開始時には<strong>本人確認 → 動作環境チェックゲート</strong>の順で通過します。30日以内に同じ端末で通過済みの場合、環境チェックは自動的にスキップされます。',
+    notice_3: '14日の受験ウィンドウポリシーはMaroPass のマイページをご確認ください <span class="pill-mini">表示方法を検討中</span>',
+    pill_review: '表示方法を検討中',
+    ic_step: 'STEP 1 / 2 · 本人確認', ic_title: '受験開始前の本人確認',
+    ic_name: '氏名', ic_email: 'メール', ic_exam: '試験名', ic_period: '受験可能期間',
+    ic_agree: '上記の情報がご本人の受験情報であることを確認し、<strong>本試験は単一試行</strong>で進行され、時間切れ時に自動終了することに同意します。',
+    ic_cancel: 'キャンセル', ic_continue: '環境チェックへ →',
+  }
+};
+let locale = localStorage.getItem('kopass_main_locale') || 'ko';
+function t(k) { return i18n[locale]?.[k] ?? i18n.ko?.[k] ?? k; }
+function setLocale(loc) {
+  locale = loc; localStorage.setItem('kopass_main_locale', loc);
+  document.documentElement.lang = loc;
+  document.querySelectorAll('[data-i18n]').forEach(el => el.textContent = t(el.getAttribute('data-i18n')));
+  document.querySelectorAll('[data-i18n-html]').forEach(el => el.innerHTML = t(el.getAttribute('data-i18n-html')));
+  document.querySelectorAll('[data-i18n-attr]').forEach(el => {
+    const key = el.getAttribute('data-i18n-attr');
+    if (el.tagName === 'INPUT') el.setAttribute('placeholder', t(key));
+  });
+  document.querySelectorAll('.topbar-locale button').forEach((b, i) => b.classList.toggle('active', (i===0&&loc==='ko')||(i===1&&loc==='ja')));
+}
+setLocale(locale);
+
+// ── Tab chip behavior (scroll-to + active state) ──────
+document.querySelectorAll('.chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+    chip.classList.add('active');
+    const target = chip.dataset.tab;
+    const map = { available: '#available', done: '#done', cert: null };
+    if (map[target]) {
+      const el = document.querySelector(map[target]);
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+});
+
+// ── Horizontal scroll button ──────────────────────────
+const scrollRight = document.getElementById('scrollRight');
+const availRow = document.getElementById('availRow');
+if (scrollRight && availRow) {
+  scrollRight.addEventListener('click', () => {
+    availRow.scrollBy({ left: 300, behavior: 'smooth' });
+  });
+  const updateBtn = () => {
+    const max = availRow.scrollWidth - availRow.clientWidth;
+    scrollRight.classList.toggle('hidden', max <= 0 || availRow.scrollLeft >= max - 4);
+  };
+  availRow.addEventListener('scroll', updateBtn);
+  window.addEventListener('resize', updateBtn);
+  setTimeout(updateBtn, 100);
+}
+
+// ── Logout ────────────────────────────────────────────
+function logoutAndClose() {
+  try { sessionStorage.removeItem('kopass_exam_sso'); } catch (e) {}
+  try { window.close(); } catch (e) {}
+  setTimeout(() => { if (!window.closed) location.href = '../service-site/ui-mypage.html'; }, 200);
+}
+
+// ── 응시 시작 → 본인 확인 modal → 환경 점검 → ui-exam.html ─────
+const icOverlay = document.getElementById('icOverlay');
+const icAgree = document.getElementById('icAgree');
+const icContinue = document.getElementById('icContinue');
+let pendingExam = null;
+
+function openIdentityModal(data) {
+  pendingExam = data;
+  document.getElementById('icName').textContent = '홍길동';
+  document.getElementById('icEmail').textContent = data.email || 'hong@example.com';
+  document.getElementById('icExam').textContent = data.name || '';
+  document.getElementById('icPeriod').textContent = data.period || '';
+  icAgree.checked = false;
+  icContinue.disabled = true;
+  icOverlay.classList.add('open');
+}
+function closeIdentityModal() { icOverlay.classList.remove('open'); pendingExam = null; }
+icAgree.addEventListener('change', () => { icContinue.disabled = !icAgree.checked; });
+icOverlay.addEventListener('click', (e) => { if (e.target === icOverlay) closeIdentityModal(); });
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && icOverlay.classList.contains('open')) closeIdentityModal(); });
+
+function proceedAfterIdentity() {
+  if (!pendingExam) return;
+  const next = pendingExam.next || 'ui-exam.html';
+  icOverlay.classList.remove('open');
+  if (typeof window.kopassEnvCheckIsValid === 'function' && window.kopassEnvCheckIsValid(30)) {
+    location.href = next;
+  } else if (typeof window.kopassOpenEnvCheck === 'function') {
+    window.kopassOpenEnvCheck({
+      next: next,
+      context: (pendingExam.name || '') + ' — 응시 직전 환경 점검',
+      skipAgree: true
+    });
+  } else {
+    location.href = next;
+  }
+}
+
+// CTA bind — data-exam-start 가 아닌 자체 핸들러로 same-window 처리
+document.querySelectorAll('.cta-start').forEach(btn => {
+  btn.addEventListener('click', (e) => {
+    e.preventDefault();
+    openIdentityModal({
+      name: btn.dataset.examName || '',
+      mode: btn.dataset.examMode || '',
+      period: btn.dataset.examPeriod || '',
+      time: btn.dataset.examTime || '',
+      questions: btn.dataset.examQuestions || '',
+      dDay: btn.dataset.examDDay || '',
+      email: btn.dataset.examEmail || '',
+      next: btn.dataset.next || 'ui-exam.html'
+    });
+  });
+});
+
+// ── Autostart from service-site (MaroPass mypage 응시하기 → 새 창) ──
+// URL param ?exam=<name>&autostart=1 → 해당 카드 강조 + 본인 확인 모달 자동 오픈
+(function autostartFromUrl() {
+  const params = new URLSearchParams(location.search);
+  const examName = params.get('exam');
+  const autostart = params.get('autostart') === '1';
+  if (!examName) return;
+
+  const btn = Array.from(document.querySelectorAll('.cta-start'))
+    .find(b => (b.dataset.examName || '').trim() === examName.trim());
+  if (!btn) return;
+
+  const card = btn.closest('.exam-card');
+  if (card) {
+    card.classList.add('autostart-highlight');
+    card.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
+  }
+
+  if (autostart) {
+    setTimeout(() => btn.click(), 420);
+  }
+})();
+</script>
+<script src="../shared/env-check-modal.js"></script>
+</body>
+</html>
