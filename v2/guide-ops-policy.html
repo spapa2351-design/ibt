@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MaroPass 운영정책 가이드</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  html { scroll-behavior: smooth; }
+  body { font-family: -apple-system, 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif; font-size: 14px; }
+
+  /* ── 사이드바 ── */
+  #sidebar { width: 240px; min-width: 240px; }
+  .nav-group-title { font-size: 10.5px; font-weight: 700; color: #94a3b8; letter-spacing: .08em; text-transform: uppercase; padding: 14px 14px 5px; }
+  .nav-item { display: flex; align-items: center; gap: 8px; padding: 6px 14px; border-radius: 7px; font-size: 13px; color: #475569; cursor: pointer; transition: all .12s; user-select: none; }
+  .nav-item:hover { background: #f1f5f9; color: #1e293b; }
+  .nav-item.active { background: #e8f3ff; color: #2272eb; font-weight: 600; }
+  .nav-item.active .nav-dot { background: #2e84ff; }
+  .nav-dot { width: 7px; height: 7px; border-radius: 50%; background: #cbd5e1; flex-shrink: 0; transition: background .12s; }
+  .nav-divider { border-top: 1px solid #f1f5f9; margin: 6px 10px; }
+
+  /* ── 페이지 ── */
+  #content { flex: 1; min-width: 0; }
+  .page { display: none; }
+  .page.active { display: block; }
+  .page-tag { font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: .1em; margin-bottom: 5px; }
+  .page-title { font-size: 24px; font-weight: 800; color: #0f172a; margin-bottom: 8px; }
+  .page-desc { font-size: 13.5px; color: #64748b; line-height: 1.7; max-width: 720px; margin-bottom: 28px; }
+
+  /* ── 섹션 ── */
+  .guide-section { margin-bottom: 40px; }
+  .section-title { font-size: 15px; font-weight: 700; color: #1e293b; margin-bottom: 8px; padding-bottom: 7px; border-bottom: 2px solid #bfdbfe; display: flex; align-items: center; gap: 6px; }
+  .section-tag { font-size: 10px; font-weight: 700; background: #dbeafe; color: #1d4ed8; padding: 2px 7px; border-radius: 4px; margin-left: 8px; }
+
+  /* ── 엑셀 스타일 테이블 ── */
+  .xl-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  .xl-table th { background: #f1f5f9; color: #374151; font-weight: 700; text-align: left; padding: 7px 10px; border: 1px solid #d1d5db; white-space: nowrap; font-size: 12px; }
+  .xl-table td { padding: 6px 10px; border: 1px solid #e5e7eb; color: #374151; vertical-align: top; line-height: 1.5; }
+  .xl-table tr:hover td { background: #f8fafc; }
+  .xl-table tr:nth-child(even) td { background: #fafafa; }
+  .xl-table tr:nth-child(even):hover td { background: #f1f5f9; }
+
+  /* ── 배지 ── */
+  .b { display: inline-flex; align-items: center; padding: 1px 7px; border-radius: 999px; font-size: 11px; font-weight: 700; white-space: nowrap; }
+  .b-green { background: #d1fae5; color: #065f46; }
+  .b-orange { background: #ffedd5; color: #9a3412; }
+  .b-yellow { background: #fef9c3; color: #854d0e; }
+  .b-red { background: #fee2e2; color: #b91c1c; }
+  .b-slate { background: #f1f5f9; color: #475569; }
+  .b-blue { background: #dbeafe; color: #1d4ed8; }
+  .b-violet { background: #ede9fe; color: #6d28d9; }
+
+  /* ── callout ── */
+  .callout { border-left: 3px solid; padding: 10px 14px; border-radius: 0 7px 7px 0; margin: 14px 0; font-size: 13px; line-height: 1.6; }
+  .callout-red { border-color: #ef4444; background: #fef2f2; color: #7f1d1d; }
+  .callout-blue { border-color: #3b82f6; background: #eff6ff; color: #1e3a8a; }
+  .callout-amber { border-color: #f59e0b; background: #fffbeb; color: #78350f; }
+  .callout-green { border-color: #10b981; background: #ecfdf5; color: #065f46; }
+
+  /* ── step ── */
+  .step-row { display: flex; align-items: flex-start; gap: 12px; padding: 10px 0; border-bottom: 1px solid #f1f5f9; }
+  .step-row:last-child { border-bottom: none; }
+  .step-num { width: 24px; height: 24px; border-radius: 50%; background: #2e84ff; color: white; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+  .step-body { flex: 1; }
+  .step-action { font-weight: 600; font-size: 13.5px; color: #1e293b; }
+  .step-note { font-size: 12px; color: #64748b; margin-top: 3px; }
+
+  /* ── 검색 ── */
+  #search-wrap { position: relative; }
+  #search-input { width: 220px; padding: 5px 10px 5px 32px; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 13px; color: #334155; background: #f8fafc url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E") no-repeat 10px center; outline: none; transition: border-color .15s, width .2s; }
+  #search-input:focus { border-color: #2e84ff; background-color: #fff; width: 280px; }
+  #search-input::placeholder { color: #94a3b8; }
+  #search-drop { position: absolute; top: calc(100% + 6px); right: 0; width: 320px; background: white; border: 1px solid #e2e8f0; border-radius: 10px; box-shadow: 0 8px 24px rgba(0,0,0,.1); z-index: 200; display: none; max-height: 340px; overflow-y: auto; }
+  #search-drop.show { display: block; }
+  .sr-group { font-size: 10px; font-weight: 700; color: #94a3b8; text-transform: uppercase; padding: 8px 12px 3px; letter-spacing: .06em; }
+  .sr-item { display: flex; align-items: center; gap: 8px; padding: 7px 12px; cursor: pointer; transition: background .1s; font-size: 13px; color: #334155; }
+  .sr-item:hover { background: #e8f3ff; color: #2272eb; }
+  .sr-item .sr-cat { font-size: 10px; color: #94a3b8; margin-left: auto; white-space: nowrap; }
+  .sr-empty { padding: 16px 12px; text-align: center; color: #94a3b8; font-size: 13px; }
+
+  /* ── 모바일 사이드바 ── */
+  #mobile-menu-btn { display: none; }
+  #sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 999; }
+  #sidebar-overlay.show { display: block; }
+  @media (max-width: 900px) {
+    #mobile-menu-btn { display: flex; }
+    #sidebar { position: fixed !important; top: 0 !important; left: 0 !important; height: 100vh !important; z-index: 1000; width: 240px !important; min-width: 0 !important; background: white !important; transform: translateX(-100%); transition: transform 0.25s ease; }
+    #sidebar.mobile-open { transform: translateX(0); box-shadow: 4px 0 24px rgba(0,0,0,0.25); }
+    .version-badge { display: none; }
+    table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  }
+  @media (max-width: 768px) { #content { padding-left: 1.5rem !important; padding-right: 1.5rem !important; } }
+  @media (max-width: 640px) {
+    #content { padding-left: 1rem !important; padding-right: 1rem !important; }
+    .page-title { font-size: 20px !important; }
+    #search-input { width: 120px !important; }
+  }
+</style>
+</head>
+<body class="bg-slate-50">
+
+<div id="sidebar-overlay" onclick="closeMobileSidebar()"></div>
+
+<!-- Top bar -->
+<header class="sticky top-0 z-50 bg-white border-b border-slate-200 flex items-center px-3 sm:px-6 gap-2 sm:gap-3" style="height:52px">
+  <button id="mobile-menu-btn" onclick="toggleMobileSidebar()" class="items-center justify-center w-8 h-8 rounded-lg text-slate-500 hover:bg-slate-100 transition-colors flex-shrink-0" aria-label="메뉴 열기">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+  </button>
+  <div class="flex items-center gap-2">
+    <div class="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0" style="background:linear-gradient(135deg,#2e84ff,#03b26c)">
+      <span class="text-white text-xs font-bold">MP</span>
+    </div>
+    <span class="font-bold text-slate-800 truncate">MaroPass 운영정책 가이드</span>
+  </div>
+  <div class="flex-1"></div>
+  <div id="search-wrap">
+    <input id="search-input" type="text" placeholder="정책 검색..." autocomplete="off" oninput="onSearch(this.value)" onfocus="onSearch(this.value)" onblur="setTimeout(()=>closeDrop(),180)">
+    <div id="search-drop"></div>
+  </div>
+  <span class="version-badge text-xs text-slate-400 bg-slate-100 px-2.5 py-1 rounded-full ml-3">일본 오픈 · v1.0 · 2026-07-20</span>
+  <span class="text-xs bg-emerald-100 text-emerald-800 px-2.5 py-1 rounded-full ml-1.5 font-bold border border-emerald-300">📍 운영정책 SSOT</span>
+</header>
+
+<script>
+function toggleMobileSidebar() { document.getElementById('sidebar').classList.toggle('mobile-open'); document.getElementById('sidebar-overlay').classList.toggle('show'); }
+function closeMobileSidebar() { document.getElementById('sidebar').classList.remove('mobile-open'); document.getElementById('sidebar-overlay').classList.remove('show'); }
+</script>
+
+<div class="flex" style="min-height:calc(100vh - 52px)">
+
+<!-- Sidebar -->
+<aside id="sidebar" class="border-r border-slate-200 bg-white overflow-y-auto sticky self-start" style="top:52px;height:calc(100vh - 52px)">
+  <div class="py-3">
+    <div class="nav-group-title">개요</div>
+    <div class="nav-item active" onclick="showPage('overview',this)"><span class="nav-dot"></span>가이드 개요</div>
+
+    <div class="nav-divider"></div>
+    <div class="nav-group-title">1. 결제 · PG</div>
+    <div class="nav-item" onclick="showPage('pg-provider',this)"><span class="nav-dot"></span>PG 사업자 (GMO-PG)</div>
+    <div class="nav-item" onclick="showPage('pg-methods',this)"><span class="nav-dot"></span>지원 결제수단</div>
+    <div class="nav-item" onclick="showPage('pg-qr',this)"><span class="nav-dot"></span>QR 결제 방식</div>
+    <div class="nav-item" onclick="showPage('pg-settle',this)"><span class="nav-dot"></span>정산</div>
+
+    <div class="nav-divider"></div>
+    <div class="nav-group-title">2. 영수증 · 適格請求書</div>
+    <div class="nav-item" onclick="showPage('receipt-issuer',this)"><span class="nav-dot"></span>발행 주체</div>
+    <div class="nav-item" onclick="showPage('receipt-invoice',this)"><span class="nav-dot"></span>인보이스 필수 6항목</div>
+    <div class="nav-item" onclick="showPage('receipt-tax',this)"><span class="nav-dot"></span>소비세 계산</div>
+
+    <div class="nav-divider"></div>
+    <div class="nav-group-title">3. 시험 운영</div>
+    <div class="nav-item" onclick="showPage('exam-build',this)"><span class="nav-dot"></span>시험 구성</div>
+    <div class="nav-item" onclick="showPage('exam-grading',this)"><span class="nav-dot"></span>채점 · 결과 공개</div>
+    <div class="nav-item" onclick="showPage('exam-takers',this)"><span class="nav-dot"></span>응시자 관리</div>
+    <div class="nav-item" onclick="showPage('exam-questions',this)"><span class="nav-dot"></span>문항 스냅샷 · 출제 이력</div>
+
+    <div class="nav-divider"></div>
+    <div class="nav-group-title">4. 성적 · 등급</div>
+    <div class="nav-item" onclick="showPage('grade-system',this)"><span class="nav-dot"></span>진단 등급 체계</div>
+    <div class="nav-item" onclick="showPage('certificate',this)"><span class="nav-dot"></span>인증서</div>
+
+    <div class="nav-divider"></div>
+    <div class="nav-group-title">5. 매출 · 권한</div>
+    <div class="nav-item" onclick="showPage('revenue-perm',this)"><span class="nav-dot"></span>매출 열람 권한</div>
+    <div class="nav-item" onclick="showPage('stats-page',this)"><span class="nav-dot"></span>통계·매출 화면</div>
+
+    <div class="nav-divider"></div>
+    <div class="nav-group-title">6. 관리자 계정</div>
+    <div class="nav-item" onclick="showPage('admin-accounts',this)"><span class="nav-dot"></span>부관리자 관리</div>
+
+    <div class="nav-divider"></div>
+    <div class="nav-group-title">부록</div>
+    <div class="nav-item" onclick="showPage('todo',this)"><span class="nav-dot"></span>후속 과제 (TODO)</div>
+  </div>
+</aside>
+
+<!-- Content -->
+<main id="content" class="px-10 py-9 max-w-4xl">
+
+<!-- 개요 -->
+<div id="page-overview" class="page active">
+  <div class="page-tag">Overview</div>
+  <div class="page-title">MaroPass 운영정책 가이드</div>
+  <div class="page-desc">일본인 한국어 학습자용 TOPIK 말하기 진단 서비스(MaroPass)의 결제·영수증·성적 등급·관리자 권한 운영 규칙을 정리한 단일 기준 문서입니다. 기능 단위 상세는 <strong>기능명세(feature-spec)</strong>, 1차 오픈 라이트 정책은 <strong>docs/04-policy</strong>를 참조하세요.</div>
+
+  <div class="guide-section">
+    <div class="section-title">핵심 원칙 <span class="section-tag">3</span></div>
+    <div class="mt-3 space-y-0">
+      <div class="step-row"><div class="step-num">1</div><div class="step-body"><div class="step-action">일본 기준으로 운영한다</div><div class="step-note">서비스는 일본에서 오픈하며 결제·영수증·세금은 모두 일본 제도(GMO-PG·適格請求書·소비세 10%)를 따른다.</div></div></div>
+      <div class="step-row"><div class="step-num">2</div><div class="step-body"><div class="step-action">1차 오픈은 예외를 자동화하지 않고 운영자가 수동 처리한다</div><div class="step-note">자동 분기·매트릭스 같은 무거운 운영 도구는 라운드 2 이후. (→ docs/04-policy)</div></div></div>
+      <div class="step-row"><div class="step-num">3</div><div class="step-body"><div class="step-action">기능명세를 정본으로 한다</div><div class="step-note">명세에 없는 개념(고정 급수·수료/미수료·합격/불합격)은 화면에서 쓰지 않는다.</div></div></div>
+    </div>
+  </div>
+
+  <div class="guide-section">
+    <div class="section-title">한눈에 보기</div>
+    <div class="overflow-x-auto mt-3">
+      <table class="xl-table">
+        <thead><tr><th style="width:130px">영역</th><th style="width:150px">핵심</th><th>요지</th></tr></thead>
+        <tbody>
+          <tr><td>결제 · PG</td><td><span class="b b-blue">GMO-PG</span></td><td>일본 PG. 신용카드 + QR(코드결제). QR은 Webhook 기준 확정</td></tr>
+          <tr><td>영수증</td><td><span class="b b-violet">適格請求書</span></td><td>가맹점이 발행. 인보이스 6항목 + 소비세 10% 세込 역산</td></tr>
+          <tr><td>성적 등급</td><td><span class="b b-green">진단 A·B·C</span></td><td>급수·수료·합격/불합격 없음 (모의고사·진단평가)</td></tr>
+          <tr><td>매출 · 권한</td><td><span class="b b-orange">최고관리자</span></td><td>통계 화면은 최고관리자 전용, 매출은 권한자만</td></tr>
+          <tr><td>관리자 계정</td><td><span class="b b-slate">RBAC</span></td><td>최고/부관리자, 권한 설정으로 역할 결정</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- 1-1 PG 사업자 -->
+<div id="page-pg-provider" class="page">
+  <div class="page-tag">1. 결제 · PG</div>
+  <div class="page-title">PG 사업자 — GMO-PG</div>
+  <div class="page-desc">결제 대행은 일본 최대 결제사인 GMO Payment Gateway(GMO-PG)의 PG 멀티페이먼트 서비스를 사용합니다.</div>
+
+  <div class="guide-section">
+    <div class="section-title">기본 정보</div>
+    <div class="overflow-x-auto mt-3">
+      <table class="xl-table">
+        <tbody>
+          <tr><th style="width:150px">사업자</th><td>GMO Payment Gateway (GMO-PG) · PG 멀티페이먼트 서비스</td></tr>
+          <tr><th>개발자 문서</th><td>docs.gmo-pg.com/mulpay <span class="b b-yellow">일본어 전용</span></td></tr>
+          <tr><th>연동 타입</th><td><strong>OpenAPI Type</strong>(정밀 제어) 또는 <strong>Link Type Plus</strong>(결제창 리다이렉트·빠른 구축)</td></tr>
+          <tr><th>보안</th><td>신용카드 3D Secure(EMV 3DS)·토큰화 지원</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout callout-blue">
+      초기 구축은 <strong>Link Type Plus</strong>(결제창 리다이렉트)가 가장 빠릅니다. 결제 상태·정산을 어드민에서 직접 관리해야 하면 <strong>OpenAPI Type</strong>을 권장합니다.
+    </div>
+  </div>
+</div>
+
+<!-- 1-2 결제수단 -->
+<div id="page-pg-methods" class="page">
+  <div class="page-tag">1. 결제 · PG</div>
+  <div class="page-title">지원 결제수단</div>
+  <div class="page-desc">일본 학습자 대상이므로 매장용 QR스캔 단말이 아니라 온라인 웹 결제 수단을 사용합니다.</div>
+
+  <div class="guide-section">
+    <div class="section-title">결제수단 3종</div>
+    <div class="overflow-x-auto mt-3">
+      <table class="xl-table">
+        <thead><tr><th style="width:120px">수단</th><th style="width:170px">표기</th><th>비고</th></tr></thead>
+        <tbody>
+          <tr><td><span class="b b-blue">신용카드</span></td><td>クレジットカード</td><td>3D Secure(EMV 3DS)·토큰화</td></tr>
+          <tr><td><span class="b b-green">QR(코드결제)</span></td><td>QR / コード決済</td><td>PayPay · d払い · 楽天ペイ · メルペイ · au PAY 등</td></tr>
+          <tr><td><span class="b b-slate">편의점</span></td><td>コンビニ払い</td><td>유저 결제내역에 존재</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout callout-amber">
+      <strong>PayPay는 일본 1위 QR결제 앱</strong>(소프트뱅크 계열)으로 "QR결제"의 대표격입니다. 이름이 비슷한 <strong>PayPal(미국)과는 무관</strong>합니다.
+    </div>
+  </div>
+</div>
+
+<!-- 1-3 QR 결제 방식 -->
+<div id="page-pg-qr" class="page">
+  <div class="page-tag">1. 결제 · PG</div>
+  <div class="page-title">QR 결제 방식</div>
+  <div class="page-desc">QR(코드결제)는 매장 QR스캔이 아니라 웹 리다이렉트·앱연동 방식입니다. 카드 결제와 근본적으로 다르므로 별도 처리가 필요합니다.</div>
+
+  <div class="guide-section">
+    <div class="section-title">기기별 흐름</div>
+    <div class="overflow-x-auto mt-3">
+      <table class="xl-table">
+        <thead><tr><th style="width:90px">기기</th><th>흐름</th></tr></thead>
+        <tbody>
+          <tr><td><span class="b b-blue">PC</span></td><td>결제창에 <strong>QR 표시</strong> → 휴대폰 앱으로 스캔 → 앱에서 승인</td></tr>
+          <tr><td><span class="b b-green">모바일</span></td><td><strong>앱-스위치(딥링크)</strong>로 결제앱 바로 실행 → 앱에서 승인 (QR 스캔 없음)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="guide-section">
+    <div class="section-title">기술 플로우</div>
+    <div class="mt-3 space-y-0">
+      <div class="step-row"><div class="step-num">1</div><div class="step-body"><div class="step-action">결제 시작</div><div class="step-note">회원이 QR 선택 → MaroPass 서버가 GMO에 거래등록·결제실행 요청 → GMO가 결제 시작 URL 반환</div></div></div>
+      <div class="step-row"><div class="step-num">2</div><div class="step-body"><div class="step-action">리다이렉트</div><div class="step-note">브라우저를 GMO→Pay사로 이동 (PC=QR 표시 / 모바일=앱 실행)</div></div></div>
+      <div class="step-row"><div class="step-num">3</div><div class="step-body"><div class="step-action">승인</div><div class="step-note">사용자가 결제 앱에서 승인</div></div></div>
+      <div class="step-row"><div class="step-num">4</div><div class="step-body"><div class="step-action">결과 회신 2채널</div><div class="step-note">① 브라우저가 리턴 URL로 복귀(완료화면) ② GMO → 서버로 결과통지(Webhook)</div></div></div>
+      <div class="step-row"><div class="step-num">5</div><div class="step-body"><div class="step-action">확정</div><div class="step-note">서버가 상태 검증 후 주문 완료 처리</div></div></div>
+    </div>
+    <div class="callout callout-red">
+      <strong>결제 확정은 화면 복귀가 아니라 Webhook 기준으로 처리합니다.</strong> 사용자가 복귀하지 않아도 결제는 성립될 수 있습니다.
+    </div>
+    <div class="callout callout-amber">
+      외부 앱 왕복이 있어 <strong>대기(pending) 상태</strong>가 존재합니다 → 결제 목록 상태 배지에 반영합니다.
+    </div>
+  </div>
+</div>
+
+<!-- 1-4 정산 -->
+<div id="page-pg-settle" class="page">
+  <div class="page-tag">1. 결제 · PG</div>
+  <div class="page-title">정산</div>
+  <div class="page-desc">일본 PG 정산 주기와 정산 예정액 계산 기준입니다.</div>
+  <div class="guide-section">
+    <div class="section-title">정산 기준</div>
+    <div class="overflow-x-auto mt-3">
+      <table class="xl-table">
+        <thead><tr><th style="width:180px">항목</th><th>기준</th></tr></thead>
+        <tbody>
+          <tr><td>신용카드 정산</td><td>T+7</td></tr>
+          <tr><td>QR(코드결제) 정산</td><td>T+3</td></tr>
+          <tr><td>정산 예정액</td><td>매출 − 환불</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- 2-1 영수증 발행 주체 -->
+<div id="page-receipt-issuer" class="page">
+  <div class="page-tag">2. 영수증 · 適格請求書</div>
+  <div class="page-title">발행 주체</div>
+  <div class="page-desc">구매자용 영수증은 GMO-PG가 아니라 가맹점(MaroPass)이 직접 발행합니다.</div>
+  <div class="guide-section">
+    <div class="section-title">발행 책임</div>
+    <div class="callout callout-blue">
+      <strong>GMO-PG는 구매자용 영수증을 발행하지 않습니다.</strong> GMO는 가맹점용 帳票(振込明細書·請求書·정산서)만 지원 포털에서 제공하며, <strong>구매자 영수증은 가맹점(MaroPass)이 직접 발행</strong>합니다.
+    </div>
+  </div>
+  <div class="guide-section">
+    <div class="section-title">구현 현황 <span class="section-tag">목업</span></div>
+    <div class="mt-3 space-y-0">
+      <div class="step-row"><div class="step-num">✓</div><div class="step-body"><div class="step-action">영수증 모달 구현됨</div><div class="step-note">어드민 payments.html · 유저 mypage-payments.html의 영수증 버튼 → 適格請求書 모달</div></div></div>
+      <div class="step-row"><div class="step-num">✓</div><div class="step-body"><div class="step-action">결제수단 자동 표기 변환</div><div class="step-note">카드→クレジットカード, PayPay→PayPay（コード決済）, 편의점→コンビニ払い</div></div></div>
+    </div>
+    <div class="callout callout-amber">
+      <strong>미완/후속:</strong> 발행자 정보(회사명·주소·登録番号)는 더미 → 실제 사업자 정보 교체 필요. PDF 실제 생성은 백엔드/PG 연동 후.
+    </div>
+  </div>
+</div>
+
+<!-- 2-2 인보이스 6항목 -->
+<div id="page-receipt-invoice" class="page">
+  <div class="page-tag">2. 영수증 · 適格請求書</div>
+  <div class="page-title">인보이스 필수 6항목</div>
+  <div class="page-desc">일본 適格請求書(인보이스) 제도에 따라 영수증에는 아래 6개 항목이 반드시 포함되어야 합니다.</div>
+  <div class="guide-section">
+    <div class="section-title">適格請求書 필수 기재사항</div>
+    <div class="overflow-x-auto mt-3">
+      <table class="xl-table">
+        <thead><tr><th style="width:50px">#</th><th style="width:220px">항목</th><th>비고</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>발행사업자명 + <strong>등록번호</strong></td><td>登録番号 · T + 13자리</td></tr>
+          <tr><td>2</td><td>거래연월일</td><td>—</td></tr>
+          <tr><td>3</td><td>거래내용</td><td>품목 = 시험명</td></tr>
+          <tr><td>4</td><td>세율별 합계금액 + 적용세율</td><td>표준세율 10%</td></tr>
+          <tr><td>5</td><td><strong>세율별 소비세액</strong></td><td>税率ごとの消費税額</td></tr>
+          <tr><td>6</td><td>수령자명</td><td>会員名 様</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- 2-3 소비세 계산 -->
+<div id="page-receipt-tax" class="page">
+  <div class="page-tag">2. 영수증 · 適格請求書</div>
+  <div class="page-title">소비세 계산</div>
+  <div class="page-desc">표시가격은 세込(소비세 포함)이며, 표준세율 10%로 세抜·소비세를 역산합니다.</div>
+  <div class="guide-section">
+    <div class="section-title">역산 공식</div>
+    <div class="callout callout-green">
+      <strong>税抜 = round(税込 ÷ 1.1)</strong> · <strong>消費税 = 税込 − 税抜</strong>
+    </div>
+    <div class="overflow-x-auto mt-3">
+      <table class="xl-table">
+        <thead><tr><th style="width:160px">구분</th><th>금액</th></tr></thead>
+        <tbody>
+          <tr><td>税込(표시가격)</td><td>¥4,950</td></tr>
+          <tr><td>小計(税抜)</td><td>¥4,500</td></tr>
+          <tr><td>消費税(10%)</td><td>¥450</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- 시험 운영 -->
+<div id="page-exam-build" class="page">
+  <div class="page-tag">3. 시험 운영</div>
+  <div class="page-title">시험 구성</div>
+  <div class="page-desc">레벨별 고정 유형 세트로 문항을 구성하고, 총점·진단 등급·채점 방식을 시험 단위로 설정합니다.</div>
+  <div class="guide-section">
+    <div class="section-title">구성 규칙</div>
+    <div class="overflow-x-auto mt-3">
+      <table class="xl-table">
+        <thead><tr><th style="width:150px">항목</th><th>규칙</th></tr></thead>
+        <tbody>
+          <tr><td>레벨</td><td><span class="b b-blue">초급</span> / <span class="b b-blue">중상급</span> — 레벨별 고정 유형 세트</td></tr>
+          <tr><td>문항 · 배점</td><td>유형별 문항 수 입력 → <strong>총점 자동 계산</strong> (배점 = 채점축 × 척도)</td></tr>
+          <tr><td>진단 등급 구간</td><td>A·B·C, 시험 단위 설정(선택 · 진단형)</td></tr>
+          <tr><td>채점 방식</td><td>AI 채점 + 관리자 보정 / AI 채점(자동)</td></tr>
+          <tr><td>응시 기간</td><td>상시 / 기간 지정</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout callout-blue">
+      문제 유형은 <strong>레벨에 종속</strong>됩니다. 각 유형의 "담기"를 누르면 <strong>같은 레벨·유형</strong> 문항만 필터되어 열립니다.
+    </div>
+    <div class="callout callout-amber">
+      <strong>합격 점수 필드는 없습니다.</strong> 모의고사(진단평가)라 합격/불합격 대신 진단 등급(A·B·C)만 부여합니다.
+    </div>
+  </div>
+</div>
+
+<div id="page-exam-grading" class="page">
+  <div class="page-tag">3. 시험 운영</div>
+  <div class="page-title">채점 · 결과 공개</div>
+  <div class="page-desc">말하기 주관식은 AI 채점 후 관리자가 보정하며, 운영자가 결과를 공개하기 전까지 학습자에게 노출되지 않습니다.</div>
+  <div class="guide-section">
+    <div class="section-title">채점 흐름</div>
+    <div class="mt-3 space-y-0">
+      <div class="step-row"><div class="step-num">1</div><div class="step-body"><div class="step-action">응시 완료 → 자동 채점</div><div class="step-note">발음·객관 영역은 AI가 즉시 자동 채점</div></div></div>
+      <div class="step-row"><div class="step-num">2</div><div class="step-body"><div class="step-action">보정 대상 → 채점중</div><div class="step-note">주관식·보정 대상은 "채점중" 상태로, 관리자가 채점 보정(test-grade)</div></div></div>
+      <div class="step-row"><div class="step-num">3</div><div class="step-body"><div class="step-action">결과 공개</div><div class="step-note">개별 "결과 공개" 또는 "결과 일괄 공개"로 학습자에게 노출</div></div></div>
+    </div>
+  </div>
+  <div class="guide-section">
+    <div class="section-title">상태</div>
+    <div class="overflow-x-auto mt-3">
+      <table class="xl-table">
+        <thead><tr><th style="width:140px">상태</th><th>의미</th></tr></thead>
+        <tbody>
+          <tr><td><span class="b b-green">응시완료</span></td><td>자동 채점 완료</td></tr>
+          <tr><td><span class="b b-yellow">채점중</span></td><td>주관식 관리자 보정 대기</td></tr>
+          <tr><td><span class="b b-slate">공개 / 비공개</span></td><td>결과 공개 여부 (운영자 제어)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout callout-amber">결과 공개 전까지 학습자 마이페이지에 결과가 노출되지 않습니다.</div>
+  </div>
+</div>
+
+<div id="page-exam-takers" class="page">
+  <div class="page-tag">3. 시험 운영</div>
+  <div class="page-title">응시자 관리</div>
+  <div class="page-desc">시험별 응시자 현황과 진단 등급 분포를 관리합니다.</div>
+  <div class="guide-section">
+    <div class="section-title">응시자 상태 3종</div>
+    <div class="overflow-x-auto mt-3">
+      <table class="xl-table">
+        <thead><tr><th style="width:140px">상태</th><th>의미</th><th style="width:150px">처리</th></tr></thead>
+        <tbody>
+          <tr><td><span class="b b-green">응시완료</span></td><td>채점 완료</td><td>결과 보기 / 결과 공개</td></tr>
+          <tr><td><span class="b b-yellow">채점중</span></td><td>주관식 보정 대기</td><td>채점 보정</td></tr>
+          <tr><td><span class="b b-slate">미응시</span></td><td>결제 후 미응시</td><td>응시 안내</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="guide-section">
+    <div class="section-title">통계 지표</div>
+    <div class="overflow-x-auto mt-3">
+      <table class="xl-table">
+        <thead><tr><th style="width:150px">지표</th><th>내용</th></tr></thead>
+        <tbody>
+          <tr><td>누적 응시자</td><td>총 응시 인원</td></tr>
+          <tr><td>평균 점수</td><td>총점 대비 평균 · 중앙값</td></tr>
+          <tr><td>A등급 비율</td><td>A / B / C 등급 분포</td></tr>
+          <tr><td>결과 공개율</td><td>공개 완료 비율</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout callout-blue"><strong>합격률이 아니라 진단 등급 분포(A·B·C)</strong>로 봅니다.</div>
+  </div>
+</div>
+
+<div id="page-exam-questions" class="page">
+  <div class="page-tag">3. 시험 운영</div>
+  <div class="page-title">문항 스냅샷 · 출제 이력</div>
+  <div class="page-desc">시험에 담은 문항은 사본으로 고정되어 이후 문제은행 수정의 영향을 받지 않습니다. 버전 관리·출제 이력은 2차 예정입니다.</div>
+  <div class="guide-section">
+    <div class="section-title">문항 스냅샷 <span class="section-tag">1차</span></div>
+    <div class="callout callout-green">
+      <strong>문항을 시험에 담는 순간 사본으로 고정(스냅샷 온 애드)됩니다.</strong> 이후 문제은행에서 원본을 수정해도 <strong>이미 담긴 시험에는 영향이 없습니다.</strong>
+    </div>
+    <p class="text-sm text-slate-700 mt-3">문제 분류는 <strong>과목 &gt; 레벨 &gt; 유형 &gt; 세부</strong> 트리이며, 분류축은 유형별로 다릅니다.</p>
+  </div>
+  <div class="guide-section">
+    <div class="section-title">2차 예정 <span class="section-tag">미구현</span></div>
+    <div class="overflow-x-auto mt-3">
+      <table class="xl-table">
+        <thead><tr><th style="width:200px">항목</th><th>내용</th></tr></thead>
+        <tbody>
+          <tr><td>버전 넘버링 · 이력 · 복제</td><td>문항 버전 관리, 예정 회차 선택 반영</td></tr>
+          <tr><td>출제 이력 · 중복 경고</td><td>이전 출제 문항 표시 · 중복 담기 경고</td></tr>
+          <tr><td>이전 회차 복제</td><td>지난 회차 구성을 복제해 새 회차 생성</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout callout-amber">
+      시험지(문항 세트) 별도 계층은 <strong>두지 않습니다</strong>. 문항 공유 풀에서 회차마다 섞어 출제하는 <strong>2계층 구조</strong>를 유지합니다.
+    </div>
+  </div>
+</div>
+
+<!-- 진단 등급 -->
+<div id="page-grade-system" class="page">
+  <div class="page-tag">4. 성적 · 등급</div>
+  <div class="page-title">진단 등급 체계</div>
+  <div class="page-desc">현재 서비스는 모의고사(진단평가)입니다. 성적 등급은 시험별로 설정하는 진단 등급(A·B·C)이며, 합격 판정·고정 급수 개념은 없습니다.</div>
+
+  <div class="guide-section">
+    <div class="section-title">쓰는 것 / 안 쓰는 것</div>
+    <div class="overflow-x-auto mt-3">
+      <table class="xl-table">
+        <thead><tr><th style="width:120px">구분</th><th style="width:170px">개념</th><th>설명</th></tr></thead>
+        <tbody>
+          <tr><td><span class="b b-green">쓴다</span></td><td>진단 등급 A·B·C</td><td>총점 기반 구간. 시험 단위로 관리자가 등급 구간 설정(선택·진단형)</td></tr>
+          <tr><td><span class="b b-green">쓴다</span></td><td>점수 · 5각 영역</td><td>점수(0~200) + 발음·유창성·어휘·문법·내용 구성</td></tr>
+          <tr><td><span class="b b-red">안 쓴다</span></td><td>합격 / 불합격</td><td>모의고사라 판정 없음. 합격선·합격률·판정 표기 금지 (합격 점수는 명세 옵션이나 1차 미사용)</td></tr>
+          <tr><td><span class="b b-red">안 쓴다</span></td><td>고정 급수(1급~6급)</td><td>TOPIK식 고정 급수 — 명세에 없는 개념</td></tr>
+          <tr><td><span class="b b-red">안 쓴다</span></td><td>수료 / 미수료</td><td>결과 필터·인증서 발급조건에서 "수료" 문구 금지</td></tr>
+          <tr><td><span class="b b-red">안 쓴다</span></td><td>최고 등급(랭킹)</td><td>진단 등급은 시험별이라 전역 랭킹 불가</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout callout-blue">
+      2026-07-20 기준 유저 화면 7종(results·exam-result·certificates·mypage·emails·index·test-detail)과 어드민(test-manage·test-create)에서 급수·수료·최고등급·합격/불합격 제거 완료.
+    </div>
+  </div>
+
+  <div class="guide-section">
+    <div class="section-title">진단 등급 구간 <span class="section-tag">예시</span></div>
+    <div class="overflow-x-auto mt-3">
+      <table class="xl-table">
+        <thead><tr><th style="width:90px">등급</th><th>구간(예시, 147점 만점)</th></tr></thead>
+        <tbody>
+          <tr><td><span class="b b-green">A</span></td><td>130 이상</td></tr>
+          <tr><td><span class="b b-blue">B</span></td><td>90 – 129</td></tr>
+          <tr><td><span class="b b-orange">C</span></td><td>89 이하</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="text-sm text-slate-700 mt-3">구간 값은 <strong>시험 단위 관리자 설정</strong>입니다. 위 값은 예시입니다.</p>
+  </div>
+</div>
+
+<!-- 3-2 인증서 -->
+<div id="page-certificate" class="page">
+  <div class="page-tag">4. 성적 · 등급</div>
+  <div class="page-title">인증서</div>
+  <div class="page-desc">인증서는 성적·진단 등급 기반으로 자동 생성되는 진단 결과 인증입니다. 합격 인증이 아닙니다.</div>
+  <div class="guide-section">
+    <div class="section-title">인증서 정책</div>
+    <div class="mt-3 space-y-0">
+      <div class="step-row"><div class="step-num">1</div><div class="step-body"><div class="step-action">성적·진단 등급 기반 자동 생성</div><div class="step-note">기능명세 4.1.1. 합격 인증이 아니라 진단 결과 인증(모의고사)</div></div></div>
+      <div class="step-row"><div class="step-num">2</div><div class="step-body"><div class="step-action">참고 자료 성격</div><div class="step-note">국립국제교육원의 공식 TOPIK 성적증명서를 대체하지 않음</div></div></div>
+      <div class="step-row"><div class="step-num">3</div><div class="step-body"><div class="step-action">고유 인증번호</div><div class="step-note">PDF 다운로드·공유 링크 제공, 인증번호로 진위 확인</div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- 4-1 매출 권한 -->
+<div id="page-revenue-perm" class="page">
+  <div class="page-tag">5. 매출 · 권한</div>
+  <div class="page-title">매출 열람 권한</div>
+  <div class="page-desc">매출 정보는 권한이 있는 관리자에게만 노출됩니다.</div>
+  <div class="guide-section">
+    <div class="section-title">노출 규칙</div>
+    <div class="overflow-x-auto mt-3">
+      <table class="xl-table">
+        <thead><tr><th style="width:200px">대상</th><th>규칙</th></tr></thead>
+        <tbody>
+          <tr><td>통계·매출 화면 (statistics)</td><td><span class="b b-orange">최고관리자 전용</span></td></tr>
+          <tr><td>결제 화면 (payments)의 매출 KPI·매출 통계 탭</td><td>매출 열람 권한이 있는 관리자만 표시 (권한 없는 부관리자는 결제 내역만)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- 4-2 통계 화면 -->
+<div id="page-stats-page" class="page">
+  <div class="page-tag">5. 매출 · 권한</div>
+  <div class="page-title">통계·매출 화면</div>
+  <div class="page-desc">새 데이터 수집 없이 기존 결제·환불·상품 기록에서 집계하는 최고관리자 전용 통계 화면입니다.</div>
+  <div class="guide-section">
+    <div class="section-title">집계 항목</div>
+    <div class="overflow-x-auto mt-3">
+      <table class="xl-table">
+        <thead><tr><th style="width:180px">블록</th><th>내용</th></tr></thead>
+        <tbody>
+          <tr><td>KPI 4</td><td>이번 달 매출 · 결제 건수 · 환불액 · 순매출(매출−환불)</td></tr>
+          <tr><td>월별 매출 추이</td><td>최근 6개월 막대(라이브러리 없이 CSS)</td></tr>
+          <tr><td>상품별 매출 TOP</td><td>시험별 매출 순위</td></tr>
+          <tr><td>결제수단 비중</td><td>카드 vs QR</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout callout-green">모두 <strong>기존 데이터 재활용</strong>이라 새 수집·저장이 없습니다.</div>
+  </div>
+</div>
+
+<!-- 5 관리자 계정 -->
+<div id="page-admin-accounts" class="page">
+  <div class="page-tag">6. 관리자 계정</div>
+  <div class="page-title">부관리자 관리</div>
+  <div class="page-desc">관리자 계정은 유형 2종으로 나뉘며, 부관리자의 역할은 권한 설정으로 결정됩니다.</div>
+  <div class="guide-section">
+    <div class="section-title">계정 · 권한</div>
+    <div class="overflow-x-auto mt-3">
+      <table class="xl-table">
+        <thead><tr><th style="width:160px">항목</th><th>규칙</th></tr></thead>
+        <tbody>
+          <tr><td>계정 유형</td><td><span class="b b-slate">최고관리자</span> / <span class="b b-slate">부관리자</span> — 최고관리자는 전체 권한 고정</td></tr>
+          <tr><td>역할 결정</td><td>권한 설정(메뉴별 권한 체크)으로 결정 · 예: 운영형·운영+매출형·교수자형·맞춤</td></tr>
+          <tr><td>계정 필드</td><td><strong>이름 / 아이디 / 이메일 분리</strong> 관리 (admin-list)</td></tr>
+          <tr><td>추가</td><td>임시 비밀번호 자동 발급 → 첫 로그인 시 변경 필수 · 72시간 내 미접속 시 만료</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout callout-amber">
+      삭제 시 확인 모달("삭제" 입력). <strong>삭제 대상:</strong> 계정·로그인·권한 / <strong>유지:</strong> 작성 이력·감사 로그.
+    </div>
+  </div>
+</div>
+
+<!-- 부록 TODO -->
+<div id="page-todo" class="page">
+  <div class="page-tag">부록</div>
+  <div class="page-title">후속 과제 (TODO)</div>
+  <div class="page-desc">운영 전 확정·연동이 필요한 항목입니다.</div>
+  <div class="guide-section">
+    <div class="section-title">TODO</div>
+    <div class="overflow-x-auto mt-3">
+      <table class="xl-table">
+        <thead><tr><th style="width:60px">상태</th><th>과제</th></tr></thead>
+        <tbody>
+          <tr><td><span class="b b-yellow">대기</span></td><td>GMO-PG 가맹점 등록·테스트 계정 발급 (일본 측 협의)</td></tr>
+          <tr><td><span class="b b-yellow">대기</span></td><td>연동 타입 확정 (Link Type Plus vs OpenAPI Type)</td></tr>
+          <tr><td><span class="b b-yellow">대기</span></td><td>영수증 발행자 실제 사업자 정보(회사명·주소·登録番号) 확정·반영</td></tr>
+          <tr><td><span class="b b-yellow">대기</span></td><td>영수증 PDF 실제 생성(백엔드) + Webhook 결제확정 로직</td></tr>
+          <tr><td><span class="b b-yellow">대기</span></td><td>진단 등급 구간(A·B·C)의 시험별 실제 기준값 정의</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+</main>
+</div>
+
+<script>
+  const pages = document.querySelectorAll('.page');
+  const navItems = document.querySelectorAll('.nav-item');
+
+  function showPage(id, clickedEl) {
+    pages.forEach(p => p.classList.remove('active'));
+    const target = document.getElementById('page-' + id);
+    if (target) target.classList.add('active');
+    navItems.forEach(n => n.classList.remove('active'));
+    if (clickedEl) clickedEl.classList.add('active');
+    window.scrollTo(0, 0);
+    closeMobileSidebar();
+  }
+
+  const SEARCH_INDEX = [
+    { id:'overview',        label:'가이드 개요',            cat:'개요' },
+    { id:'pg-provider',     label:'PG 사업자 (GMO-PG)',     cat:'1. 결제·PG', kw:'GMO 결제 대행 OpenAPI Link Type Plus 3D Secure' },
+    { id:'pg-methods',      label:'지원 결제수단',           cat:'1. 결제·PG', kw:'카드 QR 코드결제 PayPay 편의점 컨비니 クレジット' },
+    { id:'pg-qr',           label:'QR 결제 방식',            cat:'1. 결제·PG', kw:'QR 코드결제 PayPay 앱스위치 리다이렉트 Webhook 대기 pending' },
+    { id:'pg-settle',       label:'정산',                    cat:'1. 결제·PG', kw:'정산 T+7 T+3 매출 환불' },
+    { id:'receipt-issuer',  label:'영수증 발행 주체',        cat:'2. 영수증', kw:'영수증 適格請求書 가맹점 발행 모달' },
+    { id:'receipt-invoice', label:'인보이스 필수 6항목',     cat:'2. 영수증', kw:'適格請求書 인보이스 登録番号 등록번호 소비세' },
+    { id:'receipt-tax',     label:'소비세 계산',             cat:'2. 영수증', kw:'소비세 세込 세抜 10% 역산 消費税' },
+    { id:'exam-build',      label:'시험 구성',               cat:'3. 시험 운영', kw:'시험 구성 레벨 유형 문항 배점 총점 채점 방식 AI 보정 응시 기간' },
+    { id:'exam-grading',    label:'채점 · 결과 공개',        cat:'3. 시험 운영', kw:'채점 AI 보정 결과 공개 채점중 응시완료 test-grade 일괄 공개' },
+    { id:'exam-takers',     label:'응시자 관리',             cat:'3. 시험 운영', kw:'응시자 상태 응시완료 채점중 미응시 등급 분포 통계 평균 점수' },
+    { id:'exam-questions',  label:'문항 스냅샷 · 출제 이력',  cat:'3. 시험 운영', kw:'문항 스냅샷 사본 고정 문제은행 버전 출제 이력 중복 복제 회차 시험지' },
+    { id:'grade-system',    label:'진단 등급 체계',          cat:'4. 성적·등급', kw:'진단 등급 A B C 급수 수료 합격 불합격 모의고사 점수' },
+    { id:'certificate',     label:'인증서',                  cat:'4. 성적·등급', kw:'인증서 진단 인증번호 PDF' },
+    { id:'revenue-perm',    label:'매출 열람 권한',          cat:'5. 매출·권한', kw:'매출 권한 최고관리자 부관리자 통계' },
+    { id:'stats-page',      label:'통계·매출 화면',          cat:'5. 매출·권한', kw:'통계 매출 KPI 순매출 결제수단 상품별' },
+    { id:'admin-accounts',  label:'부관리자 관리',           cat:'6. 관리자 계정', kw:'부관리자 최고관리자 권한 이름 아이디 이메일 임시 비밀번호 RBAC' },
+    { id:'todo',            label:'후속 과제 (TODO)',        cat:'부록' },
+  ];
+
+  function onSearch(q) {
+    const drop = document.getElementById('search-drop');
+    q = q.trim();
+    if (!q) { drop.classList.remove('show'); drop.innerHTML = ''; return; }
+    const results = SEARCH_INDEX.filter(item => item.label.includes(q) || item.cat.includes(q) || (item.kw && item.kw.includes(q)));
+    if (!results.length) {
+      drop.innerHTML = '<div class="sr-empty">검색 결과 없음</div>';
+    } else {
+      const groups = {};
+      results.forEach(r => { (groups[r.cat] = groups[r.cat] || []).push(r); });
+      drop.innerHTML = Object.entries(groups).map(([cat, items]) =>
+        `<div class="sr-group">${cat}</div>` +
+        items.map(r => `<div class="sr-item" onmousedown="goSearch('${r.id}')">${highlight(r.label, q)}<span class="sr-cat">${r.cat}</span></div>`).join('')
+      ).join('');
+    }
+    drop.classList.add('show');
+  }
+  function highlight(text, q) {
+    const idx = text.indexOf(q);
+    if (idx < 0) return text;
+    return text.slice(0, idx) + `<mark style="background:#fff3cd;border-radius:2px;padding:0 1px">${text.slice(idx, idx + q.length)}</mark>` + text.slice(idx + q.length);
+  }
+  function goSearch(id) {
+    document.getElementById('search-input').value = '';
+    closeDrop();
+    showPage(id, null);
+    navItems.forEach(n => { const fn = n.getAttribute('onclick') || ''; if (fn.includes("'" + id + "'")) n.classList.add('active'); });
+  }
+  function closeDrop() { document.getElementById('search-drop').classList.remove('show'); }
+</script>
+</body>
+</html>

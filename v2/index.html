@@ -1,69 +1,134 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MaroPass IBT — 2사이트 통합 (ui2)</title>
-<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MaroPass IBT — 기획 문서</title>
 <style>
-  :root{--blue-500:#2e84ff;--blue-600:#2272eb;--green-500:#03b26c;--grey-900:#191f28;--grey-700:#4e5968;--grey-500:#8b95a1;--grey-200:#e5e8eb;--grey-100:#f2f4f6;--grey-50:#f9fafb;}
-  *,*::before,*::after{box-sizing:border-box}
-  html,body{margin:0;padding:0;font-family:"Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,sans-serif;color:var(--grey-900);background:var(--grey-50)}
-  .top{background:linear-gradient(135deg,#fef9e7 0%,#e8f3ff 50%,#ecfdf5 100%);padding:64px 24px 56px}
-  .wrap{max-width:960px;margin:0 auto}
-  .logo{display:flex;align-items:center;gap:12px;margin-bottom:22px}
-  .mark{width:40px;height:40px;background:linear-gradient(135deg,var(--blue-500),var(--green-500));border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:18px}
-  .logo .nm{font-weight:800;font-size:22px}
-  h1{font-size:32px;font-weight:800;margin:0 0 10px;letter-spacing:-.5px}
-  .desc{color:var(--grey-700);font-size:15px;line-height:1.6;max-width:640px}
-  .content{max-width:960px;margin:0 auto;padding:40px 24px 64px}
-  .cards{display:grid;grid-template-columns:1fr 1fr;gap:18px}
-  @media(max-width:720px){.cards{grid-template-columns:1fr}}
-  .card{background:#fff;border:1px solid var(--grey-200);border-radius:18px;padding:28px;text-decoration:none;color:inherit;display:flex;flex-direction:column;transition:transform .15s,box-shadow .15s,border-color .15s}
-  .card.live:hover{transform:translateY(-3px);box-shadow:0 10px 28px rgba(15,23,42,.08);border-color:var(--blue-500)}
-  .card .tag{align-self:flex-start;font-size:11px;font-weight:800;letter-spacing:.5px;padding:4px 10px;border-radius:999px;margin-bottom:14px}
-  .tag.done{background:#e8f3ff;color:var(--blue-600)}
-  .tag.soon{background:var(--grey-100);color:var(--grey-500)}
-  .card h2{font-size:20px;font-weight:800;margin:0 0 8px}
-  .card p{font-size:13.5px;color:var(--grey-700);line-height:1.6;margin:0 0 16px;flex:1}
-  .card .meta{font-size:12px;color:var(--grey-500);border-top:1px solid var(--grey-100);padding-top:14px}
-  .card .go{margin-top:14px;font-size:14px;font-weight:800;color:var(--blue-500)}
-  .card.soon-card{opacity:.72}
-  .note{margin-top:26px;background:#fff;border:1px solid var(--grey-200);border-radius:14px;padding:18px 22px;font-size:13px;color:var(--grey-700);line-height:1.7}
-  .note strong{color:var(--grey-900)}
+:root{
+  --blue:#2e84ff; --blue-hover:#2272eb; --blue-50:#e8f3ff;
+  --ink:#191f28; --g900:#191f28; --g800:#333d4b; --g700:#4e5968; --g600:#6b7684;
+  --g500:#8b95a1; --g400:#b0b8c1; --g300:#d1d6db; --g200:#e5e8eb; --g100:#f2f4f6; --g50:#f9fafb;
+  --white:#fff; --green:#03b26c;
+  --font:'Toss Product Sans','Pretendard Variable',Pretendard,-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Segoe UI',Roboto,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;height:100%}
+body{font-family:var(--font);color:var(--g800);background:var(--g100);display:flex;flex-direction:column;height:100vh;-webkit-font-smoothing:antialiased}
+a{color:var(--blue);text-decoration:none}
+
+/* Header */
+header{background:var(--white);border-bottom:1px solid var(--g200);padding:18px 28px 0;flex:0 0 auto}
+.htop{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+.htop h1{font-size:18px;font-weight:700;color:var(--g900);margin:0;letter-spacing:-.02em}
+.htop .sub{font-size:12.5px;color:var(--g500)}
+.htop .pill{margin-left:auto;font-size:11px;font-weight:600;color:var(--green);background:#e7f9f1;border-radius:20px;padding:4px 11px}
+
+/* Tabs */
+.tabs{display:flex;gap:4px}
+.tab{appearance:none;border:none;background:none;font-family:inherit;cursor:pointer;
+  padding:11px 18px;font-size:14px;font-weight:600;color:var(--g500);border-radius:10px 10px 0 0;
+  border-bottom:2.5px solid transparent;transition:.13s;display:flex;align-items:center;gap:8px}
+.tab:hover{color:var(--g800);background:var(--g50)}
+.tab.active{color:var(--blue);border-bottom-color:var(--blue)}
+.tab .no{font-size:10px;font-weight:700;color:var(--g400);background:var(--g100);border-radius:5px;padding:1px 5px}
+.tab.active .no{color:var(--blue);background:var(--blue-50)}
+
+/* Prototype links */
+.protolinks{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.protolinks .lbl{font-size:11px;font-weight:700;color:var(--g400);text-transform:uppercase;letter-spacing:.04em;margin-right:2px}
+.plink{display:inline-flex;align-items:center;gap:7px;text-decoration:none;
+  border:1px solid var(--g200);border-radius:10px;padding:7px 13px;background:var(--white);transition:.13s}
+.plink:hover{border-color:var(--blue);background:var(--blue-50);transform:translateY(-1px)}
+.plink .pt{font-size:13px;font-weight:600;color:var(--g800)}
+.plink:hover .pt{color:var(--blue-hover)}
+.plink .ph{font-size:11px;color:var(--g500)}
+.plink .arw{font-size:11px;color:var(--g400)}
+.plink:hover .arw{color:var(--blue)}
+
+/* Meta bar */
+.metabar{flex:0 0 auto;background:var(--white);border-bottom:1px solid var(--g200);
+  padding:9px 28px;display:flex;align-items:center;gap:14px;font-size:12px;color:var(--g500);flex-wrap:wrap}
+.metabar .m{display:flex;align-items:center;gap:5px}
+.metabar .m b{color:var(--g700);font-weight:600}
+.metabar .links{margin-left:auto;display:flex;gap:8px}
+.metabar .links a{font-size:11.5px;font-weight:600;border:1px solid var(--g200);border-radius:8px;
+  padding:5px 11px;color:var(--g700);background:var(--white);transition:.12s}
+.metabar .links a:hover{border-color:var(--blue);color:var(--blue);background:var(--blue-50)}
+
+/* Frame */
+.stage{flex:1;min-height:0;position:relative;background:var(--g100)}
+iframe{position:absolute;inset:0;width:100%;height:100%;border:none;background:var(--white)}
+
+@media (max-width:640px){
+  header{padding:14px 14px 0}
+  .metabar{padding:8px 14px}
+  .tab{padding:10px 12px;font-size:13px}
+  .htop .pill{display:none}
+}
 </style>
 </head>
 <body>
-<header class="top">
-  <div class="wrap">
-    <div class="logo"><div class="mark">K</div><div class="nm">MaroPass IBT</div></div>
-    <h1>2사이트 통합 구조 (ui2)</h1>
-    <p class="desc">기존 <code>ui/</code>의 4개 영역(서비스·응시·서비스관리·시험관리)을 개발·운영 효율에 맞춰 <strong>학습자 사이트</strong>와 <strong>관리자 사이트</strong> 2개로 병합한 버전입니다. koen-report-v2 문서의 개발 구성 확정안을 반영합니다.</p>
+<header>
+  <div class="htop">
+    <h1>MaroPass IBT · 기획 문서</h1>
+    <span class="sub">일본인 대상 한국어 말하기 진단평가 · 뉴인재팬</span>
+    <span class="pill">2026 · v1.1</span>
   </div>
+  <div class="protolinks">
+    <span class="lbl">프로토타입</span>
+    <a class="plink" href="../ui/user-web/ui-exam-home.html" target="_blank" rel="noopener" title="사용자단 · 응시 web (터치클래스 사용자)">
+      <span class="pt">사용자단</span><span class="ph">응시 web</span><span class="arw">↗</span></a>
+    <a class="plink" href="../ui/admin/ui-admin-dashboard.html" target="_blank" rel="noopener" title="어드민단 · 시험/문제 백오피스 (터치클래스 관리자)">
+      <span class="pt">어드민단</span><span class="ph">시험·문제 백오피스</span><span class="arw">↗</span></a>
+    <a class="plink" href="../ui/service-site/ui-main-home.html" target="_blank" rel="noopener" title="서비스사이트단 · MaroPass 포털">
+      <span class="pt">서비스사이트단</span><span class="ph">MaroPass 포털</span><span class="arw">↗</span></a>
+    <a class="plink" href="../ui/service-admin/admin-dashboard.html" target="_blank" rel="noopener" title="어드민단2 · 서비스 운영 백오피스 (회원·결제·환불·문의)">
+      <span class="pt">어드민단2</span><span class="ph">서비스 운영</span><span class="arw">↗</span></a>
+  </div>
+  <nav class="tabs" id="tabs"></nav>
 </header>
+<div class="metabar" id="metabar"></div>
+<div class="stage"><iframe id="frame" title="문서"></iframe></div>
 
-<main class="content">
-  <div class="cards">
-    <a class="card live" href="user/index.html">
-      <span class="tag done">완성 · v0.1</span>
-      <h2>① 학습자 사이트</h2>
-      <p>서비스 사이트(홈·시험목록·상세·결제·마이페이지)를 기반으로 응시(환경점검·응시·결과)를 <strong>마이페이지 흐름 안에 통합</strong>. GNB·블루 테마·한일 i18n 공유 셸.</p>
-      <div class="meta">진입: 홈 → 시험 → 결제 · 마이페이지 → 응시 → 결과 (내부 흐름)</div>
-      <div class="go">학습자 홈으로 →</div>
-    </a>
+<script>
+const DOCS=[
+  {key:'ia', tab:'정보구조 (IA)', no:'1', html:'MaroPass_IA.html', md:'MaroPass_IA.md',
+   docno:'KP-PLN-IA-001', ver:'v1.1', date:'2026-06-24 (수정 07-13)', author:'박지원 (PM)'},
+  {key:'fs', tab:'기능명세서', no:'2', html:'MaroPass_기능명세서.html', md:'MaroPass_기능명세서.md',
+   docno:'KP-PLN-FS-001', ver:'v1.1', date:'2026-07-10 (수정 07-13)', author:'박지원 (PM)'},
+  {key:'wbs', tab:'작업분해 (WBS)', no:'3', html:'MaroPass_WBS.html', md:'MaroPass_WBS.md',
+   docno:'KP-PLN-WBS-001', ver:'v1.1', date:'2026-07-10 (수정 07-13)', author:'박지원 (PM)'},
+];
 
-    <a class="card live" href="admin/login.html">
-      <span class="tag done">완성 · v0.1</span>
-      <h2>② 관리자 사이트</h2>
-      <p>서비스 관리(회원·결제·문의·환불) + 시험 관리(시험 목록·등록) + 문제 빌더(문제 은행·만들기)를 하나의 콘솔로 통합. 좌측 사이드바 3그룹 · 공유 셸.</p>
-      <div class="meta">진입: 관리자 로그인 → 통합 대시보드 · 10개 화면</div>
-      <div class="go">관리자 로그인 →</div>
-    </a>
-  </div>
+const tabsEl=document.getElementById('tabs');
+const metaEl=document.getElementById('metabar');
+const frame=document.getElementById('frame');
 
-  <div class="note">
-    <strong>참고</strong> · 기존 <code>ui/</code> 폴더는 그대로 보존되며, 이 <code>ui2/</code>가 병합 결과입니다. 두 사이트 모두 공유 셸 아키텍처를 씁니다 — 학습자는 <code>ui2/user/</code>(<code>assets/user.css</code> + <code>user-shell.js</code>, GNB·푸터·한일 i18n 주입), 관리자는 <code>ui2/admin/</code>(<code>admin.css</code> + <code>admin-shell.js</code>, 사이드바 3그룹). <strong>응시 흐름 변경</strong>: 기존 "새 창" 방식 대신 마이페이지 → 환경점검 → 응시 → 결과가 <strong>같은 사이트 내부</strong>에서 이어집니다.
-  </div>
-</main>
+DOCS.forEach((d,i)=>{
+  const b=document.createElement('button');
+  b.className='tab';b.dataset.key=d.key;
+  b.innerHTML='<span class="no">'+d.no+'</span>'+d.tab;
+  b.addEventListener('click',()=>select(d.key));
+  tabsEl.appendChild(b);
+});
+
+function select(key){
+  const d=DOCS.find(x=>x.key===key);if(!d)return;
+  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.key===key));
+  frame.src=d.html;
+  metaEl.innerHTML=
+    '<span class="m"><b>문서번호</b> '+d.docno+'</span>'+
+    '<span class="m"><b>버전</b> '+d.ver+'</span>'+
+    '<span class="m"><b>작성일</b> '+d.date+'</span>'+
+    '<span class="m"><b>작성</b> '+d.author+'</span>'+
+    '<span class="links"><a href="'+d.md+'" target="_blank" rel="noopener">MD 원본 ↗</a>'+
+    '<a href="'+d.html+'" target="_blank" rel="noopener">HTML 새 탭 ↗</a></span>';
+  if(history.replaceState)history.replaceState(null,'','#'+key);
+}
+
+const init=(location.hash||'').replace('#','');
+select(DOCS.some(d=>d.key===init)?init:DOCS[0].key);
+</script>
 </body>
 </html>
