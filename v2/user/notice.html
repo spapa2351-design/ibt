@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MaroPass — 공지사항</title>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+<link rel="stylesheet" href="assets/user.css">
+<style>
+  .sup-head{background:var(--gradient-hero-soft);padding:52px 32px 40px;text-align:center}
+  .sup-head h1{font-size:32px;font-weight:800;margin:0 0 10px;letter-spacing:-.02em}
+  .sup-head p{color:var(--grey-600);font-size:15px;margin:0 auto;max-width:520px;line-height:1.6}
+  .nt-body{max-width:900px;margin:0 auto;padding:32px 32px 64px}
+
+  /* 게시판 */
+  .board{border-top:1px solid var(--grey-200)}
+  .bd-head,.bd-row{display:grid;grid-template-columns:96px 1fr 110px;align-items:center;gap:16px}
+  .bd-head{padding:12px 16px;font-size:12px;font-weight:700;color:var(--grey-500);border-bottom:1px solid var(--grey-200)}
+  .bd-head .c-title{text-align:left}
+  .bd-head .c-cat,.bd-head .c-date{text-align:center}
+  .bd-row{padding:16px;border-bottom:1px solid var(--grey-100);cursor:pointer;transition:background-color .12s;text-align:left;background:none;border-left:none;border-right:none;border-top:none;width:100%;font:inherit;color:inherit}
+  .bd-row:hover{background:var(--grey-50)}
+  .bd-row.pinned{background:#f5f9ff}
+  .bd-row.pinned:hover{background:#eaf2ff}
+  .bd-cat{justify-self:center;font-size:11px;font-weight:700;padding:3px 10px;border-radius:6px;white-space:nowrap}
+  .bd-cat.notice{background:var(--blue-50);color:var(--blue-500)}
+  .bd-cat.maint{background:var(--orange-50);color:var(--orange-500)}
+  .bd-cat.update{background:var(--green-50);color:var(--green-500)}
+  .bd-title{font-size:15px;font-weight:600;color:var(--grey-900);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .bd-row.pinned .bd-title{font-weight:700}
+  .bd-new{display:inline-block;width:16px;height:16px;background:var(--red-500);color:#fff;border-radius:50%;font-size:10px;font-weight:800;line-height:16px;text-align:center;margin-left:6px;vertical-align:middle}
+  .bd-date{justify-self:center;font-size:12.5px;color:var(--grey-500);font-variant-numeric:tabular-nums;white-space:nowrap}
+  @media(max-width:640px){
+    .sup-head{padding:44px 20px 32px}.nt-body{padding:24px 16px 48px}
+    .bd-head{display:none}
+    .bd-row{grid-template-columns:auto 1fr;gap:6px 10px;padding:14px 12px}
+    .bd-title{white-space:normal}
+    .bd-date{grid-column:2;justify-self:start;margin-top:2px}
+  }
+
+  /* 모달 */
+  .nm-backdrop{position:fixed;inset:0;background:rgba(15,23,42,.5);display:none;align-items:center;justify-content:center;z-index:80;padding:20px}
+  .nm-backdrop.show{display:flex}
+  .nm{background:#fff;border-radius:18px;max-width:600px;width:100%;max-height:85vh;display:flex;flex-direction:column;box-shadow:0 24px 64px rgba(15,23,42,.2);animation:nm-in .18s ease-out}
+  @keyframes nm-in{from{opacity:0;transform:translateY(8px) scale(.99)}to{opacity:1;transform:none}}
+  @media(prefers-reduced-motion:reduce){.nm{animation:none}}
+  .nm-head{padding:24px 26px 16px;border-bottom:1px solid var(--grey-100)}
+  .nm-meta{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+  .nm-date{font-size:12.5px;color:var(--grey-500);font-variant-numeric:tabular-nums}
+  .nm-title{font-size:20px;font-weight:800;color:var(--grey-900);margin:0;line-height:1.35;letter-spacing:-.01em}
+  .nm-close{position:absolute;top:16px;right:16px;width:32px;height:32px;border-radius:8px;border:none;background:var(--grey-100);color:var(--grey-600);cursor:pointer;font-size:18px;line-height:1;display:flex;align-items:center;justify-content:center;transition:background-color .12s}
+  .nm-close:hover{background:var(--grey-200);color:var(--grey-900)}
+  .nm-body{padding:20px 26px 26px;overflow-y:auto;font-size:14px;line-height:1.8;color:var(--grey-700)}
+  .nm-body strong{color:var(--grey-900)}
+  .nm-body a{color:var(--blue-500);font-weight:700;text-decoration:none}
+  .nm-foot{padding:14px 26px 22px;text-align:right}
+  .nm-wrap{position:relative;width:100%;max-width:600px}
+</style>
+</head>
+<body data-page="support" data-authed="false">
+
+<div class="sup-head">
+  <h1 data-i18n="h1">공지사항</h1>
+  <p data-i18n="lead">서비스 개시·점검·업데이트 소식을 안내해 드려요.</p>
+</div>
+
+<nav class="cs-tabs">
+  <a href="notice.html" class="cs-tab active" data-i18n="tab_notice">공지사항</a>
+  <a href="faq.html" class="cs-tab" data-i18n="tab_faq">자주 묻는 질문</a>
+  <a href="mypage-inquiries.html" class="cs-tab" data-i18n="tab_inq">1:1 문의</a>
+</nav>
+
+<div class="nt-body">
+  <div class="board">
+    <div class="bd-head">
+      <div class="c-cat" data-i18n="col_cat">구분</div>
+      <div class="c-title" data-i18n="col_title">제목</div>
+      <div class="c-date" data-i18n="col_date">등록일</div>
+    </div>
+    <div id="board-list"></div>
+  </div>
+</div>
+
+<!-- 공지 상세 모달 -->
+<div class="nm-backdrop" id="nm" role="dialog" aria-modal="true" aria-labelledby="nm-title">
+  <div class="nm-wrap">
+    <div class="nm">
+      <button class="nm-close" id="nm-close" aria-label="닫기">×</button>
+      <div class="nm-head">
+        <div class="nm-meta">
+          <span class="bd-cat" id="nm-cat"></span>
+          <span class="nm-date" id="nm-date"></span>
+        </div>
+        <h2 class="nm-title" id="nm-title"></h2>
+      </div>
+      <div class="nm-body" id="nm-content"></div>
+      <div class="nm-foot">
+        <button class="btn btn-secondary" id="nm-ok" data-i18n="close">닫기</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<a href="../index.html" class="demo-index-link">← ui2 인덱스</a>
+<script src="assets/user-shell.js"></script>
+<script>
+window.PAGE_I18N = {
+  ko:{
+    h1:'공지사항', lead:'서비스 개시·점검·업데이트 소식을 안내해 드려요.',
+    tab_notice:'공지사항', tab_faq:'자주 묻는 질문', tab_inq:'1:1 문의',
+    col_cat:'구분', col_title:'제목', col_date:'등록일', close:'닫기'
+  },
+  ja:{
+    h1:'お知らせ', lead:'サービス開始・メンテナンス・アップデート情報をご案内します。',
+    tab_notice:'お知らせ', tab_faq:'よくある質問', tab_inq:'1:1 お問い合わせ',
+    col_cat:'区分', col_title:'タイトル', col_date:'登録日', close:'閉じる'
+  }
+};
+
+var CAT = {
+  notice:{ko:'공지', ja:'お知らせ'}, update:{ko:'업데이트', ja:'更新'}, maint:{ko:'점검', ja:'メンテ'}
+};
+var NOTICES = [
+  { id:3, cat:'update', pinned:false, isNew:true, date:'2026-07-10',
+    ko:{ title:'응시 흐름 개편 — 마이페이지 안에서 환경 점검 → 응시 → 결과',
+      body:'기존 별도 창 방식의 응시를 폐지하고, <strong>마이페이지 흐름 안에서</strong> 환경 점검 → 응시 → 결과가 순서대로 이어지도록 개편했습니다.<br><br>응시 중에도 상단에서 진행 단계를 확인할 수 있으며, 결과·인증서·영수증 PDF는 그대로 마이페이지에서 다운로드하실 수 있습니다.' },
+    ja:{ title:'受験フロー刷新 — マイページ内で環境チェック → 受験 → 結果',
+      body:'従来の別窓方式の受験を廃止し、<strong>マイページの流れの中で</strong>環境チェック → 受験 → 結果がつながるよう刷新しました。<br><br>受験中も上部で進行段階を確認でき、結果・証明書・領収書PDFはそのままマイページからダウンロードできます。' } },
+
+  { id:2, cat:'maint', pinned:false, isNew:false, date:'2026-07-08',
+    ko:{ title:'정기 서버 점검 안내 (8/20 02:00~04:00 JST)',
+      body:'안정적인 서비스 제공을 위해 <strong>8월 20일(수) 02:00~04:00 (JST)</strong> 정기 점검을 진행합니다.<br><br>점검 중에는 로그인·응시·결제가 일시 중단됩니다. 진행 중인 응시가 있다면 점검 시작 전 마무리해 주세요. 이용에 참고 부탁드립니다.' },
+    ja:{ title:'定期サーバーメンテナンスのお知らせ (8/20 02:00~04:00 JST)',
+      body:'安定したサービス提供のため、<strong>8月20日(水) 02:00~04:00 (JST)</strong>に定期メンテナンスを実施します。<br><br>メンテナンス中はログイン・受験・決済が一時停止します。受験中の場合は開始前に終えてください。' } },
+
+  { id:1, cat:'update', pinned:false, isNew:false, date:'2026-06-30',
+    ko:{ title:'LINE 로그인 지원 추가',
+      body:'이제 <strong>LINE 계정</strong>으로 간편하게 가입·로그인할 수 있습니다. Google·Apple 로그인도 함께 지원해요.<br><br><a href="auth.html">지금 시작하기 →</a>' },
+    ja:{ title:'LINEログインに対応しました',
+      body:'<strong>LINEアカウント</strong>で簡単に登録・ログインできるようになりました。Google・Appleログインにも対応しています。<br><br><a href="auth.html">今すぐ始める →</a>' } }
+];
+
+function curLoc(){ return localStorage.getItem('kopass_main_locale') || 'ko'; }
+
+function renderBoard(loc){
+  loc = loc || curLoc();
+  var html = NOTICES.map(function(n){
+    var d = n[loc] || n.ko;
+    var newBadge = n.isNew ? '<span class="bd-new">N</span>' : '';
+    return '<button class="bd-row' + (n.pinned ? ' pinned' : '') + '" data-id="' + n.id + '">' +
+      '<span class="bd-cat ' + n.cat + '">' + (CAT[n.cat][loc] || CAT[n.cat].ko) + '</span>' +
+      '<span class="bd-title">' + d.title + newBadge + '</span>' +
+      '<span class="bd-date">' + n.date + '</span>' +
+    '</button>';
+  }).join('');
+  document.getElementById('board-list').innerHTML = html;
+  document.querySelectorAll('.bd-row').forEach(function(row){
+    row.addEventListener('click', function(){ openModal(parseInt(row.getAttribute('data-id'), 10)); });
+  });
+}
+
+var lastFocus = null;
+function openModal(id){
+  var loc = curLoc();
+  var n = NOTICES.filter(function(x){ return x.id === id; })[0];
+  if (!n) return;
+  var d = n[loc] || n.ko;
+  var cat = document.getElementById('nm-cat');
+  cat.className = 'bd-cat ' + n.cat;
+  cat.textContent = CAT[n.cat][loc] || CAT[n.cat].ko;
+  document.getElementById('nm-date').textContent = n.date;
+  document.getElementById('nm-title').textContent = d.title;
+  document.getElementById('nm-content').innerHTML = d.body;
+  lastFocus = document.activeElement;
+  var m = document.getElementById('nm');
+  m.classList.add('show');
+  document.getElementById('nm-close').focus();
+}
+function closeModal(){
+  document.getElementById('nm').classList.remove('show');
+  if (lastFocus && lastFocus.focus) lastFocus.focus();
+}
+document.getElementById('nm-close').addEventListener('click', closeModal);
+document.getElementById('nm-ok').addEventListener('click', closeModal);
+document.getElementById('nm').addEventListener('click', function(e){ if (e.target === this) closeModal(); });
+document.addEventListener('keydown', function(e){ if (e.key === 'Escape') closeModal(); });
+
+// 셸 로케일 변경 시 게시판·열린 모달 갱신
+window.onLocaleChange = function(loc){ renderBoard(loc); };
+renderBoard(curLoc());
+</script>
+</body>
+</html>

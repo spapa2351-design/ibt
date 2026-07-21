@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MaroPass — 결제 내역</title>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+<link rel="stylesheet" href="assets/user.css">
+<style>
+  .pay-table{width:100%;border-collapse:collapse;font-size:13.5px}
+  .pay-table th{text-align:left;font-size:11px;font-weight:700;color:var(--grey-500);text-transform:uppercase;letter-spacing:.5px;padding:0 12px 10px;border-bottom:1px solid var(--grey-200)}
+  .pay-table td{padding:15px 12px;border-bottom:1px solid var(--grey-100);vertical-align:middle}
+  .pay-table tr:last-child td{border-bottom:none}
+  .pay-table .amt{font-variant-numeric:tabular-nums;font-weight:700;color:var(--grey-900);text-align:right}
+  .pay-table .date{color:var(--grey-600);white-space:nowrap;font-variant-numeric:tabular-nums}
+  .pay-name{font-weight:700;color:var(--grey-900)}
+  .pay-sub{font-size:12px;color:var(--grey-500);margin-top:2px}
+  .pill{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:999px;font-size:11px;font-weight:700}
+  .pill.paid{background:var(--green-50);color:var(--green-500)}
+  .pill.refunded{background:var(--grey-100);color:var(--grey-600)}
+  .pill.pending{background:var(--orange-50);color:var(--orange-500)}
+  .link-btn{background:none;border:none;color:var(--blue-500);font-weight:700;font-size:13px;cursor:pointer;padding:0;text-decoration:none}
+  @media(max-width:640px){.pay-hide{display:none}}
+  .pay-scroll{overflow-x:auto}
+</style>
+</head>
+<body data-page="mypage" data-authed="true">
+
+<div class="mp-layout">
+  <aside class="mp-sidebar">
+    <div class="mp-sb-section">시험·결과</div>
+    <a href="mypage.html" class="mp-sb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg><span>대시보드</span></a>
+    <a href="mypage-tests.html" class="mp-sb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg><span>응시할 시험</span><span class="badge">2</span></a>
+    <a href="mypage-results.html" class="mp-sb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>결과</span></a>
+    <a href="mypage-certificates.html" class="mp-sb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span>인증서</span></a>
+    <div class="mp-sb-section" style="margin-top:8px">결제</div>
+    <a href="mypage-payments.html" class="mp-sb-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg><span>결제 내역</span></a>
+    <a href="mypage-refunds.html" class="mp-sb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg><span>환불</span></a>
+    <div class="mp-sb-section" style="margin-top:8px">계정</div>
+    <a href="mypage-profile.html" class="mp-sb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>프로필</span></a>
+    <a href="mypage-inquiries.html" class="mp-sb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span>문의 내역</span></a>
+  </aside>
+
+  <main>
+    <h1 class="page-title">결제 내역</h1>
+    <p class="page-desc">주문·결제 기록이에요. 각 건의 영수증을 내려받거나, 미응시 건은 환불을 신청할 수 있습니다.</p>
+
+    <div class="mp-kpi-row">
+      <div class="mp-kpi"><div class="lab">총 결제</div><div class="val amt" style="font-variant-numeric:tabular-nums">¥18,810</div></div>
+      <div class="mp-kpi"><div class="lab">결제 건수</div><div class="val">4<span class="u">건</span></div></div>
+      <div class="mp-kpi"><div class="lab">환불 건수</div><div class="val">1<span class="u">건</span></div></div>
+    </div>
+
+    <div class="mp-card">
+      <div class="pay-scroll">
+      <table class="pay-table">
+        <thead>
+          <tr><th>주문일</th><th>상품</th><th class="pay-hide">결제수단</th><th style="text-align:right">금액</th><th style="text-align:center">상태</th><th style="text-align:right">영수증</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="date">2026-06-26</td>
+            <td><div class="pay-name" lang="ko">TOPIK 말하기 초급</div><div class="pay-sub">주문번호 20260626-0471</div></td>
+            <td class="pay-hide">카드</td>
+            <td class="amt">¥4,950</td>
+            <td style="text-align:center"><span class="pill paid">결제 완료</span></td>
+            <td style="text-align:right"><button class="link-btn" onclick="return receipt(this)">영수증</button></td>
+          </tr>
+          <tr>
+            <td class="date">2026-06-12</td>
+            <td><div class="pay-name" lang="ko">발음 집중 진단 (초급)</div><div class="pay-sub">주문번호 20260612-0932</div></td>
+            <td class="pay-hide">PayPay</td>
+            <td class="amt">¥2,970</td>
+            <td style="text-align:center"><span class="pill paid">결제 완료</span></td>
+            <td style="text-align:right"><button class="link-btn" onclick="return receipt(this)">영수증</button></td>
+          </tr>
+          <tr>
+            <td class="date">2026-06-02</td>
+            <td><div class="pay-name" lang="ko">실전 모의고사 (중상급)</div><div class="pay-sub">주문번호 20260602-0688</div></td>
+            <td class="pay-hide">카드</td>
+            <td class="amt">¥5,940</td>
+            <td style="text-align:center"><span class="pill refunded">환불 완료</span></td>
+            <td style="text-align:right"><button class="link-btn" onclick="return receipt(this)">영수증</button></td>
+          </tr>
+          <tr>
+            <td class="date">2026-05-28</td>
+            <td><div class="pay-name" lang="ko">TOPIK 말하기 초급</div><div class="pay-sub">주문번호 20260528-0355</div></td>
+            <td class="pay-hide">편의점</td>
+            <td class="amt">¥4,950</td>
+            <td style="text-align:center"><span class="pill paid">결제 완료</span></td>
+            <td style="text-align:right"><button class="link-btn" onclick="return receipt(this)">영수증</button></td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+    </div>
+
+    <div class="notice-info">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+      <span>아직 응시하지 않은 시험은 접수 기간 내에 <a href="mypage-refunds.html" style="font-weight:700;text-decoration:underline">환불 신청</a>이 가능합니다. 응시를 시작한 시험은 환불되지 않아요.</span>
+    </div>
+  </main>
+</div>
+
+<a href="../index.html" class="demo-index-link">← ui2 인덱스</a>
+
+<!-- ===== 영수증(適格請求書 / 領収書) 모달 ===== -->
+<style>
+  .rc-overlay{position:fixed;inset:0;background:rgba(15,23,42,.55);display:none;align-items:flex-start;justify-content:center;z-index:200;padding:48px 20px;overflow-y:auto}
+  .rc-overlay.open{display:flex}
+  .rc-modal{background:#fff;width:100%;max-width:560px;border-radius:16px;box-shadow:0 24px 64px rgba(0,0,0,.28);overflow:hidden;animation:rcIn .18s ease}
+  @keyframes rcIn{from{opacity:0;transform:translateY(8px) scale(.98)}to{opacity:1;transform:none}}
+  .rc-bar{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:1px solid var(--grey-100)}
+  .rc-bar .t{font-size:14px;font-weight:800;color:var(--grey-900)}
+  .rc-close{width:32px;height:32px;border:none;background:var(--grey-50);border-radius:8px;color:var(--grey-600);cursor:pointer;font-size:16px;line-height:1;display:flex;align-items:center;justify-content:center}
+  .rc-close:hover{background:var(--grey-100);color:var(--grey-900)}
+  .rc-doc{padding:28px 32px 8px}
+  .rc-title-row{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:22px}
+  .rc-doc-title{font-size:26px;font-weight:800;letter-spacing:6px;color:var(--grey-900)}
+  .rc-badge{display:inline-block;margin-top:6px;font-size:11px;font-weight:700;color:var(--blue-600);background:var(--blue-50);border-radius:6px;padding:3px 8px}
+  .rc-issuer{text-align:right;font-size:11px;color:var(--grey-600);line-height:1.7}
+  .rc-issuer b{color:var(--grey-900);font-size:12px}
+  .rc-meta{display:flex;justify-content:space-between;font-size:12px;color:var(--grey-600);margin-bottom:18px}
+  .rc-meta .v{color:var(--grey-900);font-weight:600}
+  .rc-to{font-size:15px;font-weight:700;color:var(--grey-900);border-bottom:2px solid var(--grey-900);padding-bottom:6px;margin-bottom:16px;display:inline-block;min-width:180px}
+  .rc-to .sama{font-size:12px;font-weight:500;color:var(--grey-500);margin-left:6px}
+  .rc-amount-box{background:var(--grey-50);border-radius:10px;padding:14px 18px;display:flex;align-items:baseline;justify-content:space-between;margin-bottom:18px}
+  .rc-amount-box .lbl{font-size:12px;color:var(--grey-600);font-weight:600}
+  .rc-amount-box .amt{font-size:24px;font-weight:800;color:var(--grey-900)}
+  .rc-note{font-size:12px;color:var(--grey-600);margin-bottom:16px}
+  .rc-note b{color:var(--grey-900)}
+  table.rc-tbl{width:100%;border-collapse:collapse;margin-bottom:14px;font-size:12.5px}
+  table.rc-tbl th{text-align:left;color:var(--grey-500);font-weight:700;font-size:11px;padding:8px 10px;border-bottom:1px solid var(--grey-200)}
+  table.rc-tbl th.r,table.rc-tbl td.r{text-align:right}
+  table.rc-tbl td{padding:9px 10px;color:var(--grey-900);border-bottom:1px solid var(--grey-100)}
+  .rc-sum{margin-left:auto;width:220px;font-size:12.5px}
+  .rc-sum .row{display:flex;justify-content:space-between;padding:5px 10px}
+  .rc-sum .row.total{border-top:2px solid var(--grey-900);margin-top:4px;padding-top:8px;font-weight:800;font-size:14px;color:var(--grey-900)}
+  .rc-sum .row span:first-child{color:var(--grey-600)}
+  .rc-pay{display:flex;gap:24px;flex-wrap:wrap;font-size:12px;color:var(--grey-600);border-top:1px solid var(--grey-100);margin-top:8px;padding-top:14px}
+  .rc-pay .v{color:var(--grey-900);font-weight:600}
+  .rc-foot{display:flex;gap:8px;justify-content:flex-end;padding:16px 24px;background:var(--grey-50);border-top:1px solid var(--grey-100)}
+</style>
+<div class="rc-overlay" id="rcOverlay" onclick="if(event.target===this)closeReceipt()">
+  <div class="rc-modal" role="dialog" aria-modal="true" aria-label="영수증">
+    <div class="rc-bar">
+      <span class="t">영수증 · 適格請求書</span>
+      <button class="rc-close" onclick="closeReceipt()" aria-label="닫기">✕</button>
+    </div>
+    <div class="rc-doc">
+      <div class="rc-title-row">
+        <div>
+          <div class="rc-doc-title">領収書</div>
+          <span class="rc-badge">適格請求書（インボイス対応）</span>
+        </div>
+        <div class="rc-issuer">
+          <b>MaroPass 運営事務局</b><br>
+          株式会社ニューイン<br>
+          東京都渋谷区 ○○ 1-2-3<br>
+          登録番号 <b>T1234567890123</b>
+        </div>
+      </div>
+      <div class="rc-meta">
+        <div>発行日 <span class="v" id="rcDate">—</span></div>
+        <div>注文番号 <span class="v" id="rcOrder">—</span></div>
+      </div>
+      <div class="rc-to"><span id="rcName">ホン・ギルドン</span><span class="sama">様</span></div>
+      <div class="rc-amount-box">
+        <span class="lbl">領収金額（税込）</span>
+        <span class="amt" id="rcTotal">¥0</span>
+      </div>
+      <div class="rc-note">但し <b>TOPIK 受験料</b>として上記正に領収いたしました。</div>
+      <table class="rc-tbl">
+        <thead><tr><th>品目</th><th class="r">税率</th><th class="r">金額（税込）</th></tr></thead>
+        <tbody>
+          <tr><td id="rcItem">—</td><td class="r">10%</td><td class="r" id="rcItemAmt">¥0</td></tr>
+        </tbody>
+      </table>
+      <div class="rc-sum">
+        <div class="row"><span>小計（税抜）</span><span id="rcNet">¥0</span></div>
+        <div class="row"><span>消費税（10%）</span><span id="rcTax">¥0</span></div>
+        <div class="row total"><span>合計</span><span id="rcTotal2">¥0</span></div>
+      </div>
+      <div class="rc-pay">
+        <div>お支払方法 <span class="v" id="rcMethod">—</span></div>
+        <div>決済日 <span class="v" id="rcPaid">—</span></div>
+        <div>PG <span class="v">GMO-PG</span></div>
+      </div>
+    </div>
+    <div class="rc-foot">
+      <button class="btn btn-secondary" onclick="window.print()">인쇄</button>
+      <button class="btn btn-secondary" onclick="closeReceipt()">닫기</button>
+      <button class="btn btn-primary" onclick="alert('PDF 다운로드는 PG/백엔드 연동 후 제공됩니다.')">PDF 다운로드</button>
+    </div>
+  </div>
+</div>
+
+<script src="assets/user-shell.js"></script>
+<script>
+  function yen(n){ return '¥' + n.toLocaleString('ja-JP'); }
+  function receipt(el){
+    var c = el.closest('tr').cells;
+    var date  = c[0].textContent.trim();
+    var item  = (c[1].querySelector('.pay-name')||{}).textContent || c[1].textContent.trim();
+    var subEl = c[1].querySelector('.pay-sub');
+    var order = subEl ? subEl.textContent.replace(/[^0-9-]/g,'').trim() : '';
+    var method= c[2].textContent.trim();
+    var total = parseInt((c[3].textContent||'').replace(/[^0-9]/g,''), 10) || 0;
+    // 일본 소비세 10% 税込 → 税抜·소비세 역산
+    var net = Math.round(total / 1.1), tax = total - net;
+    var methodJa = method === '카드' ? 'クレジットカード'
+                 : method === 'PayPay' ? 'PayPay（コード決済）'
+                 : method === '편의점' ? 'コンビニ払い'
+                 : method;
+
+    document.getElementById('rcDate').textContent   = date.replace(/-/g,'/');
+    document.getElementById('rcOrder').textContent  = order;
+    document.getElementById('rcItem').textContent   = item.trim();
+    document.getElementById('rcMethod').textContent = methodJa;
+    document.getElementById('rcPaid').textContent   = date.replace(/-/g,'/');
+    document.getElementById('rcTotal').textContent  = yen(total);
+    document.getElementById('rcTotal2').textContent = yen(total);
+    document.getElementById('rcItemAmt').textContent= yen(total);
+    document.getElementById('rcNet').textContent    = yen(net);
+    document.getElementById('rcTax').textContent    = yen(tax);
+
+    document.getElementById('rcOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+    return false;
+  }
+  function closeReceipt(){
+    document.getElementById('rcOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeReceipt(); });
+</script>
+</body>
+</html>

@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MaroPass — TOPIK 말하기 초급</title>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+<link rel="stylesheet" href="assets/user.css">
+<style>
+  .td-wrap{background:var(--grey-50)}
+  .td-crumb{max-width:1200px;margin:0 auto;padding:16px 32px;font-size:13px;color:var(--grey-600)}
+  .td-crumb a{color:var(--grey-500);text-decoration:none}
+  .td-crumb a:hover{color:var(--blue-500)}
+
+  /* 히어로 */
+  .td-hero{background:#fff;border-bottom:1px solid var(--grey-200);padding:32px}
+  .td-hero-in{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:280px 1fr;gap:32px;align-items:center}
+  @media(max-width:768px){.td-hero-in{grid-template-columns:1fr}}
+  .td-hero-img{height:200px;background:var(--gradient-cta-blue);border-radius:16px;display:flex;align-items:center;justify-content:center;color:var(--blue-600);font-weight:700;font-size:18px}
+  .td-badges{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+  .td-badge{display:inline-block;padding:4px 10px;border-radius:999px;font-size:12px;font-weight:600}
+  .td-badge.blue{background:var(--blue-50);color:var(--blue-600)}
+  .td-badge.grey{background:var(--grey-100);color:var(--grey-700)}
+  .td-hero-title{font-size:32px;font-weight:800;color:var(--grey-900);margin:0 0 8px;letter-spacing:-.02em}
+  .td-hero-sub{color:var(--grey-600);font-size:15px;line-height:1.6;margin:0}
+  .td-rating{display:flex;align-items:center;gap:12px;margin-top:16px;font-size:13px;color:var(--grey-600);flex-wrap:wrap}
+  .td-rating .stars{color:#fbbf24;font-size:16px;letter-spacing:1px}
+  .td-rating .bar{color:var(--grey-300)}
+
+  /* 레이아웃 */
+  .td-layout{max-width:1200px;margin:0 auto;padding:32px;display:grid;grid-template-columns:1fr 360px;gap:32px}
+  @media(max-width:900px){.td-layout{grid-template-columns:1fr;padding:20px}}
+
+  .td-block{background:#fff;border:1px solid var(--grey-200);border-radius:16px;padding:28px;margin-bottom:16px}
+  .td-block-title{font-size:18px;font-weight:800;color:var(--grey-900);margin-bottom:16px}
+  .td-block-text{color:var(--grey-700);font-size:14px;line-height:1.75}
+  .td-block-text p{margin:0 0 12px}
+  .td-block-text p:last-child{margin-bottom:0}
+
+  .td-areas{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:4px}
+  @media(max-width:560px){.td-areas{grid-template-columns:1fr}}
+  .td-area{background:var(--grey-50);border-radius:12px;padding:16px}
+  .td-area.span{grid-column:span 2}
+  @media(max-width:560px){.td-area.span{grid-column:auto}}
+  .td-area-num{color:var(--blue-500);font-weight:800;font-size:13px;margin-bottom:4px;font-variant-numeric:tabular-nums}
+  .td-area-name{font-weight:700;color:var(--grey-900);margin-bottom:4px}
+  .td-area-desc{color:var(--grey-600);font-size:13px;line-height:1.5}
+
+  .td-sample{background:var(--grey-50);border-radius:12px;padding:20px;margin-top:4px}
+  .td-sample-tag{font-size:11px;font-weight:700;color:var(--blue-500);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
+  .td-sample-q{font-size:15px;font-weight:600;color:var(--grey-900);margin-bottom:8px}
+  .td-sample-text{color:var(--grey-700);font-size:13px;line-height:1.6}
+  .td-sample-say{margin-top:16px;padding:16px;background:#fff;border-radius:8px;text-align:center;font-size:22px;font-weight:700;color:var(--grey-900)}
+  .td-sample-actions{margin-top:12px;display:flex;gap:8px;flex-wrap:wrap}
+  .td-sample-btn{background:#fff;border:1px solid var(--grey-200);color:var(--grey-700);padding:6px 12px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;transition:border-color .15s,color .15s}
+  .td-sample-btn:hover{border-color:var(--blue-500);color:var(--blue-500)}
+
+  .td-check{list-style:none;padding:0;margin:0}
+  .td-check li{padding:8px 0;display:flex;gap:12px;font-size:14px;color:var(--grey-700);line-height:1.6}
+  .td-check li .c{color:var(--green-500);font-weight:800;flex-shrink:0}
+
+  .td-mini{border-bottom:1px solid var(--grey-100);padding:14px 0}
+  .td-mini:last-of-type{border-bottom:none}
+  .td-mini-q{font-weight:700;color:var(--grey-900);margin-bottom:6px;font-size:14px}
+  .td-mini-a{font-size:13.5px;color:var(--grey-700);line-height:1.6}
+  .td-faq-more{display:inline-block;margin-top:10px;font-size:13px;color:var(--blue-500);font-weight:700;text-decoration:none}
+
+  /* 구매 카드 (스티키) */
+  .td-buy{background:#fff;border:1px solid var(--grey-200);border-radius:20px;padding:28px;position:sticky;top:88px;box-shadow:0 8px 24px rgba(15,23,42,.06)}
+  .td-price-row{display:flex;align-items:baseline;gap:8px;margin-bottom:4px;flex-wrap:wrap}
+  .td-price-now{font-size:32px;font-weight:800;color:var(--grey-900);font-variant-numeric:tabular-nums}
+  .td-price-old{color:var(--grey-400);font-size:16px;text-decoration:line-through}
+  .td-price-off{background:var(--red-500);color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700}
+  .td-tax{font-size:12px;color:var(--grey-500);margin:0 0 16px}
+  .td-info{border-top:1px solid var(--grey-100);padding-top:4px;margin-bottom:20px}
+  .td-info-row{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--grey-100);font-size:14px}
+  .td-info-row:last-child{border-bottom:none}
+  .td-info-label{color:var(--grey-600)}
+  .td-info-value{color:var(--grey-900);font-weight:600}
+</style>
+</head>
+<body data-page="tests" data-authed="false">
+
+<div class="td-wrap">
+  <div class="td-crumb">
+    <a href="index.html" data-i18n="bc_home">홈</a> ›
+    <a href="tests.html" data-i18n="bc_tests">시험 목록</a> ›
+    <span lang="ko">TOPIK 말하기 초급</span>
+  </div>
+
+  <div class="td-hero">
+    <div class="td-hero-in">
+      <div class="td-hero-img"><span data-i18n="hero_img">말하기 진단</span></div>
+      <div>
+        <div class="td-badges">
+          <span class="td-badge blue" data-i18n="lvl">초급</span>
+          <span class="td-badge grey">TOPIK I</span>
+          <span class="td-badge grey" data-i18n="badge_speaking">말하기 단독</span>
+        </div>
+        <h1 class="td-hero-title" lang="ko">TOPIK 말하기 초급</h1>
+        <p class="td-hero-sub" data-i18n="hero_sub">학습 1~2년 미만의 초급 학습자를 위한 진단평가. 5영역 23문항으로 발음·유창성·어휘·문법·내용 구성을 종합 평가합니다.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="td-layout">
+    <main>
+      <!-- 📚 시험 소개 = 관리자 상품 등록(product-create)의 「상품 소개」 입력이 그대로 렌더되는 영역.
+           관리자 내부용 「시험 소개」(test-create)와는 다른 데이터. -->
+      <div class="td-block">
+        <div class="td-block-title" data-i18n="b_intro">📚 시험 소개</div>
+        <div class="td-block-text" data-bind="product.intro">
+          <p data-i18n-html="intro1"><strong>본 진단평가는 TOPIK I 수준의 초급 학습자를 위한 말하기 진단입니다.</strong> 학습 1~2년 미만 학습자가 자신의 말하기 실력을 객관적으로 확인할 수 있도록 설계되었습니다.</p>
+          <p data-i18n="intro2">시험은 5개 영역(발음·유창성·어휘·문법·내용 구성)으로 구성되며, 총 23문항을 약 25분 안에 응시합니다. 모든 답변은 자동 녹음되어 AI 채점 후 즉시 결과가 제공됩니다.</p>
+          <p data-i18n="intro3">총점 기반으로 진단 등급(A·B·C)이 부여되며, 영역별 5각 차트로 약점이 시각적으로 표시됩니다.</p>
+        </div>
+      </div>
+
+      <div class="td-block">
+        <div class="td-block-title" data-i18n="b_struct">🎯 5개 영역 / 23문항</div>
+        <div class="td-areas">
+          <div class="td-area"><div class="td-area-num">01</div><div class="td-area-name" data-i18n="a_pron">발음</div><div class="td-area-desc" data-i18n="a_pron_d">자음·모음·받침 정확도 평가 (4문항, 20%)</div></div>
+          <div class="td-area"><div class="td-area-num">02</div><div class="td-area-name" data-i18n="a_flu">유창성</div><div class="td-area-desc" data-i18n="a_flu_d">발화 속도·끊김 없는 응답 (5문항)</div></div>
+          <div class="td-area"><div class="td-area-num">03</div><div class="td-area-name" data-i18n="a_voc">어휘</div><div class="td-area-desc" data-i18n="a_voc_d">상황별 적절한 단어 선택 (4문항)</div></div>
+          <div class="td-area"><div class="td-area-num">04</div><div class="td-area-name" data-i18n="a_gram">문법</div><div class="td-area-desc" data-i18n="a_gram_d">기초 문법·종결 어미 정확도 (5문항)</div></div>
+          <div class="td-area span"><div class="td-area-num">05</div><div class="td-area-name" data-i18n="a_cont">내용 구성</div><div class="td-area-desc" data-i18n="a_cont_d">논리적 응답 구성·일관성 (5문항), 그림 보고 답하기·일상 대화 포함</div></div>
+        </div>
+      </div>
+
+      <div class="td-block">
+        <div class="td-block-title" data-i18n="b_get">✨ 응시 후 받는 것</div>
+        <ul class="td-check">
+          <li><span class="c">✓</span><span data-i18n="get1">결과 점수표 + 5각 레이더 차트로 영역별 약점 시각화</span></li>
+          <li><span class="c">✓</span><span data-i18n="get2">문항별 AI 피드백 (답안 vs STT 비교, 추천 연습)</span></li>
+          <li><span class="c">✓</span><span data-i18n="get3">A·B·C 진단 등급 + 종합 코멘트</span></li>
+          <li><span class="c">✓</span><span data-i18n="get4">위변조 검증 URL 포함 PDF 인증서</span></li>
+        </ul>
+      </div>
+
+      <div class="td-block">
+        <div class="td-block-title" data-i18n="b_faq">❓ 결제 전 자주 묻는 질문</div>
+        <div class="td-mini"><div class="td-mini-q" data-i18n="q1">결제 후 언제까지 응시할 수 있나요?</div><div class="td-mini-a" data-i18n-html="a1">결제일로부터 <strong>14일 이내</strong> 24시간 언제든 응시 가능합니다. 기간이 지나면 자동 만료되며 환불되지 않습니다.</div></div>
+        <div class="td-mini"><div class="td-mini-q" data-i18n="q2">환경 점검은 언제 하나요?</div><div class="td-mini-a" data-i18n="a2">시험 시작 직전 게이트에서 마이크·네트워크·브라우저를 자동 점검합니다. 결제 시점과는 분리되어 있어 지금 바로 결제 가능합니다.</div></div>
+        <div class="td-mini"><div class="td-mini-q" data-i18n="q3">결제 수단은 무엇이 가능한가요?</div><div class="td-mini-a" data-i18n="a3">신용카드(VISA·JCB·MasterCard)와 PayPay 결제를 지원합니다. 영수증 PDF가 자동 발행되어 마이페이지에서 다운로드 가능합니다.</div></div>
+        <a href="faq.html" class="td-faq-more" data-i18n="faq_more">→ 전체 FAQ 보기</a>
+      </div>
+    </main>
+
+    <aside>
+      <div class="td-buy">
+        <div class="td-price-row">
+          <span class="td-price-now">¥4,950</span>
+          <span class="td-price-old">¥6,600</span>
+          <span class="td-price-off">-25%</span>
+        </div>
+        <p class="td-tax" data-i18n="tax">소비세 포함 · 영수증 PDF 발행</p>
+
+        <style>
+          .td-plans{display:flex;flex-direction:column;gap:8px;margin:8px 0 16px}
+          .td-plan{border:1px solid var(--grey-200);border-radius:12px;padding:11px 13px;cursor:pointer;transition:.12s}
+          .td-plan.active{border-color:var(--blue-500);background:var(--blue-50)}
+          .td-plan .tp-top{display:flex;align-items:center;gap:8px}
+          .td-plan input{accent-color:var(--blue-500);width:16px;height:16px;flex-shrink:0}
+          .td-plan .tp-name{font-size:14px;font-weight:800;color:var(--grey-900)}
+          .td-plan .tp-tag{font-size:10px;font-weight:800;padding:2px 6px;border-radius:5px;background:var(--grey-100);color:var(--grey-600)}
+          .td-plan .tp-tag.prem{background:var(--purple-50,#f3eaff);color:var(--purple-500,#8b5cf6)}
+          .td-plan .tp-price{margin-left:auto;font-size:14px;font-weight:800;color:var(--grey-900);font-variant-numeric:tabular-nums}
+          .td-plan .tp-desc{font-size:11.5px;color:var(--grey-500);margin-top:5px;padding-left:24px;line-height:1.5}
+          .td-plan.active .tp-name,.td-plan.active .tp-price{color:var(--blue-600)}
+        </style>
+        <div class="td-plans" id="tdPlans">
+          <label class="td-plan active" data-plan="basic" data-price="4950" data-list="6600" data-rate="25" data-now="¥4,950" data-old="¥6,600" data-off="-25%">
+            <div class="tp-top"><input type="radio" name="tdplan" checked><span class="tp-name">베이직</span><span class="tp-tag">AI 자동채점</span><span class="tp-price">¥4,950</span></div>
+            <div class="tp-desc">응시 직후 AI 자동채점으로 즉시 최종 결과를 받아요.</div>
+          </label>
+          <label class="td-plan" data-plan="premium" data-price="9900" data-list="" data-rate="0" data-now="¥9,900" data-old="" data-off="">
+            <div class="tp-top"><input type="radio" name="tdplan"><span class="tp-name">프리미엄</span><span class="tp-tag prem">AI + 교수 채점</span><span class="tp-price">¥9,900</span></div>
+            <div class="tp-desc">AI 채점 후 <b>교수진이 음성을 듣고 정밀 채점·확정</b>(2영업일 내). AI 잠정 결과는 즉시 열람.</div>
+          </label>
+        </div>
+
+        <div class="td-info">
+          <div class="td-info-row"><span class="td-info-label" data-i18n="i_period">응시 기간</span><span class="td-info-value" data-i18n="i_period_v">결제 후 14일 이내</span></div>
+          <div class="td-info-row"><span class="td-info-label" data-i18n="i_time">시험 시간</span><span class="td-info-value">25<span data-i18n="u_min">분</span></span></div>
+          <div class="td-info-row"><span class="td-info-label" data-i18n="i_q">문항수</span><span class="td-info-value">23<span data-i18n="u_q">문항</span></span></div>
+          <div class="td-info-row"><span class="td-info-label" data-i18n="i_env">응시 환경</span><span class="td-info-value">PC</span></div>
+          <div class="td-info-row"><span class="td-info-label" data-i18n="i_req">필수 장비</span><span class="td-info-value" data-i18n="i_req_v">마이크 (헤드셋 권장)</span></div>
+        </div>
+
+        <a href="checkout.html?test=TOPIK%20말하기%20초급&price=4950&list=6600&rate=25" class="btn btn-primary btn-large" style="width:100%;justify-content:center" data-i18n="btn_buy">바로 구매하기</a>
+
+        <div class="notice-warn" style="margin-top:16px">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="22"/></svg>
+          <span data-i18n-html="env">🎙 <strong>환경 점검은 응시 직전</strong>에 진행됩니다. 마이크·네트워크·브라우저 점검은 시험 시작 직전 게이트에서 이뤄지며, 결제는 점검과 무관하게 지금 가능합니다.</span>
+        </div>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<a href="../index.html" class="demo-index-link">← ui2 인덱스</a>
+<script src="assets/user-shell.js"></script>
+<script>
+window.PAGE_I18N = {
+  ko:{
+    bc_home:'홈', bc_tests:'시험 목록',
+    hero_img:'말하기 진단', lvl:'초급', badge_speaking:'말하기 단독',
+    hero_sub:'학습 1~2년 미만의 초급 학습자를 위한 진단평가. 5영역 23문항으로 발음·유창성·어휘·문법·내용 구성을 종합 평가합니다.',
+    b_intro:'📚 시험 소개',
+    intro1:'<strong>본 진단평가는 TOPIK I 수준의 초급 학습자를 위한 말하기 진단입니다.</strong> 학습 1~2년 미만 학습자가 자신의 말하기 실력을 객관적으로 확인할 수 있도록 설계되었습니다.',
+    intro2:'시험은 5개 영역(발음·유창성·어휘·문법·내용 구성)으로 구성되며, 총 23문항을 약 25분 안에 응시합니다. 모든 답변은 자동 녹음되어 AI 채점 후 즉시 결과가 제공됩니다.',
+    intro3:'총점 기반으로 진단 등급(A·B·C)이 부여되며, 영역별 5각 차트로 약점이 시각적으로 표시됩니다.',
+    b_struct:'🎯 5개 영역 / 23문항',
+    a_pron:'발음', a_pron_d:'자음·모음·받침 정확도 평가 (4문항, 20%)',
+    a_flu:'유창성', a_flu_d:'발화 속도·끊김 없는 응답 (5문항)',
+    a_voc:'어휘', a_voc_d:'상황별 적절한 단어 선택 (4문항)',
+    a_gram:'문법', a_gram_d:'기초 문법·종결 어미 정확도 (5문항)',
+    a_cont:'내용 구성', a_cont_d:'논리적 응답 구성·일관성 (5문항), 그림 보고 답하기·일상 대화 포함',
+    b_get:'✨ 응시 후 받는 것',
+    get1:'결과 점수표 + 5각 레이더 차트로 영역별 약점 시각화',
+    get2:'문항별 AI 피드백 (답안 vs STT 비교, 추천 연습)',
+    get3:'A·B·C 진단 등급 + 종합 코멘트',
+    get4:'위변조 검증 URL 포함 PDF 인증서',
+    b_faq:'❓ 결제 전 자주 묻는 질문',
+    q1:'결제 후 언제까지 응시할 수 있나요?',
+    a1:'결제일로부터 <strong>14일 이내</strong> 24시간 언제든 응시 가능합니다. 기간이 지나면 자동 만료되며 환불되지 않습니다.',
+    q2:'환경 점검은 언제 하나요?',
+    a2:'시험 시작 직전 게이트에서 마이크·네트워크·브라우저를 자동 점검합니다. 결제 시점과는 분리되어 있어 지금 바로 결제 가능합니다.',
+    q3:'결제 수단은 무엇이 가능한가요?',
+    a3:'신용카드(VISA·JCB·MasterCard)와 PayPay 결제를 지원합니다. 영수증 PDF가 자동 발행되어 마이페이지에서 다운로드 가능합니다.',
+    faq_more:'→ 전체 FAQ 보기',
+    tax:'소비세 포함 · 영수증 PDF 발행',
+    i_period:'응시 기간', i_period_v:'결제 후 14일 이내',
+    i_time:'시험 시간', u_min:'분', i_q:'문항수', u_q:'문항',
+    i_env:'응시 환경', i_req:'필수 장비', i_req_v:'마이크 (헤드셋 권장)',
+    btn_buy:'바로 구매하기',
+    env:'🎙 <strong>환경 점검은 응시 직전</strong>에 진행됩니다. 마이크·네트워크·브라우저 점검은 시험 시작 직전 게이트에서 이뤄지며, 결제는 점검과 무관하게 지금 가능합니다.'
+  },
+  ja:{
+    bc_home:'ホーム', bc_tests:'試験一覧',
+    hero_img:'スピーキング診断', lvl:'初級', badge_speaking:'スピーキング単独',
+    hero_sub:'学習1〜2年未満の初級学習者向けの診断評価。5領域23問で発音・流暢さ・語彙・文法・内容構成を総合評価します。',
+    b_intro:'📚 試験について',
+    intro1:'<strong>この診断評価はTOPIK Iレベルの初級学習者向けのスピーキング診断です。</strong> 学習1〜2年未満の学習者が自分のスピーキング能力を客観的に確認できるよう設計されています。',
+    intro2:'試験は5領域(発音・流暢さ・語彙・文法・内容構成)で構成され、計23問を約25分で受験します。全回答は自動録音されAI採点後、即時に結果が提供されます。',
+    intro3:'総点数に基づき診断等級(A・B・C)が付与され、領域別の5角チャートで弱点が視覚化されます。',
+    b_struct:'🎯 5領域 / 23問',
+    a_pron:'発音', a_pron_d:'子音・母音・パッチム正確度評価 (4問, 20%)',
+    a_flu:'流暢さ', a_flu_d:'発話速度・途切れない応答 (5問)',
+    a_voc:'語彙', a_voc_d:'状況別の適切な単語選択 (4問)',
+    a_gram:'文法', a_gram_d:'基礎文法・終結語尾正確度 (5問)',
+    a_cont:'内容構成', a_cont_d:'論理的応答構成・一貫性 (5問), 絵を見て答える・日常会話を含む',
+    b_get:'✨ 受験後に得られるもの',
+    get1:'結果スコア表 + 5角レーダーチャートで領域別の弱点を視覚化',
+    get2:'問題別AIフィードバック (回答 vs STT比較、推奨練習)',
+    get3:'A・B・C診断等級 + 総合コメント',
+    get4:'偽造防止検証URL付きPDF証明書',
+    b_faq:'❓ 決済前のよくある質問',
+    q1:'決済後いつまで受験できますか?',
+    a1:'決済日から<strong>14日以内</strong>、24時間いつでも受験可能です。期間を過ぎると自動失効し、返金されません。',
+    q2:'動作環境チェックはいつ行いますか?',
+    a2:'試験開始直前のゲートでマイク・ネットワーク・ブラウザを自動チェックします。決済時点とは分離されているため、今すぐ決済可能です。',
+    q3:'決済手段は何が利用できますか?',
+    a3:'クレジットカード(VISA·JCB·MasterCard)とPayPayをサポート。領収書PDFが自動発行され、マイページからダウンロード可能です。',
+    faq_more:'→ 全FAQを見る',
+    tax:'消費税込み · 領収書PDF発行',
+    i_period:'受験期間', i_period_v:'決済後14日以内',
+    i_time:'試験時間', u_min:'分', i_q:'問題数', u_q:'問',
+    i_env:'受験環境', i_req:'必須機器', i_req_v:'マイク (ヘッドセット推奨)',
+    btn_buy:'今すぐ購入',
+    env:'🎙 <strong>動作環境チェックは受験直前</strong>に行います。マイク・ネットワーク・ブラウザのチェックは試験開始直前のゲートで実行され、決済はチェックとは無関係に今すぐ可能です。'
+  }
+};
+</script>
+<script>
+  // 플랜 선택 → 가격·구매 링크 연동
+  (function () {
+    var plans = document.querySelectorAll('#tdPlans .td-plan');
+    if (!plans.length) return;
+    var buy = document.querySelector('.td-buy .btn-primary');
+    var now = document.querySelector('.td-buy .td-price-now');
+    var old = document.querySelector('.td-buy .td-price-old');
+    var off = document.querySelector('.td-buy .td-price-off');
+    var testName = (document.querySelector('.td-hero-title') || {}).textContent || '시험';
+    function apply(p) {
+      plans.forEach(function (x) { x.classList.toggle('active', x === p); });
+      var inp = p.querySelector('input'); if (inp) inp.checked = true;
+      if (now) now.textContent = p.dataset.now;
+      if (old) { old.style.display = p.dataset.old ? '' : 'none'; old.textContent = p.dataset.old || ''; }
+      if (off) { off.style.display = p.dataset.off ? '' : 'none'; off.textContent = p.dataset.off || ''; }
+      if (buy) buy.href = 'checkout.html?test=' + encodeURIComponent(testName) +
+        '&price=' + p.dataset.price + '&list=' + (p.dataset.list || '') + '&rate=' + (p.dataset.rate || '0') + '&plan=' + p.dataset.plan;
+    }
+    plans.forEach(function (p) { p.addEventListener('click', function () { apply(p); }); });
+  })();
+</script>
+</body>
+</html>

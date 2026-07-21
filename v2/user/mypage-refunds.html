@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MaroPass — 환불</title>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+<link rel="stylesheet" href="assets/user.css">
+<style>
+  .rf-eligible{display:flex;align-items:center;gap:14px;padding:16px 0}
+  .rf-eligible+.rf-eligible{border-top:1px solid var(--grey-100)}
+  .rf-thumb{width:64px;height:48px;border-radius:8px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;background:var(--gradient-cta-blue);color:var(--blue-600)}
+  .rf-amt{font-variant-numeric:tabular-nums;font-weight:700}
+  .rf-hist{display:flex;align-items:center;gap:12px;padding:14px 0;font-size:13.5px}
+  .rf-hist+.rf-hist{border-top:1px solid var(--grey-100)}
+  .rf-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+  .rf-dot.done{background:var(--green-500)}
+  .rf-dot.ing{background:var(--orange-500)}
+  .pill{display:inline-flex;align-items:center;padding:3px 9px;border-radius:999px;font-size:11px;font-weight:700}
+  .pill.done{background:var(--green-50);color:var(--green-500)}
+  .pill.ing{background:var(--orange-50);color:var(--orange-500)}
+  /* modal */
+  .rf-backdrop{position:fixed;inset:0;background:rgba(15,23,42,.5);display:none;align-items:center;justify-content:center;z-index:60;padding:20px}
+  .rf-backdrop.show{display:flex}
+  .rf-modal{background:#fff;border-radius:18px;max-width:440px;width:100%;padding:26px}
+  .rf-modal h2{font-size:19px;font-weight:800;margin:0 0 6px}
+  .rf-modal p{font-size:13.5px;color:var(--grey-600);line-height:1.6;margin:0 0 18px}
+  .rf-modal label{display:block;font-size:12.5px;font-weight:700;color:var(--grey-800);margin-bottom:6px}
+  .rf-modal select,.rf-modal textarea{width:100%;padding:10px 12px;border:1px solid var(--grey-200);border-radius:10px;font-size:14px;font-family:inherit;margin-bottom:14px}
+  .rf-modal textarea{resize:vertical;min-height:72px}
+  .rf-refundbox{background:var(--grey-50);border-radius:12px;padding:14px 16px;margin-bottom:18px}
+  .rf-refundbox .row{display:flex;justify-content:space-between;font-size:13px;color:var(--grey-700);padding:3px 0}
+  .rf-refundbox .row strong{color:var(--grey-900)}
+  @media(max-width:520px){
+    .rf-eligible{flex-wrap:wrap}
+    .rf-eligible>div:nth-child(2){flex-basis:calc(100% - 78px)}
+    .rf-eligible>div:last-child{margin-left:auto;text-align:right}
+    .rf-hist{flex-wrap:wrap}
+  }
+</style>
+</head>
+<body data-page="mypage" data-authed="true">
+
+<div class="mp-layout">
+  <aside class="mp-sidebar">
+    <div class="mp-sb-section">시험·결과</div>
+    <a href="mypage.html" class="mp-sb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg><span>대시보드</span></a>
+    <a href="mypage-tests.html" class="mp-sb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg><span>응시할 시험</span><span class="badge">2</span></a>
+    <a href="mypage-results.html" class="mp-sb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>결과</span></a>
+    <a href="mypage-certificates.html" class="mp-sb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span>인증서</span></a>
+    <div class="mp-sb-section" style="margin-top:8px">결제</div>
+    <a href="mypage-payments.html" class="mp-sb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg><span>결제 내역</span></a>
+    <a href="mypage-refunds.html" class="mp-sb-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg><span>환불</span></a>
+    <div class="mp-sb-section" style="margin-top:8px">계정</div>
+    <a href="mypage-profile.html" class="mp-sb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>프로필</span></a>
+    <a href="mypage-inquiries.html" class="mp-sb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span>문의 내역</span></a>
+  </aside>
+
+  <main>
+    <h1 class="page-title">환불</h1>
+    <p class="page-desc">아직 응시하지 않은 시험은 접수 기간 내 환불 신청이 가능해요. 응시를 시작한 시험은 환불 대상이 아닙니다.</p>
+
+    <div class="mp-card">
+      <div class="mp-card-head"><h2>환불 가능한 결제</h2></div>
+      <div class="rf-eligible">
+        <div class="rf-thumb">말하기</div>
+        <div style="flex:1">
+          <div class="test-name" lang="ko">TOPIK 말하기 초급</div>
+          <div class="test-meta">2026-05-28 결제 · 미응시 · <span class="chip-paid">환불 가능</span></div>
+        </div>
+        <div style="text-align:right">
+          <div class="rf-amt">¥4,950</div>
+          <button class="btn btn-secondary" style="margin-top:6px;font-size:13px;padding:7px 14px" onclick="openRf('TOPIK 말하기 초급','¥4,950')">환불 신청</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="mp-card">
+      <div class="mp-card-head"><h2>환불 진행 내역</h2></div>
+      <div class="rf-hist">
+        <span class="rf-dot done"></span>
+        <div style="flex:1"><span style="font-weight:700" lang="ko">실전 모의고사 (중상급)</span> <span style="color:var(--grey-500)">· 2026-06-03 신청</span></div>
+        <span class="rf-amt">¥5,940</span>
+        <span class="pill done">환불 완료</span>
+      </div>
+      <div class="rf-hist">
+        <span class="rf-dot ing"></span>
+        <div style="flex:1"><span style="font-weight:700" lang="ko">영역별 연습 세트</span> <span style="color:var(--grey-500)">· 2026-06-27 신청</span></div>
+        <span class="rf-amt">¥1,980</span>
+        <span class="pill ing">처리 중</span>
+      </div>
+    </div>
+
+    <div class="notice-warn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      <span>환불은 원 결제수단으로 처리되며 카드 3~5영업일, 편의점 결제는 계좌 확인 후 처리됩니다. 응시 기간이 만료된 시험은 환불되지 않으니 유의하세요.</span>
+    </div>
+  </main>
+</div>
+
+<div class="rf-backdrop" id="rf-modal">
+  <div class="rf-modal">
+    <h2>환불 신청</h2>
+    <p><strong id="rf-name" lang="ko">TOPIK 말하기 초급</strong> 결제 건을 환불 신청합니다.</p>
+    <label>환불 사유</label>
+    <select>
+      <option>단순 변심</option>
+      <option>중복 결제</option>
+      <option>시험 정보와 다름</option>
+      <option>기타</option>
+    </select>
+    <label>상세 내용 (선택)</label>
+    <textarea placeholder="환불 사유를 자세히 적어주시면 처리에 도움이 됩니다."></textarea>
+    <div class="rf-refundbox">
+      <div class="row"><span>결제 금액</span><span class="rf-amt" id="rf-amt">¥4,950</span></div>
+      <div class="row"><span>환불 예정 금액</span><strong class="rf-amt" id="rf-amt2">¥4,950</strong></div>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="btn btn-secondary" style="flex:1;justify-content:center" onclick="closeRf()">취소</button>
+      <button class="btn btn-primary" style="flex:1.4;justify-content:center" onclick="submitRf(this)">환불 신청하기</button>
+    </div>
+  </div>
+</div>
+
+<a href="../index.html" class="demo-index-link">← ui2 인덱스</a>
+<script src="assets/user-shell.js"></script>
+<script>
+  function openRf(name,amt){document.getElementById('rf-name').textContent=name;document.getElementById('rf-amt').textContent=amt;document.getElementById('rf-amt2').textContent=amt;document.getElementById('rf-modal').classList.add('show');}
+  function closeRf(){document.getElementById('rf-modal').classList.remove('show');}
+  function submitRf(el){el.textContent='신청 접수 중…';setTimeout(function(){closeRf();el.textContent='환불 신청하기';alert('환불 신청이 접수되었습니다. 처리 결과는 문의 내역과 이메일로 안내됩니다.');},700);}
+  document.getElementById('rf-modal').addEventListener('click',function(e){if(e.target===this)closeRf();});
+</script>
+</body>
+</html>

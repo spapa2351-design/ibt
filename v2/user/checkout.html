@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MaroPass — 결제</title>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+<link rel="stylesheet" href="assets/user.css">
+<style>
+  .co-layout{max-width:920px;margin:0 auto;padding:40px 32px;display:grid;grid-template-columns:1fr 320px;gap:28px}
+  @media(max-width:800px){.co-layout{grid-template-columns:1fr;padding:24px 20px}}
+  .co-h{grid-column:1/-1}
+  .co-sec{background:#fff;border:1px solid var(--grey-200);border-radius:16px;padding:24px;margin-bottom:16px}
+  .co-sec h2{font-size:15px;font-weight:800;margin:0 0 16px}
+  .pay-opt{display:flex;align-items:center;gap:12px;padding:14px;border:1.5px solid var(--grey-200);border-radius:12px;cursor:pointer;margin-bottom:10px;font-size:14px;font-weight:600}
+  .pay-opt.on{border-color:var(--blue-500);background:var(--blue-50);color:var(--blue-600)}
+  .pay-opt .dot{width:18px;height:18px;border-radius:50%;border:2px solid var(--grey-300);flex-shrink:0}
+  .pay-opt.on .dot{border-color:var(--blue-500);background:radial-gradient(circle,#fff 30%,var(--blue-500) 35%)}
+  .sum-card{background:#fff;border:1px solid var(--grey-200);border-radius:16px;padding:22px;position:sticky;top:88px}
+  .sum-row{display:flex;justify-content:space-between;font-size:13.5px;color:var(--grey-700);padding:6px 0}
+  .sum-total{display:flex;justify-content:space-between;font-size:18px;font-weight:800;border-top:1px solid var(--grey-200);margin-top:10px;padding-top:14px}
+  .field label{display:block;font-size:13px;font-weight:700;color:var(--grey-800);margin-bottom:6px}
+  .field input{width:100%;padding:10px 12px;border:1px solid var(--grey-200);border-radius:10px;font-size:14px;font-family:inherit}
+  .field{margin-bottom:14px}
+  /* success */
+  .co-success{max-width:520px;margin:0 auto;padding:64px 24px;text-align:center;display:none}
+  .co-success.show{display:block}
+  .co-layout.hide{display:none}
+  .suc-icon{width:88px;height:88px;border-radius:50%;background:var(--green-50);display:flex;align-items:center;justify-content:center;margin:0 auto 20px}
+  .suc-icon svg{width:44px;height:44px;color:var(--green-500)}
+  .suc-title{font-size:24px;font-weight:800;margin:0 0 8px}
+  .suc-desc{color:var(--grey-600);font-size:14px;line-height:1.6;margin:0 0 28px}
+  .suc-card{background:var(--grey-50);border-radius:14px;padding:18px 20px;text-align:left;margin-bottom:24px}
+</style>
+</head>
+<body data-page="tests" data-authed="true">
+
+<div class="co-layout" id="co-form">
+  <div class="co-h"><h1 class="page-title">결제</h1><p class="page-desc">결제가 완료되면 마이페이지 <strong>응시할 시험</strong>에 바로 추가됩니다.</p></div>
+  <main>
+    <div class="co-sec">
+      <h2>주문 상품</h2>
+      <div class="test-row" style="padding-top:0">
+        <div class="test-thumb">말하기</div>
+        <div style="flex:1"><div class="test-name" id="co-name" lang="ko">TOPIK 말하기 초급</div><div class="test-meta"><b id="co-plan" style="color:var(--blue-600)">베이직 · AI 자동채점</b> · 결제 후 14일 응시 가능</div></div>
+        <div style="font-weight:800" id="co-price">¥4,950</div>
+      </div>
+    </div>
+    <div class="co-sec">
+      <h2>주문자 정보</h2>
+      <div class="field"><label>이름</label><input type="text" value="홍길동"></div>
+      <div class="field"><label>이메일 (영수증·안내 발송)</label><input type="email" value="hong@example.com"></div>
+    </div>
+    <div class="co-sec">
+      <h2>결제 수단</h2>
+      <div class="pay-opt on" onclick="pick(this)"><span class="dot"></span><span>신용/체크카드</span></div>
+      <div class="pay-opt" onclick="pick(this)"><span class="dot"></span><span>PayPay</span></div>
+    </div>
+  </main>
+  <aside>
+    <div class="sum-card">
+      <div class="sum-row"><span>상품 금액</span><span id="sum-item">¥4,950</span></div>
+      <div class="sum-row"><span id="sum-disc-label">할인</span><span id="sum-disc">-¥0</span></div>
+      <div class="sum-total"><span>총 결제 금액</span><span id="sum-total">¥4,950</span></div>
+      <button class="btn btn-primary btn-large" style="width:100%;justify-content:center;margin-top:18px" onclick="payNow()">결제하기</button>
+      <p style="font-size:11.5px;color:var(--grey-500);line-height:1.6;margin:12px 0 0">결제 시 이용약관 및 환불 정책에 동의하는 것으로 간주됩니다. 미응시 시 접수 기간 내 환불 신청이 가능합니다.</p>
+    </div>
+  </aside>
+</div>
+
+<div class="co-success" id="co-success">
+  <div class="suc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></div>
+  <h1 class="suc-title">결제가 완료되었습니다 🎉</h1>
+  <p class="suc-desc">응시할 시험에 추가되었어요. 지금 바로 응시하거나, 결제 후 14일 이내 언제든 마이페이지에서 시작할 수 있습니다.</p>
+  <div class="suc-card">
+    <div class="sum-row"><span>상품</span><span id="suc-name" style="font-weight:700;color:var(--grey-900)">TOPIK 말하기 초급</span></div>
+    <div class="sum-row"><span>결제 금액</span><span id="suc-price" style="font-weight:700;color:var(--grey-900)">¥4,950</span></div>
+    <div class="sum-row"><span>응시 기한</span><span style="font-weight:700;color:var(--grey-900)">D-14</span></div>
+  </div>
+  <a class="btn btn-primary btn-large" style="width:100%;justify-content:center" href="exam-gate.html">지금 바로 응시하기 →</a>
+  <a class="btn btn-secondary" style="width:100%;justify-content:center;margin-top:8px" href="mypage-tests.html">나중에 · 마이페이지로</a>
+</div>
+
+<a href="../index.html" class="demo-index-link">← ui2 인덱스</a>
+<script src="assets/user-shell.js"></script>
+<script>
+  var p = new URLSearchParams(location.search);
+  var name = p.get('test') || 'TOPIK 말하기 초급';
+  var finalPrice = Number(p.get('price') || 4950);
+  var listPrice = Number(p.get('list') || finalPrice);
+  var rate = Number(p.get('rate') || 0);
+  var plan = p.get('plan') === 'premium' ? 'premium' : 'basic';
+  var planLabel = plan === 'premium' ? '프리미엄 · AI + 교수 채점' : '베이직 · AI 자동채점';
+  var disc = Math.max(0, listPrice - finalPrice);
+  function y(n){ return '¥' + Number(n).toLocaleString(); }
+  ['co-name','suc-name'].forEach(function(id){document.getElementById(id).textContent=name;});
+  var coPlan = document.getElementById('co-plan'); if (coPlan) coPlan.textContent = planLabel;
+  document.getElementById('co-price').textContent = y(listPrice);
+  document.getElementById('sum-item').textContent = y(listPrice);
+  document.getElementById('sum-disc').textContent = '-' + y(disc);
+  document.getElementById('sum-disc-label').textContent = rate > 0 ? ('할인 (' + rate + '%)') : '할인';
+  document.getElementById('sum-total').textContent = y(finalPrice);
+  document.getElementById('suc-price').textContent = y(finalPrice);
+  function pick(el){document.querySelectorAll('.pay-opt').forEach(function(x){x.classList.remove('on')});el.classList.add('on');}
+  function payNow(){
+    document.getElementById('co-form').classList.add('hide');
+    document.getElementById('co-success').classList.add('show');
+    window.scrollTo(0,0);
+    // 응시 링크에 시험명 전달
+    document.querySelector('#co-success a.btn-primary').href = 'exam-gate.html?test=' + encodeURIComponent(name) + '&plan=' + plan;
+  }
+</script>
+</body>
+</html>

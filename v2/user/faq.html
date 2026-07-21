@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MaroPass — 고객센터 · FAQ</title>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+<link rel="stylesheet" href="assets/user.css">
+<style>
+  .sup-head{background:var(--gradient-hero-soft);padding:56px 32px 44px;text-align:center}
+  .sup-head h1{font-size:32px;font-weight:800;margin:0 0 10px;letter-spacing:-.5px}
+  .sup-head p{color:var(--grey-600);font-size:15px;margin:0 auto;max-width:520px;line-height:1.6}
+  .sup-search{max-width:520px;margin:24px auto 0;position:relative}
+  .sup-search input{width:100%;padding:13px 16px 13px 44px;border:1px solid var(--grey-200);border-radius:12px;font-size:14px;font-family:inherit;background:#fff;box-shadow:0 2px 10px rgba(15,23,42,.05)}
+  .sup-search svg{position:absolute;left:15px;top:50%;transform:translateY(-50%);color:var(--grey-400)}
+  .sup-body{max-width:820px;margin:0 auto;padding:40px 32px 64px}
+  .cat-row{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:28px}
+  .cat-chip{padding:8px 16px;border-radius:999px;font-size:13px;font-weight:600;background:#fff;border:1px solid var(--grey-200);color:var(--grey-700);cursor:pointer;transition:border-color .15s,color .15s,background .15s}
+  .cat-chip.active{background:var(--blue-500);border-color:var(--blue-500);color:#fff}
+  .faq{border:1px solid var(--grey-200);border-radius:12px;margin-bottom:10px;overflow:hidden;background:#fff}
+  .faq-q{display:flex;align-items:center;gap:12px;padding:18px 20px;cursor:pointer;font-size:15px;font-weight:600;color:var(--grey-900)}
+  .faq-q:hover{background:var(--grey-50)}
+  .faq-q .qmark{width:24px;height:24px;border-radius:7px;background:var(--blue-50);color:var(--blue-500);font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .faq-q .chev{margin-left:auto;color:var(--grey-400);transition:transform .2s;flex-shrink:0}
+  .faq.open .chev{transform:rotate(180deg)}
+  .faq-a{display:none;padding:0 20px 20px 52px;font-size:14px;line-height:1.75;color:var(--grey-700)}
+  .faq.open .faq-a{display:block}
+  .faq-a a{color:var(--blue-500);font-weight:700;text-decoration:none}
+  .sup-cta{background:#fff;border:1px solid var(--grey-200);border-radius:18px;padding:32px;text-align:center;margin-top:36px}
+  .sup-cta h2{font-size:20px;font-weight:800;margin:0 0 8px}
+  .sup-cta p{font-size:14px;color:var(--grey-600);margin:0 0 20px;line-height:1.6}
+  .sup-cta .btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+  .sup-meta{display:flex;gap:24px;justify-content:center;margin-top:20px;font-size:12.5px;color:var(--grey-500);flex-wrap:wrap}
+  @media(max-width:768px){.sup-head{padding:44px 20px 36px}.sup-body{padding:32px 20px 48px}.faq-a{padding-left:20px}}
+</style>
+</head>
+<body data-page="support" data-authed="false">
+
+<div class="sup-head">
+  <h1 data-i18n="h1">무엇을 도와드릴까요?</h1>
+  <p data-i18n="lead">자주 묻는 질문에서 답을 먼저 찾아보세요. 해결되지 않으면 1:1 문의로 연결됩니다.</p>
+  <div class="sup-search">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <input type="search" id="faq-search" placeholder="궁금한 내용을 검색하세요" data-i18n-ph oninput="filterFaq(this.value)">
+  </div>
+</div>
+
+<nav class="cs-tabs">
+  <a href="notice.html" class="cs-tab" data-i18n="tab_notice">공지사항</a>
+  <a href="faq.html" class="cs-tab active" data-i18n="tab_faq">자주 묻는 질문</a>
+  <a href="mypage-inquiries.html" class="cs-tab" data-i18n="tab_inq">1:1 문의</a>
+</nav>
+
+<div class="sup-body">
+  <div class="cat-row">
+    <button class="cat-chip active" data-cat="all" onclick="pickCat(this)">전체</button>
+    <button class="cat-chip" data-cat="pay" onclick="pickCat(this)">결제·환불</button>
+    <button class="cat-chip" data-cat="exam" onclick="pickCat(this)">응시</button>
+    <button class="cat-chip" data-cat="result" onclick="pickCat(this)">결과·인증서</button>
+    <button class="cat-chip" data-cat="account" onclick="pickCat(this)">계정</button>
+  </div>
+
+  <div id="faq-list">
+    <div class="faq" data-cat="exam"><div class="faq-q" onclick="toggle(this)"><span class="qmark">Q</span><span lang="ko">응시는 어떻게 진행되나요? 새 창이 열리나요?</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div><div class="faq-a" lang="ko">별도 창은 열리지 않아요. 마이페이지 <strong>응시할 시험</strong>에서 응시하기를 누르면 같은 사이트 안에서 <strong>환경 점검 → 응시 → 결과</strong>가 순서대로 이어집니다. 응시 중에도 상단에서 진행 단계를 확인할 수 있어요.</div></div>
+
+    <div class="faq" data-cat="exam"><div class="faq-q" onclick="toggle(this)"><span class="qmark">Q</span><span lang="ko">응시 전 환경 점검은 왜 하나요?</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div><div class="faq-a" lang="ko">말하기 시험은 마이크 녹음이 핵심이라, 응시 전에 마이크·네트워크·브라우저를 점검해 녹음 실패를 예방합니다. 한 번 통과한 환경 점검은 <strong>동일 기기에서 30일간</strong> 유효해요.</div></div>
+
+    <div class="faq" data-cat="exam"><div class="faq-q" onclick="toggle(this)"><span class="qmark">Q</span><span lang="ko">응시 중 마이크가 인식되지 않으면 어떻게 하나요?</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div><div class="faq-a" lang="ko">브라우저 주소창의 마이크 권한이 허용되어 있는지 먼저 확인하세요. 그래도 인식되지 않으면 응시를 중단하고 <a href="mypage-inquiries.html">1:1 문의</a>로 알려주시면 재응시를 도와드립니다.</div></div>
+
+    <div class="faq" data-cat="pay"><div class="faq-q" onclick="toggle(this)"><span class="qmark">Q</span><span lang="ko">결제 후 언제까지 응시할 수 있나요?</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div><div class="faq-a" lang="ko">결제일로부터 <strong>14일 이내</strong> 24시간 언제든 응시할 수 있어요. 기간이 지나면 자동 만료되며 환불되지 않으니, 마이페이지의 D-day 안내를 확인해 주세요.</div></div>
+
+    <div class="faq" data-cat="pay"><div class="faq-q" onclick="toggle(this)"><span class="qmark">Q</span><span lang="ko">어떤 결제 수단을 쓸 수 있나요?</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div><div class="faq-a" lang="ko">신용/체크카드, PayPay, 편의점 결제(コンビニ)를 지원합니다. 편의점 결제는 입금 확인까지 최대 30분이 걸릴 수 있으며, 확인되면 <strong>응시할 시험</strong>에 자동 추가돼요.</div></div>
+
+    <div class="faq" data-cat="pay"><div class="faq-q" onclick="toggle(this)"><span class="qmark">Q</span><span lang="ko">환불은 어떻게 신청하나요?</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div><div class="faq-a" lang="ko">아직 응시하지 않은 시험은 접수 기간 내에 마이페이지 <a href="mypage-refunds.html">환불</a> 메뉴에서 신청할 수 있어요. 응시를 시작한 시험은 환불 대상이 아닙니다. 카드 환불은 3~5영업일이 걸립니다.</div></div>
+
+    <div class="faq" data-cat="result"><div class="faq-q" onclick="toggle(this)"><span class="qmark">Q</span><span lang="ko">결과는 언제 나오나요?</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div><div class="faq-a" lang="ko">응시를 마치면 자동 채점되어 <a href="mypage-results.html">결과</a> 메뉴에 바로 기록돼요. 영역별 상세 점수와 발음 피드백, 모범 답안을 결과 상세에서 볼 수 있습니다.</div></div>
+
+    <div class="faq" data-cat="result"><div class="faq-q" onclick="toggle(this)"><span class="qmark">Q</span><span lang="ko">MaroPass 인증서를 공식 성적으로 쓸 수 있나요?</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div><div class="faq-a" lang="ko">MaroPass 인증서는 말하기 능력을 가늠하는 <strong>진단 참고 자료</strong>로, 인증번호로 진위 확인이 가능합니다. 다만 국립국제교육원의 공식 TOPIK 성적증명서를 대체하지는 않으니 제출처의 인정 기준을 확인해 주세요.</div></div>
+
+    <div class="faq" data-cat="account"><div class="faq-q" onclick="toggle(this)"><span class="qmark">Q</span><span lang="ko">이메일 주소를 바꾸고 싶어요.</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div><div class="faq-a" lang="ko">이메일은 계정 식별과 영수증 발송에 쓰여 본인 인증이 필요해요. <a href="mypage-inquiries.html">1:1 문의</a>로 요청해 주시면 확인 후 변경해 드립니다. 이름·전화번호·언어는 <a href="mypage-profile.html">프로필</a>에서 직접 수정할 수 있어요.</div></div>
+  </div>
+
+  <div id="faq-empty" class="notice-info" style="display:none">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+    <span>검색 결과가 없어요. 다른 키워드로 찾아보거나 아래에서 1:1 문의를 남겨주세요.</span>
+  </div>
+
+  <div class="sup-cta">
+    <h2 data-i18n="cta_h">찾는 답이 없으신가요?</h2>
+    <p data-i18n="cta_p">1:1 문의를 남겨주시면 보통 1영업일 이내에 답변드려요.</p>
+    <div class="btns">
+      <a class="btn btn-primary btn-large" href="mypage-inquiries.html" data-i18n="cta_inq">1:1 문의하기</a>
+      <a class="btn btn-secondary" href="mypage.html" style="padding:14px 24px" data-i18n="cta_my">마이페이지로</a>
+    </div>
+    <div class="sup-meta">
+      <span data-i18n="hours">운영 시간 평일 10:00–18:00 (JST)</span>
+      <span>support@maropass.jp</span>
+    </div>
+  </div>
+</div>
+
+<a href="../index.html" class="demo-index-link">← ui2 인덱스</a>
+<script src="assets/user-shell.js"></script>
+<script>
+  window.PAGE_I18N = {
+    ko:{ h1:'무엇을 도와드릴까요?', lead:'자주 묻는 질문에서 답을 먼저 찾아보세요. 해결되지 않으면 1:1 문의로 연결됩니다.',
+      tab_notice:'공지사항', tab_faq:'자주 묻는 질문', tab_inq:'1:1 문의',
+      cta_h:'찾는 답이 없으신가요?', cta_p:'1:1 문의를 남겨주시면 보통 1영업일 이내에 답변드려요.', cta_inq:'1:1 문의하기', cta_my:'마이페이지로', hours:'운영 시간 평일 10:00–18:00 (JST)' },
+    ja:{ h1:'どのようなご用件ですか？', lead:'まずはよくある質問から答えを探してみてください。解決しない場合は1:1お問い合わせにつながります。',
+      tab_notice:'お知らせ', tab_faq:'よくある質問', tab_inq:'1:1 お問い合わせ',
+      cta_h:'お探しの答えが見つかりませんか？', cta_p:'1:1でお問い合わせいただければ、通常1営業日以内に返信します。', cta_inq:'1:1でお問い合わせ', cta_my:'マイページへ', hours:'受付時間 平日10:00–18:00 (JST)' }
+  };
+  var searchPh = { ko:'궁금한 내용을 검색하세요', ja:'知りたい内容を検索' };
+  window.onLocaleChange = function(loc){ var i=document.getElementById('faq-search'); if(i) i.placeholder = searchPh[loc]||searchPh.ko; };
+  function toggle(el){el.parentElement.classList.toggle('open');}
+  var curCat='all';
+  function pickCat(el){
+    document.querySelectorAll('.cat-chip').forEach(function(c){c.classList.remove('active')});
+    el.classList.add('active');curCat=el.getAttribute('data-cat');apply();
+  }
+  function filterFaq(){apply();}
+  function apply(){
+    var q=(document.getElementById('faq-search').value||'').trim().toLowerCase();
+    var shown=0;
+    document.querySelectorAll('#faq-list .faq').forEach(function(f){
+      var okCat=curCat==='all'||f.getAttribute('data-cat')===curCat;
+      var okQ=!q||f.textContent.toLowerCase().indexOf(q)>-1;
+      var vis=okCat&&okQ;f.style.display=vis?'':'none';if(vis)shown++;
+    });
+    document.getElementById('faq-empty').style.display=shown?'none':'flex';
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MaroPass — 이메일 템플릿 샘플</title>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+<style>
+  body{margin:0;background:#eef1f4;font-family:"Pretendard Variable",Pretendard,-apple-system,system-ui,sans-serif;color:#191f28}
+  .wrap{max-width:680px;margin:0 auto;padding:32px 16px 64px}
+  .page-h{text-align:center;padding:16px 0 24px}
+  .page-h h1{font-size:22px;font-weight:800;margin:0 0 6px}
+  .page-h p{font-size:13px;color:#6b7684;margin:0}
+  .case{margin:28px 0}
+  .case-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 8px;padding-left:2px}
+  .case-label{font-size:12px;font-weight:800;color:#2272eb;letter-spacing:.02em}
+  .copy-btn{font-size:12px;font-weight:700;color:#2272eb;background:#fff;border:1px solid #d7e3f7;border-radius:8px;padding:6px 12px;cursor:pointer;white-space:nowrap;transition:background-color .15s,border-color .15s,color .15s;font-family:inherit}
+  .copy-btn:hover{background:#eef4ff}
+  .copy-btn.done{color:#03b26c;border-color:#b7ebd4;background:#f0fbf6}
+
+  /* ===== 이메일 본문 (복사 대상 · 자체완결 스타일) ===== */
+  .email{width:100%;max-width:600px;border-collapse:collapse;background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 10px rgba(15,23,42,.06)}
+  .e-head{padding:22px 32px;border-bottom:1px solid #f2f4f6}
+  .e-logo{font-size:19px;font-weight:800;letter-spacing:-.02em;color:#191f28}
+  .e-logo b{color:#2e84ff}
+  .e-body{padding:50px 32px}
+  .e-title{font-size:20px;font-weight:800;margin:0 0 8px;letter-spacing:-.01em}
+  .e-lead{font-size:14px;color:#4e5968;line-height:1.7;margin:0 0 20px}
+  .e-box{background:#f9fafb;border:1px solid #f2f4f6;border-radius:10px;padding:16px 18px;margin:0 0 20px}
+  .e-row{font-size:13.5px;color:#4e5968;padding:5px 0}
+  .e-row b{color:#191f28;font-weight:700}
+  .e-btn{display:inline-block;background:#2e84ff;color:#fff !important;text-decoration:none;font-size:14px;font-weight:700;padding:12px 24px;border-radius:10px}
+  .e-note{font-size:12px;color:#8b95a1;line-height:1.6;margin:18px 0 0}
+  .e-foot{padding:18px 32px;background:#f9fafb;border-top:1px solid #f2f4f6;font-size:11.5px;color:#8b95a1;line-height:1.6}
+  .grade{display:inline-block;font-size:26px;font-weight:800;color:#03b26c}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="page-h">
+    <h1>MaroPass 이메일 템플릿 샘플</h1>
+    <p>상품명: TOPIK 말하기 초급 · 6개 케이스 · 케이스별 순수 HTML 복사</p>
+  </div>
+
+  <!-- 1. 회원가입 -->
+  <div class="case">
+    <div class="case-head">
+      <span class="case-label">CASE 1 · 회원가입 환영</span>
+      <button class="copy-btn" onclick="copyEmail('email-1', this)">순수 HTML 복사</button>
+    </div>
+    <table class="email" id="email-1"><tbody>
+      <tr><td class="e-head"><span class="e-logo">Maro<b>Pass</b></span></td></tr>
+      <tr><td class="e-body">
+        <h2 class="e-title">가입을 환영합니다 🎉</h2>
+        <p class="e-lead">홍길동님, MaroPass 회원가입이 완료되었습니다.<br>지금 바로 한국어 말하기 진단을 시작해 보세요.</p>
+        <a class="e-btn" href="#">시험 둘러보기</a>
+        <p class="e-note">본 메일은 회원가입 시 발송되는 안내 메일입니다.</p>
+      </td></tr>
+      <tr><td class="e-foot">© 2026 MaroPass · Newin Japan<br>본 메일은 발신 전용입니다. 문의는 고객센터를 이용해 주세요.</td></tr>
+    </tbody></table>
+  </div>
+
+  <!-- 2. 결제완료 확인 -->
+  <div class="case">
+    <div class="case-head">
+      <span class="case-label">CASE 2 · 결제 완료 확인</span>
+      <button class="copy-btn" onclick="copyEmail('email-2', this)">순수 HTML 복사</button>
+    </div>
+    <table class="email" id="email-2"><tbody>
+      <tr><td class="e-head"><span class="e-logo">Maro<b>Pass</b></span></td></tr>
+      <tr><td class="e-body">
+        <h2 class="e-title">결제가 완료되었습니다</h2>
+        <p class="e-lead">홍길동님, 아래 상품의 결제가 정상 처리되었습니다.</p>
+        <div class="e-box">
+          <div class="e-row">상품명 · <b>TOPIK 말하기 초급</b></div>
+          <div class="e-row">결제 금액 · <b>¥4,950</b> (소비세 포함)</div>
+          <div class="e-row">주문번호 · <b>20260716-0471</b></div>
+          <div class="e-row">응시 기간 · <b>결제 후 14일 이내</b></div>
+        </div>
+        <a class="e-btn" href="#">응시하러 가기</a>
+        <p class="e-note">영수증 PDF는 마이페이지 &gt; 결제 내역에서 내려받을 수 있습니다.</p>
+      </td></tr>
+      <tr><td class="e-foot">© 2026 MaroPass · Newin Japan</td></tr>
+    </tbody></table>
+  </div>
+
+  <!-- 3. 환불 확인 -->
+  <div class="case">
+    <div class="case-head">
+      <span class="case-label">CASE 3 · 환불 완료 확인</span>
+      <button class="copy-btn" onclick="copyEmail('email-3', this)">순수 HTML 복사</button>
+    </div>
+    <table class="email" id="email-3"><tbody>
+      <tr><td class="e-head"><span class="e-logo">Maro<b>Pass</b></span></td></tr>
+      <tr><td class="e-body">
+        <h2 class="e-title">환불이 완료되었습니다</h2>
+        <p class="e-lead">홍길동님, 요청하신 환불이 정상 처리되었습니다.</p>
+        <div class="e-box">
+          <div class="e-row">상품명 · <b>TOPIK 말하기 초급</b></div>
+          <div class="e-row">환불 금액 · <b>¥4,950</b></div>
+          <div class="e-row">환불 수단 · <b>원 결제수단(신용카드)</b></div>
+          <div class="e-row">처리 안내 · <b>카드사에 따라 3~5영업일 소요</b></div>
+        </div>
+        <p class="e-note">환불 관련 문의는 마이페이지 &gt; 1:1 문의로 남겨주세요.</p>
+      </td></tr>
+      <tr><td class="e-foot">© 2026 MaroPass · Newin Japan</td></tr>
+    </tbody></table>
+  </div>
+
+  <!-- 4. 1:1 문의 접수 확인 -->
+  <div class="case">
+    <div class="case-head">
+      <span class="case-label">CASE 4 · 1:1 문의 접수 확인</span>
+      <button class="copy-btn" onclick="copyEmail('email-4', this)">순수 HTML 복사</button>
+    </div>
+    <table class="email" id="email-4"><tbody>
+      <tr><td class="e-head"><span class="e-logo">Maro<b>Pass</b></span></td></tr>
+      <tr><td class="e-body">
+        <h2 class="e-title">문의가 접수되었습니다</h2>
+        <p class="e-lead">홍길동님, 남겨주신 1:1 문의가 정상 접수되었습니다.</p>
+        <div class="e-box">
+          <div class="e-row">접수번호 · <b>Q-20260716-0088</b></div>
+          <div class="e-row">문의 유형 · <b>결제 · 환불</b></div>
+          <div class="e-row">관련 상품 · <b>TOPIK 말하기 초급</b></div>
+          <div class="e-row">답변 예정 · <b>보통 1영업일 이내</b></div>
+        </div>
+        <p class="e-note">답변이 등록되면 이메일로 다시 안내해 드립니다.</p>
+      </td></tr>
+      <tr><td class="e-foot">© 2026 MaroPass · Newin Japan</td></tr>
+    </tbody></table>
+  </div>
+
+  <!-- 5. 1:1 문의 답변 등록 -->
+  <div class="case">
+    <div class="case-head">
+      <span class="case-label">CASE 5 · 1:1 문의 답변 등록</span>
+      <button class="copy-btn" onclick="copyEmail('email-5', this)">순수 HTML 복사</button>
+    </div>
+    <table class="email" id="email-5"><tbody>
+      <tr><td class="e-head"><span class="e-logo">Maro<b>Pass</b></span></td></tr>
+      <tr><td class="e-body">
+        <h2 class="e-title">문의에 답변이 등록되었습니다</h2>
+        <p class="e-lead">홍길동님, 접수하신 문의에 대한 답변이 등록되었습니다.</p>
+        <div class="e-box">
+          <div class="e-row">접수번호 · <b>Q-20260716-0088</b></div>
+          <div class="e-row">문의 제목 · <b>편의점 결제 후 응시 목록에 안 떠요</b></div>
+          <div class="e-row">상태 · <b style="color:#03b26c">답변 완료</b></div>
+        </div>
+        <a class="e-btn" href="#">답변 확인하기</a>
+        <p class="e-note">답변 전문은 마이페이지 &gt; 1:1 문의에서 확인할 수 있습니다.</p>
+      </td></tr>
+      <tr><td class="e-foot">© 2026 MaroPass · Newin Japan</td></tr>
+    </tbody></table>
+  </div>
+
+  <!-- 6. 채점 결과 확인 -->
+  <div class="case">
+    <div class="case-head">
+      <span class="case-label">CASE 6 · 채점 결과 확인</span>
+      <button class="copy-btn" onclick="copyEmail('email-6', this)">순수 HTML 복사</button>
+    </div>
+    <table class="email" id="email-6"><tbody>
+      <tr><td class="e-head"><span class="e-logo">Maro<b>Pass</b></span></td></tr>
+      <tr><td class="e-body">
+        <h2 class="e-title">채점이 완료되었습니다</h2>
+        <p class="e-lead">홍길동님, 응시하신 시험의 채점이 완료되어 결과를 안내해 드립니다.</p>
+        <div class="e-box">
+          <div class="e-row">상품명 · <b>TOPIK 말하기 초급</b></div>
+          <div class="e-row">응시일 · <b>2026-07-16</b></div>
+          <div class="e-row">종합 등급 · <span class="grade">B</span> <b style="margin-left:6px">128 / 200</b></div>
+        </div>
+        <a class="e-btn" href="#">결과 상세 보기</a>
+        <p class="e-note">항목별 점수·발음 피드백·모범 답안은 결과 상세에서 확인할 수 있습니다.</p>
+      </td></tr>
+      <tr><td class="e-foot">© 2026 MaroPass · Newin Japan</td></tr>
+    </tbody></table>
+  </div>
+
+</div>
+
+<script>
+  // 이메일 본문 CSS만 추출 (.email / .e-* / .grade) → 복사본에 <style>로 임베드하여 자체완결 HTML 생성
+  function emailCss() {
+    var out = [];
+    for (var i = 0; i < document.styleSheets.length; i++) {
+      var rules; try { rules = document.styleSheets[i].cssRules; } catch (e) { continue; }
+      if (!rules) continue;
+      for (var j = 0; j < rules.length; j++) {
+        var r = rules[j];
+        if (r.selectorText && /^\.(email|e-|grade)\b/.test(r.selectorText.trim())) out.push(r.cssText);
+      }
+    }
+    return out.join('\n');
+  }
+  function buildDoc(table) {
+    return '<!DOCTYPE html>\n<html lang="ko">\n<head>\n<meta charset="UTF-8">\n' +
+      '<meta name="viewport" content="width=device-width, initial-scale=1.0">\n<style>\n' +
+      "body{margin:0;padding:24px;background:#eef1f4;font-family:'Pretendard','Apple SD Gothic Neo',-apple-system,BlinkMacSystemFont,'Malgun Gothic',system-ui,sans-serif;color:#191f28}\n" +
+      emailCss() + '\n</style>\n</head>\n<body>\n' + table.outerHTML + '\n</body>\n</html>';
+  }
+  function feedback(btn, msg) {
+    var o = btn.getAttribute('data-orig') || btn.textContent;
+    btn.setAttribute('data-orig', o);
+    btn.textContent = msg; btn.classList.add('done');
+    setTimeout(function () { btn.textContent = o; btn.classList.remove('done'); }, 1500);
+  }
+  function copyEmail(id, btn) {
+    var table = document.getElementById(id);
+    if (!table) return;
+    var doc = buildDoc(table);
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(doc).then(function () { feedback(btn, '복사됨 ✓'); }).catch(function () { legacyCopy(doc, btn); });
+    } else { legacyCopy(doc, btn); }
+  }
+  function legacyCopy(text, btn) {
+    var ta = document.createElement('textarea');
+    ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); feedback(btn, '복사됨 ✓'); } catch (e) { feedback(btn, '복사 실패'); }
+    document.body.removeChild(ta);
+  }
+</script>
+</body>
+</html>

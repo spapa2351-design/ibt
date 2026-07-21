@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MaroPass — 시험 목록</title>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+<link rel="stylesheet" href="assets/user.css">
+<style>
+  .tests-head{background:var(--gradient-hero-soft);padding:56px 32px 40px}
+  .tests-head .inner{max-width:1200px;margin:0 auto}
+  .tests-head h1{font-size:34px;font-weight:800;margin:0 0 10px}
+  .tests-head p{color:var(--grey-600);font-size:15px;margin:0;max-width:560px;line-height:1.6}
+  .filter-row{max-width:1200px;margin:28px auto 0;padding:0 32px;display:flex;gap:8px;flex-wrap:wrap}
+  .seg{display:inline-flex;background:var(--grey-100);border-radius:10px;padding:3px}
+  .seg button{padding:8px 16px;font-size:13px;font-weight:600;background:transparent;border:none;color:var(--grey-600);cursor:pointer;border-radius:8px}
+  .seg button.active{background:#fff;color:var(--grey-900);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+  .tests-body{max-width:1200px;margin:0 auto;padding:32px}
+  @media(max-width:768px){.tests-head{padding:40px 20px 32px}.filter-row,.tests-body{padding-left:20px;padding-right:20px}}
+</style>
+</head>
+<body data-page="tests" data-authed="false">
+
+<div class="tests-head">
+  <div class="inner">
+    <h1 data-i18n="th">응시 가능한 시험</h1>
+    <p data-i18n="td">레벨별 진단평가를 선택하세요. 결제 후 14일 내 24시간 언제든 응시할 수 있고, 응시부터 결과·인증서까지 마이페이지에서 이어집니다.</p>
+  </div>
+</div>
+<div class="filter-row">
+  <div class="seg">
+    <button class="active" data-filter="all">전체</button>
+    <button data-filter="beginner">초급</button>
+    <button data-filter="intermediate">중상급</button>
+  </div>
+</div>
+
+<div class="tests-body">
+  <div class="test-grid" id="test-grid" style="margin-top:0">
+    <a class="test-card" href="test-detail.html" data-level="beginner">
+      <div class="test-card-img"><span class="test-card-badge">초급</span>말하기 진단</div>
+      <div class="test-card-body">
+        <div class="test-card-title" lang="ko">TOPIK 말하기 초급</div>
+        <div class="test-card-meta">25분 · 23문항 · 5영역</div>
+        <div class="test-card-footer"><div class="test-card-price">¥4,950 <span style="font-size:11px;font-weight:600;color:var(--grey-400)">부터</span></div><span class="test-card-arrow">→</span></div>
+      </div>
+    </a>
+    <a class="test-card" href="test-detail.html" data-level="intermediate">
+      <div class="test-card-img green"><span class="test-card-badge">중상급</span>말하기 진단</div>
+      <div class="test-card-body">
+        <div class="test-card-title" lang="ko">TOPIK 말하기 중상급</div>
+        <div class="test-card-meta">35분 · 14문항 · 6영역</div>
+        <div class="test-card-footer"><div class="test-card-price">¥4,950 <span style="font-size:11px;font-weight:600;color:var(--grey-400)">부터</span></div><span class="test-card-arrow">→</span></div>
+      </div>
+    </a>
+    <a class="test-card" href="test-detail.html" data-level="beginner">
+      <div class="test-card-img"><span class="test-card-badge">초급</span>발음 집중</div>
+      <div class="test-card-body">
+        <div class="test-card-title" lang="ko">발음 집중 진단 (초급)</div>
+        <div class="test-card-meta">15분 · 10문항 · 발음 특화</div>
+        <div class="test-card-footer"><div class="test-card-price">¥2,970 <span style="font-size:11px;font-weight:600;color:var(--grey-400)">부터</span></div><span class="test-card-arrow">→</span></div>
+      </div>
+    </a>
+    <a class="test-card" href="test-detail.html" data-level="intermediate">
+      <div class="test-card-img green"><span class="test-card-badge">중상급</span>실전 모의</div>
+      <div class="test-card-body">
+        <div class="test-card-title" lang="ko">실전 모의고사 (중상급)</div>
+        <div class="test-card-meta">40분 · 14문항 · 실전형</div>
+        <div class="test-card-footer"><div class="test-card-price">¥5,940 <span style="font-size:11px;font-weight:600;color:var(--grey-400)">부터</span></div><span class="test-card-arrow">→</span></div>
+      </div>
+    </a>
+    <a class="test-card" href="test-detail.html" data-level="practice">
+      <div class="test-card-img orange"><span class="test-card-badge">연습</span>영역별 연습</div>
+      <div class="test-card-body">
+        <div class="test-card-title" lang="ko">영역별 연습 세트</div>
+        <div class="test-card-meta">영역 선택 · 문항 수 가변</div>
+        <div class="test-card-footer"><div class="test-card-price">¥1,980</div><span class="test-card-arrow">→</span></div>
+      </div>
+    </a>
+  </div>
+  <div id="test-empty" class="notice-info" style="display:none">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+    <span data-i18n="empty">해당 조건의 시험이 없습니다. 다른 레벨을 선택해 보세요.</span>
+  </div>
+</div>
+
+<a href="../index.html" class="demo-index-link">← ui2 인덱스</a>
+<script src="assets/user-shell.js"></script>
+<script>
+window.PAGE_I18N = {
+  ko:{ th:'응시 가능한 시험', td:'레벨별 진단평가를 선택하세요. 결제 후 14일 내 24시간 언제든 응시할 수 있고, 응시부터 결과·인증서까지 마이페이지에서 이어집니다.' },
+  ja:{ th:'受験可能な試験', td:'レベル別の診断評価を選択してください。決済後14日以内なら24時間いつでも受験でき、受験から結果・証明書までマイページで続きます。' }
+};
+document.querySelectorAll('.seg button').forEach(function(b){
+  b.addEventListener('click',function(){
+    document.querySelectorAll('.seg button').forEach(function(x){x.classList.remove('active')});
+    b.classList.add('active');
+    var f=b.getAttribute('data-filter'), shown=0;
+    document.querySelectorAll('#test-grid .test-card').forEach(function(c){
+      var vis=(f==='all'||c.getAttribute('data-level')===f);
+      c.style.display=vis?'':'none'; if(vis)shown++;
+    });
+    document.getElementById('test-empty').style.display=shown?'none':'flex';
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MaroPass — 응시 환경 점검</title>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+<link rel="stylesheet" href="assets/user.css">
+<style>
+  body{background:var(--grey-50)}
+  .exam-top{height:56px;background:#fff;border-bottom:1px solid var(--grey-200);display:flex;align-items:center;gap:14px;padding:0 20px;position:sticky;top:0;z-index:50}
+  .exam-top .gnb-logo{font-size:17px}
+  .exam-top .spacer{flex:1}
+  .exit-btn{width:34px;height:34px;border-radius:8px;border:none;background:var(--grey-100);color:var(--grey-700);cursor:pointer;display:flex;align-items:center;justify-content:center}
+  .exit-btn:hover{background:var(--grey-200)}
+  /* 진입 플로우 */
+  .flow{background:#fff;border-bottom:1px solid var(--grey-200);padding:18px 32px}
+  .flow-wrap{max-width:1080px;margin:0 auto;display:flex;align-items:center;gap:8px;justify-content:center;flex-wrap:wrap}
+  .flow-step{display:flex;align-items:center;gap:8px;padding:6px 14px;border-radius:999px;font-size:13px;font-weight:600;color:var(--grey-500)}
+  .flow-step.active{background:var(--blue-50);color:var(--blue-600)}
+  .flow-step.done{color:var(--green-500)}
+  .flow-step .n{width:22px;height:22px;border-radius:50%;background:var(--grey-200);color:var(--grey-700);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700}
+  .flow-step.active .n{background:var(--blue-500);color:#fff}
+  .flow-step.done .n{background:var(--green-500);color:#fff}
+  .flow-arrow{color:var(--grey-300)}
+  .layout{max-width:1080px;margin:0 auto;padding:32px;display:grid;grid-template-columns:1fr 320px;gap:24px}
+  @media(max-width:900px){.layout{grid-template-columns:1fr;padding:20px}}
+  .page-head{grid-column:1/-1}
+  .substep-bar{grid-column:1/-1;background:#fff;border:1px solid var(--grey-200);border-radius:14px;padding:14px 18px;display:flex;gap:8px;align-items:center}
+  .substep{flex:1;display:flex;align-items:center;gap:8px;padding:6px 10px;border-radius:8px;font-size:13px;color:var(--grey-500);font-weight:600}
+  .substep .ico{width:24px;height:24px;border-radius:50%;background:var(--grey-100);color:var(--grey-500);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0}
+  .substep.active{color:var(--blue-600);background:var(--blue-50)}.substep.active .ico{background:var(--blue-500);color:#fff}
+  .substep.done{color:var(--green-500)}.substep.done .ico{background:var(--green-500);color:#fff}
+  .substep-divider{width:16px;height:1px;background:var(--grey-200);flex-shrink:0}
+  .check-card{background:#fff;border:1px solid var(--grey-200);border-radius:18px;padding:32px}
+  .check-tag{font-size:11px;font-weight:700;color:var(--blue-500);text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px}
+  .check-title{font-size:22px;font-weight:800;margin:0 0 8px}
+  .check-desc{color:var(--grey-600);font-size:14px;line-height:1.6;margin:0 0 24px}
+  .check-desc strong{color:var(--blue-600)}
+  .mic-stage{background:var(--grey-50);border-radius:16px;padding:32px;display:flex;flex-direction:column;align-items:center;gap:20px}
+  .mic-circle{width:110px;height:110px;border-radius:50%;background:linear-gradient(135deg,#e8f3ff,#bfdbfe);display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 8px rgba(46,132,255,.12),0 0 0 16px rgba(46,132,255,.06);animation:mic-pulse 2s ease-in-out infinite}
+  @keyframes mic-pulse{0%,100%{box-shadow:0 0 0 8px rgba(46,132,255,.12),0 0 0 16px rgba(46,132,255,.06)}50%{box-shadow:0 0 0 14px rgba(46,132,255,.18),0 0 0 28px rgba(46,132,255,.08)}}
+  .mic-circle svg{width:48px;height:48px;color:var(--blue-600)}
+  .mic-status{font-size:14px;color:var(--blue-600);font-weight:600}
+  .db-meter{display:flex;gap:4px;align-items:flex-end;height:52px}
+  .db-bar{width:14px;background:var(--grey-200);border-radius:4px}
+  .db-bar.low{background:var(--green-500)}.db-bar.mid{background:var(--blue-500)}
+  .db-bar:nth-child(1){height:30%}.db-bar:nth-child(2){height:45%}.db-bar:nth-child(3){height:60%}.db-bar:nth-child(4){height:75%}.db-bar:nth-child(5){height:85%}.db-bar:nth-child(6){height:70%}.db-bar:nth-child(7){height:55%}.db-bar:nth-child(8){height:40%}.db-bar:nth-child(9){height:30%}.db-bar:nth-child(10){height:22%}
+  .db-value{font-size:13px;color:var(--grey-600)}.db-value strong{color:var(--grey-900)}
+  .actions{margin-top:24px;display:flex;gap:12px;justify-content:flex-end}
+  .guide{background:#fff;border:1px solid var(--grey-200);border-radius:16px;padding:22px;align-self:start;position:sticky;top:88px}
+  .guide-title{font-size:14px;font-weight:700;margin:0 0 12px}
+  .guide-item{font-size:13px;color:var(--grey-700);line-height:1.6;padding:10px 0;border-bottom:1px solid var(--grey-100);display:flex;gap:10px}
+  .guide-item:last-child{border-bottom:none}
+  .guide-icon{color:var(--blue-500);font-weight:700;flex-shrink:0}
+  .guide-tip{background:var(--blue-50);border-radius:10px;padding:12px 14px;margin-top:12px;font-size:12px;color:var(--blue-600);line-height:1.6}
+  .final-card{grid-column:1/-1;background:#fff;border:1px solid var(--grey-200);border-radius:16px;padding:24px 28px;display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+  .final-status{flex:1;min-width:260px}
+  .pass-pill{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;background:var(--grey-100);color:var(--grey-600);border-radius:999px;font-size:13px;font-weight:700}
+  .pass-pill.ok{background:var(--green-50);color:var(--green-500)}
+  .final-check{display:flex;gap:10px;align-items:flex-start;cursor:pointer;font-size:13px;color:var(--grey-700);line-height:1.6;margin-top:12px}
+  .final-check input{margin-top:3px;flex-shrink:0}
+</style>
+</head>
+<body data-chrome="off">
+
+<header class="exam-top">
+  <a href="index.html" class="gnb-logo"><span class="mark">M</span><span>MaroPass</span></a>
+  <div class="spacer"></div>
+  <div class="locale-toggle">
+    <button data-loc="ko" class="active" onclick="setLocale('ko')">한국어</button>
+    <button data-loc="ja" onclick="setLocale('ja')">日本語</button>
+  </div>
+  <button class="exit-btn" title="응시 중단 (마이페이지로)" onclick="exitToMypage()">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+  </button>
+</header>
+
+<div class="flow">
+  <div class="flow-wrap">
+    <div class="flow-step done"><span class="n">✓</span><span>결제 완료</span></div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-step done"><span class="n">✓</span><span>시험 시작</span></div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-step active"><span class="n">3</span><span>환경 점검 게이트</span></div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-step"><span class="n">4</span><span>응시 클라이언트</span></div>
+  </div>
+</div>
+
+<div class="layout">
+  <div class="page-head">
+    <h1 class="page-title" id="test-name">응시 환경 점검</h1>
+    <p class="page-desc">응시 중 문제가 생기지 않도록 마이크·볼륨·녹음을 미리 확인합니다. 약 1분 소요.</p>
+  </div>
+
+  <div class="substep-bar">
+    <div class="substep active" data-step="1"><span class="ico">1</span><span>마이크</span></div>
+    <span class="substep-divider"></span>
+    <div class="substep" data-step="2"><span class="ico">2</span><span>볼륨</span></div>
+    <span class="substep-divider"></span>
+    <div class="substep" data-step="3"><span class="ico">3</span><span>5초 리플레이</span></div>
+  </div>
+
+  <div class="check-card">
+    <div class="check-tag"><span id="step-label">단계 1 / 3</span></div>
+    <h2 class="check-title" id="step-title">마이크가 잘 인식되는지 확인합니다</h2>
+    <p class="check-desc" id="step-desc"><strong>"안녕하세요, MaroPass 응시 환경 점검입니다"</strong> 라고 말해 보세요. 아래 게이지가 함께 움직이면 정상입니다.</p>
+
+    <div class="mic-stage">
+      <div class="mic-circle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg></div>
+      <div class="mic-status">● 녹음 중 — 말소리가 잘 잡힙니다</div>
+      <div class="db-meter"><div class="db-bar low"></div><div class="db-bar low"></div><div class="db-bar low"></div><div class="db-bar mid"></div><div class="db-bar mid"></div><div class="db-bar mid"></div><div class="db-bar"></div><div class="db-bar"></div><div class="db-bar"></div><div class="db-bar"></div></div>
+      <div class="db-value">현재 입력 음량 <strong>-18 dB</strong> · 권장: -24dB ~ -6dB</div>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-secondary">↺ 다시 시도</button>
+      <button class="btn btn-primary" id="next-step" onclick="passStep()">정상입니다, 다음 단계 →</button>
+    </div>
+  </div>
+
+  <aside class="guide">
+    <h3 class="guide-title">💡 정확한 점검을 위한 팁</h3>
+    <div class="guide-item"><span class="guide-icon">①</span><span><strong>헤드셋 권장</strong> — 내장 마이크보다 인식률이 높습니다.</span></div>
+    <div class="guide-item"><span class="guide-icon">②</span><span><strong>조용한 환경</strong> — TV·라디오·환풍기 꺼주세요.</span></div>
+    <div class="guide-item"><span class="guide-icon">③</span><span><strong>입과 마이크 거리</strong> 10~15cm 유지.</span></div>
+    <div class="guide-item"><span class="guide-icon">④</span><span><strong>다른 녹음 앱 종료</strong> — 마이크 점유 시 인식 실패합니다.</span></div>
+    <div class="guide-tip"><strong>마이크 권한을 거부했나요?</strong><br>주소창의 🔒 → 사이트 설정 → 마이크 → 허용 으로 변경하세요.</div>
+  </aside>
+
+  <div class="final-card">
+    <div class="final-status">
+      <div style="display:flex;gap:8px;align-items:center"><span style="font-size:14px;font-weight:700">점검 진행 상황</span><span class="pass-pill" id="progress-pill">1 / 3 진행 중</span></div>
+      <label class="final-check"><input type="checkbox" id="agree" disabled onchange="syncStart()"><span>위 점검을 모두 통과했음을 확인하며, 응시 중 마이크 문제로 인한 환불은 점검 통과 이후 발생한 결함에 한정됨에 동의합니다.</span></label>
+    </div>
+    <div>
+      <button class="btn btn-primary btn-large" id="start-exam" disabled onclick="openStartModal()">응시 시작 →</button>
+    </div>
+  </div>
+</div>
+
+<!-- 응시 시작 확인 모달 -->
+<style>
+  .sx-overlay{position:fixed;inset:0;background:rgba(15,23,42,.55);display:none;align-items:center;justify-content:center;z-index:200;padding:24px}
+  .sx-overlay.open{display:flex}
+  .sx-modal{background:#fff;border-radius:20px;width:100%;max-width:420px;padding:30px 28px 24px;text-align:center;box-shadow:0 24px 70px rgba(15,23,42,.3)}
+  .sx-icon{width:64px;height:64px;border-radius:50%;background:var(--blue-50);color:var(--blue-600);display:flex;align-items:center;justify-content:center;margin:0 auto 16px}
+  .sx-icon svg{width:30px;height:30px}
+  .sx-title{font-size:19px;font-weight:800;color:var(--grey-900);margin:0 0 8px}
+  .sx-title b{color:var(--blue-600)}
+  .sx-body{font-size:13.5px;color:var(--grey-600);line-height:1.65;margin:0 0 16px}
+  .sx-list{list-style:none;padding:14px 16px;margin:0 0 20px;background:var(--grey-50);border-radius:12px;text-align:left;display:flex;flex-direction:column;gap:9px}
+  .sx-list li{font-size:12.5px;color:var(--grey-700);display:flex;gap:8px;line-height:1.5}
+  .sx-list li::before{content:'•';color:var(--blue-500);font-weight:900;flex-shrink:0}
+  .sx-actions{display:flex;gap:10px}
+  .sx-actions .btn{flex:1;justify-content:center;padding:14px;font-size:15px;font-weight:800}
+</style>
+<div class="sx-overlay" id="startModal" role="dialog" aria-modal="true">
+  <div class="sx-modal">
+    <div class="sx-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg></div>
+    <h3 class="sx-title" id="sxTitle">이제 <b>응시</b>를 시작합니다</h3>
+    <p class="sx-body" id="sxName">TOPIK 말하기 초급</p>
+    <ul class="sx-list">
+      <li>시작하면 타이머가 작동하고, 시간이 되면 문항이 자동으로 넘어갑니다.</li>
+      <li>영역이 바뀔 때마다 안내가 표시되며, 답변은 자동 저장됩니다.</li>
+      <li>응시 중 이탈하면 진행이 중단될 수 있으니 끝까지 진행해 주세요.</li>
+    </ul>
+    <div class="sx-actions">
+      <button class="btn btn-secondary" id="sxCancel">취소</button>
+      <button class="btn btn-primary" id="sxStart">응시 시작</button>
+    </div>
+  </div>
+</div>
+
+<a href="../index.html" class="demo-index-link">← ui2 인덱스</a>
+
+<script src="assets/user-shell.js"></script>
+<script>
+  // 응시 시험명 표시
+  var params = new URLSearchParams(location.search);
+  var testName = params.get('test') || 'TOPIK 말하기 초급';
+  document.getElementById('test-name').textContent = '응시 환경 점검 — ' + testName;
+
+  var STEPS = [
+    { label:'단계 1 / 3', title:'마이크가 잘 인식되는지 확인합니다', desc:'<strong>"안녕하세요, MaroPass 응시 환경 점검입니다"</strong> 라고 말해 보세요. 아래 게이지가 함께 움직이면 정상입니다.' },
+    { label:'단계 2 / 3', title:'스피커 볼륨을 확인합니다', desc:'재생되는 안내 음성이 <strong>또렷하게 들리는지</strong> 확인하세요. 영역 2·3에서 질문 음성이 재생됩니다.' },
+    { label:'단계 3 / 3', title:'5초 리플레이 — 내 목소리 확인', desc:'방금 녹음된 <strong>내 목소리를 다시 듣고</strong>, 잡음 없이 잘 녹음되는지 확인하세요.' }
+  ];
+  var cur = 1;
+  function passStep(){
+    var bar = document.querySelectorAll('.substep');
+    bar[cur-1].classList.remove('active'); bar[cur-1].classList.add('done');
+    bar[cur-1].querySelector('.ico').textContent = '✓';
+    if(cur < 3){
+      cur++;
+      bar[cur-1].classList.add('active');
+      document.getElementById('step-label').textContent = STEPS[cur-1].label;
+      document.getElementById('step-title').textContent = STEPS[cur-1].title;
+      document.getElementById('step-desc').innerHTML = STEPS[cur-1].desc;
+      document.getElementById('progress-pill').textContent = cur + ' / 3 진행 중';
+      if(cur === 3) document.getElementById('next-step').textContent = '정상입니다, 점검 완료 →';
+    } else {
+      // 모두 통과
+      document.getElementById('next-step').disabled = true;
+      document.getElementById('next-step').textContent = '점검 완료 ✓';
+      var pill = document.getElementById('progress-pill');
+      pill.textContent = '모두 통과 ✓'; pill.classList.add('ok');
+      var agree = document.getElementById('agree'); agree.disabled = false;
+    }
+  }
+  function syncStart(){ document.getElementById('start-exam').disabled = !document.getElementById('agree').checked; }
+  function startExam(){ location.href = 'exam.html?test=' + encodeURIComponent(testName) + '&plan=' + (params.get('plan') || 'basic'); }
+
+  // 응시 시작 확인 모달
+  function openStartModal(){
+    if (document.getElementById('start-exam').disabled) return;
+    var nm = document.getElementById('sxName'); if (nm) nm.textContent = testName;
+    document.getElementById('startModal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeStartModal(){
+    document.getElementById('startModal').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.getElementById('sxCancel').addEventListener('click', closeStartModal);
+  document.getElementById('sxStart').addEventListener('click', startExam);
+  document.getElementById('startModal').addEventListener('click', function(e){ if(e.target === this) closeStartModal(); });
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape' && document.getElementById('startModal').classList.contains('open')) closeStartModal(); });
+  function exitToMypage(){ if(confirm('응시를 중단하고 마이페이지로 돌아갈까요? 진행 상황은 저장되지 않습니다.')) location.href = 'mypage-tests.html'; }
+</script>
+</body>
+</html>
