@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MaroPass Admin — 환불</title>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+<link rel="stylesheet" href="assets/admin.css">
+<style>
+  /* 정책 안내 박스 (공유 CSS에 없는 페이지 전용 요소) */
+  .policy-note{background:var(--grey-50);border:1px solid var(--grey-200);border-radius:10px;padding:12px 16px;margin-bottom:16px;display:flex;align-items:center;gap:10px}
+  .policy-note .info-icon{flex-shrink:0}
+</style>
+</head>
+<body data-page="refunds" data-title="환불">
+<div class="page">
+  <div class="page-head">
+    <div>
+      <h1 class="page-title">환불 관리</h1>
+      <div class="page-sub">환불 신청 검토·승인 (정책7: 접수기간 내 미응시 건만 신청 가능)</div>
+    </div>
+    <div class="page-actions">
+      <button class="btn btn-secondary">새로고침</button>
+    </div>
+  </div>
+
+  <!-- 정책 안내 -->
+  <div class="policy-note">
+    <svg class="info-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--grey-500)" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+    <span class="muted">응시 후 변심·결과 불만족은 환불 대상 아님. 승인 시 PG 환불 호출 후 영업일 기준 3~5일 내 환원.</span>
+  </div>
+
+  <!-- 세그먼트 탭 + 표 -->
+  <div class="card">
+    <div class="filter-bar">
+      <div class="seg">
+        <button class="active">신청 대기</button>
+        <button>승인</button>
+        <button>완료</button>
+        <button>반려</button>
+      </div>
+      <div class="filter-input">
+        <span class="plus">+</span>
+        <span>회원명·주문번호·시험명으로 검색</span>
+      </div>
+    </div>
+
+    <div class="table-tools">
+      <div class="total-count">총 <strong>3</strong> 대기</div>
+      <div class="tool-group">
+        <button class="tool-btn" aria-label="환불 목록 필터 열기">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 21v-7"/><path d="M4 10V3"/><path d="M12 21v-9"/><path d="M12 8V3"/><path d="M20 21v-5"/><path d="M20 12V3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>
+          필터
+        </button>
+        <button class="tool-btn" aria-label="환불 목록 내보내기">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          내보내기
+        </button>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>상태</th>
+          <th>신청일시 <span class="sort">▼</span></th>
+          <th>회원</th>
+          <th>주문번호</th>
+          <th>시험명</th>
+          <th>금액</th>
+          <th>사유</th>
+          <th style="text-align:right;">처리</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- 대기 3건 -->
+        <tr>
+          <td><span class="badge badge-pending">신청</span></td>
+          <td>2026-05-11 09:24</td>
+          <td class="cell-name">田中 美咲</td>
+          <td class="cell-mono">ORD-20260428-0731</td>
+          <td>KO 능력시험 3급 (5월 정기)</td>
+          <td class="cell-amount">¥4,950</td>
+          <td>접수 기간 내 미응시</td>
+          <td class="cell-actions">
+            <button class="btn btn-primary" style="padding:6px 12px; font-size:12px;">승인</button>
+            <button class="btn btn-secondary" style="padding:6px 12px; font-size:12px;">반려</button>
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-pending">신청</span></td>
+          <td>2026-05-10 21:07</td>
+          <td class="cell-name">山田 太郎</td>
+          <td class="cell-mono">ORD-20260503-1188</td>
+          <td>KO 능력시험 2급 (5월 정기)</td>
+          <td class="cell-amount">¥4,950</td>
+          <td>중복 결제</td>
+          <td class="cell-actions">
+            <button class="btn btn-primary" style="padding:6px 12px; font-size:12px;">승인</button>
+            <button class="btn btn-secondary" style="padding:6px 12px; font-size:12px;">반려</button>
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-pending">신청</span></td>
+          <td>2026-05-10 15:42</td>
+          <td class="cell-name">佐藤 健</td>
+          <td class="cell-mono">ORD-20260506-0942</td>
+          <td>KO 능력시험 4급 (5월 정기)</td>
+          <td class="cell-amount">¥4,950</td>
+          <td>시스템 장애로 응시 불가(정책6)</td>
+          <td class="cell-actions">
+            <button class="btn btn-primary" style="padding:6px 12px; font-size:12px;">승인</button>
+            <button class="btn btn-secondary" style="padding:6px 12px; font-size:12px;">반려</button>
+          </td>
+        </tr>
+
+        <!-- 최근 처리 이력 -->
+        <tr>
+          <td><span class="badge badge-paid">승인</span></td>
+          <td>2026-05-09 11:18</td>
+          <td class="cell-name">鈴木 花子</td>
+          <td class="cell-mono">ORD-20260501-0655</td>
+          <td>KO 능력시험 3급 (5월 정기)</td>
+          <td class="cell-amount">¥4,950</td>
+          <td>접수 기간 내 미응시</td>
+          <td class="cell-actions"><span class="muted">조찬현 · 05-09 14:02 · PG 환불 진행중</span></td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-refunded">환불완료</span></td>
+          <td>2026-05-07 08:53</td>
+          <td class="cell-name">高橋 直樹</td>
+          <td class="cell-mono">ORD-20260429-0418</td>
+          <td>KO 능력시험 2급 (5월 정기)</td>
+          <td class="cell-amount">¥4,950</td>
+          <td>중복 결제</td>
+          <td class="cell-actions"><span class="muted">조찬현 · 05-07 10:31 · 05-12 환원 완료</span></td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-failed">반려</span></td>
+          <td>2026-05-06 19:26</td>
+          <td class="cell-name">伊藤 さくら</td>
+          <td class="cell-mono">ORD-20260430-0503</td>
+          <td>KO 능력시험 1급 (5월 정기)</td>
+          <td class="cell-amount">¥4,950</td>
+          <td>응시 후 결과 불만족</td>
+          <td class="cell-actions"><span class="muted">조찬현 · 05-06 20:10 · 정책 대상 아님</span></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+
+    <div class="pager">
+      <button class="pager-btn" disabled>‹</button>
+      <button class="pager-btn active">1</button>
+      <button class="pager-btn" disabled>›</button>
+      <div class="pager-rows">
+        <span>페이지당</span>
+        <select><option>20</option><option>50</option><option>100</option></select>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="assets/admin-shell.js"></script>
+</body>
+</html>

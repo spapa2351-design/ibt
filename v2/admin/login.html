@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MaroPass Admin — 로그인</title>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+<style>
+  :root{
+    --blue-500:#2e84ff; --blue-600:#2272eb; --blue-50:#e8f3ff;
+    --grey-900:#191f28; --grey-700:#4e5968; --grey-600:#6b7684; --grey-500:#8b95a1; --grey-400:#b0b8c1; --grey-300:#d1d6db; --grey-200:#e5e8eb; --grey-100:#f2f4f6; --grey-50:#f9fafb;
+    --green-500:#03b26c; --red-500:#f04452; --red-50:#fef2f2;
+  }
+  *,*::before,*::after{box-sizing:border-box}
+  html,body{margin:0;padding:0;font-family:"Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,sans-serif;color:var(--grey-900)}
+
+  /* 가운데 정렬 레이아웃 */
+  body{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;background:var(--grey-50)}
+
+  /* 로그인 카드 */
+  .form-box{width:100%;max-width:400px;background:#fff;border:1px solid var(--grey-200);border-radius:20px;padding:40px 36px 32px;box-shadow:0 10px 40px rgba(15,23,42,.08)}
+
+  /* 상단 브랜드 (중앙) */
+  .brand{text-align:center;margin-bottom:28px}
+  .brand .mark{width:52px;height:52px;border-radius:15px;background:linear-gradient(150deg,#1b4dc9 0%,#2e84ff 55%,#03b26c 130%);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:22px;margin:0 auto 14px;box-shadow:0 6px 16px rgba(46,132,255,.28)}
+  .brand .name{font-weight:800;font-size:20px;letter-spacing:-.3px}
+  .brand .tag{font-size:11px;font-weight:700;letter-spacing:1px;color:var(--grey-500);margin-top:2px}
+
+  .fb-head{text-align:center;margin-bottom:26px}
+  .fb-head h2{font-size:22px;font-weight:800;margin:0 0 6px;letter-spacing:-.5px}
+  .fb-head p{font-size:14px;color:var(--grey-600);margin:0}
+
+  .field{margin-bottom:18px}
+  .field label{display:block;font-size:13px;font-weight:700;color:var(--grey-700);margin-bottom:7px}
+  .input-wrap{position:relative;display:flex;align-items:center}
+  .input-wrap > svg{position:absolute;left:14px;width:18px;height:18px;color:var(--grey-400)}
+  .input{width:100%;padding:13px 14px 13px 42px;border:1px solid var(--grey-200);border-radius:12px;font-size:15px;color:var(--grey-900);font-family:inherit;background:#fff;transition:border-color .12s,box-shadow .12s}
+  .input:focus{border-color:var(--blue-500);outline:none;box-shadow:0 0 0 3px rgba(46,132,255,.12)}
+  .toggle-pw{position:absolute;right:12px;background:none;border:none;color:var(--grey-500);cursor:pointer;padding:4px;display:flex}
+  .row-between{display:flex;align-items:center;justify-content:space-between;margin:6px 0 24px}
+  .checkbox{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--grey-700);cursor:pointer;user-select:none}
+  .checkbox input{width:16px;height:16px;accent-color:var(--blue-500);cursor:pointer}
+  .link{font-size:13px;color:var(--blue-500);font-weight:600;text-decoration:none}
+  .link:hover{color:var(--blue-600)}
+  .btn-login{width:100%;padding:14px;border:none;border-radius:12px;background:var(--blue-500);color:#fff;font-size:15px;font-weight:800;cursor:pointer;font-family:inherit;transition:background-color .12s}
+  .btn-login:hover{background:var(--blue-600)}
+  .notice{margin-top:22px;padding:12px 14px;background:var(--grey-50);border:1px solid var(--grey-100);border-radius:10px;font-size:12px;color:var(--grey-600);line-height:1.6;text-align:center}
+  .notice strong{color:var(--grey-900)}
+  .err{display:none;margin-bottom:16px;padding:11px 14px;background:var(--red-50);border:1px solid #fecdd3;border-radius:10px;font-size:13px;color:var(--red-500);font-weight:600;text-align:center}
+  .err.on{display:block}
+  .foot{text-align:center;font-size:12px;color:var(--grey-500);margin-top:20px}
+
+  @media (max-width:440px){
+    .form-box{padding:32px 22px 26px;border:none;box-shadow:none;background:transparent}
+    body{background:#fff}
+  }
+</style>
+</head>
+<body>
+
+<div class="form-box">
+  <!-- 상단 브랜드 -->
+  <div class="brand">
+    <div class="mark">M</div>
+    <div class="name">MaroPass</div>
+    <div class="tag">ADMIN CONSOLE</div>
+  </div>
+
+  <div class="fb-head">
+    <h2>관리자 로그인</h2>
+    <p>등록된 관리자 계정으로 접속합니다.</p>
+  </div>
+
+  <div class="err" id="err">이메일 또는 비밀번호를 확인해 주세요.</div>
+
+  <form id="loginForm" novalidate>
+    <div class="field">
+      <label for="adminId">이메일</label>
+      <div class="input-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <input class="input" id="adminId" type="text" placeholder="admin@maropass.jp" autocomplete="username" value="admin@maropass.jp">
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="adminPw">비밀번호</label>
+      <div class="input-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        <input class="input" id="adminPw" type="password" placeholder="비밀번호 입력" autocomplete="current-password" value="········">
+        <button type="button" class="toggle-pw" id="togglePw" aria-label="비밀번호 표시">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="row-between">
+      <label class="checkbox"><input type="checkbox" id="remember"> 로그인 상태 유지</label>
+      <a class="link" href="#">비밀번호 찾기</a>
+    </div>
+
+    <button type="submit" class="btn-login">로그인</button>
+  </form>
+
+  <div class="notice">
+    <strong>관리자 전용 페이지입니다.</strong><br>
+    계정 발급·권한 문의는 시스템 관리자(SA)에게 요청하세요. 접속 기록이 저장됩니다.
+  </div>
+
+  <div class="foot">© 2026 Newin · MaroPass IBT · 관리자 전용 시스템</div>
+</div>
+
+<script>
+  // 비밀번호 표시 토글
+  document.getElementById('togglePw').addEventListener('click', function () {
+    var pw = document.getElementById('adminPw');
+    pw.type = pw.type === 'password' ? 'text' : 'password';
+  });
+  // 로그인 (목업 — 대시보드로 이동)
+  document.getElementById('loginForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var id = document.getElementById('adminId').value.trim();
+    var pw = document.getElementById('adminPw').value.trim();
+    if (!id || !pw) { document.getElementById('err').classList.add('on'); return; }
+    window.location.href = 'dashboard.html';
+  });
+</script>
+
+</body>
+</html>

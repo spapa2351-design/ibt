@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MaroPass Admin — 문제 은행</title>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+<link rel="stylesheet" href="assets/admin.css">
+<style>
+  /* ── 문제 은행 전용 (공유 클래스로 커버되지 않는 컴포넌트) ── */
+  .qb-grid { display: grid; grid-template-columns: 220px 1fr; gap: 20px; align-items: start; }
+
+  .page-title .star-btn { color: var(--grey-300); cursor: pointer; font-size: 18px; margin-left: 8px; }
+  .page-title .star-btn:hover { color: var(--orange-500); }
+
+  .tree-card { background: #fff; border-radius: 16px; box-shadow: 0 1px 3px rgba(15,23,42,0.04), 0 1px 2px rgba(15,23,42,0.06); padding: 16px; height: fit-content; position: sticky; top: 76px; }
+  .tree-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; padding: 0 4px; }
+  .tree-title { font-size: 14px; font-weight: 800; color: var(--grey-900); }
+  .tree-cog { width: 26px; height: 26px; border-radius: 6px; border: none; background: transparent; color: var(--grey-500); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; }
+  .tree-cog:hover { background: var(--grey-100); color: var(--grey-900); }
+  .tree-list { display: flex; flex-direction: column; gap: 1px; }
+  .tree-item { padding: 7px 10px; font-size: 13px; color: var(--grey-700); border-radius: 7px; cursor: pointer; display: flex; align-items: center; gap: 6px; }
+  .tree-item:hover { background: var(--grey-50); }
+  .tree-item.active { background: var(--blue-50); color: var(--blue-600); font-weight: 700; }
+  .tree-item .count { margin-left: auto; font-size: 11px; color: var(--grey-400); font-weight: 600; }
+  .tree-item.active .count { color: var(--blue-500); }
+  .tree-divider { height: 1px; background: var(--grey-100); margin: 6px 4px; }
+  .tree-caption { font-size: 10px; font-weight: 800; color: var(--grey-400); letter-spacing: 0.4px; padding: 4px 10px 2px; }
+
+  .filter-input .plus { width: 24px; height: 24px; border-radius: 50%; background: var(--blue-50); color: var(--blue-500); display: flex; align-items: center; justify-content: center; font-weight: 700; }
+
+  td.cell-question { color: var(--grey-900); max-width: 480px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+  /* 레벨 뱃지 */
+  .badge-lv-beg { background: var(--blue-50); color: var(--blue-600); }
+  .badge-lv-mid { background: var(--violet-50); color: var(--violet-500); }
+
+  /* 유형(kind) 뱃지 — kind별 색 */
+  .badge-k { max-width: 100%; }
+  .k-read      { background: #eff6ff; color: #2563eb; }
+  .k-qa        { background: #ecfdf5; color: #059669; }
+  .k-dialog    { background: #f5f3ff; color: #7c3aed; }
+  .k-describe  { background: #fff7ed; color: #ea580c; }
+  .k-pragmatic { background: #fef2f2; color: #dc2626; }
+  .k-dialogcont{ background: #ecfeff; color: #0891b2; }
+  .k-data      { background: #f0fdfa; color: #0d9488; }
+  .k-opinion   { background: #fdf4ff; color: #c026d3; }
+
+  /* 태그 (유형별 분류축 값) */
+  .topic-chips { display: flex; flex-wrap: wrap; gap: 4px; }
+  .topic-chip { display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 600; background: var(--grey-100); color: var(--grey-700); border: 1px solid transparent; white-space: nowrap; }
+  .topic-chip::before { content: '#'; opacity: 0.5; margin-right: 1px; font-weight: 700; }
+
+  /* 유형 필터 칩 (필터바 내부) */
+  .area-filter-list { display: flex; flex-wrap: wrap; gap: 6px; }
+  .area-filter-chip { display: inline-flex; align-items: center; gap: 5px; padding: 5px 10px; border-radius: 999px; font-size: 11.5px; font-weight: 600; background: #fff; color: var(--grey-700); border: 1px solid var(--grey-200); cursor: pointer; transition: all 0.12s; }
+  .area-filter-chip:hover { border-color: var(--blue-500); color: var(--blue-500); }
+  .area-filter-chip.active { background: var(--blue-500); color: #fff; border-color: var(--blue-500); }
+  .area-filter-chip .lv { font-size: 9px; font-weight: 800; opacity: 0.6; }
+  .area-filter-chip .count { opacity: 0.6; font-size: 10px; font-weight: 700; }
+  .area-filter-summary { font-size: 11px; color: var(--grey-500); }
+  .area-filter-summary strong { color: var(--blue-600); font-weight: 800; }
+  .area-filter-reset { font-size: 11px; color: var(--grey-500); font-weight: 700; background: transparent; border: none; cursor: pointer; padding: 2px 6px; border-radius: 6px; }
+  .area-filter-reset:hover { background: var(--grey-100); color: var(--grey-900); }
+  .filter-axis-note { font-size: 11px; color: var(--grey-500); }
+  .filter-axis-note strong { color: var(--grey-700); font-weight: 700; }
+
+  @media (max-width: 1024px) {
+    .qb-grid { grid-template-columns: 1fr; }
+    .tree-card { position: static; }
+  }
+</style>
+</head>
+<body data-page="question-bank" data-title="문제 은행">
+<div class="page">
+
+  <div class="page-head">
+    <div class="page-title">문제 은행 <span class="star-btn" title="즐겨찾기">☆</span></div>
+    <div class="page-actions">
+      <a href="question-create.html" class="btn btn-primary">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        등록
+      </a>
+    </div>
+  </div>
+
+  <div class="qb-grid">
+
+    <!-- 좌: 레벨 트리 -->
+    <aside class="tree-card">
+      <div class="tree-head">
+        <div class="tree-title">레벨</div>
+        <button class="tree-cog" title="분류 설정"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>
+      </div>
+      <div class="tree-list" id="level-tree"><!-- JS --></div>
+    </aside>
+
+    <!-- 우: 표 -->
+    <div class="card">
+      <div class="filter-bar" style="flex-direction: column; align-items: stretch; gap: 10px;">
+        <div style="display:flex; align-items:center; gap:12px;">
+          <div class="filter-input" style="flex:1;">
+            <span class="plus">+</span>
+            <span>필터 추가 (레벨, 등록일, 사용 시험 ...)</span>
+          </div>
+          <button class="tool-btn" style="width:32px;height:32px;padding:0;justify-content:center;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+          <span style="font-size:11px; font-weight:800; color:var(--grey-700); margin-right:4px;">유형 <span id="typeScopeLabel" style="font-weight:600; color:var(--grey-400);">전체 레벨</span></span>
+          <div class="area-filter-list" id="typeFilterList" style="flex:1;"><!-- JS --></div>
+          <span class="area-filter-summary" id="areaSummary"><strong>0</strong>개 선택됨</span>
+          <button class="area-filter-reset" id="areaReset">초기화</button>
+        </div>
+      </div>
+
+      <div class="table-tools">
+        <div class="total-count" id="totalCount">총 <strong>0</strong></div>
+        <div class="tool-group">
+          <button class="tool-btn">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            다운로드
+          </button>
+          <button class="tool-btn" title="컬럼 설정"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></button>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:48px;"><input type="checkbox"></th>
+            <th style="width:76px;">레벨</th>
+            <th style="min-width:150px;">문제 유형</th>
+            <th>질문</th>
+            <th style="min-width:150px;">태그</th>
+            <th style="width:110px;">등록일 <span class="sort">▾</span></th>
+            <th style="width:90px; text-align:right;">관리</th>
+          </tr>
+        </thead>
+        <tbody id="qb-body"><!-- JS --></tbody>
+      </table>
+      </div>
+
+      <div class="pager">
+        <button class="pager-btn" disabled>‹</button>
+        <button class="pager-btn active">1</button>
+        <button class="pager-btn">2</button>
+        <button class="pager-btn">3</button>
+        <button class="pager-btn">4</button>
+        <button class="pager-btn">5</button>
+        <span style="color:var(--grey-400);padding:0 6px;">…</span>
+        <button class="pager-btn">42</button>
+        <button class="pager-btn">›</button>
+        <div class="pager-rows"><select><option>10</option><option>20</option><option>50</option></select><span>행</span></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script src="assets/admin-shell.js"></script>
+<script>
+// ─── 문제 은행 SSOT — 문제 만들기(question-create.html)의 LEVELS 모델과 정렬 ───
+// 레벨(초급 유형5 / 중상급 유형9) → 유형 → 유형별 분류축. "영역"→"유형" 용어 통일.
+const LEVELS = {
+  beginner: { label:'초급', badgeCls:'badge-lv-beg', short:'초', total:238 },
+  mid:      { label:'중상급', badgeCls:'badge-lv-mid', short:'중', total:174 },
+};
+
+// 유형 카탈로그 (create의 types와 동일 키/라벨/kind/분류축)
+const TYPES = [
+  // 초급 5
+  { key:'read',      level:'beginner', badge:'① 짧은 문장 읽기',   kind:'read',      axis:'문장 유형·음운' },
+  { key:'qa',        level:'beginner', badge:'② 질문 대답',        kind:'qa',        axis:'질문 기능' },
+  { key:'dialog',    level:'beginner', badge:'③ 생활 속 대화',     kind:'dialog',    axis:'장소·상황' },
+  { key:'describe',  level:'beginner', badge:'④ 그림/사진 설명',   kind:'describe',  axis:'묘사 대상' },
+  { key:'pragmatic', level:'beginner', badge:'⑤ 화용 과제',        kind:'pragmatic', axis:'화행' },
+  // 중상급 9
+  { key:'m-read',    level:'mid', badge:'① 어휘 발음 구별',       kind:'read',       axis:'문장 유형·음운' },
+  { key:'m-qa',      level:'mid', badge:'② 자신에 대해 말하기',   kind:'qa',         axis:'주제' },
+  { key:'m-role',    level:'mid', badge:'③-1 역할 수행',          kind:'dialog',     axis:'장소·상황' },
+  { key:'m-desc',    level:'mid', badge:'③-2 그림 설명',          kind:'describe',   axis:'그림 주제' },
+  { key:'m-seq',     level:'mid', badge:'③-3 상황 설명(순서)',    kind:'describe',   axis:'상황 순서' },
+  { key:'m-act',     level:'mid', badge:'④ 화용 능력',            kind:'dialogcont', axis:'화행' },
+  { key:'m-data',    level:'mid', badge:'⑤-1 자료 해석',          kind:'data',       axis:'자료 주제' },
+  { key:'m-opdialog',level:'mid', badge:'⑤-2 대화 듣고 의견',     kind:'dialogcont', axis:'논제' },
+  { key:'m-present', level:'mid', badge:'⑥ 의견 프레젠테이션',    kind:'opinion',    axis:'논제' },
+];
+const TYPE_MAP = Object.fromEntries(TYPES.map(t => [t.key, t]));
+
+// 샘플 문항 (유형별 분류축 값 = 태그)
+const QUESTIONS = [
+  { id:'Q-1051', type:'read',      q:'만나서 반갑습니다. — 문장을 자연스럽게 읽어 보세요.',              tags:['평서문','연음화'],       date:'2026-04-22' },
+  { id:'Q-1042', type:'qa',        q:'보통 몇 시에 자요?',                                              tags:['생활 습관'],            date:'2026-04-22' },
+  { id:'Q-1039', type:'qa',        q:'오늘 아침에 한 일을 순서대로 말해 보세요.',                        tags:['과거 경험'],            date:'2026-04-18' },
+  { id:'Q-1036', type:'dialog',    q:'카페에서 음료를 주문하는 상황 — 점원의 말을 듣고 알맞게 대답하세요.', tags:['카페'],                 date:'2026-04-17' },
+  { id:'Q-1031', type:'dialog',    q:'식당에서 메뉴를 보고 친구에게 음식을 추천해 보세요.',              tags:['식당'],                 date:'2026-04-14' },
+  { id:'Q-1028', type:'describe',  q:'사진 속 풍경을 보고 자유롭게 설명해 보세요.',                      tags:['상황·동작'],            date:'2026-04-13' },
+  { id:'Q-1024', type:'describe',  q:'하루 일과 그림을 보고 시간 순서대로 설명해 보세요.',               tags:['시간적 변화'],          date:'2026-04-11' },
+  { id:'Q-1019', type:'pragmatic', q:'친구에게 약속 변경을 정중히 부탁하는 상황을 한국어로 말해 보세요.',  tags:['의뢰'],                 date:'2026-04-09' },
+  { id:'Q-0992', type:'m-read',    q:'한국어를 공부하면 친구가 많아져요. — 두 절을 자연스럽게 이어 읽어 보세요.', tags:['복문','유음화'],  date:'2026-04-08' },
+  { id:'Q-0987', type:'m-qa',      q:'자신의 취미와 그것을 시작하게 된 계기를 이야기해 보세요.',          tags:['취미'],                 date:'2026-04-06' },
+  { id:'Q-0981', type:'m-role',    q:'미용실에서 원하는 머리 스타일을 구체적으로 요청해 보세요.',         tags:['미용실'],               date:'2026-04-04' },
+  { id:'Q-0975', type:'m-desc',    q:'회의 장면을 보고 인물들의 행동과 분위기를 설명해 보세요.',          tags:['회의'],                 date:'2026-04-02' },
+  { id:'Q-0970', type:'m-seq',     q:'김치볶음밥을 만드는 순서를 그림을 보고 차례대로 설명해 보세요.',     tags:['요리법'],               date:'2026-03-31' },
+  { id:'Q-0964', type:'m-act',     q:'회사 동기가 50만원을 빌려달라고 합니다. 상황에 맞게 정중히 거절해 보세요.', tags:['거절'],          date:'2026-03-28' },
+  { id:'Q-0958', type:'m-data',    q:'스마트폰 과다 사용 비율 그래프를 해석하고 원인과 의견을 말해 보세요.', tags:['사회 현상'],          date:'2026-03-25' },
+  { id:'Q-0953', type:'m-opdialog',q:'공공장소 예절에 대한 대화를 듣고 자신의 의견을 제시해 보세요.',      tags:['공공 예절'],            date:'2026-03-22' },
+  { id:'Q-0947', type:'m-present', q:'여자 대학의 남녀공학 전환에 대한 의견을 근거를 들어 발표해 보세요.',  tags:['사회','교육'],          date:'2026-03-19' },
+];
+
+// ─── 상태 ───
+const state = { level: 'all', types: new Set() };
+
+const $tree = document.getElementById('level-tree');
+const $typeList = document.getElementById('typeFilterList');
+const $typeScope = document.getElementById('typeScopeLabel');
+const $summary = document.getElementById('areaSummary');
+const $total = document.getElementById('totalCount');
+const $body = document.getElementById('qb-body');
+const TOTAL_ALL = LEVELS.beginner.total + LEVELS.mid.total;
+
+function levelOfType(key) { return TYPE_MAP[key].level; }
+function rowsForLevel(lv) { return QUESTIONS.filter(q => lv === 'all' || levelOfType(q.type) === lv); }
+function typesForScope() { return state.level === 'all' ? TYPES : TYPES.filter(t => t.level === state.level); }
+
+// ─── 좌측 레벨 트리 ───
+function renderTree() {
+  const cnt = lv => (lv === 'all' ? TOTAL_ALL : LEVELS[lv].total);
+  const item = (lv, name) =>
+    `<div class="tree-item ${state.level === lv ? 'active' : ''}" data-level="${lv}">${name} <span class="count">${cnt(lv)}</span></div>`;
+  $tree.innerHTML =
+    item('all', '전체') +
+    '<div class="tree-divider"></div>' +
+    item('beginner', '초급') +
+    item('mid', '중상급') +
+    '<div class="tree-divider"></div>' +
+    '<div class="tree-item" style="color:var(--grey-500);">미분류 <span class="count">0</span></div>';
+  $tree.querySelectorAll('.tree-item[data-level]').forEach(el => {
+    el.addEventListener('click', () => {
+      state.level = el.dataset.level;
+      state.types.clear();
+      renderTree(); renderTypeFilter(); renderTable();
+    });
+  });
+}
+
+// ─── 유형 필터 칩 (레벨 스코프) ───
+function renderTypeFilter() {
+  $typeScope.textContent = state.level === 'all' ? '전체 레벨' : LEVELS[state.level].label + ' · 유형 ' + typesForScope().length + '종';
+  $typeList.innerHTML = '';
+  typesForScope().forEach(t => {
+    const n = QUESTIONS.filter(q => q.type === t.key).length;
+    const lvTag = state.level === 'all' ? `<span class="lv">${LEVELS[t.level].short}</span>` : '';
+    const btn = document.createElement('button');
+    btn.className = 'area-filter-chip' + (state.types.has(t.key) ? ' active' : '');
+    btn.dataset.type = t.key;
+    btn.innerHTML = `${lvTag}${t.badge} <span class="count">${n}</span>`;
+    btn.addEventListener('click', () => {
+      state.types.has(t.key) ? state.types.delete(t.key) : state.types.add(t.key);
+      renderTypeFilter(); renderTable();
+    });
+    $typeList.appendChild(btn);
+  });
+  $summary.innerHTML = `<strong>${state.types.size}</strong>개 선택됨`;
+}
+
+// ─── 테이블 ───
+function renderTable() {
+  const rows = rowsForLevel(state.level).filter(q => state.types.size === 0 || state.types.has(q.type));
+  $body.innerHTML = rows.map(q => {
+    const t = TYPE_MAP[q.type];
+    const lv = LEVELS[t.level];
+    const tags = q.tags.map(tag => `<span class="topic-chip">${tag}</span>`).join('');
+    return `<tr>
+      <td><input type="checkbox"></td>
+      <td><span class="badge ${lv.badgeCls}">${lv.label}</span></td>
+      <td><span class="badge badge-k k-${t.kind}">${t.badge}</span></td>
+      <td class="cell-question" title="${q.q}">${q.q}</td>
+      <td><div class="topic-chips">${tags}</div></td>
+      <td class="cell-mono">${q.date}</td>
+      <td class="cell-actions">
+        <a href="question-edit.html" class="row-action" title="편집"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></a>
+        <button class="row-action del" title="삭제"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg></button>
+      </td>
+    </tr>`;
+  }).join('');
+
+  const scopeTotal = state.level === 'all' ? TOTAL_ALL : LEVELS[state.level].total;
+  const filtered = state.types.size > 0;
+  $total.innerHTML = filtered
+    ? `필터 결과 <strong>${rows.length}</strong>건 / ${scopeTotal}`
+    : `총 <strong>${scopeTotal}</strong>`;
+}
+
+document.getElementById('areaReset').addEventListener('click', () => {
+  state.types.clear();
+  renderTypeFilter(); renderTable();
+});
+
+// 초기화
+renderTree();
+renderTypeFilter();
+renderTable();
+</script>
+</body>
+</html>

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MaroPass Admin — 문의</title>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+<link rel="stylesheet" href="assets/admin.css">
+</head>
+<body data-page="inquiries" data-title="문의">
+<div class="page">
+  <div class="page-head">
+    <div>
+      <h1 class="page-title">1:1 문의</h1>
+      <div class="page-sub">고객센터 · 미답변 5건</div>
+    </div>
+  </div>
+
+  <!-- 상태 / 카테고리 필터 세그먼트 -->
+  <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px; flex-wrap:wrap;">
+    <div class="seg">
+      <button>전체</button>
+      <button class="active">미답변</button>
+      <button>답변완료</button>
+    </div>
+    <div class="seg">
+      <button class="active">전체 카테고리</button>
+      <button>결제·환불</button>
+      <button>응시환경·기술</button>
+      <button>시험 콘텐츠</button>
+      <button>인증서·결과</button>
+      <button>회원·계정</button>
+    </div>
+  </div>
+
+  <!-- 문의 표 -->
+  <div class="card">
+    <div class="filter-bar">
+      <div class="filter-input">
+        <span class="plus">+</span>
+        <span>제목, 회원, 카테고리 ...</span>
+      </div>
+    </div>
+
+    <div class="table-tools">
+      <div class="total-count">총 <strong>1,204</strong> · 미답변 <strong style="color:var(--orange-500);">5</strong></div>
+      <div class="tool-group">
+        <button class="tool-btn" aria-label="필터 설정">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+          필터
+        </button>
+        <button class="tool-btn" aria-label="목록 내보내기">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          내보내기
+        </button>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>상태</th>
+          <th>카테고리</th>
+          <th>제목</th>
+          <th>회원</th>
+          <th>접수일시 <span class="sort">▼</span></th>
+          <th>담당</th>
+          <th style="text-align:right;">관리</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- 미답변 5건 (상단) -->
+        <tr>
+          <td><span class="badge badge-pending">미답변</span></td>
+          <td><span class="badge badge-grade-int">응시환경·기술</span></td>
+          <td class="cell-name">시험 응시 시 마이크가 인식되지 않습니다</td>
+          <td>田中 美咲</td>
+          <td class="cell-mono">2026-05-11 09:12</td>
+          <td><span class="badge badge-inactive">미지정</span></td>
+          <td class="cell-actions"><button class="btn btn-primary" style="padding:6px 12px; font-size:12px;">답변</button></td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-pending">미답변</span></td>
+          <td><span class="badge badge-grade-beg">결제·환불</span></td>
+          <td class="cell-name">결제 환불 가능 여부 문의</td>
+          <td>山田 太郎</td>
+          <td class="cell-mono">2026-05-11 06:41</td>
+          <td><span class="badge badge-inactive">미지정</span></td>
+          <td class="cell-actions"><button class="btn btn-primary" style="padding:6px 12px; font-size:12px;">답변</button></td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-pending">미답변</span></td>
+          <td><span class="badge badge-grade-beg">결제·환불</span></td>
+          <td class="cell-name">결제 영수증(適格請求書) 발행 문의</td>
+          <td>渡辺 由美</td>
+          <td class="cell-mono">2026-05-10 22:05</td>
+          <td>이서준</td>
+          <td class="cell-actions"><button class="btn btn-primary" style="padding:6px 12px; font-size:12px;">답변</button></td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-pending">미답변</span></td>
+          <td><span class="badge badge-grade-none">인증서·결과</span></td>
+          <td class="cell-name">인증서 재발급 신청</td>
+          <td>佐藤 健</td>
+          <td class="cell-mono">2026-05-10 18:33</td>
+          <td>박지민</td>
+          <td class="cell-actions"><button class="btn btn-primary" style="padding:6px 12px; font-size:12px;">답변</button></td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-pending">미답변</span></td>
+          <td><span class="badge badge-inactive">회원·계정</span></td>
+          <td class="cell-name">회원정보 이메일 변경 요청</td>
+          <td>鈴木 花子</td>
+          <td class="cell-mono">2026-05-10 15:48</td>
+          <td><span class="badge badge-inactive">미지정</span></td>
+          <td class="cell-actions"><button class="btn btn-primary" style="padding:6px 12px; font-size:12px;">답변</button></td>
+        </tr>
+
+        <!-- 답변완료 -->
+        <tr>
+          <td><span class="badge badge-active">답변완료</span></td>
+          <td><span class="badge badge-grade-int">시험 콘텐츠</span></td>
+          <td class="cell-name">중상급 시험 응시 자격 문의</td>
+          <td>高橋 直樹</td>
+          <td class="cell-mono">2026-05-10 11:20</td>
+          <td>이서준</td>
+          <td class="cell-actions"><span class="muted">2026-05-10 13:02 답변</span></td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-active">답변완료</span></td>
+          <td><span class="badge badge-grade-beg">결제·환불</span></td>
+          <td class="cell-name">카드 결제가 두 번 청구되었습니다</td>
+          <td>伊藤 沙織</td>
+          <td class="cell-mono">2026-05-09 20:14</td>
+          <td>박지민</td>
+          <td class="cell-actions"><span class="muted">2026-05-09 21:40 답변</span></td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-active">답변완료</span></td>
+          <td><span class="badge badge-grade-int">응시환경·기술</span></td>
+          <td class="cell-name">시험 도중 화면이 멈췄습니다</td>
+          <td>中村 拓也</td>
+          <td class="cell-mono">2026-05-09 16:52</td>
+          <td>이서준</td>
+          <td class="cell-actions"><span class="muted">2026-05-09 17:30 답변</span></td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-active">답변완료</span></td>
+          <td><span class="badge badge-grade-none">인증서·결과</span></td>
+          <td class="cell-name">시험 결과 발표일 안내 요청</td>
+          <td>小林 香織</td>
+          <td class="cell-mono">2026-05-09 10:08</td>
+          <td>박지민</td>
+          <td class="cell-actions"><span class="muted">2026-05-09 10:45 답변</span></td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-active">답변완료</span></td>
+          <td><span class="badge badge-inactive">회원·계정</span></td>
+          <td class="cell-name">비밀번호 재설정 메일이 오지 않습니다</td>
+          <td>加藤 大輔</td>
+          <td class="cell-mono">2026-05-08 19:27</td>
+          <td>이서준</td>
+          <td class="cell-actions"><span class="muted">2026-05-08 19:55 답변</span></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+
+    <div class="pager">
+      <button class="pager-btn" disabled>‹ 이전</button>
+      <button class="pager-btn active">1</button>
+      <button class="pager-btn">2</button>
+      <button class="pager-btn">3</button>
+      <button class="pager-btn">4</button>
+      <button class="pager-btn">…</button>
+      <button class="pager-btn">121</button>
+      <button class="pager-btn">다음 ›</button>
+      <div class="pager-rows">
+        <span>페이지당</span>
+        <select><option>10</option><option>20</option><option>50</option></select>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="assets/admin-shell.js"></script>
+</body>
+</html>

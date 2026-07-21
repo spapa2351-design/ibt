@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MaroPass Admin — 회원</title>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+<link rel="stylesheet" href="assets/admin.css">
+</head>
+<body data-page="members" data-title="회원">
+<div class="page">
+  <div class="page-head">
+    <div>
+      <h1 class="page-title">회원 목록</h1>
+      <div class="page-sub">MaroPass 포털 가입 회원</div>
+    </div>
+    <div class="page-actions"></div>
+  </div>
+
+  <div class="card">
+    <div class="filter-bar">
+      <div class="seg" id="memberFilter">
+        <button class="active" data-filter="all">전체</button>
+        <button data-filter="active">가입완료</button>
+        <button data-filter="inactive">탈퇴</button>
+      </div>
+      <div class="filter-input">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="memberSearch" placeholder="이름·이메일 검색">
+      </div>
+    </div>
+
+    <div class="table-tools">
+      <div class="total-count">총<strong>12,438</strong></div>
+    </div>
+
+    <div class="table-wrap">
+    <table class="table">
+      <thead>
+        <tr>
+          <th style="width:40px;"><input type="checkbox"></th>
+          <th>상태</th>
+          <th>이름 <span class="sort">▲▼</span></th>
+          <th>이메일</th>
+          <th>가입일 <span class="sort">▲▼</span></th>
+          <th>최근 응시일</th>
+          <th>누적 응시</th>
+          <th style="text-align:right;">관리</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- 1 -->
+        <tr>
+          <td><input type="checkbox"></td>
+          <td><span class="badge badge-active">가입완료</span></td>
+          <td class="cell-name">田中 美咲</td>
+          <td class="cell-id">misaki.tanaka@example.com</td>
+          <td class="cell-mono">2026-01-14</td>
+          <td class="cell-mono">2026-05-08</td>
+          <td class="cell-mono">7회</td>
+          <td class="cell-actions">
+            <a class="btn btn-secondary" href="member-detail.html" title="회원 상세" style="padding:6px 14px;font-size:12px;font-weight:700">상세</a>
+            <button class="row-action del" title="삭제" aria-label="회원 삭제"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>
+          </td>
+        </tr>
+        <!-- 2 -->
+        <tr>
+          <td><input type="checkbox"></td>
+          <td><span class="badge badge-active">가입완료</span></td>
+          <td class="cell-name">山田 太郎</td>
+          <td class="cell-id">taro.yamada@example.com</td>
+          <td class="cell-mono">2026-02-03</td>
+          <td class="cell-mono">2026-04-21</td>
+          <td class="cell-mono">3회</td>
+          <td class="cell-actions">
+            <a class="btn btn-secondary" href="member-detail.html" title="회원 상세" style="padding:6px 14px;font-size:12px;font-weight:700">상세</a>
+            <button class="row-action del" title="삭제" aria-label="회원 삭제"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>
+          </td>
+        </tr>
+        <!-- 3 -->
+        <tr>
+          <td><input type="checkbox"></td>
+          <td><span class="badge badge-active">가입완료</span></td>
+          <td class="cell-name">佐藤 健</td>
+          <td class="cell-id">ken.sato@example.com</td>
+          <td class="cell-mono">2026-05-02</td>
+          <td class="cell-mono">-</td>
+          <td class="cell-mono">0회</td>
+          <td class="cell-actions">
+            <a class="btn btn-secondary" href="member-detail.html" title="회원 상세" style="padding:6px 14px;font-size:12px;font-weight:700">상세</a>
+            <button class="row-action del" title="삭제" aria-label="회원 삭제"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>
+          </td>
+        </tr>
+        <!-- 4 -->
+        <tr>
+          <td><input type="checkbox"></td>
+          <td><span class="badge badge-active">가입완료</span></td>
+          <td class="cell-name">鈴木 花子</td>
+          <td class="cell-id">hanako.suzuki@example.com</td>
+          <td class="cell-mono">2025-11-27</td>
+          <td class="cell-mono">2026-05-06</td>
+          <td class="cell-mono">12회</td>
+          <td class="cell-actions">
+            <a class="btn btn-secondary" href="member-detail.html" title="회원 상세" style="padding:6px 14px;font-size:12px;font-weight:700">상세</a>
+            <button class="row-action del" title="삭제" aria-label="회원 삭제"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>
+          </td>
+        </tr>
+        <!-- 5 -->
+        <tr>
+          <td><input type="checkbox"></td>
+          <td><span class="badge badge-active">가입완료</span></td>
+          <td class="cell-name">高橋 大輔</td>
+          <td class="cell-id">daisuke.takahashi@example.com</td>
+          <td class="cell-mono">2026-03-19</td>
+          <td class="cell-mono">2026-04-30</td>
+          <td class="cell-mono">2회</td>
+          <td class="cell-actions">
+            <a class="btn btn-secondary" href="member-detail.html" title="회원 상세" style="padding:6px 14px;font-size:12px;font-weight:700">상세</a>
+            <button class="row-action del" title="삭제" aria-label="회원 삭제"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>
+          </td>
+        </tr>
+        <!-- 6 -->
+        <tr>
+          <td><input type="checkbox"></td>
+          <td><span class="badge badge-active">가입완료</span></td>
+          <td class="cell-name">伊藤 さくら</td>
+          <td class="cell-id">sakura.ito@example.com</td>
+          <td class="cell-mono">2026-01-30</td>
+          <td class="cell-mono">2026-05-09</td>
+          <td class="cell-mono">9회</td>
+          <td class="cell-actions">
+            <a class="btn btn-secondary" href="member-detail.html" title="회원 상세" style="padding:6px 14px;font-size:12px;font-weight:700">상세</a>
+            <button class="row-action del" title="삭제" aria-label="회원 삭제"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>
+          </td>
+        </tr>
+        <!-- 7 (탈퇴) -->
+        <tr>
+          <td><input type="checkbox"></td>
+          <td><span class="badge badge-inactive">탈퇴</span></td>
+          <td class="cell-name">渡辺 翔太</td>
+          <td class="cell-id">shota.watanabe@example.com</td>
+          <td class="cell-mono">2025-09-11</td>
+          <td class="cell-mono">2025-12-15</td>
+          <td class="cell-mono">4회</td>
+          <td class="cell-actions">
+            <a class="btn btn-secondary" href="member-detail.html" title="회원 상세" style="padding:6px 14px;font-size:12px;font-weight:700">상세</a>
+            <button class="row-action del" title="삭제" aria-label="회원 삭제"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>
+          </td>
+        </tr>
+        <!-- 8 -->
+        <tr>
+          <td><input type="checkbox"></td>
+          <td><span class="badge badge-active">가입완료</span></td>
+          <td class="cell-name">中村 由美</td>
+          <td class="cell-id">yumi.nakamura@example.com</td>
+          <td class="cell-mono">2026-05-07</td>
+          <td class="cell-mono">-</td>
+          <td class="cell-mono">0회</td>
+          <td class="cell-actions">
+            <a class="btn btn-secondary" href="member-detail.html" title="회원 상세" style="padding:6px 14px;font-size:12px;font-weight:700">상세</a>
+            <button class="row-action del" title="삭제" aria-label="회원 삭제"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>
+          </td>
+        </tr>
+        <!-- 9 -->
+        <tr>
+          <td><input type="checkbox"></td>
+          <td><span class="badge badge-active">가입완료</span></td>
+          <td class="cell-name">小林 直樹</td>
+          <td class="cell-id">naoki.kobayashi@example.com</td>
+          <td class="cell-mono">2025-12-08</td>
+          <td class="cell-mono">2026-05-01</td>
+          <td class="cell-mono">15회</td>
+          <td class="cell-actions">
+            <a class="btn btn-secondary" href="member-detail.html" title="회원 상세" style="padding:6px 14px;font-size:12px;font-weight:700">상세</a>
+            <button class="row-action del" title="삭제" aria-label="회원 삭제"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>
+          </td>
+        </tr>
+        <!-- 10 -->
+        <tr>
+          <td><input type="checkbox"></td>
+          <td><span class="badge badge-active">가입완료</span></td>
+          <td class="cell-name">加藤 愛</td>
+          <td class="cell-id">ai.kato@example.com</td>
+          <td class="cell-mono">2026-04-05</td>
+          <td class="cell-mono">2026-05-03</td>
+          <td class="cell-mono">1회</td>
+          <td class="cell-actions">
+            <a class="btn btn-secondary" href="member-detail.html" title="회원 상세" style="padding:6px 14px;font-size:12px;font-weight:700">상세</a>
+            <button class="row-action del" title="삭제" aria-label="회원 삭제"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+
+    <div class="pager">
+      <button class="pager-btn" disabled>‹</button>
+      <button class="pager-btn active">1</button>
+      <button class="pager-btn">2</button>
+      <button class="pager-btn">3</button>
+      <button class="pager-btn">4</button>
+      <button class="pager-btn">5</button>
+      <button class="pager-btn" disabled>…</button>
+      <button class="pager-btn">1,244</button>
+      <button class="pager-btn">›</button>
+      <div class="pager-rows">
+        행
+        <select>
+          <option>10</option>
+          <option>20</option>
+          <option>50</option>
+          <option>100</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  // 이름 클릭 → 회원 정보 상세
+  document.querySelectorAll('tbody .cell-name').forEach(function(c){
+    c.style.cursor = 'pointer';
+    c.addEventListener('click', function(){ location.href = 'member-detail.html'; });
+  });
+
+  // 상태 필터 + 검색
+  (function(){
+    var seg = document.getElementById('memberFilter');
+    var search = document.getElementById('memberSearch');
+    var rows = Array.prototype.slice.call(document.querySelectorAll('tbody tr'));
+    var cur = 'all';
+    function apply(){
+      var q = (search && search.value || '').trim().toLowerCase();
+      rows.forEach(function(tr){
+        var active = !!tr.querySelector('.badge-active');
+        var inactive = !!tr.querySelector('.badge-inactive');
+        var statusOk = cur === 'all' || (cur === 'active' && active) || (cur === 'inactive' && inactive);
+        var name = (tr.querySelector('.cell-name') || {}).textContent || '';
+        var email = (tr.querySelector('.cell-id') || {}).textContent || '';
+        var textOk = !q || (name + ' ' + email).toLowerCase().indexOf(q) !== -1;
+        tr.style.display = (statusOk && textOk) ? '' : 'none';
+      });
+    }
+    if (seg) seg.querySelectorAll('button').forEach(function(b){
+      b.addEventListener('click', function(){
+        seg.querySelectorAll('button').forEach(function(x){ x.classList.remove('active'); });
+        b.classList.add('active');
+        cur = b.getAttribute('data-filter') || 'all';
+        apply();
+      });
+    });
+    if (search) search.addEventListener('input', apply);
+  })();
+</script>
+<script src="assets/admin-shell.js"></script>
+</body>
+</html>

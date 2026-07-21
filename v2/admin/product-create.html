@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MaroPass Admin — 상품 등록</title>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+<link rel="stylesheet" href="assets/admin.css">
+<style>
+  /* 상품 등록 전용 소량 스타일 (공유 토큰 재사용) */
+  /* 텍스트 에디터 (공지 수준) */
+  .editor-card{border:1px solid var(--grey-200);border-radius:12px;overflow:hidden;background:#fff}
+  .editor-toolbar{display:flex;align-items:center;gap:2px;padding:8px 10px;border-bottom:1px solid var(--grey-200);flex-wrap:wrap;background:#fff}
+  .tb-btn{min-width:32px;height:32px;padding:0 8px;border-radius:7px;border:none;background:transparent;color:var(--grey-700);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;font-family:inherit}
+  .tb-btn:hover{background:var(--grey-100)}
+  .tb-btn.active{background:var(--blue-50);color:var(--blue-600)}
+  .tb-btn .i-italic{font-style:italic}.tb-btn .i-underline{text-decoration:underline}
+  .tb-sep{width:1px;height:18px;background:var(--grey-200);margin:0 5px;flex-shrink:0}
+  .editor-area{min-height:150px;padding:16px 18px;font-size:14px;line-height:1.7;color:var(--grey-900);outline:none}
+  .editor-area:empty::before{content:attr(data-placeholder);color:var(--grey-400)}
+  .editor-area h2{font-size:18px;font-weight:800;margin:16px 0 6px}
+  .editor-area p{margin:0 0 10px}.editor-area ul,.editor-area ol{padding-left:22px;margin:0 0 10px}
+  .editor-area a{color:var(--blue-600);text-decoration:underline}
+  .editor-area hr{border:none;border-top:1px solid var(--grey-200);margin:16px 0}
+  .editor-foot{padding:7px 14px;border-top:1px solid var(--grey-100);font-size:11px;color:var(--grey-400);display:flex;justify-content:space-between}
+  .step-label{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:var(--blue-500);color:#fff;font-size:12px;font-weight:800;margin-right:8px}
+
+  /* 가격 계산기 */
+  .price-calc{border:1px solid var(--grey-200);border-radius:12px;padding:16px 18px;background:var(--grey-50)}
+  .pc-row{display:flex;align-items:flex-end;gap:16px;flex-wrap:wrap}
+  .pc-field{display:flex;flex-direction:column;gap:6px}
+  .pc-narrow{width:130px}
+  .pc-lab{font-size:12px;font-weight:700;color:var(--grey-600)}
+  .pc-input{display:flex;align-items:center;gap:6px;background:#fff;border:1px solid var(--grey-200);border-radius:10px;padding:0 12px;height:46px;transition:border-color .12s}
+  .pc-input:focus-within{border-color:var(--blue-500)}
+  .pc-input input{border:none;outline:none;background:transparent;font-size:16px;color:var(--grey-900);font-family:inherit;width:100%;min-width:60px}
+  .pc-input.disc input{width:56px;text-align:right}
+  .pc-cur{font-size:15px;color:var(--grey-500);font-weight:700;flex-shrink:0}
+  .pc-arrow{padding-bottom:12px;color:var(--grey-400);flex-shrink:0}
+  .pc-result{display:flex;flex-direction:column;gap:4px;padding-bottom:2px;margin-left:auto}
+  .pc-final{font-size:26px;font-weight:800;color:var(--grey-900);font-family:'SF Mono',Menlo,monospace;font-variant-numeric:tabular-nums;letter-spacing:-.6px;line-height:1}
+  .pc-save{font-size:12.5px;font-weight:700;color:var(--green-500);min-height:16px}
+  @media(max-width:620px){.pc-result{margin-left:0;width:100%} .pc-arrow{display:none}}
+
+  .sticky-actions{position:sticky;bottom:0;background:rgba(255,255,255,.9);backdrop-filter:blur(6px);border-top:1px solid var(--grey-200);padding:14px 24px;display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:8px}
+  .sticky-actions .picked{font-size:13px;color:var(--grey-600)}
+  .sticky-actions .picked strong{color:var(--grey-900)}
+</style>
+</head>
+<body data-page="product-create" data-title="상품 등록">
+<div class="page">
+  <div class="page-head">
+    <div>
+      <h1 class="page-title">상품 등록</h1>
+      <div class="page-sub">만들어둔 시험을 불러와 판매 상품으로 등록합니다 (문항 구성은 시험 관리에서)</div>
+    </div>
+    <div class="page-actions">
+      <a class="btn btn-ghost" href="products.html">← 목록</a>
+    </div>
+  </div>
+
+  <!-- STEP 1. 시험 불러오기 -->
+  <div class="form-card">
+    <h2><span class="step-label">1</span>판매할 시험 선택</h2>
+    <p class="form-card-sub">문항 구성이 완료된 시험만 등록할 수 있습니다. 이미 등록된 시험은 선택할 수 없습니다.</p>
+
+    <div class="field">
+      <label>판매할 시험 <span class="req">*</span></label>
+      <select class="select" id="examSelect">
+        <optgroup label="판매 대기 (등록 가능)">
+          <option value="TOPIK 모의고사 · 중급 (3·4급)">TOPIK 모의고사 · 중급 (3·4급) — 중급 · 80문항 · 120분</option>
+          <option value="실전 회화 평가 · 중급">실전 회화 평가 · 중급 — 중급 · 40문항 · 60분</option>
+        </optgroup>
+        <optgroup label="이미 등록됨 (선택 불가)">
+          <option value="" disabled>TOPIK 모의고사 · 중상급 (3~6급) — 등록됨</option>
+          <option value="" disabled>TOPIK 모의고사 · 초급 (1·2급) — 등록됨</option>
+          <option value="" disabled>비즈니스 한국어 진단평가 — 등록됨</option>
+        </optgroup>
+        <optgroup label="문항 구성 필요 (선택 불가)">
+          <option value="" disabled>발음·말하기 평가 (베타) — 문항 12/25</option>
+        </optgroup>
+      </select>
+      <div class="hint">등록 가능한 시험만 선택됩니다. 목록에 없으면 먼저 시험을 만들어 주세요.</div>
+    </div>
+
+    <div class="hstack" style="margin-top:6px">
+      <a class="btn btn-secondary" href="test-create.html">+ 새 시험 만들기</a>
+    </div>
+  </div>
+
+  <!-- STEP 2. 판매 정보 -->
+  <div class="form-card">
+    <h2><span class="step-label">2</span>판매 정보</h2>
+    <p class="form-card-sub">선택한 시험을 어떻게 판매할지 설정합니다. 콘텐츠(문항·영역)는 시험을 그대로 따릅니다.</p>
+
+    <div class="field">
+      <label>판매명 <span class="req">*</span></label>
+      <input class="input" id="saleName" type="text" value="TOPIK 모의고사 · 중급 (3·4급)">
+      <div class="hint">기본값은 시험명입니다. 판매 페이지에 노출될 이름으로 수정할 수 있습니다.</div>
+    </div>
+
+    <div class="field">
+      <label>서브타이틀</label>
+      <input class="input" id="subtitle" type="text" placeholder="예) 실전과 동일한 난이도로 5·6급을 대비하세요 (선택)">
+      <div class="hint">판매 페이지에서 판매명 아래 한 줄로 노출됩니다.</div>
+    </div>
+
+    <div class="field">
+      <label>상품 소개 <span style="font-weight:600;color:var(--blue-500)">· 판매 페이지 노출</span></label>
+      <div class="editor-card">
+        <div class="editor-toolbar">
+          <button type="button" class="tb-btn" data-cmd="formatBlock" data-val="h2" title="제목">H2</button>
+          <button type="button" class="tb-btn" data-cmd="formatBlock" data-val="p" title="본문">본문</button>
+          <span class="tb-sep"></span>
+          <button type="button" class="tb-btn" data-cmd="bold" title="굵게"><span>B</span></button>
+          <button type="button" class="tb-btn" data-cmd="italic" title="기울임"><span class="i-italic">I</span></button>
+          <button type="button" class="tb-btn" data-cmd="underline" title="밑줄"><span class="i-underline">U</span></button>
+          <span class="tb-sep"></span>
+          <button type="button" class="tb-btn" data-cmd="insertUnorderedList" title="글머리 목록">•≡</button>
+          <button type="button" class="tb-btn" data-cmd="insertOrderedList" title="번호 목록">1.≡</button>
+          <span class="tb-sep"></span>
+          <button type="button" class="tb-btn" data-cmd="createLink" title="링크">🔗</button>
+          <button type="button" class="tb-btn" data-cmd="insertHorizontalRule" title="구분선">―</button>
+        </div>
+        <div class="editor-area" contenteditable="true" data-editor data-placeholder="시험 목적·대상·구성 등 구매자에게 보여줄 소개를 입력하세요."><p><strong>실전과 동일한 난이도의 말하기 진단평가입니다.</strong> 자신의 말하기 실력을 객관적으로 확인하세요.</p><p>모든 답변은 자동 녹음되어 AI 채점 후 결과가 제공되며, 진단 등급과 영역별 피드백을 받아볼 수 있습니다.</p></div>
+        <div class="editor-foot"><span>사용자 상세 페이지 「시험 소개」에 그대로 노출됩니다.</span><span class="editor-charcount">0자</span></div>
+      </div>
+      <div class="hint">구매자에게 보여줄 소개입니다. (관리자 내부용 「시험 소개」와는 별개 데이터)</div>
+    </div>
+
+    <style>
+      .plan-cards{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+      @media(max-width:640px){.plan-cards{grid-template-columns:1fr}}
+      .plan-card{border:1px solid var(--grey-200);border-radius:12px;padding:14px 16px;cursor:pointer;transition:.12s;display:block}
+      .plan-card:has(.plan-chk:checked){border-color:var(--blue-500);background:var(--blue-50)}
+      .pl-top{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+      .plan-chk{width:17px;height:17px;accent-color:var(--blue-500);flex-shrink:0}
+      .pl-name{font-size:14px;font-weight:800;color:var(--grey-900)}
+      .pl-tag{font-size:10.5px;font-weight:800;padding:2px 7px;border-radius:5px}
+      .pl-tag.basic{background:var(--grey-100);color:var(--grey-600)}
+      .pl-tag.premium{background:var(--violet-50);color:var(--violet-500)}
+      .pl-desc{font-size:11.5px;color:var(--grey-600);line-height:1.5;margin-bottom:10px}
+      .pl-price{display:flex;align-items:center;gap:4px;border:1px solid var(--grey-200);border-radius:8px;padding:7px 10px;background:#fff}
+      .pl-price .pc-cur{color:var(--grey-500);font-weight:700}
+      .pl-price input{border:none;outline:none;font-size:15px;font-weight:800;font-family:'SF Mono',Menlo,monospace;width:100%;color:var(--grey-900);background:transparent}
+      .pl-sla{display:flex;align-items:center;gap:6px;margin-top:8px;font-size:11.5px;color:var(--grey-600);font-weight:600}
+      .pl-sla select{border:1px solid var(--grey-200);border-radius:6px;padding:3px 6px;font-family:inherit;font-size:11.5px}
+    </style>
+    <div class="field">
+      <label>판매 플랜 <span class="req">*</span></label>
+      <div class="plan-cards">
+        <label class="plan-card">
+          <div class="pl-top"><input type="radio" name="salePlan" class="plan-chk" checked><span class="pl-name">베이직</span><span class="pl-tag basic">AI 자동채점</span></div>
+          <div class="pl-desc">응시 직후 AI 자동채점으로 즉시 최종 결과를 제공합니다.</div>
+        </label>
+        <label class="plan-card">
+          <div class="pl-top"><input type="radio" name="salePlan" class="plan-chk"><span class="pl-name">프리미엄</span><span class="pl-tag premium">AI + 교수 채점</span></div>
+          <div class="pl-desc">AI 1차 채점 후 교수진이 음성을 듣고 정밀 보정·확정합니다. (AI 잠정 결과는 즉시 열람)</div>
+          <div class="pl-sla">교수 확정 SLA <select><option>2영업일</option><option>3영업일</option><option>5영업일</option></select></div>
+        </label>
+      </div>
+      <div class="hint">판매할 플랜을 선택합니다. 가격은 아래에서 설정하며, 프리미엄 응시건은 교수 채점 대기 큐로 들어가 확정 시 학습자에게 알림이 갑니다.</div>
+    </div>
+
+    <div class="field">
+      <label>판매 가격 (JPY) <span class="req">*</span></label>
+      <div class="price-calc">
+        <div class="pc-row">
+          <div class="pc-field">
+            <span class="pc-lab">정가</span>
+            <div class="pc-input"><span class="pc-cur">¥</span><input id="listPrice" type="text" inputmode="numeric" placeholder="6,600"></div>
+          </div>
+          <div class="pc-field pc-narrow">
+            <span class="pc-lab">할인율</span>
+            <div class="pc-input disc"><input id="discRate" type="number" min="0" max="100" placeholder="0"><span class="pc-cur">%</span></div>
+          </div>
+          <div class="pc-arrow">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </div>
+          <div class="pc-result">
+            <span class="pc-lab">최종 판매가</span>
+            <div class="pc-final" id="finalPrice">—</div>
+            <div class="pc-save" id="saveAmount"></div>
+          </div>
+        </div>
+      </div>
+      <div class="hint">정가와 할인율을 입력하면 최종 판매가가 자동 계산됩니다. (10엔 단위 반올림)</div>
+    </div>
+
+    <div class="field" style="max-width:280px;margin-bottom:0">
+      <label>판매 상태</label>
+      <select class="select">
+        <option>즉시 판매</option>
+        <option>임시저장</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="sticky-actions">
+    <div class="picked">선택한 시험: <strong id="pickedName">TOPIK 모의고사 · 중급 (3·4급)</strong></div>
+    <div class="hstack">
+      <a class="btn btn-secondary" href="products.html">임시저장</a>
+      <button class="btn btn-primary" id="submitProduct">상품 등록</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function () {
+    var examSelect = document.getElementById('examSelect');
+    var saleName = document.getElementById('saleName');
+    var pickedName = document.getElementById('pickedName');
+    var listPrice = document.getElementById('listPrice');
+    var discRate = document.getElementById('discRate');
+    var finalPrice = document.getElementById('finalPrice');
+    var saveAmount = document.getElementById('saveAmount');
+
+    // 시험 선택 → 판매명 기본값·하단 표시 갱신
+    examSelect.addEventListener('change', function () {
+      var name = examSelect.value;
+      saleName.value = name;
+      pickedName.textContent = name;
+    });
+
+    // 가격 자동 계산
+    function parseNum(s) { return parseInt(String(s).replace(/[^0-9]/g, ''), 10) || 0; }
+    function fmt(n) { return '¥' + n.toLocaleString('en-US'); }
+    function calc() {
+      var list = parseNum(listPrice.value);
+      var rate = parseInt(discRate.value, 10);
+      if (isNaN(rate) || rate < 0) rate = 0;
+      if (rate > 100) { rate = 100; discRate.value = 100; }
+      if (list === 0) { finalPrice.textContent = '—'; saveAmount.textContent = ''; return; }
+      var final = list;
+      if (rate > 0) final = Math.round(list * (1 - rate / 100) / 10) * 10;
+      finalPrice.textContent = fmt(final);
+      saveAmount.textContent = (rate > 0) ? (fmt(list - final) + ' (' + rate + '%) 할인') : '';
+    }
+    listPrice.addEventListener('input', calc);
+    discRate.addEventListener('input', calc);
+    calc();
+  })();
+</script>
+<script>
+  // 텍스트 에디터 (페이지 내 모든 .editor-card 자동 초기화)
+  (function () {
+    document.querySelectorAll('.editor-card').forEach(function (card) {
+      var ed = card.querySelector('.editor-area'), tb = card.querySelector('.editor-toolbar'), cc = card.querySelector('.editor-charcount');
+      if (!ed || !tb) return;
+      tb.querySelectorAll('.tb-btn').forEach(function (b) {
+        b.addEventListener('mousedown', function (e) { e.preventDefault(); });
+        b.addEventListener('click', function () {
+          var cmd = b.getAttribute('data-cmd'), val = b.getAttribute('data-val') || null;
+          ed.focus();
+          if (cmd === 'createLink') { var u = window.prompt('링크 URL을 입력하세요', 'https://'); if (u) document.execCommand('createLink', false, u); }
+          else if (cmd === 'formatBlock') { document.execCommand('formatBlock', false, val); }
+          else document.execCommand(cmd, false, val);
+          active(); count();
+        });
+      });
+      function active() {
+        ['bold', 'italic', 'underline', 'insertUnorderedList', 'insertOrderedList'].forEach(function (c) {
+          var b = tb.querySelector('[data-cmd="' + c + '"]'); if (!b) return;
+          var on = false; try { on = document.queryCommandState(c); } catch (e) {}
+          b.classList.toggle('active', on);
+        });
+      }
+      function count() { if (cc) cc.textContent = (ed.textContent || '').replace(/\s/g, '').length + '자'; }
+      document.addEventListener('selectionchange', function () { if (document.activeElement === ed) active(); });
+      ed.addEventListener('input', count); count();
+    });
+  })();
+</script>
+<script>
+  // 상품 등록 → 확인 모달
+  (function () {
+    var btn = document.getElementById('submitProduct');
+    if (!btn) return;
+    btn.addEventListener('click', function () {
+      var checked = document.querySelector('.plan-chk:checked');
+      var planName = checked ? checked.closest('.plan-card').querySelector('.pl-name').textContent : '';
+      var go = function () { location.href = 'products.html'; };
+      if (!window.confirmAction) { go(); return; }
+      confirmAction({
+        title: '이 상품을 등록할까요?',
+        desc: (planName ? '「' + planName + '」 플랜으로 ' : '') + '판매를 시작합니다. 등록 후 가격·판매 상태는 상품 목록에서 언제든 수정할 수 있어요.',
+        confirmText: '등록',
+        onConfirm: function () {
+          if (window.toast) toast('상품이 등록되었습니다.', 'success');
+          setTimeout(go, 800);
+        }
+      });
+    });
+  })();
+</script>
+<script src="assets/admin-shell.js"></script>
+</body>
+</html>

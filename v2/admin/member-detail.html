@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MaroPass Admin — 회원 정보</title>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+<link rel="stylesheet" href="assets/admin.css">
+<style>
+  .page-head { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:6px; }
+  .page-title { font-size:22px; font-weight:800; color:var(--grey-900); display:flex; align-items:center; gap:10px; margin:0; }
+  .back-btn { width:32px; height:32px; border-radius:8px; border:1px solid var(--grey-200); background:#fff; color:var(--grey-700); cursor:pointer; display:inline-flex; align-items:center; justify-content:center; text-decoration:none; }
+  .back-btn:hover { border-color:var(--grey-400); }
+  .kebab { width:34px; height:34px; border-radius:9px; border:1px solid var(--grey-200); background:#fff; color:var(--grey-600); cursor:pointer; display:inline-flex; align-items:center; justify-content:center; }
+  .kebab:hover { background:var(--grey-50); }
+  .crumb { font-size:12px; color:var(--grey-400); font-weight:600; margin:0 0 18px 42px; }
+  .crumb b { color:var(--grey-600); font-weight:700; }
+
+  .md-grid { display:grid; grid-template-columns:1.4fr 1fr; gap:20px; align-items:start; }
+  .md-left, .md-right { display:flex; flex-direction:column; gap:20px; }
+  .md-card { background:#fff; border-radius:16px; box-shadow:0 1px 3px rgba(15,23,42,.04),0 1px 2px rgba(15,23,42,.06); padding:22px 24px; }
+
+  /* 프로필 */
+  .md-profile { padding-top:22px; }
+  .md-avatar-wrap { display:flex; flex-direction:column; align-items:flex-start; gap:2px; margin-bottom:18px; }
+  .md-avatar { position:relative; width:104px; height:104px; border-radius:22px; background:linear-gradient(135deg,#e8f3ff,#eef1f6); display:flex; align-items:center; justify-content:center; color:var(--grey-400); }
+  .md-avatar svg { width:52px; height:52px; }
+  .md-avatar .up { position:absolute; right:-4px; bottom:-4px; width:30px; height:30px; border-radius:50%; background:var(--blue-500); color:#fff; display:flex; align-items:center; justify-content:center; border:3px solid #fff; cursor:pointer; }
+  .md-avatar .up svg { width:14px; height:14px; }
+  .md-name { font-size:26px; font-weight:800; color:var(--grey-900); margin-top:0; }
+  .md-id { font-size:13px; color:var(--grey-500); margin-top:2px; }
+  .md-prow { display:flex; align-items:center; gap:14px; padding:12px 0; }
+  .md-prow + .md-prow { border-top:1px solid var(--grey-100); }
+  .md-prow .k { width:66px; font-size:13px; color:var(--grey-500); font-weight:600; flex-shrink:0; }
+  .status-pill { display:inline-flex; align-items:center; padding:4px 10px; border-radius:999px; font-size:12px; font-weight:700; background:var(--green-50); color:var(--green-500); }
+  .btn-suspend { display:inline-flex; align-items:center; gap:6px; padding:7px 13px; border-radius:9px; border:none; background:var(--blue-500); color:#fff; font-size:12.5px; font-weight:700; cursor:pointer; }
+  .btn-suspend:hover { background:var(--blue-600); }
+  .btn-temp-pw { display:inline-flex; align-items:center; gap:6px; padding:8px 14px; border-radius:9px; border:none; background:var(--green-500); color:#fff; font-size:12.5px; font-weight:700; cursor:pointer; }
+  .btn-temp-pw:hover { filter:brightness(.95); }
+
+  /* 회원 정보 */
+  .md-sec-title { font-size:15px; font-weight:800; color:var(--grey-900); margin:0 0 4px; }
+  .info-row { display:flex; gap:16px; padding:14px 0; border-bottom:1px solid var(--grey-100); font-size:14px; }
+  .info-row .k { width:96px; color:var(--grey-500); font-weight:600; flex-shrink:0; }
+  .info-row .v { color:var(--grey-900); font-weight:700; }
+  .info-row .v.empty { color:var(--grey-300); font-weight:500; }
+  .md-info-foot { display:flex; justify-content:flex-end; margin-top:16px; }
+
+  /* 메모 · 로그 카드 헤더 */
+  .rc-head { display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
+  .rc-title { font-size:15px; font-weight:800; color:var(--grey-900); display:flex; align-items:center; gap:7px; }
+  .rc-title .cnt { font-size:12px; font-weight:800; color:var(--green-500); }
+  .rc-pager { display:flex; align-items:center; gap:6px; font-size:12px; color:var(--grey-500); font-weight:700; }
+  .rc-pager button { width:22px; height:22px; border:none; background:transparent; color:var(--grey-400); cursor:pointer; border-radius:6px; display:inline-flex; align-items:center; justify-content:center; }
+  .rc-pager button:hover { background:var(--grey-100); color:var(--blue-500); }
+
+  /* 메모 */
+  .memo-box { background:#fffdf5; border:1px solid #fde68a; border-radius:12px; padding:14px; font-size:13px; color:var(--grey-600); line-height:1.6; min-height:88px; outline:none; }
+  .memo-box:empty::before { content:attr(data-ph); color:var(--grey-400); white-space:pre-line; }
+  .memo-foot { display:flex; justify-content:flex-end; margin-top:10px; }
+  .btn-memo { padding:8px 20px; border-radius:9px; border:1px solid var(--grey-200); background:var(--grey-50); color:var(--grey-500); font-size:13px; font-weight:700; cursor:pointer; }
+  .btn-memo.on { background:var(--blue-500); color:#fff; border-color:var(--blue-500); }
+
+  /* 로그 */
+  .log-list { display:flex; flex-direction:column; gap:8px; }
+  .log-item { background:var(--grey-50); border-radius:10px; padding:12px 14px; }
+  .log-item .t { font-size:13px; font-weight:700; color:var(--grey-800); }
+  .log-item .d { font-size:12px; color:var(--grey-400); font-family:'SF Mono',Menlo,monospace; margin-top:4px; }
+
+  /* 케밥 드롭다운 */
+  .kebab-wrap { position:relative; }
+  .kebab-menu { position:absolute; right:0; top:42px; background:#fff; border:1px solid var(--grey-200); border-radius:10px; box-shadow:0 8px 24px rgba(15,23,42,.14); min-width:152px; padding:6px; display:none; z-index:60; }
+  .kebab-menu.open { display:block; }
+  .kebab-menu button { width:100%; text-align:left; padding:9px 12px; border:none; background:transparent; border-radius:7px; font-size:13px; font-weight:700; color:var(--grey-700); cursor:pointer; display:flex; align-items:center; gap:8px; }
+  .kebab-menu button:hover { background:var(--grey-50); }
+  .kebab-menu button.danger { color:var(--red-500); }
+  .kebab-menu button.danger:hover { background:var(--red-50); }
+  .kebab-menu svg { width:15px; height:15px; }
+
+  /* 회원정보 인라인 수정 */
+  .info-row .v-input { width:100%; padding:7px 10px; border:1px solid var(--grey-200); border-radius:8px; font-size:14px; font-family:inherit; color:var(--grey-900); }
+  .info-row .v-input:focus { border-color:var(--blue-500); outline:none; }
+
+  @media (max-width:1024px){ .md-grid{ grid-template-columns:1fr; } }
+</style>
+</head>
+<body data-page="members" data-title="회원 정보">
+<div class="page">
+
+  <div class="page-head">
+    <div>
+      <div class="page-title">
+        <a href="members.html" class="back-btn" title="회원 목록"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg></a>
+        회원 정보
+      </div>
+      <div class="crumb">홈 / <b>회원 목록</b> / 회원 정보</div>
+    </div>
+    <div class="kebab-wrap">
+      <button class="kebab" id="kebabBtn" title="더보기" aria-haspopup="true" aria-expanded="false"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg></button>
+      <div class="kebab-menu" id="kebabMenu">
+        <button class="danger" id="delMemberBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>회원 삭제</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="md-grid">
+
+    <!-- 좌 -->
+    <div class="md-left">
+      <!-- 프로필 -->
+      <div class="md-card md-profile">
+        <div class="md-avatar-wrap">
+          <div class="md-name">田中 美咲</div>
+          <div class="md-id">misaki.tanaka@example.com</div>
+        </div>
+
+        <div class="md-prow">
+          <span class="k">상태</span>
+          <span class="status-pill" id="statusPill">등록완료</span>
+          <button class="btn-suspend" id="suspendBtn"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="10" y1="15" x2="10" y2="9"/><line x1="14" y1="15" x2="14" y2="9"/></svg><span class="lbl">일시 정지 하기</span></button>
+        </div>
+        <div class="md-prow">
+          <span class="k">비밀번호</span>
+          <button class="btn-temp-pw" id="tempPwBtn"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>임시 비밀번호 발급</button>
+        </div>
+      </div>
+
+      <!-- 회원 정보 -->
+      <div class="md-card">
+        <h3 class="md-sec-title">회원 정보</h3>
+        <div class="info-row"><span class="k">이름</span><span class="v">田中 美咲</span></div>
+        <div class="info-row"><span class="k">후리가나</span><span class="v">タナカ ミサキ</span></div>
+        <div class="info-row"><span class="k">이메일</span><span class="v">misaki.tanaka@example.com</span></div>
+        <div class="info-row"><span class="k">연락처</span><span class="v">+81 90-1234-5678</span></div>
+        <div class="md-info-foot">
+          <button class="btn btn-primary" id="editInfoBtn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4z"/></svg> <span class="lbl">수정하기</span></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 우 -->
+    <div class="md-right">
+      <!-- 메모 -->
+      <div class="md-card">
+        <div class="rc-head">
+          <div class="rc-title">메모 <span class="cnt">0</span></div>
+          <div class="rc-pager"><button>‹</button><span>1/1</span><button>›</button></div>
+        </div>
+        <div class="memo-box" id="memoBox" contenteditable="true" data-ph="회원 관리 시 필요한 정보를 입력하세요.&#10;예) 문의 내용, 상태 변경 사유, 특이사항 등"></div>
+        <div class="memo-foot"><button class="btn-memo" id="memoBtn">등록</button></div>
+      </div>
+
+      <!-- 회원 관리 로그 -->
+      <div class="md-card">
+        <div class="rc-head">
+          <div class="rc-title">회원 관리 로그</div>
+          <div class="rc-pager"><button>‹</button><span>1/4</span><button>›</button></div>
+        </div>
+        <div class="log-list">
+          <div class="log-item"><div class="t">그룹 변경 <span style="color:var(--grey-400);font-weight:500;">(일반 → 정기시험 응시생)</span></div><div class="d">2026/07/10 15:32:42 · 이지은</div></div>
+          <div class="log-item"><div class="t">관리자가 시험 배정 (2026 상반기 정기시험 · 중상급)</div><div class="d">2026/07/09 16:37:36 · 박서준</div></div>
+          <div class="log-item"><div class="t">결제 완료 (한국어 말하기 · 중상급, ¥6,600)</div><div class="d">2026/07/09 16:37:36 · 시스템</div></div>
+          <div class="log-item"><div class="t">응시 완료 (중상급 · 112/147점)</div><div class="d">2026/07/09 16:37:36 · 시스템</div></div>
+          <div class="log-item"><div class="t">임시 비밀번호 발급</div><div class="d">2026/06/28 10:04:11 · 정예린</div></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script src="assets/admin-shell.js"></script>
+<script>
+(function(){
+  // 메모 입력 시 등록 버튼 활성화
+  var mb = document.getElementById('memoBox'), memoBtn = document.getElementById('memoBtn');
+  if(mb) mb.addEventListener('input', function(){ memoBtn.classList.toggle('on', mb.textContent.trim().length > 0); });
+
+  // 케밥 드롭다운
+  var kebabBtn = document.getElementById('kebabBtn'), kebabMenu = document.getElementById('kebabMenu');
+  kebabBtn.addEventListener('click', function(e){
+    e.stopPropagation();
+    var open = kebabMenu.classList.toggle('open');
+    kebabBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  document.addEventListener('click', function(){ kebabMenu.classList.remove('open'); kebabBtn.setAttribute('aria-expanded','false'); });
+
+  // 회원 삭제 → 확인 모달
+  document.getElementById('delMemberBtn').addEventListener('click', function(){
+    kebabMenu.classList.remove('open');
+    var name = (document.querySelector('.md-name') || {}).textContent || '이 회원';
+    if(window.confirmAction){
+      confirmAction({
+        danger:true,
+        title:'회원을 삭제하시겠습니까?',
+        desc:'"' + name + '" 계정과 응시·결제 기록 접근이 삭제됩니다. 되돌릴 수 없습니다.',
+        confirmText:'삭제',
+        onConfirm:function(){
+          if(window.toast) toast('회원이 삭제되었습니다.', 'success');
+          setTimeout(function(){ location.href='members.html'; }, 900);
+        }
+      });
+    }
+  });
+
+  // 일시 정지 / 해제
+  var suspendBtn = document.getElementById('suspendBtn'), pill = document.getElementById('statusPill');
+  var suspended = false;
+  suspendBtn.addEventListener('click', function(){
+    var toSuspend = !suspended;
+    var act = toSuspend ? '일시 정지' : '정지 해제';
+    if(window.confirmAction){
+      confirmAction({
+        danger: toSuspend,
+        title: act + ' 하시겠습니까?',
+        desc: toSuspend ? '정지 기간 동안 이 회원은 로그인·응시가 제한됩니다.' : '이 회원의 계정이 다시 활성화됩니다.',
+        confirmText: act,
+        onConfirm: function(){
+          suspended = toSuspend;
+          pill.textContent = suspended ? '일시 정지' : '등록완료';
+          pill.style.background = suspended ? 'var(--red-50)' : 'var(--green-50)';
+          pill.style.color = suspended ? 'var(--red-500)' : 'var(--green-500)';
+          suspendBtn.querySelector('.lbl').textContent = suspended ? '정지 해제' : '일시 정지 하기';
+          if(window.toast) toast('회원을 ' + act + '했습니다.', 'success');
+        }
+      });
+    }
+  });
+
+  // 임시 비밀번호 발급
+  document.getElementById('tempPwBtn').addEventListener('click', function(){
+    var chars='ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789', pw='';
+    for(var i=0;i<10;i++) pw += chars.charAt(Math.floor(Math.random()*chars.length));
+    if(window.confirmAction){
+      confirmAction({
+        title:'임시 비밀번호를 발급하시겠습니까?',
+        desc:'발급 즉시 기존 비밀번호는 무효화되고, 회원은 첫 로그인 시 변경해야 합니다.',
+        confirmText:'발급',
+        onConfirm:function(){ if(window.toast) toast('임시 비밀번호 발급 · ' + pw, 'success'); }
+      });
+    }
+  });
+
+  // 회원 정보 수정하기 ↔ 저장 (인라인 편집)
+  var editBtn = document.getElementById('editInfoBtn');
+  var infoCard = editBtn.closest('.md-card');
+  var editing = false;
+  editBtn.addEventListener('click', function(){
+    var rows = infoCard.querySelectorAll('.info-row');
+    if(!editing){
+      rows.forEach(function(r){
+        var v = r.querySelector('.v'); var val = v.textContent.trim();
+        var inp = document.createElement('input');
+        inp.className = 'v-input'; inp.value = (val === '미입력' ? '' : val);
+        v.textContent = ''; v.appendChild(inp);
+      });
+      editBtn.querySelector('.lbl').textContent = '저장';
+      editing = true;
+    } else {
+      rows.forEach(function(r){
+        var v = r.querySelector('.v'); var inp = v.querySelector('input');
+        var val = inp ? inp.value.trim() : '';
+        if(val){ v.textContent = val; v.classList.remove('empty'); }
+        else { v.textContent = '미입력'; v.classList.add('empty'); }
+      });
+      editBtn.querySelector('.lbl').textContent = '수정하기';
+      editing = false;
+      if(window.toast) toast('회원 정보가 저장되었습니다.', 'success');
+    }
+  });
+})();
+</script>
+</body>
+</html>

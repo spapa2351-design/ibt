@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MaroPass Admin — 시험 등록</title>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+<link rel="stylesheet" href="assets/admin.css">
+<style>
+  /* 시험 등록 전용 소량 스타일 (공유 토큰 재사용) */
+  .add-row{display:inline-flex;align-items:center;gap:6px;padding:9px 14px;border:1px dashed var(--grey-300);border-radius:10px;background:#fff;color:var(--grey-600);font-size:13px;font-weight:600;cursor:pointer;margin-top:10px}
+  .add-row:hover{border-color:var(--blue-500);color:var(--blue-600)}
+  .sticky-actions{position:sticky;bottom:0;background:rgba(255,255,255,.9);backdrop-filter:blur(6px);border-top:1px solid var(--grey-200);padding:14px 24px;display:flex;justify-content:flex-end;gap:8px;margin-top:8px}
+  .note-inline{display:flex;align-items:center;gap:10px;padding:12px 16px;background:var(--blue-50);border-radius:10px;color:var(--grey-700);font-size:13px;margin-bottom:16px}
+  .note-inline svg{color:var(--blue-500);flex-shrink:0}
+  .note-inline a{color:var(--blue-600);font-weight:700;text-decoration:underline}
+
+  /* 문제 구성 — 진행률 + 선택 리스트 */
+  .qc-progress{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+  .qc-num{font-size:14px;font-weight:700;color:var(--grey-700)}
+  .qc-num strong{color:var(--blue-600);font-size:16px}
+  .qc-num.over strong{color:var(--red-500)}
+  .qc-hint{font-size:12px;color:var(--grey-500)}
+  .qc-bar{height:8px;background:var(--grey-100);border-radius:999px;overflow:hidden;margin-bottom:16px}
+  .qc-bar-fill{height:100%;width:0;background:var(--blue-500);border-radius:999px;transition:width .25s}
+  .qc-bar-fill.over{background:var(--red-500)}
+
+  /* 문제 유형·분류 뱃지 */
+  .badge-cat{background:var(--grey-100);color:var(--grey-700)}
+
+  /* 문제 선택 모달 */
+  .modal-overlay{position:fixed;inset:0;background:rgba(15,23,42,.45);display:none;align-items:center;justify-content:center;z-index:100;padding:24px}
+  .modal-overlay.open{display:flex}
+  .modal{background:#fff;border-radius:16px;width:100%;max-width:900px;max-height:86vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 20px 60px rgba(15,23,42,.28)}
+  .modal-head{display:flex;align-items:flex-start;justify-content:space-between;padding:18px 22px;border-bottom:1px solid var(--grey-200)}
+  .modal-head h3{font-size:16px;font-weight:800;margin:0;color:var(--grey-900)}
+  .modal-head .m-sub{font-size:12px;color:var(--grey-500);margin-top:3px}
+  .modal-close{width:32px;height:32px;border:none;background:transparent;border-radius:8px;cursor:pointer;color:var(--grey-500);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .modal-close:hover{background:var(--grey-100);color:var(--grey-900)}
+  .modal-filters{padding:14px 22px;border-bottom:1px solid var(--grey-100);display:flex;flex-direction:column;gap:10px}
+  .mf-search{display:flex;align-items:center;gap:8px;border:1px solid var(--grey-200);border-radius:10px;padding:8px 12px;color:var(--grey-400)}
+  .mf-search input{border:none;outline:none;flex:1;font-size:13px;font-family:inherit;color:var(--grey-900);background:transparent}
+  .modal-list{flex:1;overflow-y:auto;padding:6px 10px}
+  .q-item{display:flex;align-items:flex-start;gap:12px;padding:12px;border-radius:10px;cursor:pointer}
+  .q-item:hover{background:var(--grey-50)}
+  .q-item input{margin-top:2px;width:16px;height:16px;accent-color:var(--blue-500);flex-shrink:0;cursor:pointer}
+  .q-main{flex:1;min-width:0}
+  .q-text{font-size:13.5px;color:var(--grey-900);font-weight:600;line-height:1.45}
+  .q-meta{display:flex;gap:6px;align-items:center;margin-top:7px;flex-wrap:wrap}
+  .q-item.added{opacity:.5;cursor:default}
+  .q-added{font-size:11px;font-weight:800;color:var(--green-500)}
+  .modal-empty{text-align:center;padding:40px;color:var(--grey-400);font-size:13px}
+  .modal-foot{display:flex;align-items:center;justify-content:space-between;padding:14px 22px;border-top:1px solid var(--grey-200);gap:10px}
+  .m-count{font-size:13px;color:var(--grey-600)}
+  .m-count strong{color:var(--blue-600);font-weight:800}
+
+  /* 시험 구성 — 레벨별 유형 세트 */
+  .lvl-note{font-size:12px;font-weight:700;color:var(--blue-600);background:var(--blue-50);border-radius:8px;padding:8px 12px;margin-bottom:12px;display:inline-flex;gap:8px;align-items:center}
+  .area-head{display:grid;grid-template-columns:1fr 130px 90px 160px;gap:12px;padding:0 16px 8px;font-size:11px;font-weight:700;color:var(--grey-500)}
+  .area-list{display:flex;flex-direction:column;gap:8px}
+  .area-row{display:grid;grid-template-columns:1fr 130px 90px 160px;gap:12px;align-items:center;padding:12px 16px;background:var(--grey-50);border:1px solid var(--grey-100);border-radius:10px}
+  .ar-name{font-size:13px;font-weight:700;color:var(--grey-900);display:flex;align-items:center;gap:8px}
+  .ar-badge{font-size:11px;font-weight:800;color:var(--blue-600);background:var(--blue-50);padding:2px 8px;border-radius:6px;flex-shrink:0;white-space:nowrap}
+  .ar-count{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--grey-500)}
+  .ar-input{width:64px;padding:7px 8px;border:1px solid var(--grey-200);border-radius:8px;font-size:14px;font-family:inherit;text-align:center;font-variant-numeric:tabular-nums;color:var(--grey-900)}
+  .ar-input:focus{border-color:var(--blue-500);outline:none}
+  .ar-score{font-size:13px;font-weight:800;color:var(--grey-900);font-variant-numeric:tabular-nums}
+  .ar-time{font-size:12px;color:var(--grey-500)}
+  .area-sum{display:flex;gap:32px;padding:16px 20px;background:var(--blue-50);border-radius:12px;margin-top:14px;flex-wrap:wrap}
+  .area-sum > div{display:flex;flex-direction:column;gap:3px}
+  .area-sum span{font-size:11.5px;color:var(--grey-600);font-weight:600}
+  .area-sum strong{font-size:19px;font-weight:800;color:var(--grey-900);font-variant-numeric:tabular-nums}
+
+  /* 문제 구성 — 유형별 슬롯 */
+  .slot-list{display:flex;flex-direction:column;gap:12px;margin-bottom:14px}
+  .slot{border:1px solid var(--grey-200);border-radius:12px;padding:14px 16px}
+  .slot-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+  .slot-title{font-size:13.5px;font-weight:700;color:var(--grey-900);display:flex;align-items:center;gap:8px}
+  .slot-count{font-size:12px;font-weight:700;color:var(--grey-500);font-variant-numeric:tabular-nums}
+  .slot-count.full{color:var(--green-500)}
+  .slot-count.over{color:var(--red-500)}
+  .slot-items{display:flex;flex-direction:column;gap:6px}
+  .slot-item{display:flex;align-items:center;gap:10px;padding:9px 12px;background:var(--grey-50);border-radius:8px}
+  .sel-idx{font-size:12px;font-weight:800;color:var(--grey-400);width:20px;text-align:center;font-family:'SF Mono',Menlo,monospace;flex-shrink:0}
+  .slot-qtext{flex:1;font-size:12.5px;color:var(--grey-800);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .slot-empty{font-size:12px;color:var(--grey-400);padding:6px 12px}
+  .mf-arealabel{font-size:13px;font-weight:800;color:var(--blue-600)}
+
+  /* 진단 등급 구간 */
+  .band-list{display:flex;flex-direction:column;gap:8px}
+  .band-row{display:grid;grid-template-columns:1fr 120px 40px;gap:10px;align-items:center}
+  .band-row .band-name{padding:8px 12px;border:1px solid var(--grey-200);border-radius:8px;font-size:13px;font-family:inherit;color:var(--grey-900)}
+  .band-row .band-min{width:100%;padding:8px 10px;border:1px solid var(--grey-200);border-radius:8px;font-size:13px;font-family:inherit;text-align:center;font-variant-numeric:tabular-nums}
+  .band-row .band-min:focus,.band-row .band-name:focus{border-color:var(--blue-500);outline:none}
+  .band-del{width:32px;height:32px;border:1px solid var(--grey-200);border-radius:8px;background:#fff;color:var(--grey-400);cursor:pointer;display:inline-flex;align-items:center;justify-content:center}
+  .band-del:hover{color:var(--red-500);border-color:var(--red-500)}
+
+  /* 인증서 설정 */
+  .cert-toggle-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;background:var(--grey-50);border-radius:10px;margin-bottom:14px}
+  .cert-toggle-row .lbl{font-size:13.5px;font-weight:700;color:var(--grey-900)}
+  .cert-toggle-row .sub{font-size:11.5px;color:var(--grey-500);margin-top:2px}
+  .switch{position:relative;width:42px;height:24px;flex-shrink:0}
+  .switch input{position:absolute;opacity:0;width:0;height:0}
+  .switch .track{position:absolute;inset:0;border-radius:999px;background:var(--grey-300);transition:.16s}
+  .switch .track::before{content:'';position:absolute;width:18px;height:18px;border-radius:50%;background:#fff;top:3px;left:3px;transition:.16s;box-shadow:0 1px 2px rgba(0,0,0,.2)}
+  .switch input:checked + .track{background:var(--blue-500)}
+  .switch input:checked + .track::before{transform:translateX(18px)}
+  .cert-body{display:grid;grid-template-columns:1fr 340px;gap:24px;align-items:start}
+  .cert-body.off{opacity:.4;pointer-events:none}
+  .cert-chks{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+  .cert-chk{display:inline-flex;align-items:center;gap:6px;padding:6px 11px;border:1px solid var(--grey-200);border-radius:999px;font-size:12px;font-weight:600;color:var(--grey-700);cursor:pointer}
+  .cert-chk input{accent-color:var(--blue-500)}
+  .cert-chk.on{border-color:var(--blue-500);background:var(--blue-50);color:var(--blue-600)}
+
+  /* 인증서 미리보기 — 세로형(모바일 비율) */
+  .cert-preview-wrap{position:sticky;top:16px}
+  .cert-preview-label{font-size:11px;font-weight:800;color:var(--grey-500);letter-spacing:.4px;text-transform:uppercase;margin-bottom:8px}
+  .certificate{position:relative;background:#fff;border:6px solid #caa14a;border-radius:6px;padding:26px 22px 20px;width:100%;max-width:340px;margin:0 auto;aspect-ratio:1/1.42;box-shadow:0 8px 24px rgba(15,23,42,.14)}
+  .certificate::before{content:'';position:absolute;inset:7px;border:1.5px solid #e3c877;border-radius:3px;pointer-events:none}
+  .cert-inner{position:relative;display:flex;flex-direction:column;height:100%;text-align:center}
+  .cert-emblem{width:46px;height:46px;border-radius:50%;background:radial-gradient(circle at 50% 35%,#f7e29a,#c99a3a);margin:0 auto;display:flex;align-items:center;justify-content:center;color:#fff;box-shadow:0 2px 5px rgba(0,0,0,.2)}
+  .cert-emblem svg{width:22px;height:22px}
+  .cert-title{font-size:16px;font-weight:800;color:var(--grey-900);margin:11px 0 3px;letter-spacing:-.3px;line-height:1.25}
+  .cert-title-sub{font-size:8.5px;color:#b8862f;letter-spacing:2.5px;text-transform:uppercase;font-weight:700}
+  .cert-issued{font-size:10px;color:var(--grey-500);margin-top:6px}
+  .cert-line{font-size:11px;color:var(--grey-600);line-height:1.6;margin-top:13px}
+  .cert-name{font-size:20px;font-weight:800;color:var(--grey-900);margin:6px 0 3px}
+  .cert-exam{font-size:12.5px;font-weight:800;color:#b8862f;line-height:1.4}
+  .cert-fields{display:flex;justify-content:center;flex-wrap:wrap;gap:6px;margin-top:11px}
+  .cert-field{background:var(--grey-50);border:1px solid var(--grey-200);border-radius:7px;padding:4px 9px;font-size:10px;font-weight:700;color:var(--grey-700)}
+  .cert-field span{color:#b8862f}
+  .cert-spacer{flex:1;min-height:8px}
+  .cert-sign .nm{font-size:14px;font-weight:800;color:var(--grey-800);font-family:'Times New Roman',serif}
+  .cert-sign .rl{font-size:9.5px;color:var(--grey-500);margin-top:2px}
+  .cert-foot{display:flex;align-items:center;justify-content:space-between;margin-top:12px;padding-top:11px;border-top:1px dashed var(--grey-200)}
+  .cert-scan{display:flex;align-items:center;gap:7px}
+  .cert-qr{width:38px;height:38px;border-radius:5px;background:repeating-linear-gradient(45deg,var(--grey-900) 0 3px,#fff 3px 6px);opacity:.85;flex-shrink:0}
+  .cert-scan span{font-size:9px;color:var(--grey-500);text-align:left;line-height:1.3}
+  .cert-seal{width:50px;height:50px;border-radius:50%;border:2px double #caa14a;background:radial-gradient(circle,#f7e6b0,#e3c877);color:#8a6d1f;display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;transform:rotate(-6deg)}
+  .cert-seal .p{font-size:15px;font-weight:900;line-height:1}
+  .cert-seal .s{font-size:6.5px;font-weight:800;margin-top:1px;letter-spacing:.5px}
+  .cert-no{font-size:9px;color:var(--grey-400);margin-top:8px;font-family:'SF Mono',Menlo,monospace}
+  @media(max-width:900px){.cert-body{grid-template-columns:1fr}.cert-preview-wrap{position:static}}
+</style>
+</head>
+<body data-page="test-create" data-title="시험 등록">
+
+<div class="page">
+  <div class="page-head">
+    <div>
+      <h1 class="page-title">시험 등록</h1>
+      <div class="page-sub">새 IBT 시험지를 구성합니다 · 임시저장 후 검수 → 운영 전환</div>
+    </div>
+    <div class="page-actions">
+      <a class="btn btn-ghost" href="tests-list.html">← 목록</a>
+      <span class="badge badge-draft" style="align-self:center">임시저장</span>
+    </div>
+  </div>
+
+  <!-- 1. 기본 정보 -->
+  <div class="form-card">
+    <h2>기본 정보</h2>
+    <p class="form-card-sub">응시자에게 노출되는 시험의 기본 정보입니다. <strong>레벨을 고르면 그 레벨의 고정 문제 유형 세트로 시험 구성이 바뀝니다.</strong></p>
+
+    <div class="field">
+      <label>시험명 <span class="req">*</span></label>
+      <input class="input" type="text" placeholder="예) 한국어 말하기 · 초급 모의고사">
+    </div>
+
+    <div class="field">
+      <label>레벨 <span class="req">*</span></label>
+      <div class="chips" id="levelChips">
+        <button type="button" class="chip-opt on" data-level="beginner">초급</button>
+        <button type="button" class="chip-opt" data-level="mid">중상급</button>
+      </div>
+      <div class="hint">레벨이 문제 유형 세트(초급 5종 · 중상급 9종)와 채점 척도(0~2 · 0~3)를 결정합니다.</div>
+    </div>
+
+    <div class="field">
+      <label>시험 소개 <span style="font-weight:600;color:var(--grey-400)">· 관리자 전용</span></label>
+      <textarea class="textarea" rows="2" style="min-height:56px" placeholder="시험 목적·대상·구성 등 운영 참고 메모 (관리자만 봅니다)">중상급(3~6급) 대상 말하기 정기시험. 자료 해석·의견 제시 유형 포함. 채점 보정 시 참고용 내부 메모.</textarea>
+      <div class="hint">⚠ 판매 페이지의 <strong>상품 소개</strong>와 다른 데이터입니다. 이 소개는 <strong>관리자만</strong> 봅니다.</div>
+    </div>
+  </div>
+
+  <!-- 2. 시험 구성 -->
+  <div class="form-card">
+    <h2>시험 구성</h2>
+    <p class="form-card-sub">말하기 시험 · <strong>레벨별 고정 유형 세트</strong>. 유형별 문항 수를 입력하면 총 문항·배점·예상 시간이 자동 계산됩니다.</p>
+
+    <div class="lvl-note" id="lvlNote">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      <span id="lvlNoteText">초급 · 문제 유형 5종 · 채점 척도 0~2점 (점/문항 = 채점축 × 척도)</span>
+    </div>
+
+    <div class="field">
+      <label>유형 구성 <span class="req">*</span></label>
+      <div class="area-head">
+        <span>문제 유형</span><span>문항 수</span><span>배점</span><span>준비 · 녹음</span>
+      </div>
+      <div class="area-list" id="areaList"><!-- JS가 레벨별로 채움 --></div>
+      <div class="hint">유형 배점 = 문항 수 × (채점축 수 × 척도). 유형 세트는 레벨별 표준 구조로 고정됩니다.</div>
+    </div>
+
+    <div class="area-sum" id="areaSum">
+      <div><span>총 문항</span><strong id="sumQ">0문항</strong></div>
+      <div><span>총점</span><strong id="sumScore">0점</strong></div>
+      <div><span>예상 소요</span><strong id="sumTime">약 0분</strong></div>
+    </div>
+
+    <div class="field" style="margin-top:18px">
+      <label>채점 방식</label>
+      <select class="select">
+        <option>AI 채점 + 관리자 보정</option>
+        <option>AI 채점 (자동)</option>
+      </select>
+      <div class="hint">말하기는 AI 발음·유창성 채점 후 관리자가 보정합니다.</div>
+    </div>
+
+    <div class="field" style="margin-top:6px">
+      <label>진단 등급 구간 <span class="muted" style="font-weight:600">(선택 · 진단형)</span></label>
+      <div class="band-list" id="bandList"></div>
+      <button type="button" class="add-row" id="addBand">+ 등급 추가</button>
+      <div class="hint">총점 기준 A·B·C 진단 등급을 부여합니다. 이 서비스는 모의고사(진단평가)라 합격/불합격 판정은 없습니다. 등급 구간은 시험 단위 관리자 설정입니다.</div>
+    </div>
+
+    <input type="hidden" id="totalQ" value="0">
+  </div>
+
+  <!-- 3. 문제 구성 (유형별 슬롯) -->
+  <div class="form-card">
+    <h2>문제 구성</h2>
+    <p class="form-card-sub">유형별로 문제 은행에서 문항을 꽂아 넣습니다. 각 유형의 "담기"를 누르면 <strong>같은 레벨·유형</strong> 문항만 필터되어 열립니다.</p>
+
+    <div class="qc-progress">
+      <div class="qc-num" id="qcNum"><strong>0</strong> / 0문항 배정됨</div>
+      <div class="qc-hint" id="qcHint">각 유형에 문항을 담아 주세요.</div>
+    </div>
+    <div class="qc-bar"><div class="qc-bar-fill" id="qcFill"></div></div>
+
+    <div class="slot-list" id="slotList"></div>
+
+    <div class="hstack" style="margin-top:2px">
+      <a class="btn btn-ghost" href="question-create.html">+ 새 문제 만들기</a>
+      <span class="muted">새로 만든 문항은 문제 은행에 저장되어 레벨·유형별로 담을 수 있습니다.</span>
+    </div>
+  </div>
+
+  <!-- 4. 인증서 -->
+  <div class="form-card">
+    <h2>인증서</h2>
+    <p class="form-card-sub">응시 결과로 발급되는 인증서를 설정합니다. 인증서는 <strong>시험에 귀속</strong>됩니다(상품 아님). 우측에서 실제 발급 모양을 미리봅니다.</p>
+
+    <div class="cert-toggle-row">
+      <div>
+        <div class="lbl">인증서 발급 사용</div>
+        <div class="sub">끄면 응시 후 인증서가 발급되지 않습니다.</div>
+      </div>
+      <label class="switch"><input type="checkbox" id="certOn" checked><span class="track"></span></label>
+    </div>
+
+    <div class="cert-body" id="certBody">
+      <!-- 설정 -->
+      <div>
+        <div class="field">
+          <label>발급 기준</label>
+          <div class="chips" id="certBasis">
+            <button type="button" class="chip-opt on" data-basis="pass">지정 등급 이상</button>
+            <button type="button" class="chip-opt" data-basis="all">응시 완료 전원</button>
+          </div>
+          <div class="hint">지정한 진단 등급 이상일 때 또는 응시 완료 시 발급.</div>
+        </div>
+        <div class="field">
+          <label>인증서 제목</label>
+          <input class="input" type="text" id="certTitle" value="한국어 말하기 능력 인증서">
+        </div>
+        <div class="field">
+          <label>발급 기관</label>
+          <input class="input" type="text" id="certOrg" value="한국어 말하기 평가원">
+        </div>
+        <div class="field">
+          <label>서명자 (직인)</label>
+          <input class="input" type="text" id="certSigner" value="한국어 말하기 평가원장">
+        </div>
+        <div class="field">
+          <label>표시 항목</label>
+          <div class="cert-chks" id="certFields">
+            <label class="cert-chk on"><input type="checkbox" data-f="level" checked> 레벨</label>
+            <label class="cert-chk on"><input type="checkbox" data-f="score" checked> 점수</label>
+            <label class="cert-chk on"><input type="checkbox" data-f="grade" checked> 진단 등급</label>
+            <label class="cert-chk on"><input type="checkbox" data-f="date" checked> 응시일</label>
+            <label class="cert-chk on"><input type="checkbox" data-f="no" checked> 인증번호</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- 미리보기 (샘플) -->
+      <div class="cert-preview-wrap">
+        <div class="cert-preview-label">미리보기 (샘플 응시자)</div>
+        <div class="certificate">
+          <div class="cert-inner">
+            <div class="cert-emblem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="9" r="6"/><path d="M8.5 14L7 22l5-3 5 3-1.5-8"/></svg></div>
+            <div class="cert-title" id="pvTitle">한국어 말하기 능력 인증서</div>
+            <div class="cert-title-sub">Certificate of Achievement</div>
+            <div class="cert-issued" data-f="date">발급일 2026-07-09</div>
+            <div class="cert-line">위 응시자의 진단 결과를<br>아래와 같이 인증합니다.</div>
+            <div class="cert-name">田中 美咲</div>
+            <div class="cert-exam">한국어 말하기 · 중상급</div>
+            <div class="cert-fields" id="pvFields">
+              <div class="cert-field" data-f="level">레벨 <span>중상급</span></div>
+              <div class="cert-field" data-f="score">점수 <span>112/147</span></div>
+              <div class="cert-field" data-f="grade">진단 등급 <span>B</span></div>
+            </div>
+            <div class="cert-spacer"></div>
+            <div class="cert-sign">
+              <div class="nm" id="pvSigner">한국어 말하기 평가원장</div>
+              <div class="rl" id="pvOrg">한국어 말하기 평가원</div>
+            </div>
+            <div class="cert-foot">
+              <div class="cert-no" data-f="no">No. MP-2026-000482</div>
+              <div class="cert-seal"><span class="p">認</span><span class="s">인증</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="note-inline">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+    <span>가격·할인 등 <strong>판매 설정</strong>은 시험을 만든 뒤 <a href="product-create.html">상품 등록</a>에서 진행합니다.</span>
+  </div>
+
+  <div class="sticky-actions">
+    <a class="btn btn-secondary" href="tests-list.html">임시저장</a>
+    <button class="btn btn-primary" onclick="location.href='tests-list.html'">시험 등록 (운영 전환)</button>
+  </div>
+</div>
+
+<!-- 문제 선택 모달 -->
+<div class="modal-overlay" id="pickerModal" aria-hidden="true">
+  <div class="modal" role="dialog" aria-modal="true" aria-label="문제 은행에서 선택">
+    <div class="modal-head">
+      <div>
+        <h3>문제 은행에서 선택</h3>
+        <div class="m-sub">담을 문항을 고르고 <strong>추가</strong>를 누르세요 · 이미 담은 문항은 "담김"으로 표시됩니다.</div>
+      </div>
+      <button type="button" class="modal-close" id="closePicker" aria-label="닫기"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+    <div class="modal-filters">
+      <div class="mf-arealabel" id="pkAreaLabel">문항</div>
+      <div class="mf-search">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="pkSearch" placeholder="질문 검색">
+      </div>
+    </div>
+    <div class="modal-list" id="pkList"><!-- JS가 레벨·유형 스코프로 채움 --></div>
+    <div class="modal-foot">
+      <div class="m-count"><strong id="pkCount">0</strong>개 선택</div>
+      <div class="hstack">
+        <button type="button" class="btn btn-secondary" id="cancelPicker">취소</button>
+        <button type="button" class="btn btn-primary" id="addPicker">추가</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ─── 레벨 → 고정 문제 유형 세트 (question-create.html LEVELS 모델과 동일 축) ───
+  // perScore = axes × scaleMax (배점은 채점축에서 파생)
+  var LEVELS = {
+    beginner: { label:'초급', scaleMax:2, types:[
+      { key:'read',      name:'① 짧은 문장 읽기', axes:1, prep:0,  rec:10, count:10 },
+      { key:'qa',        name:'② 질문 대답',      axes:3, prep:10, rec:20, count:5 },
+      { key:'dialog',    name:'③ 생활 속 대화',    axes:3, prep:20, rec:20, count:4 },
+      { key:'describe',  name:'④ 그림/사진 설명',  axes:3, prep:30, rec:40, count:3 },
+      { key:'pragmatic', name:'⑤ 화용 과제',      axes:4, prep:40, rec:50, count:1 },
+    ]},
+    mid: { label:'중상급', scaleMax:3, types:[
+      { key:'m-read',    name:'① 어휘 발음 구별',   axes:1, prep:10, rec:20, count:5 },
+      { key:'m-qa',      name:'② 자신에 대해 말하기',axes:3, prep:20, rec:30, count:2 },
+      { key:'m-role',    name:'③-1 역할 수행',      axes:3, prep:30, rec:40, count:2 },
+      { key:'m-desc',    name:'③-2 그림 설명',      axes:3, prep:40, rec:60, count:2 },
+      { key:'m-seq',     name:'③-3 상황 설명(순서)', axes:3, prep:40, rec:60, count:2 },
+      { key:'m-act',     name:'④ 화용 능력',        axes:4, prep:40, rec:60, count:2 },
+      { key:'m-data',    name:'⑤-1 자료 해석',      axes:4, prep:70, rec:80, count:1 },
+      { key:'m-opdialog',name:'⑤-2 대화 듣고 의견',  axes:4, prep:40, rec:60, count:1 },
+      { key:'m-present', name:'⑥ 의견 프레젠테이션', axes:4, prep:60, rec:80, count:1 },
+    ]},
+  };
+
+  // ─── 데모 문제 은행 (레벨·유형 스코프) ───
+  var BANK = [
+    { id:'b1', level:'beginner', type:'read',      text:'만나서 반갑습니다. — 문장을 자연스럽게 읽어 보세요.' },
+    { id:'b2', level:'beginner', type:'read',      text:'오늘 날씨가 정말 좋네요. — 감탄의 느낌을 살려 읽어 보세요.' },
+    { id:'b3', level:'beginner', type:'read',      text:'앞으로 잘 부탁드립니다. — 끊어 읽기에 유의하세요.' },
+    { id:'b4', level:'beginner', type:'qa',        text:'주말에는 보통 무엇을 합니까?' },
+    { id:'b5', level:'beginner', type:'qa',        text:'고향은 어디입니까? 그곳은 어떤 곳이에요?' },
+    { id:'b6', level:'beginner', type:'dialog',    text:'카페에서 음료를 주문하는 상황 — 점원의 말을 듣고 대답하세요.' },
+    { id:'b7', level:'beginner', type:'dialog',    text:'서점에서 책을 찾는 상황 — 점원에게 알맞게 대답하세요.' },
+    { id:'b8', level:'beginner', type:'describe',  text:'공원 풍경 그림을 보고 자세히 설명하세요.' },
+    { id:'b9', level:'beginner', type:'describe',  text:'하루 일과 그림을 보고 순서대로 설명하세요.' },
+    { id:'b10',level:'beginner', type:'pragmatic', text:'발표 연습을 도와달라고 민지 씨에게 정중히 부탁하세요.' },
+    { id:'m1', level:'mid',      type:'m-read',    text:'실내 작업 생산량의 증가가 기대됩니다. — 음운 규칙에 유의하세요.' },
+    { id:'m2', level:'mid',      type:'m-qa',      text:'한국어 공부에서 가장 어려운 점을 경험을 들어 말해 주세요.' },
+    { id:'m3', level:'mid',      type:'m-role',    text:'미용실에서 원하는 스타일을 직원에게 설명하세요.' },
+    { id:'m4', level:'mid',      type:'m-act',     text:'50만원을 빌려달라는 동기의 부탁을 상황에 맞게 거절하세요.' },
+    { id:'m5', level:'mid',      type:'m-data',    text:'스마트폰 과다 사용 비율 그래프를 해석하고 의견을 제시하세요.' },
+    { id:'m6', level:'mid',      type:'m-present', text:'여자 대학의 남녀공학 전환에 대한 의견을 구체적으로 말하세요.' },
+  ];
+
+  (function () {
+    var currentLevel = 'beginner';
+    function L() { return LEVELS[currentLevel]; }
+    function perScore(t) { return t.axes * L().scaleMax; }
+
+    var areaList = document.getElementById('areaList');
+    var slotList = document.getElementById('slotList');
+    var lvlNoteText = document.getElementById('lvlNoteText');
+    var sumQ = document.getElementById('sumQ'), sumScore = document.getElementById('sumScore'), sumTime = document.getElementById('sumTime'), totalQ = document.getElementById('totalQ');
+    var qcNum = document.getElementById('qcNum'), qcFill = document.getElementById('qcFill'), qcHint = document.getElementById('qcHint');
+
+    // 유형별 선택 문항 { typeKey: [ {id,text} ] }
+    var selected = {};
+    function resetSelected() { selected = {}; L().types.forEach(function (t) { selected[t.key] = []; }); }
+
+    // ── 시험 구성 행 렌더 ──
+    function renderRows() {
+      lvlNoteText.textContent = L().label + ' · 문제 유형 ' + L().types.length + '종 · 채점 척도 0~' + L().scaleMax + '점 (점/문항 = 채점축 × 척도)';
+      areaList.innerHTML = L().types.map(function (t, i) {
+        var per = perScore(t);
+        return '<div class="area-row" data-idx="' + i + '">'
+          + '<div class="ar-name"><span class="ar-badge">' + t.name.split(' ')[0] + '</span> ' + t.name.replace(/^\S+\s/, '') + '</div>'
+          + '<div class="ar-count"><input type="number" min="0" value="' + t.count + '" class="ar-input"><span>문항</span></div>'
+          + '<div class="ar-score">' + (t.count * per) + '점</div>'
+          + '<div class="ar-time">준비 ' + t.prep + '초 · 녹음 ' + t.rec + '초</div>'
+          + '</div>';
+      }).join('');
+      areaList.querySelectorAll('.ar-input').forEach(function (inp) { inp.addEventListener('input', recalc); });
+    }
+
+    function typeCount(i) {
+      var inp = areaList.querySelectorAll('.ar-input')[i];
+      return inp ? (parseInt(inp.value, 10) || 0) : 0;
+    }
+
+    // ── 합계 ──
+    function recalc() {
+      var tq = 0, ts = 0, tsec = 0;
+      L().types.forEach(function (t, i) {
+        var n = typeCount(i), per = perScore(t);
+        var row = areaList.querySelectorAll('.area-row')[i];
+        if (row) row.querySelector('.ar-score').textContent = (n * per) + '점';
+        tq += n; ts += n * per; tsec += n * (t.prep + t.rec);
+      });
+      sumQ.textContent = tq + '문항'; sumScore.textContent = ts + '점'; sumTime.textContent = '약 ' + Math.max(1, Math.ceil(tsec / 60)) + '분';
+      totalQ.value = tq;
+      renderSlots();
+    }
+
+    // ── 문제 구성 슬롯 ──
+    function renderSlots() {
+      slotList.innerHTML = L().types.map(function (t, i) {
+        var cnt = typeCount(i), sel = selected[t.key] || [], full = cnt > 0 && sel.length >= cnt, over = sel.length > cnt;
+        var items = sel.length ? sel.map(function (s, j) {
+          return '<div class="slot-item"><span class="sel-idx">' + (j + 1) + '</span><span class="badge badge-cat">' + L().label + '</span><span class="slot-qtext">' + s.text + '</span><button type="button" class="row-action del" data-rm="' + t.key + ':' + s.id + '" title="제외"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>';
+        }).join('') : '<div class="slot-empty">담긴 문항 없음</div>';
+        return '<div class="slot"><div class="slot-head"><div class="slot-title"><span class="ar-badge">' + t.name.split(' ')[0] + '</span> ' + t.name.replace(/^\S+\s/, '')
+          + ' <span class="slot-count' + (over ? ' over' : full ? ' full' : '') + '">' + sel.length + ' / ' + cnt + '문항</span></div>'
+          + '<button type="button" class="btn btn-secondary" data-add="' + t.key + '" style="padding:7px 14px;font-size:12.5px">+ 담기</button></div>'
+          + '<div class="slot-items">' + items + '</div></div>';
+      }).join('');
+      slotList.querySelectorAll('[data-add]').forEach(function (b) { b.addEventListener('click', function () { openType(b.dataset.add); }); });
+      slotList.querySelectorAll('[data-rm]').forEach(function (b) {
+        b.addEventListener('click', function () { var p = b.dataset.rm.split(':'), k = p[0], id = p[1]; selected[k] = selected[k].filter(function (s) { return s.id !== id; }); renderSlots(); });
+      });
+      updateOverall();
+    }
+
+    function updateOverall() {
+      var total = 0, sel = 0;
+      L().types.forEach(function (t, i) { total += typeCount(i); sel += (selected[t.key] || []).length; });
+      var over = sel > total;
+      qcNum.innerHTML = '<strong>' + sel + '</strong> / ' + total + '문항 배정됨';
+      qcNum.classList.toggle('over', over);
+      var pct = total > 0 ? Math.min(100, Math.round(sel / total * 100)) : 0;
+      qcFill.style.width = pct + '%'; qcFill.classList.toggle('over', over);
+      qcHint.textContent = total === 0 ? '시험 구성에서 유형별 문항 수를 입력하세요.'
+        : (sel >= total) ? '모든 유형 문항을 채웠습니다. ✓'
+        : (total - sel) + '문항 더 필요합니다.';
+    }
+
+    // ── 모달 (레벨·유형 스코프) ──
+    var modal = document.getElementById('pickerModal');
+    var pkList = document.getElementById('pkList');
+    var pkCount = document.getElementById('pkCount');
+    var search = document.getElementById('pkSearch');
+    var areaLabel = document.getElementById('pkAreaLabel');
+    var activeType = null, filterQ = '';
+
+    function typeByKey(k) { return L().types.filter(function (t) { return t.key === k; })[0]; }
+    function isAdded(k, id) { return (selected[k] || []).some(function (s) { return s.id === id; }); }
+
+    function openType(k) {
+      activeType = k; filterQ = ''; search.value = '';
+      var t = typeByKey(k);
+      areaLabel.textContent = L().label + ' · ' + (t ? t.name : '') + ' 문항';
+      modal.classList.add('open');
+      renderPicker();
+    }
+    function closeModal() { modal.classList.remove('open'); }
+    document.getElementById('closePicker').addEventListener('click', closeModal);
+    document.getElementById('cancelPicker').addEventListener('click', closeModal);
+    modal.addEventListener('click', function (e) { if (e.target === modal) closeModal(); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && modal.classList.contains('open')) closeModal(); });
+
+    function renderPicker() {
+      var q = filterQ.trim();
+      var rows = BANK.filter(function (b) {
+        return b.level === currentLevel && b.type === activeType && (!q || b.text.indexOf(q) > -1);
+      });
+      if (!rows.length) {
+        pkList.innerHTML = '<div class="modal-empty">이 유형의 문항이 아직 없습니다. <br>「+ 새 문제 만들기」로 문제 은행에 추가하세요.</div>';
+      } else {
+        pkList.innerHTML = rows.map(function (b) {
+          var added = isAdded(activeType, b.id);
+          return '<label class="q-item' + (added ? ' added' : '') + '" data-id="' + b.id + '">'
+            + '<input type="checkbox"' + (added ? ' disabled' : '') + '>'
+            + '<div class="q-main"><div class="q-text">' + b.text + '</div>'
+            + '<div class="q-meta"><span class="badge badge-cat">' + L().label + '</span>'
+            + '<span class="q-added" style="' + (added ? '' : 'display:none') + '">✓ 담김</span></div></div></label>';
+        }).join('');
+        pkList.querySelectorAll('.q-item input').forEach(function (cb) { cb.addEventListener('change', updateCount); });
+      }
+      updateCount();
+    }
+    function updateCount() {
+      var n = pkList.querySelectorAll('.q-item input:checked').length;
+      pkCount.textContent = n;
+    }
+    search.addEventListener('input', function () { filterQ = search.value; renderPicker(); });
+
+    document.getElementById('addPicker').addEventListener('click', function () {
+      pkList.querySelectorAll('.q-item').forEach(function (it) {
+        var cb = it.querySelector('input');
+        if (cb.checked && !it.classList.contains('added')) {
+          var b = BANK.filter(function (x) { return x.id === it.dataset.id; })[0];
+          if (b) selected[activeType].push({ id: b.id, text: b.text });
+        }
+      });
+      renderSlots(); closeModal();
+    });
+
+    // ── 레벨 전환 ──
+    function applyLevel(level) {
+      if (level === currentLevel) return;
+      currentLevel = level;
+      resetSelected();
+      renderRows();
+      recalc();
+    }
+    document.querySelectorAll('#levelChips .chip-opt').forEach(function (c) {
+      c.addEventListener('click', function () {
+        document.querySelectorAll('#levelChips .chip-opt').forEach(function (x) { x.classList.remove('on'); });
+        c.classList.add('on');
+        applyLevel(c.dataset.level);
+      });
+    });
+
+    // ── 진단 등급 구간 ──
+    var bandList = document.getElementById('bandList');
+    function bandRow(name, min) {
+      var row = document.createElement('div');
+      row.className = 'band-row';
+      row.innerHTML = '<input class="band-name" type="text" value="' + name + '" placeholder="등급명">'
+        + '<input class="band-min" type="number" value="' + min + '" placeholder="최소점"><button type="button" class="band-del" title="삭제"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>';
+      row.querySelector('.band-del').addEventListener('click', function () { if (bandList.children.length > 1) row.remove(); });
+      return row;
+    }
+    [['A', 80], ['B', 60], ['C', 0]].forEach(function (b) { bandList.appendChild(bandRow(b[0], b[1])); });
+    document.getElementById('addBand').addEventListener('click', function () { bandList.appendChild(bandRow('', 0)); });
+
+    // ── 초기 ──
+    resetSelected();
+    renderRows();
+    recalc();
+  })();
+</script>
+<script>
+  // ── 인증서 설정 ↔ 미리보기 ──
+  (function(){
+    var body = document.getElementById('certBody');
+    var on = document.getElementById('certOn');
+    on.addEventListener('change', function(){ body.classList.toggle('off', !on.checked); });
+
+    // 텍스트 라이브 반영
+    function bind(id, target){ var el=document.getElementById(id); el.addEventListener('input', function(){ document.getElementById(target).textContent = el.value || ''; }); }
+    bind('certTitle','pvTitle'); bind('certOrg','pvOrg'); bind('certSigner','pvSigner');
+
+    // 발급 기준 칩 + 도장 문구
+    document.querySelectorAll('#certBasis .chip-opt').forEach(function(c){
+      c.addEventListener('click', function(){
+        document.querySelectorAll('#certBasis .chip-opt').forEach(function(x){ x.classList.remove('on'); });
+        c.classList.add('on');
+        // 도장은 진단 결과 인증(認)으로 통일 — 모의고사라 합격/이수 판정 없음
+      });
+    });
+
+    // 표시 항목 체크 ↔ 미리보기 항목 표시/숨김
+    document.querySelectorAll('#certFields input').forEach(function(cb){
+      cb.addEventListener('change', function(){
+        cb.closest('.cert-chk').classList.toggle('on', cb.checked);
+        document.querySelectorAll('#certBody [data-f="'+cb.dataset.f+'"]').forEach(function(el){
+          if (el.closest('#certFields')) return; // 설정 칩은 제외
+          el.style.display = cb.checked ? '' : 'none';
+        });
+      });
+    });
+  })();
+</script>
+<script src="assets/admin-shell.js"></script>
+</body>
+</html>

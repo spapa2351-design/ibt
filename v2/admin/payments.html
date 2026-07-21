@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MaroPass Admin — 결제</title>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+<link rel="stylesheet" href="assets/admin.css">
+<style>
+  .month-select{padding:8px 12px;border:1px solid var(--grey-200);border-radius:10px;font-size:13px;font-weight:600;font-family:inherit;color:var(--grey-900);background:#fff;cursor:pointer;min-width:170px}
+  .month-select:focus{border-color:var(--blue-500);outline:none}
+
+  /* 탭바 + 권한 미리보기 토글 */
+  .pay-tabbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+  .rev-lock{font-size:10px}
+  .perm-preview{display:inline-flex;align-items:center;gap:8px;font-size:12px;color:var(--grey-600);font-weight:700;background:#fff;border:1px dashed var(--grey-300);border-radius:999px;padding:5px 12px;cursor:pointer}
+  .perm-preview .switch-lbl{color:var(--orange-500)}
+  .mini-switch{position:relative;width:34px;height:20px}
+  .mini-switch input{position:absolute;opacity:0;width:0;height:0}
+  .mini-switch .ms-track{position:absolute;inset:0;border-radius:999px;background:var(--grey-300);transition:.15s}
+  .mini-switch .ms-track::before{content:'';position:absolute;width:14px;height:14px;border-radius:50%;background:#fff;top:3px;left:3px;transition:.15s}
+  .mini-switch input:checked + .ms-track{background:var(--blue-500)}
+  .mini-switch input:checked + .ms-track::before{transform:translateX(14px)}
+  .ms-state{font-family:'SF Mono',Menlo,monospace;font-size:11px;color:var(--grey-500);width:26px}
+  /* 매출 권한 OFF → 매출 요소 숨김 */
+  body.no-rev .perm-revenue{display:none !important}
+  /* 매출 통계 breakdown */
+  .rev-bar{height:6px;border-radius:999px;background:var(--grey-100);overflow:hidden;min-width:60px}
+  .rev-bar i{display:block;height:100%;background:var(--blue-500);border-radius:999px}
+  /* 매출 요약 라인 */
+  .sline{display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--grey-50);font-size:13px}
+  .sline:last-child{border-bottom:none}
+  .sline .s-lab{color:var(--grey-600)}
+  .sline .s-val{font-weight:800;color:var(--grey-900);font-family:'SF Mono',Menlo,monospace;font-variant-numeric:tabular-nums}
+  /* 판매 플랜 배지 */
+  .plan-badge{font-size:11px;font-weight:800;padding:3px 9px;border-radius:6px;white-space:nowrap}
+  .plan-basic{background:var(--grey-100);color:var(--grey-700)}
+  .plan-premium{background:var(--violet-50,#f3f0ff);color:var(--violet-500,#7c5cff)}
+</style>
+</head>
+<body data-page="payments" data-title="결제">
+<div class="page">
+  <div class="page-head">
+    <div>
+      <h1 class="page-title">결제 · 매출</h1>
+      <div class="page-sub">개별 결제 처리와 매출 통계 · 매출은 <strong>매출 열람 권한</strong>이 있는 관리자에게만 표시</div>
+    </div>
+    <div class="page-actions">
+      <button class="btn btn-secondary" aria-label="목록 내보내기">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        내보내기
+      </button>
+    </div>
+  </div>
+
+  <!-- 매출 KPI (결제 = 매출·정산의 홈) -->
+  <div class="kpi-row">
+    <div class="kpi-card perm-revenue">
+      <div class="kpi-top">
+        <span class="kpi-label">이번 달 매출</span>
+        <span class="kpi-ic blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span>
+      </div>
+      <div class="kpi-value">¥4,496,250</div>
+      <div class="kpi-trend up">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"/></svg>
+        전월 대비 <span class="kpi-pct">+12.4%</span>
+      </div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-top">
+        <span class="kpi-label">이번 달 결제</span>
+        <span class="kpi-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></span>
+      </div>
+      <div class="kpi-value">764<span class="kpi-unit">건</span></div>
+      <div class="kpi-trend up">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"/></svg>
+        전월 대비 <span class="kpi-pct">+8.1%</span>
+      </div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-top">
+        <span class="kpi-label">이번 달 환불</span>
+        <span class="kpi-ic warn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg></span>
+      </div>
+      <div class="kpi-value">¥53,460</div>
+      <div class="kpi-trend"><span class="muted">9건 · 환불률 1.2%</span></div>
+    </div>
+    <div class="kpi-card perm-revenue">
+      <div class="kpi-top">
+        <span class="kpi-label">정산 예정</span>
+        <span class="kpi-ic green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18"/><path d="M5 21V8l7-4 7 4v13"/><line x1="9" y1="21" x2="9" y2="13"/><line x1="15" y1="21" x2="15" y2="13"/></svg></span>
+      </div>
+      <div class="kpi-value">¥4,442,790</div>
+      <div class="kpi-trend"><span class="muted">매출 − 환불 · PG 정산 T+7</span></div>
+    </div>
+  </div>
+
+  <!-- 탭 + 매출 권한 미리보기 토글 -->
+  <div class="pay-tabbar">
+    <div class="dtabs" id="dtabs">
+      <button class="active" data-tab="payments">결제 내역</button>
+      <button class="perm-revenue" data-tab="stats">매출 통계 <span class="rev-lock">🔒</span></button>
+    </div>
+    <label class="perm-preview" title="매출 열람 권한이 없는 부관리자 화면을 미리보기">
+      <span class="switch-lbl">🔒 매출 열람 권한</span>
+      <span class="mini-switch"><input type="checkbox" id="revToggle" checked><span class="ms-track"></span></span>
+      <span class="ms-state" id="revState">ON</span>
+    </label>
+  </div>
+
+  <!-- 결제 내역 탭 -->
+  <div class="dtab-panel active" id="tab-payments">
+  <!-- 상태 세그먼트 -->
+  <div class="seg" style="margin-bottom:16px;">
+    <button class="active">전체</button>
+    <button>결제완료</button>
+    <button>환불요청</button>
+    <button>환불완료</button>
+    <button>실패</button>
+  </div>
+
+  <!-- 결제 내역 카드 -->
+  <div class="card">
+    <div class="filter-bar">
+      <select class="month-select" id="monthFilter" aria-label="결제 월 선택"
+        onchange="var el=document.getElementById('monthLabel'); el.textContent=(this.value==='all'?'전체 기간':this.options[this.selectedIndex].text);">
+        <option value="all">전체 기간</option>
+        <option value="2026-07" selected>2026년 7월 (이번 달)</option>
+        <option value="2026-06">2026년 6월</option>
+        <option value="2026-05">2026년 5월</option>
+        <option value="2026-04">2026년 4월</option>
+        <option value="2026-03">2026년 3월</option>
+        <option value="2026-02">2026년 2월</option>
+        <option value="2026-01">2026년 1월</option>
+        <option value="2025-12">2025년 12월</option>
+      </select>
+      <div class="filter-input">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <span>주문번호, 회원, 시험명 ...</span>
+      </div>
+      <button class="tool-btn" aria-label="필터 열기">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+        필터
+      </button>
+    </div>
+
+    <div class="table-tools">
+      <div class="total-count">전체 결제<strong>3,182</strong></div>
+      <div class="muted perm-revenue"><span id="monthLabel">2026년 7월 (이번 달)</span> 매출 <strong style="color:var(--grey-900);font-weight:800;">¥4,496,250</strong> · 764건</div>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>상태</th>
+            <th>주문번호</th>
+            <th>회원</th>
+            <th>시험명</th>
+            <th>결제수단</th>
+            <th>금액</th>
+            <th>결제일시</th>
+            <th>영수증</th>
+            <th style="text-align:right;">관리</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="badge badge-paid">결제완료</span></td>
+            <td class="cell-mono">MP-2026-0512-0031</td>
+            <td class="cell-name">田中 美咲</td>
+            <td>TOPIK 말하기 중상급</td>
+            <td><span class="badge badge-grade-beg">카드</span></td>
+            <td class="cell-amount">¥4,950</td>
+            <td>2026-05-12 14:32</td>
+            <td>
+              <button class="row-action" title="영수증(適格請求書) 보기" onclick="openReceipt(this)">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              </button>
+            </td>
+            <td class="cell-actions">
+              <button class="row-action" title="상세">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+              </button>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-paid">결제완료</span></td>
+            <td class="cell-mono">MP-2026-0512-0030</td>
+            <td class="cell-name">山田 太郎</td>
+            <td>TOPIK 말하기 초급</td>
+            <td><span class="badge badge-grade-int">QR</span></td>
+            <td class="cell-amount">¥4,950</td>
+            <td>2026-05-12 13:07</td>
+            <td>
+              <button class="row-action" title="영수증(適格請求書) 보기" onclick="openReceipt(this)">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              </button>
+            </td>
+            <td class="cell-actions">
+              <button class="row-action" title="상세">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+              </button>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-refund-req">환불요청</span></td>
+            <td class="cell-mono">MP-2026-0512-0028</td>
+            <td class="cell-name">佐藤 健</td>
+            <td>TOPIK 말하기 중상급</td>
+            <td><span class="badge badge-grade-beg">카드</span></td>
+            <td class="cell-amount">¥4,950</td>
+            <td>2026-05-12 11:45</td>
+            <td>
+              <button class="row-action" title="영수증(適格請求書) 보기" onclick="openReceipt(this)">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              </button>
+            </td>
+            <td class="cell-actions">
+              <button class="row-action" title="상세">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+              </button>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-paid">결제완료</span></td>
+            <td class="cell-mono">MP-2026-0511-0094</td>
+            <td class="cell-name">鈴木 花子</td>
+            <td>TOPIK 말하기 초급</td>
+            <td><span class="badge badge-grade-beg">카드</span></td>
+            <td class="cell-amount">¥4,950</td>
+            <td>2026-05-11 22:18</td>
+            <td>
+              <button class="row-action" title="영수증(適格請求書) 보기" onclick="openReceipt(this)">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              </button>
+            </td>
+            <td class="cell-actions">
+              <button class="row-action" title="상세">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+              </button>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-failed">실패</span></td>
+            <td class="cell-mono">MP-2026-0511-0088</td>
+            <td class="cell-name">高橋 真理</td>
+            <td>TOPIK 말하기 중상급</td>
+            <td><span class="badge badge-grade-int">QR</span></td>
+            <td class="cell-amount">¥4,950</td>
+            <td>2026-05-11 20:52</td>
+            <td>
+              <button class="row-action" title="영수증 없음" disabled style="color:var(--grey-300);cursor:not-allowed;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              </button>
+            </td>
+            <td class="cell-actions">
+              <button class="row-action" title="상세">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+              </button>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-paid">결제완료</span></td>
+            <td class="cell-mono">MP-2026-0511-0071</td>
+            <td class="cell-name">渡辺 大輔</td>
+            <td>TOPIK 말하기 초급</td>
+            <td><span class="badge badge-grade-int">QR</span></td>
+            <td class="cell-amount">¥4,950</td>
+            <td>2026-05-11 18:33</td>
+            <td>
+              <button class="row-action" title="영수증(適格請求書) 보기" onclick="openReceipt(this)">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              </button>
+            </td>
+            <td class="cell-actions">
+              <button class="row-action" title="상세">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+              </button>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-refunded">환불완료</span></td>
+            <td class="cell-mono">MP-2026-0510-0142</td>
+            <td class="cell-name">伊藤 さくら</td>
+            <td>TOPIK 말하기 중상급</td>
+            <td><span class="badge badge-grade-beg">카드</span></td>
+            <td class="cell-amount">¥4,950</td>
+            <td>2026-05-10 16:20</td>
+            <td>
+              <button class="row-action" title="영수증(適格請求書) 보기" onclick="openReceipt(this)">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              </button>
+            </td>
+            <td class="cell-actions">
+              <button class="row-action" title="상세">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+              </button>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-pending">대기</span></td>
+            <td class="cell-mono">MP-2026-0510-0138</td>
+            <td class="cell-name">中村 陽介</td>
+            <td>TOPIK 말하기 초급</td>
+            <td><span class="badge badge-grade-int">QR</span></td>
+            <td class="cell-amount">¥4,950</td>
+            <td>2026-05-10 15:04</td>
+            <td>
+              <button class="row-action" title="영수증 없음" disabled style="color:var(--grey-300);cursor:not-allowed;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              </button>
+            </td>
+            <td class="cell-actions">
+              <button class="row-action" title="상세">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+              </button>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-refund-req">환불요청</span></td>
+            <td class="cell-mono">MP-2026-0510-0119</td>
+            <td class="cell-name">小林 由美</td>
+            <td>TOPIK 말하기 초급</td>
+            <td><span class="badge badge-grade-beg">카드</span></td>
+            <td class="cell-amount">¥4,950</td>
+            <td>2026-05-10 12:41</td>
+            <td>
+              <button class="row-action" title="영수증(適格請求書) 보기" onclick="openReceipt(this)">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              </button>
+            </td>
+            <td class="cell-actions">
+              <button class="row-action" title="상세">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+              </button>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-paid">결제완료</span></td>
+            <td class="cell-mono">MP-2026-0509-0203</td>
+            <td class="cell-name">加藤 翔太</td>
+            <td>TOPIK 말하기 중상급</td>
+            <td><span class="badge badge-grade-beg">카드</span></td>
+            <td class="cell-amount">¥4,950</td>
+            <td>2026-05-09 21:12</td>
+            <td>
+              <button class="row-action" title="영수증(適格請求書) 보기" onclick="openReceipt(this)">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              </button>
+            </td>
+            <td class="cell-actions">
+              <button class="row-action" title="상세">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="pager">
+      <button class="pager-btn" disabled>← 이전</button>
+      <button class="pager-btn active">1</button>
+      <button class="pager-btn">2</button>
+      <button class="pager-btn">3</button>
+      <button class="pager-btn">4</button>
+      <button class="pager-btn">…</button>
+      <button class="pager-btn">319</button>
+      <button class="pager-btn">다음 →</button>
+      <div class="pager-rows">
+        페이지당
+        <select><option>10</option><option>20</option><option>50</option></select>
+      </div>
+    </div>
+  </div>
+  </div><!-- /tab-payments -->
+
+  <!-- 매출 통계 탭 (매출 열람 권한 필요) -->
+  <div class="dtab-panel perm-revenue" id="tab-stats">
+    <div class="dash-grid">
+      <div class="dash-card">
+        <div class="dash-card-head"><h3>월별 매출 추이</h3><span class="muted">최근 6개월</span></div>
+        <div class="trend-chart">
+          <div class="bar-col"><div class="bar-area"><div class="bar" style="height:52%"></div></div><div class="bar-val">3.2M</div><div class="bar-day">2월</div></div>
+          <div class="bar-col"><div class="bar-area"><div class="bar" style="height:60%"></div></div><div class="bar-val">3.6M</div><div class="bar-day">3월</div></div>
+          <div class="bar-col"><div class="bar-area"><div class="bar" style="height:66%"></div></div><div class="bar-val">3.9M</div><div class="bar-day">4월</div></div>
+          <div class="bar-col"><div class="bar-area"><div class="bar" style="height:70%"></div></div><div class="bar-val">4.0M</div><div class="bar-day">5월</div></div>
+          <div class="bar-col"><div class="bar-area"><div class="bar" style="height:67%"></div></div><div class="bar-val">3.9M</div><div class="bar-day">6월</div></div>
+          <div class="bar-col current"><div class="bar-area"><div class="bar" style="height:76%"></div></div><div class="bar-val">4.5M</div><div class="bar-day">7월</div></div>
+        </div>
+        <div class="passline-note" style="text-align:center;font-size:11.5px;color:var(--grey-500);margin-top:10px;">단위: 백만 엔 · 7월은 진행 중</div>
+      </div>
+      <div class="dash-card">
+        <div class="dash-card-head"><h3>매출 요약</h3></div>
+        <div class="sline"><span class="s-lab">연 누적 매출</span><span class="s-val">¥24,318,900</span></div>
+        <div class="sline"><span class="s-lab">이번 달 매출</span><span class="s-val">¥4,496,250</span></div>
+        <div class="sline"><span class="s-lab">평균 객단가</span><span class="s-val">¥5,885</span></div>
+        <div class="sline"><span class="s-lab">환불액 (누적)</span><span class="s-val" style="color:var(--red-500)">−¥312,400</span></div>
+        <div class="sline"><span class="s-lab">순매출</span><span class="s-val" style="color:var(--green-500)">¥24,006,500</span></div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:14px">
+      <div class="table-tools">
+        <div class="total-count">상품별 판매·매출</div>
+        <div class="muted">2026년 누적 기준 · 상품 관리에서 이동</div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>상품 (시험)</th><th>플랜</th><th>레벨</th><th>판매 수량</th><th>매출</th><th style="min-width:140px;">비중</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="cell-name">TOPIK 모의고사 · 중상급 (3~6급)</td><td><span class="plan-badge plan-premium">프리미엄</span></td><td><span class="badge badge-grade-int">중상급</span></td><td class="cell-mono">2,013</td><td class="cell-amount">¥13,285,800</td><td><div style="display:flex;align-items:center;gap:8px;"><div class="rev-bar" style="flex:1;"><i style="width:56%"></i></div><span class="cell-mono" style="font-size:12px;">56.4%</span></div></td></tr>
+            <tr><td class="cell-name">TOPIK 모의고사 · 초급 (1·2급)</td><td><span class="plan-badge plan-basic">베이직</span></td><td><span class="badge badge-grade-beg">초급</span></td><td class="cell-mono">1,284</td><td class="cell-amount">¥6,355,800</td><td><div style="display:flex;align-items:center;gap:8px;"><div class="rev-bar" style="flex:1;"><i style="width:27%"></i></div><span class="cell-mono" style="font-size:12px;">27.0%</span></div></td></tr>
+            <tr><td class="cell-name">비즈니스 한국어 진단평가</td><td><span class="plan-badge plan-premium">프리미엄</span></td><td><span class="badge badge-grade-int">중상급</span></td><td class="cell-mono">327</td><td class="cell-amount">¥1,798,500</td><td><div style="display:flex;align-items:center;gap:8px;"><div class="rev-bar" style="flex:1;"><i style="width:8%"></i></div><span class="cell-mono" style="font-size:12px;">7.6%</span></div></td></tr>
+            <tr><td class="cell-name">TOPIK 모의고사 · 중상급 (2025)<span class="muted" style="font-size:11px;font-weight:600;"> · 종료</span></td><td><span class="plan-badge plan-premium">프리미엄</span></td><td><span class="badge badge-grade-int">중상급</span></td><td class="cell-mono">232</td><td class="cell-amount">¥1,500,800</td><td><div style="display:flex;align-items:center;gap:8px;"><div class="rev-bar" style="flex:1;"><i style="width:6%"></i></div><span class="cell-mono" style="font-size:12px;">6.4%</span></div></td></tr>
+            <tr><td class="cell-name">TOPIK 모의고사 · 초급 (2026 개정판)</td><td><span class="plan-badge plan-basic">베이직</span></td><td><span class="badge badge-grade-beg">초급</span></td><td class="cell-mono">128</td><td class="cell-amount">¥633,600</td><td><div style="display:flex;align-items:center;gap:8px;"><div class="rev-bar" style="flex:1;"><i style="width:3%"></i></div><span class="cell-mono" style="font-size:12px;">2.7%</span></div></td></tr>
+            <tr><td class="cell-name">발음·말하기 평가 (베타)<span class="muted" style="font-size:11px;font-weight:600;"> · 일시중지</span></td><td><span class="plan-badge plan-basic">베이직</span></td><td><span class="badge badge-grade-none">미분류</span></td><td class="cell-mono muted">—</td><td class="cell-amount muted">—</td><td><div style="display:flex;align-items:center;gap:8px;"><div class="rev-bar" style="flex:1;"><i style="width:0%"></i></div><span class="cell-mono muted" style="font-size:12px;">0%</span></div></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  (function () {
+    var tabs = document.querySelectorAll('#dtabs button');
+    var panels = { payments: document.getElementById('tab-payments'), stats: document.getElementById('tab-stats') };
+    function activate(name){
+      tabs.forEach(function(t){ t.classList.toggle('active', t.dataset.tab === name); });
+      Object.keys(panels).forEach(function(k){ panels[k].classList.toggle('active', k === name); });
+    }
+    tabs.forEach(function(t){ t.addEventListener('click', function(){ activate(t.dataset.tab); }); });
+
+    // 매출 권한 미리보기 토글
+    var rt = document.getElementById('revToggle'), rs = document.getElementById('revState');
+    rt.addEventListener('change', function(){
+      var on = rt.checked;
+      document.body.classList.toggle('no-rev', !on);
+      rs.textContent = on ? 'ON' : 'OFF';
+      // 매출 통계 탭이 활성인데 권한이 꺼지면 결제 내역으로 전환
+      if (!on && document.querySelector('#dtabs [data-tab="stats"]').classList.contains('active')) activate('payments');
+    });
+  })();
+</script>
+<!-- ===== 영수증(適格請求書 / 領収書) 모달 ===== -->
+<style>
+  .rc-overlay{position:fixed;inset:0;background:rgba(15,23,42,.55);display:none;align-items:flex-start;justify-content:center;z-index:200;padding:48px 20px;overflow-y:auto}
+  .rc-overlay.open{display:flex}
+  .rc-modal{background:#fff;width:100%;max-width:560px;border-radius:16px;box-shadow:0 24px 64px rgba(0,0,0,.28);overflow:hidden;animation:rcIn .18s ease}
+  @keyframes rcIn{from{opacity:0;transform:translateY(8px) scale(.98)}to{opacity:1;transform:none}}
+  .rc-bar{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:1px solid var(--grey-100)}
+  .rc-bar .t{font-size:14px;font-weight:800;color:var(--grey-900)}
+  .rc-close{width:32px;height:32px;border:none;background:var(--grey-50);border-radius:8px;color:var(--grey-600);cursor:pointer;font-size:16px;line-height:1;display:flex;align-items:center;justify-content:center}
+  .rc-close:hover{background:var(--grey-100);color:var(--grey-900)}
+  .rc-doc{padding:28px 32px 8px}
+  .rc-title-row{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:22px}
+  .rc-doc-title{font-size:26px;font-weight:800;letter-spacing:6px;color:var(--grey-900)}
+  .rc-badge{display:inline-block;margin-top:6px;font-size:11px;font-weight:700;color:var(--blue-600);background:var(--blue-50);border-radius:6px;padding:3px 8px}
+  .rc-issuer{text-align:right;font-size:11px;color:var(--grey-600);line-height:1.7}
+  .rc-issuer b{color:var(--grey-900);font-size:12px}
+  .rc-meta{display:flex;justify-content:space-between;font-size:12px;color:var(--grey-600);margin-bottom:18px}
+  .rc-meta .v{color:var(--grey-900);font-weight:600}
+  .rc-to{font-size:15px;font-weight:700;color:var(--grey-900);border-bottom:2px solid var(--grey-900);padding-bottom:6px;margin-bottom:16px;display:inline-block;min-width:180px}
+  .rc-to .sama{font-size:12px;font-weight:500;color:var(--grey-500);margin-left:6px}
+  .rc-amount-box{background:var(--grey-50);border-radius:10px;padding:14px 18px;display:flex;align-items:baseline;justify-content:space-between;margin-bottom:18px}
+  .rc-amount-box .lbl{font-size:12px;color:var(--grey-600);font-weight:600}
+  .rc-amount-box .amt{font-size:24px;font-weight:800;color:var(--grey-900)}
+  .rc-amount-box .amt small{font-size:12px;font-weight:600;color:var(--grey-500);margin-left:4px}
+  .rc-note{font-size:12px;color:var(--grey-600);margin-bottom:16px}
+  .rc-note b{color:var(--grey-900)}
+  table.rc-tbl{width:100%;border-collapse:collapse;margin-bottom:14px;font-size:12.5px}
+  table.rc-tbl th{text-align:left;color:var(--grey-500);font-weight:700;font-size:11px;padding:8px 10px;border-bottom:1px solid var(--grey-200)}
+  table.rc-tbl th.r,table.rc-tbl td.r{text-align:right}
+  table.rc-tbl td{padding:9px 10px;color:var(--grey-900);border-bottom:1px solid var(--grey-100)}
+  .rc-sum{margin-left:auto;width:220px;font-size:12.5px}
+  .rc-sum .row{display:flex;justify-content:space-between;padding:5px 10px}
+  .rc-sum .row.total{border-top:2px solid var(--grey-900);margin-top:4px;padding-top:8px;font-weight:800;font-size:14px;color:var(--grey-900)}
+  .rc-sum .row span:first-child{color:var(--grey-600)}
+  .rc-pay{display:flex;gap:24px;font-size:12px;color:var(--grey-600);border-top:1px solid var(--grey-100);margin-top:8px;padding-top:14px}
+  .rc-pay .v{color:var(--grey-900);font-weight:600}
+  .rc-foot{display:flex;gap:8px;justify-content:flex-end;padding:16px 24px;background:var(--grey-50);border-top:1px solid var(--grey-100)}
+</style>
+<div class="rc-overlay" id="rcOverlay" onclick="if(event.target===this)closeReceipt()">
+  <div class="rc-modal" role="dialog" aria-modal="true" aria-label="영수증">
+    <div class="rc-bar">
+      <span class="t">영수증 · 適格請求書</span>
+      <button class="rc-close" onclick="closeReceipt()" aria-label="닫기">✕</button>
+    </div>
+    <div class="rc-doc">
+      <div class="rc-title-row">
+        <div>
+          <div class="rc-doc-title">領収書</div>
+          <span class="rc-badge">適格請求書（インボイス対応）</span>
+        </div>
+        <div class="rc-issuer">
+          <b>MaroPass 運営事務局</b><br>
+          株式会社ニューイン<br>
+          東京都渋谷区 ○○ 1-2-3<br>
+          登録番号 <b>T1234567890123</b>
+        </div>
+      </div>
+      <div class="rc-meta">
+        <div>発行日 <span class="v" id="rcDate">—</span></div>
+        <div>注文番号 <span class="v" id="rcOrder">—</span></div>
+      </div>
+      <div class="rc-to"><span id="rcName">—</span><span class="sama">様</span></div>
+      <div class="rc-amount-box">
+        <span class="lbl">領収金額（税込）</span>
+        <span class="amt" id="rcTotal">¥0</span>
+      </div>
+      <div class="rc-note">但し <b>TOPIK 受験料</b>として上記正に領収いたしました。</div>
+      <table class="rc-tbl">
+        <thead><tr><th>品目</th><th class="r">税率</th><th class="r">金額（税込）</th></tr></thead>
+        <tbody>
+          <tr><td id="rcItem">—</td><td class="r">10%</td><td class="r" id="rcItemAmt">¥0</td></tr>
+        </tbody>
+      </table>
+      <div class="rc-sum">
+        <div class="row"><span>小計（税抜）</span><span id="rcNet">¥0</span></div>
+        <div class="row"><span>消費税（10%）</span><span id="rcTax">¥0</span></div>
+        <div class="row total"><span>合計</span><span id="rcTotal2">¥0</span></div>
+      </div>
+      <div class="rc-pay">
+        <div>お支払方法 <span class="v" id="rcMethod">—</span></div>
+        <div>決済日時 <span class="v" id="rcPaid">—</span></div>
+        <div>PG <span class="v">GMO-PG</span></div>
+      </div>
+    </div>
+    <div class="rc-foot">
+      <button class="btn btn-secondary" onclick="window.print()">인쇄</button>
+      <button class="btn btn-secondary" onclick="closeReceipt()">닫기</button>
+      <button class="btn btn-primary" onclick="alert('PDF 다운로드는 PG/백엔드 연동 후 제공됩니다.')">PDF 다운로드</button>
+    </div>
+  </div>
+</div>
+<script>
+  function yen(n){ return '¥' + n.toLocaleString('ja-JP'); }
+  function openReceipt(btn){
+    var c = btn.closest('tr').cells;
+    var order = c[1].textContent.trim();
+    var name  = c[2].textContent.trim();
+    var item  = c[3].textContent.trim();
+    var method= c[4].textContent.trim();
+    var total = parseInt((c[5].textContent||'').replace(/[^0-9]/g,''), 10) || 0;
+    var paid  = c[6].textContent.trim();
+    // 일본 소비세 10% 세込 → 세抜·소비세 역산
+    var net = Math.round(total / 1.1);
+    var tax = total - net;
+    var d = new Date();
+    var issue = d.getFullYear() + '年' + (d.getMonth()+1) + '月' + d.getDate() + '日';
+
+    document.getElementById('rcOrder').textContent  = order;
+    document.getElementById('rcName').textContent   = name;
+    document.getElementById('rcItem').textContent   = item;
+    document.getElementById('rcMethod').textContent = (method === '카드' ? 'クレジットカード' : method === 'QR' ? 'QR（コード決済）' : method);
+    document.getElementById('rcPaid').textContent   = paid;
+    document.getElementById('rcDate').textContent   = issue;
+    document.getElementById('rcTotal').textContent  = yen(total);
+    document.getElementById('rcTotal2').textContent = yen(total);
+    document.getElementById('rcItemAmt').textContent= yen(total);
+    document.getElementById('rcNet').textContent    = yen(net);
+    document.getElementById('rcTax').textContent    = yen(tax);
+
+    document.getElementById('rcOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeReceipt(){
+    document.getElementById('rcOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeReceipt(); });
+</script>
+<script src="assets/admin-shell.js"></script>
+</body>
+</html>

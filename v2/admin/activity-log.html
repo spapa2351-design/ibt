@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MaroPass Admin — 활동 로그</title>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+<link rel="stylesheet" href="assets/admin.css">
+<style>
+  /* 활동 로그 전용 (공유 토큰 재사용) */
+  .log-filter{display:flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--grey-200);border-radius:14px;padding:14px 16px;margin-bottom:16px}
+  .log-chip{display:inline-flex;align-items:center;gap:8px;padding:7px 12px;border:1px solid var(--blue-500);background:var(--blue-50);color:var(--blue-600);border-radius:999px;font-size:13px;font-weight:700}
+  .log-chip .x{width:16px;height:16px;border-radius:50%;background:var(--red-500);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:10px;cursor:pointer;line-height:1}
+  .log-filter .spacer{flex:1}
+  .log-filter .drop{display:inline-flex;align-items:center;gap:6px;padding:8px 12px;border:1px solid var(--grey-200);border-radius:10px;background:#fff;color:var(--grey-600);font-size:13px;font-weight:700;cursor:pointer}
+  .log-filter .drop:hover{border-color:var(--blue-500);color:var(--blue-500)}
+
+  .avatar-mini{width:30px;height:30px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#fff;flex-shrink:0}
+  .log-date{color:var(--blue-600);font-weight:600;font-variant-numeric:tabular-nums;font-family:'SF Mono',Menlo,monospace;font-size:13px;white-space:nowrap}
+  .log-name{font-weight:700;color:var(--grey-900)}
+  .log-id{color:var(--grey-600);font-size:13px}
+  .log-ip{color:var(--grey-600);font-variant-numeric:tabular-nums;font-family:'SF Mono',Menlo,monospace;font-size:12.5px;white-space:nowrap}
+  .log-menu{color:var(--grey-800);font-size:13px}
+  .log-menu .sep{color:var(--grey-300);margin:0 2px}
+  .log-detail{color:var(--grey-500);font-size:12.5px}
+  .log-detail.empty{color:var(--grey-300)}
+  .act{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;font-weight:700;text-decoration:none}
+  .act svg{width:14px;height:14px}
+  .act.view{color:var(--grey-600)}
+  .act.login{color:var(--blue-600)}
+  .act.create{color:var(--green-500)}
+  .act.edit{color:var(--blue-600)}
+  .act.del{color:var(--red-500)}
+  td.act-cell{text-align:right}
+  .row-photo{width:44px}
+
+  /* 상세 버튼 */
+  .act-detail{font-family:inherit;font-size:12.5px;font-weight:700;color:var(--grey-700);background:#fff;border:1px solid var(--grey-200);border-radius:8px;padding:6px 14px;cursor:pointer;transition:border-color .12s,color .12s}
+  .act-detail:hover{border-color:var(--blue-500);color:var(--blue-500)}
+
+  /* 활동기록 상세 모달 */
+  .log-modal-overlay{position:fixed;inset:0;background:rgba(15,23,42,.5);display:none;align-items:center;justify-content:center;z-index:200;padding:24px}
+  .log-modal-overlay.open{display:flex}
+  .log-modal{background:#fff;border-radius:18px;width:100%;max-width:640px;box-shadow:0 24px 70px rgba(15,23,42,.3);overflow:hidden}
+  .lm-head{display:flex;align-items:center;justify-content:space-between;padding:20px 26px;border-bottom:1px solid var(--grey-100)}
+  .lm-head h3{font-size:20px;font-weight:800;margin:0;color:var(--grey-900)}
+  .lm-close{width:38px;height:38px;border:none;background:var(--grey-100);border-radius:10px;color:var(--grey-600);font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+  .lm-close:hover{background:var(--grey-200);color:var(--grey-900)}
+  .lm-body{padding:6px 26px 22px}
+  .lm-row{display:flex;gap:24px;align-items:baseline;padding:16px 0;border-bottom:1px solid var(--grey-100)}
+  .lm-row:last-child{border-bottom:none}
+  .lm-k{width:84px;flex-shrink:0;color:var(--grey-500);font-size:14px;font-weight:600}
+  .lm-v{color:var(--grey-900);font-size:15px;font-weight:700}
+  .lm-v.muted{color:var(--grey-400);font-weight:600}
+</style>
+</head>
+<body data-page="activity-log" data-title="활동 로그">
+<div class="page">
+  <div class="page-head">
+    <div>
+      <h1 class="page-title">관리자 활동 기록</h1>
+      <div class="page-sub">관리자·부관리자의 접속 및 주요 행위를 기록합니다 · 최대 10,000건까지 조회할 수 있습니다.</div>
+    </div>
+  </div>
+
+  <!-- 필터 -->
+  <div class="log-filter">
+    <span class="log-chip">날짜: "2026-07-02 ~ 2026-07-21" <span class="x" title="필터 제거">✕</span></span>
+    <span class="spacer"></span>
+    <button class="drop" type="button">필터 추가 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></button>
+  </div>
+
+  <div class="card">
+    <div class="table-tools">
+      <div class="total-count">총 <strong>4,382</strong></div>
+      <div class="tool-group">
+        <button class="tool-btn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          다운로드
+        </button>
+        <button class="tool-btn" aria-label="정렬"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="17" y2="6"/><line x1="3" y1="12" x2="13" y2="12"/><line x1="3" y1="18" x2="9" y2="18"/></svg></button>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>날짜</th>
+            <th>이름</th>
+            <th>이메일</th>
+            <th>IP</th>
+            <th>메뉴</th>
+            <th>세부 동작</th>
+            <th style="text-align:right">활동</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="log-date">2026/07/21 09:51:03</span></td>
+            <td class="log-name">김민수</td>
+            <td class="log-id">minsu.kim@newin.co.kr</td>
+            <td class="log-ip">121.131.72.193</td>
+            <td class="log-menu">시스템 <span class="sep">›</span> 활동 로그</td>
+            <td class="log-detail empty">—</td>
+            <td class="act-cell"><a class="act view" href="#">열람 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg></a></td>
+          </tr>
+          <tr>
+            <td><span class="log-date">2026/07/21 09:50:59</span></td>
+            <td class="log-name">김민수</td>
+            <td class="log-id">minsu.kim@newin.co.kr</td>
+            <td class="log-ip">121.131.72.193</td>
+            <td class="log-menu">회원 <span class="sep">›</span> 부관리자 <span class="sep">›</span> 목록</td>
+            <td class="log-detail empty">—</td>
+            <td class="act-cell"><a class="act view" href="#">열람 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg></a></td>
+          </tr>
+          <tr>
+            <td><span class="log-date">2026/07/21 09:50:59</span></td>
+            <td class="log-name">김민수</td>
+            <td class="log-id">minsu.kim@newin.co.kr</td>
+            <td class="log-ip">121.131.72.193</td>
+            <td class="log-menu">로그인</td>
+            <td class="log-detail empty">—</td>
+            <td class="act-cell"><a class="act login" href="#">로그인 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg></a></td>
+          </tr>
+          <tr>
+            <td><span class="log-date">2026/07/21 09:45:20</span></td>
+            <td class="log-name">이서연</td>
+            <td class="log-id">seoyeon.lee@newin.co.kr</td>
+            <td class="log-ip">121.131.72.193</td>
+            <td class="log-menu">회원 <span class="sep">›</span> 목록</td>
+            <td class="log-detail empty">—</td>
+            <td class="act-cell"><a class="act view" href="#">열람 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg></a></td>
+          </tr>
+          <tr>
+            <td><span class="log-date">2026/07/21 09:45:18</span></td>
+            <td class="log-name">이서연</td>
+            <td class="log-id">seoyeon.lee@newin.co.kr</td>
+            <td class="log-ip">121.131.72.193</td>
+            <td class="log-menu">로그인</td>
+            <td class="log-detail empty">—</td>
+            <td class="act-cell"><a class="act login" href="#">로그인 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg></a></td>
+          </tr>
+          <tr>
+            <td><span class="log-date">2026/07/20 18:05:08</span></td>
+            <td class="log-name">박지훈</td>
+            <td class="log-id">jihoon.park@newin.co.kr</td>
+            <td class="log-ip">121.131.72.193</td>
+            <td class="log-menu">문제 빌더 <span class="sep">›</span> 문제 만들기</td>
+            <td class="log-detail">문항 등록 · 중상급 ⑤-1 자료 해석</td>
+            <td class="act-cell"><a class="act create" href="#">생성 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></a></td>
+          </tr>
+          <tr>
+            <td><span class="log-date">2026/07/20 18:05:03</span></td>
+            <td class="log-name">박지훈</td>
+            <td class="log-id">jihoon.park@newin.co.kr</td>
+            <td class="log-ip">121.131.72.193</td>
+            <td class="log-menu">로그인</td>
+            <td class="log-detail empty">—</td>
+            <td class="act-cell"><a class="act login" href="#">로그인 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg></a></td>
+          </tr>
+          <tr>
+            <td><span class="log-date">2026/07/20 17:45:43</span></td>
+            <td class="log-name">최유진</td>
+            <td class="log-id">yujin.choi@newin.co.kr</td>
+            <td class="log-ip">121.131.72.193</td>
+            <td class="log-menu">시험 관리 <span class="sep">›</span> 시험 목록</td>
+            <td class="log-detail">시험 삭제 · 실전 회화 평가 · 초급</td>
+            <td class="act-cell"><a class="act del" href="#">삭제 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></a></td>
+          </tr>
+          <tr>
+            <td><span class="log-date">2026/07/20 17:28:26</span></td>
+            <td class="log-name">이서연</td>
+            <td class="log-id">seoyeon.lee@newin.co.kr</td>
+            <td class="log-ip">121.131.72.193</td>
+            <td class="log-menu">상품 관리 <span class="sep">›</span> 상품 등록</td>
+            <td class="log-detail">상품 생성 · TOPIK 모의고사 · 중급</td>
+            <td class="act-cell"><a class="act create" href="#">생성 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></a></td>
+          </tr>
+          <tr>
+            <td><span class="log-date">2026/07/20 16:10:11</span></td>
+            <td class="log-name">정현우 <span style="font-weight:600;color:var(--grey-400);font-size:11px">최고관리자</span></td>
+            <td class="log-id">admin@newin.co.kr</td>
+            <td class="log-ip">121.131.72.193</td>
+            <td class="log-menu">회원 <span class="sep">›</span> 부관리자 <span class="sep">›</span> 권한 설정</td>
+            <td class="log-detail">권한 저장 · 이서연 → 운영 관리자형</td>
+            <td class="act-cell"><a class="act edit" href="#">수정 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></a></td>
+          </tr>
+          <tr>
+            <td><span class="log-date">2026/07/20 15:02:40</span></td>
+            <td class="log-name">강수아</td>
+            <td class="log-id">sua.kang@newin.co.kr</td>
+            <td class="log-ip">121.131.72.193</td>
+            <td class="log-menu">시험 관리 <span class="sep">›</span> 채점 보정</td>
+            <td class="log-detail">채점 확정 · 鈴木 花子 (중상급 정기)</td>
+            <td class="act-cell"><a class="act edit" href="#">수정 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></a></td>
+          </tr>
+          <tr>
+            <td><span class="log-date">2026/07/20 11:20:05</span></td>
+            <td class="log-name">한도윤</td>
+            <td class="log-id">doyun.han@newin.co.kr</td>
+            <td class="log-ip">121.131.72.193</td>
+            <td class="log-menu">서비스 <span class="sep">›</span> 공지사항 <span class="sep">›</span> 작성</td>
+            <td class="log-detail">공지 게시 · 5월 정기시험 접수 안내</td>
+            <td class="act-cell"><a class="act create" href="#">생성 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="pager">
+      <button class="pager-btn" disabled>‹</button>
+      <button class="pager-btn active">1</button>
+      <button class="pager-btn">2</button>
+      <button class="pager-btn">3</button>
+      <button class="pager-btn">4</button>
+      <button class="pager-btn">5</button>
+      <button class="pager-btn" disabled>…</button>
+      <button class="pager-btn">439</button>
+      <button class="pager-btn">›</button>
+      <div class="pager-rows">페이지당 <select><option>10</option><option>20</option><option>50</option><option>100</option></select></div>
+    </div>
+  </div>
+</div>
+
+<!-- 활동기록 상세 모달 -->
+<div class="log-modal-overlay" id="logModal" aria-hidden="true">
+  <div class="log-modal" role="dialog" aria-modal="true" aria-label="관리자 활동기록 상세">
+    <div class="lm-head">
+      <h3>관리자 활동기록 상세</h3>
+      <button type="button" class="lm-close" id="lmClose" aria-label="닫기"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+    <div class="lm-body">
+      <div class="lm-row"><span class="lm-k">날짜</span><span class="lm-v" id="lmDate"></span></div>
+      <div class="lm-row"><span class="lm-k">관리자</span><span class="lm-v" id="lmWho"></span></div>
+      <div class="lm-row"><span class="lm-k">IP</span><span class="lm-v" id="lmIp"></span></div>
+      <div class="lm-row"><span class="lm-k">메뉴</span><span class="lm-v" id="lmMenu"></span></div>
+      <div class="lm-row"><span class="lm-k">세부 동작</span><span class="lm-v" id="lmDetail"></span></div>
+      <div class="lm-row"><span class="lm-k">활동</span><span class="lm-v" id="lmAct"></span></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function () {
+    var modal = document.getElementById('logModal');
+    var f = {
+      date: document.getElementById('lmDate'), who: document.getElementById('lmWho'),
+      ip: document.getElementById('lmIp'), menu: document.getElementById('lmMenu'),
+      detail: document.getElementById('lmDetail'), act: document.getElementById('lmAct')
+    };
+    function openModal(d) {
+      f.date.textContent = d.date;
+      f.who.textContent = d.name + ' (' + d.id + ')';
+      f.ip.textContent = d.ip;
+      f.menu.textContent = d.menu;
+      var noDetail = !d.detail || d.detail === '—';
+      f.detail.textContent = noDetail ? '없음' : d.detail;
+      f.detail.classList.toggle('muted', noDetail);
+      f.act.textContent = d.act;
+      modal.classList.add('open'); modal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+    function close() {
+      modal.classList.remove('open'); modal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+    document.getElementById('lmClose').addEventListener('click', close);
+    modal.addEventListener('click', function (e) { if (e.target === modal) close(); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && modal.classList.contains('open')) close(); });
+
+    // 각 행의 활동 셀 → [상세] 버튼으로 교체
+    document.querySelectorAll('tbody tr').forEach(function (tr) {
+      var cell = tr.querySelector('.act-cell'); if (!cell) return;
+      var actEl = cell.querySelector('.act');
+      var q = function (s) { var el = tr.querySelector(s); return el ? el.textContent.trim().replace(/\s+/g, ' ') : ''; };
+      var d = {
+        date: q('.log-date'), name: q('.log-name'), id: q('.log-id'),
+        ip: q('.log-ip'), menu: q('.log-menu'), detail: q('.log-detail'),
+        act: actEl ? actEl.textContent.trim() : ''
+      };
+      cell.innerHTML = '<button type="button" class="act-detail">상세</button>';
+      cell.querySelector('.act-detail').addEventListener('click', function () { openModal(d); });
+    });
+  })();
+</script>
+<script src="assets/admin-shell.js"></script>
+</body>
+</html>

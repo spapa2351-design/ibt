@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MaroPass Admin — 시험 관리</title>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+<link rel="stylesheet" href="assets/admin.css">
+<style>
+  /* 시험 관리 상세 전용 소량 스타일 (공유 토큰 재사용) */
+  .meta-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+  .meta-chip{font-size:12px;font-weight:600;color:var(--grey-600);background:var(--grey-100);border-radius:8px;padding:5px 10px}
+  .meta-chip strong{color:var(--grey-900);font-weight:700}
+  .sline{display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--grey-50);font-size:13px}
+  .sline:last-child{border-bottom:none}
+  .sline .s-lab{color:var(--grey-600)}
+  .sline .s-val{font-weight:800;color:var(--grey-900);font-family:'SF Mono',Menlo,monospace;font-variant-numeric:tabular-nums}
+  .passline-note{font-size:11.5px;color:var(--grey-500);margin-top:10px;text-align:center}
+  .info-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px 20px}
+  @media(max-width:720px){.info-grid{grid-template-columns:1fr 1fr}}
+  .info-item .i-lab{font-size:11.5px;color:var(--grey-500);font-weight:600;margin-bottom:4px}
+  .info-item .i-val{font-size:14px;color:var(--grey-900);font-weight:700}
+  .sell-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:16px}
+  @media(max-width:720px){.sell-summary{grid-template-columns:1fr}}
+  /* 진단 등급 배지 */
+  .badge.g-a{background:var(--green-50);color:var(--green-500)}
+  .badge.g-b{background:var(--blue-50);color:var(--blue-500)}
+  .badge.g-c{background:var(--orange-50);color:var(--orange-500)}
+</style>
+</head>
+<body data-page="tests-list" data-title="시험 관리">
+<div class="page">
+  <div class="page-head">
+    <div>
+      <h1 class="page-title" style="display:flex;align-items:center;gap:10px">
+        한국어 말하기 · 중상급 (정기)
+        <span class="badge badge-open" style="font-size:12px">운영중</span>
+      </h1>
+      <div class="meta-chips">
+        <span class="meta-chip">레벨 <strong>중상급</strong></span>
+        <span class="meta-chip"><strong>18</strong>문항 · 약 <strong>23</strong>분</span>
+        <span class="meta-chip">진단 등급 <strong>A·B·C</strong></span>
+        <span class="meta-chip">등록 <strong>2026-03-02</strong></span>
+      </div>
+    </div>
+    <div class="page-actions">
+      <a class="btn btn-ghost" href="tests-list.html">← 목록</a>
+      <a class="btn btn-secondary" href="test-create.html">콘텐츠 편집</a>
+      <button class="btn btn-primary">결과 일괄 공개</button>
+    </div>
+  </div>
+
+  <!-- 요약 KPI -->
+  <div class="kpi-row">
+    <div class="kpi-card">
+      <div class="kpi-top"><span class="kpi-label">누적 응시자</span>
+        <span class="kpi-ic blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
+      </div>
+      <div class="kpi-value">2,013<span class="kpi-unit">명</span></div>
+      <div class="kpi-trend"><span class="muted">이번 달 412명 응시</span></div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-top"><span class="kpi-label">평균 점수</span>
+        <span class="kpi-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span>
+      </div>
+      <div class="kpi-value">103.1<span class="kpi-unit">/ 147</span></div>
+      <div class="kpi-trend"><span class="muted">중앙값 105</span></div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-top"><span class="kpi-label">A등급 비율</span>
+        <span class="kpi-ic green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+      </div>
+      <div class="kpi-value">11.8<span class="kpi-unit">%</span></div>
+      <div class="kpi-trend"><span class="muted">B 56.1% · C 32.1%</span></div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-top"><span class="kpi-label">결과 공개율</span>
+        <span class="kpi-ic warn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg></span>
+      </div>
+      <div class="kpi-value">98.8<span class="kpi-unit">%</span></div>
+      <div class="kpi-trend"><span class="muted">채점중 24명 대기</span></div>
+    </div>
+  </div>
+
+  <!-- 상세 탭 -->
+  <div class="dtabs" id="dtabs">
+    <button class="active" data-tab="overview">개요</button>
+    <button data-tab="takers">응시자<span class="tab-count">2,013</span></button>
+    <button data-tab="sections">문항 · 유형</button>
+  </div>
+
+  <!-- 개요 -->
+  <div class="dtab-panel active" id="tab-overview">
+    <div class="dash-grid">
+      <div class="dash-card">
+        <div class="dash-card-head"><h3>점수 분포</h3><span class="muted">응시 완료 1,847명 기준</span></div>
+        <div class="trend-chart">
+          <div class="bar-col"><div class="bar-area"><div class="bar" style="height:26%"></div></div><div class="bar-val">187</div><div class="bar-day">&lt;60</div></div>
+          <div class="bar-col"><div class="bar-area"><div class="bar" style="height:56%"></div></div><div class="bar-val">406</div><div class="bar-day">60–89</div></div>
+          <div class="bar-col current"><div class="bar-area"><div class="bar" style="height:100%"></div></div><div class="bar-val">724</div><div class="bar-day">90–109</div></div>
+          <div class="bar-col"><div class="bar-area"><div class="bar" style="height:71%"></div></div><div class="bar-val">512</div><div class="bar-day">110–129</div></div>
+          <div class="bar-col"><div class="bar-area"><div class="bar" style="height:30%"></div></div><div class="bar-val">218</div><div class="bar-day">130–147</div></div>
+        </div>
+        <div class="passline-note">진단 등급 구간(예시): C ~89 · B 90–129 · A 130+ · 시험별 관리자 설정</div>
+      </div>
+      <div class="dash-card">
+        <div class="dash-card-head"><h3>응시 현황</h3></div>
+        <div class="sline"><span class="s-lab">응시 완료</span><span class="s-val">1,847</span></div>
+        <div class="sline"><span class="s-lab">채점 중 (주관식)</span><span class="s-val">24</span></div>
+        <div class="sline"><span class="s-lab">미응시 (결제 후)</span><span class="s-val">142</span></div>
+        <div class="sline"><span class="s-lab">A등급 (130+)</span><span class="s-val" style="color:var(--green-500)">218</span></div>
+        <div class="sline"><span class="s-lab">B등급 (90–129)</span><span class="s-val" style="color:var(--blue-500)">1,036</span></div>
+        <div class="sline"><span class="s-lab">C등급 (~89)</span><span class="s-val" style="color:var(--orange-500)">593</span></div>
+      </div>
+    </div>
+
+    <div class="dash-card" style="margin-top:14px">
+      <div class="dash-card-head"><h3>시험 정보</h3></div>
+      <div class="info-grid">
+        <div class="info-item"><div class="i-lab">레벨</div><div class="i-val">중상급</div></div>
+        <div class="info-item"><div class="i-lab">문항 / 시간</div><div class="i-val">18문항 · 약 23분</div></div>
+        <div class="info-item"><div class="i-lab">진단 등급</div><div class="i-val">A·B·C (총점 기반)</div></div>
+        <div class="info-item"><div class="i-lab">채점 방식</div><div class="i-val">자동 + 관리자 보정</div></div>
+        <div class="info-item"><div class="i-lab">응시 기간</div><div class="i-val">상시</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 응시자 (회원별 결과) -->
+  <div class="dtab-panel" id="tab-takers">
+    <div class="card">
+      <div class="filter-bar">
+        <div class="seg">
+          <button class="active">전체 2,013</button>
+          <button>응시완료 1,847</button>
+          <button>채점중 24</button>
+          <button>미응시 142</button>
+        </div>
+        <div class="filter-input">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" placeholder="회원명·이메일 검색">
+        </div>
+      </div>
+
+      <div class="table-tools">
+        <div class="total-count">응시자 <strong>2,013</strong>명</div>
+        <div class="tool-group">
+          <button class="tool-btn">결과 내보내기</button>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>회원</th>
+              <th>응시일시 <span class="sort">▼</span></th>
+              <th>상태</th>
+              <th>점수</th>
+              <th>등급</th>
+              <th>결과 공개</th>
+              <th style="text-align:right">처리</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="cell-name">田中 美咲<div class="cell-sub" style="font-weight:400">misaki.tanaka@example.com</div></td>
+              <td class="cell-mono">2026-05-08 14:22</td>
+              <td><span class="badge badge-open">응시완료</span></td>
+              <td class="cell-amount">112<span class="muted"> / 147</span></td>
+              <td><span class="badge g-b">B</span></td>
+              <td><span class="badge badge-active">공개</span></td>
+              <td class="cell-actions"><a class="tool-btn" href="#">결과 보기</a></td>
+            </tr>
+            <tr>
+              <td class="cell-name">高橋 大輔<div class="cell-sub" style="font-weight:400">daisuke.takahashi@example.com</div></td>
+              <td class="cell-mono">2026-05-07 09:12</td>
+              <td><span class="badge badge-open">응시완료</span></td>
+              <td class="cell-amount">126<span class="muted"> / 147</span></td>
+              <td><span class="badge g-b">B</span></td>
+              <td><span class="badge badge-active">공개</span></td>
+              <td class="cell-actions"><a class="tool-btn" href="#">결과 보기</a></td>
+            </tr>
+            <tr>
+              <td class="cell-name">山田 太郎<div class="cell-sub" style="font-weight:400">taro.yamada@example.com</div></td>
+              <td class="cell-mono">2026-05-08 10:05</td>
+              <td><span class="badge badge-open">응시완료</span></td>
+              <td class="cell-amount">78<span class="muted"> / 147</span></td>
+              <td><span class="badge g-c">C</span></td>
+              <td><span class="badge badge-active">공개</span></td>
+              <td class="cell-actions"><a class="tool-btn" href="#">결과 보기</a></td>
+            </tr>
+            <tr>
+              <td class="cell-name">鈴木 花子<div class="cell-sub" style="font-weight:400">hanako.suzuki@example.com</div></td>
+              <td class="cell-mono">2026-05-07 16:40</td>
+              <td><span class="badge badge-pending">채점중</span></td>
+              <td class="cell-amount muted">—</td>
+              <td><span class="muted">—</span></td>
+              <td><span class="badge badge-inactive">비공개</span></td>
+              <td class="cell-actions"><a class="btn btn-primary" href="test-grade.html" style="padding:6px 12px;font-size:12px">채점 보정</a></td>
+            </tr>
+            <tr>
+              <td class="cell-name">伊藤 さくら<div class="cell-sub" style="font-weight:400">sakura.ito@example.com</div></td>
+              <td class="cell-mono">2026-05-06 19:26</td>
+              <td><span class="badge badge-open">응시완료</span></td>
+              <td class="cell-amount">96<span class="muted"> / 147</span></td>
+              <td><span class="badge g-b">B</span></td>
+              <td><span class="badge badge-inactive">비공개</span></td>
+              <td class="cell-actions"><button class="btn btn-secondary" style="padding:6px 12px;font-size:12px">결과 공개</button></td>
+            </tr>
+            <tr>
+              <td class="cell-name">中村 優<div class="cell-sub" style="font-weight:400">yu.nakamura@example.com</div></td>
+              <td class="cell-mono">2026-05-06 11:33</td>
+              <td><span class="badge badge-open">응시완료</span></td>
+              <td class="cell-amount">58<span class="muted"> / 147</span></td>
+              <td><span class="badge g-c">C</span></td>
+              <td><span class="badge badge-active">공개</span></td>
+              <td class="cell-actions"><a class="tool-btn" href="#">결과 보기</a></td>
+            </tr>
+            <tr>
+              <td class="cell-name">小林 誠<div class="cell-sub" style="font-weight:400">makoto.kobayashi@example.com</div></td>
+              <td class="cell-mono">2026-05-05 13:50</td>
+              <td><span class="badge badge-pending">채점중</span></td>
+              <td class="cell-amount muted">—</td>
+              <td><span class="muted">—</span></td>
+              <td><span class="badge badge-inactive">비공개</span></td>
+              <td class="cell-actions"><a class="btn btn-primary" href="test-grade.html" style="padding:6px 12px;font-size:12px">채점 보정</a></td>
+            </tr>
+            <tr>
+              <td class="cell-name">佐藤 健<div class="cell-sub" style="font-weight:400">ken.sato@example.com</div></td>
+              <td class="cell-mono muted">—</td>
+              <td><span class="badge badge-inactive">미응시</span></td>
+              <td class="cell-amount muted">—</td>
+              <td><span class="muted">—</span></td>
+              <td><span class="muted">—</span></td>
+              <td class="cell-actions"><a class="tool-btn" href="#">응시 안내</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="pager">
+        <button class="pager-btn" disabled>‹</button>
+        <button class="pager-btn active">1</button>
+        <button class="pager-btn">2</button>
+        <button class="pager-btn">3</button>
+        <button class="pager-btn">›</button>
+        <div class="pager-rows">페이지당 <select><option>20</option><option>50</option><option>100</option></select></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 문항 · 유형 -->
+  <div class="dtab-panel" id="tab-sections">
+    <div class="card">
+      <div class="table-tools">
+        <div class="total-count">유형 <strong>9</strong> · 총 <strong>18</strong>문항 · <strong>147</strong>점</div>
+        <div class="tool-group">
+          <a class="tool-btn" href="question-bank.html">문제 은행</a>
+          <a class="tool-btn" href="test-create.html">구성 편집</a>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>문제 유형</th><th>문항 수</th><th>배점</th><th>준비 · 녹음</th><th>채점</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="cell-name">① 어휘 발음 구별</td><td class="cell-mono">5문항</td><td class="cell-mono">15점</td><td class="cell-mono">10 · 20초</td><td>AI 자동</td></tr>
+            <tr><td class="cell-name">② 자신에 대해 말하기</td><td class="cell-mono">2문항</td><td class="cell-mono">18점</td><td class="cell-mono">20 · 30초</td><td><span class="badge badge-pending">AI + 보정</span></td></tr>
+            <tr><td class="cell-name">③-1 역할 수행</td><td class="cell-mono">2문항</td><td class="cell-mono">18점</td><td class="cell-mono">30 · 40초</td><td><span class="badge badge-pending">AI + 보정</span></td></tr>
+            <tr><td class="cell-name">③-2 그림 설명</td><td class="cell-mono">2문항</td><td class="cell-mono">18점</td><td class="cell-mono">40 · 60초</td><td><span class="badge badge-pending">AI + 보정</span></td></tr>
+            <tr><td class="cell-name">③-3 상황 설명(순서)</td><td class="cell-mono">2문항</td><td class="cell-mono">18점</td><td class="cell-mono">40 · 60초</td><td><span class="badge badge-pending">AI + 보정</span></td></tr>
+            <tr><td class="cell-name">④ 화용 능력</td><td class="cell-mono">2문항</td><td class="cell-mono">24점</td><td class="cell-mono">40 · 60초</td><td><span class="badge badge-pending">AI + 보정</span></td></tr>
+            <tr><td class="cell-name">⑤-1 자료 해석</td><td class="cell-mono">1문항</td><td class="cell-mono">12점</td><td class="cell-mono">70 · 80초</td><td><span class="badge badge-pending">AI + 보정</span></td></tr>
+            <tr><td class="cell-name">⑤-2 대화 듣고 의견</td><td class="cell-mono">1문항</td><td class="cell-mono">12점</td><td class="cell-mono">40 · 60초</td><td><span class="badge badge-pending">AI + 보정</span></td></tr>
+            <tr><td class="cell-name">⑥ 의견 프레젠테이션</td><td class="cell-mono">1문항</td><td class="cell-mono">12점</td><td class="cell-mono">60 · 80초</td><td><span class="badge badge-pending">AI + 보정</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  // 상세 탭 전환 (seg 필터와 별개 · admin-shell seg 핸들러와 충돌 없음)
+  (function () {
+    var tabs = document.querySelectorAll('#dtabs button');
+    tabs.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        tabs.forEach(function (b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        var key = btn.getAttribute('data-tab');
+        document.querySelectorAll('.dtab-panel').forEach(function (p) {
+          p.classList.toggle('active', p.id === 'tab-' + key);
+        });
+      });
+    });
+  })();
+</script>
+<script src="assets/admin-shell.js"></script>
+</body>
+</html>

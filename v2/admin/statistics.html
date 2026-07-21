@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MaroPass Admin — 통계·매출</title>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+<link rel="stylesheet" href="assets/admin.css">
+<style>
+  .period-seg{margin-bottom:20px}
+  .stat-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:16px;align-items:start}
+  .card-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+  .card-title{font-size:15px;font-weight:800;color:var(--grey-900);letter-spacing:-.3px}
+  .card-note{font-size:12px;color:var(--grey-500);font-weight:600}
+
+  /* 월별 매출 막대차트 (CSS only) */
+  .bars{display:flex;align-items:flex-end;gap:14px;height:200px;padding:0 4px}
+  .bar-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;height:100%;justify-content:flex-end}
+  .bar-val{font-size:12px;font-weight:700;color:var(--grey-700)}
+  .bar{width:100%;max-width:46px;background:var(--blue-50);border-radius:8px 8px 0 0;position:relative;transition:background-color .12s}
+  .bar-col:hover .bar{background:var(--blue-500)}
+  .bar.cur{background:var(--blue-500)}
+  .bar-label{font-size:12px;color:var(--grey-500);font-weight:600}
+
+  /* 상품별 매출 랭킹 */
+  .rank-list{display:flex;flex-direction:column;gap:14px}
+  .rank-row{display:grid;grid-template-columns:20px 1fr auto;gap:12px;align-items:center}
+  .rank-no{font-size:13px;font-weight:800;color:var(--grey-400);text-align:center}
+  .rank-body{min-width:0}
+  .rank-name{font-size:13px;font-weight:700;color:var(--grey-900);margin-bottom:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .rank-track{height:8px;background:var(--grey-100);border-radius:999px;overflow:hidden}
+  .rank-fill{height:100%;border-radius:999px;background:var(--blue-500)}
+  .rank-amount{font-size:13px;font-weight:800;color:var(--grey-900);white-space:nowrap;text-align:right}
+  .rank-sub{font-size:11px;color:var(--grey-500);font-weight:600}
+
+  /* 결제수단 비중 */
+  .pay-mix{display:flex;flex-direction:column;gap:18px;margin-top:4px}
+  .mix-row{display:flex;flex-direction:column;gap:8px}
+  .mix-top{display:flex;align-items:center;justify-content:space-between}
+  .mix-name{font-size:13px;font-weight:700;color:var(--grey-900);display:flex;align-items:center;gap:8px}
+  .mix-dot{width:10px;height:10px;border-radius:3px}
+  .mix-pct{font-size:13px;font-weight:800;color:var(--grey-900)}
+  .mix-track{height:10px;background:var(--grey-100);border-radius:999px;overflow:hidden}
+  .mix-fill{height:100%;border-radius:999px}
+  .mix-sub{font-size:11px;color:var(--grey-500);font-weight:600;text-align:right}
+</style>
+</head>
+<body data-page="statistics" data-title="통계·매출">
+<div class="page">
+  <div class="page-head">
+    <div>
+      <h1 class="page-title">통계·매출</h1>
+      <div class="page-sub">최고관리자 전용 · 매출·판매 요약 (결제·환불 데이터 기반)</div>
+    </div>
+    <div class="page-actions">
+      <button class="btn btn-secondary" aria-label="리포트 내보내기">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        내보내기
+      </button>
+    </div>
+  </div>
+
+  <!-- 기간 필터 -->
+  <div class="seg period-seg">
+    <button>지난달</button>
+    <button class="active">이번 달</button>
+    <button>올해</button>
+  </div>
+
+  <!-- 핵심 매출 KPI -->
+  <div class="kpi-row">
+    <div class="kpi-card">
+      <div class="kpi-top">
+        <span class="kpi-label">이번 달 매출</span>
+        <span class="kpi-ic blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span>
+      </div>
+      <div class="kpi-value">¥4,496,250</div>
+      <div class="kpi-trend up">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"/></svg>
+        전월 대비 <span class="kpi-pct">+12.4%</span>
+      </div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-top">
+        <span class="kpi-label">결제 건수</span>
+        <span class="kpi-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></span>
+      </div>
+      <div class="kpi-value">764<span class="kpi-unit">건</span></div>
+      <div class="kpi-trend up">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"/></svg>
+        전월 대비 <span class="kpi-pct">+8.1%</span>
+      </div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-top">
+        <span class="kpi-label">환불액</span>
+        <span class="kpi-ic warn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg></span>
+      </div>
+      <div class="kpi-value">¥53,460</div>
+      <div class="kpi-trend"><span class="muted">9건 · 환불률 1.2%</span></div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-top">
+        <span class="kpi-label">순매출</span>
+        <span class="kpi-ic green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 6l-9.5 9.5-5-5L1 18"/><polyline points="17 6 23 6 23 12"/></svg></span>
+      </div>
+      <div class="kpi-value">¥4,442,790</div>
+      <div class="kpi-trend"><span class="muted">매출 − 환불</span></div>
+    </div>
+  </div>
+
+  <!-- 월별 매출 추이 -->
+  <div class="card" style="margin-bottom:16px;">
+    <div class="card-head">
+      <div class="card-title">월별 매출 추이</div>
+      <div class="card-note">최근 6개월 · 단위 ¥</div>
+    </div>
+    <div class="bars">
+      <div class="bar-col"><span class="bar-val">3.21M</span><div class="bar" style="height:64%"></div><span class="bar-label">2월</span></div>
+      <div class="bar-col"><span class="bar-val">3.58M</span><div class="bar" style="height:71%"></div><span class="bar-label">3월</span></div>
+      <div class="bar-col"><span class="bar-val">3.42M</span><div class="bar" style="height:68%"></div><span class="bar-label">4월</span></div>
+      <div class="bar-col"><span class="bar-val">3.89M</span><div class="bar" style="height:78%"></div><span class="bar-label">5월</span></div>
+      <div class="bar-col"><span class="bar-val">4.00M</span><div class="bar" style="height:80%"></div><span class="bar-label">6월</span></div>
+      <div class="bar-col"><span class="bar-val">4.50M</span><div class="bar cur" style="height:100%"></div><span class="bar-label">7월</span></div>
+    </div>
+  </div>
+
+  <div class="stat-grid">
+    <!-- 상품별 매출 TOP -->
+    <div class="card">
+      <div class="card-head">
+        <div class="card-title">상품별 매출 TOP 5</div>
+        <div class="card-note">이번 달</div>
+      </div>
+      <div class="rank-list">
+        <div class="rank-row">
+          <div class="rank-no">1</div>
+          <div class="rank-body">
+            <div class="rank-name">TOPIK 말하기 중상급</div>
+            <div class="rank-track"><div class="rank-fill" style="width:100%"></div></div>
+          </div>
+          <div>
+            <div class="rank-amount">¥2,178,000</div>
+            <div class="rank-sub">440건</div>
+          </div>
+        </div>
+        <div class="rank-row">
+          <div class="rank-no">2</div>
+          <div class="rank-body">
+            <div class="rank-name">TOPIK 말하기 초급</div>
+            <div class="rank-track"><div class="rank-fill" style="width:72%"></div></div>
+          </div>
+          <div>
+            <div class="rank-amount">¥1,564,200</div>
+            <div class="rank-sub">316건</div>
+          </div>
+        </div>
+        <div class="rank-row">
+          <div class="rank-no">3</div>
+          <div class="rank-body">
+            <div class="rank-name">TOPIK 쓰기 종합반</div>
+            <div class="rank-track"><div class="rank-fill" style="width:26%"></div></div>
+          </div>
+          <div>
+            <div class="rank-amount">¥564,300</div>
+            <div class="rank-sub">114건</div>
+          </div>
+        </div>
+        <div class="rank-row">
+          <div class="rank-no">4</div>
+          <div class="rank-body">
+            <div class="rank-name">TOPIK 모의고사 패키지</div>
+            <div class="rank-track"><div class="rank-fill" style="width:8%"></div></div>
+          </div>
+          <div>
+            <div class="rank-amount">¥138,600</div>
+            <div class="rank-sub">28건</div>
+          </div>
+        </div>
+        <div class="rank-row">
+          <div class="rank-no">5</div>
+          <div class="rank-body">
+            <div class="rank-name">발음 특강 1:1</div>
+            <div class="rank-track"><div class="rank-fill" style="width:4%"></div></div>
+          </div>
+          <div>
+            <div class="rank-amount">¥51,150</div>
+            <div class="rank-sub">10건</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 결제수단 비중 -->
+    <div class="card">
+      <div class="card-head">
+        <div class="card-title">결제수단 비중</div>
+        <div class="card-note">이번 달 · 금액 기준</div>
+      </div>
+      <div class="pay-mix">
+        <div class="mix-row">
+          <div class="mix-top">
+            <span class="mix-name"><span class="mix-dot" style="background:var(--blue-500)"></span>신용카드</span>
+            <span class="mix-pct">63%</span>
+          </div>
+          <div class="mix-track"><div class="mix-fill" style="width:63%;background:var(--blue-500)"></div></div>
+          <div class="mix-sub">¥2,832,637 · 481건</div>
+        </div>
+        <div class="mix-row">
+          <div class="mix-top">
+            <span class="mix-name"><span class="mix-dot" style="background:var(--green-500)"></span>QR 결제</span>
+            <span class="mix-pct">37%</span>
+          </div>
+          <div class="mix-track"><div class="mix-fill" style="width:37%;background:var(--green-500)"></div></div>
+          <div class="mix-sub">¥1,663,613 · 283건</div>
+        </div>
+      </div>
+      <div class="muted" style="margin-top:22px;font-size:12px;line-height:1.6;">
+        일본 PG 정산 기준 · 신용카드 T+7, QR T+3<br>정산 예정액 <strong style="color:var(--grey-900);font-weight:800;">¥4,442,790</strong>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="assets/admin-shell.js"></script>
+</body>
+</html>

@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MaroPass Admin — 부관리자 권한 설정</title>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+<link rel="stylesheet" href="assets/admin.css">
+<style>
+  .page-head { display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; }
+  .page-title { font-size:22px; font-weight:800; color:var(--grey-900); display:flex; align-items:center; gap:10px; margin:0; }
+  .back-btn { width:32px; height:32px; border-radius:8px; border:1px solid var(--grey-200); background:#fff; color:var(--grey-700); cursor:pointer; display:inline-flex; align-items:center; justify-content:center; text-decoration:none; }
+  .back-btn:hover { border-color:var(--grey-400); }
+  .crumb { font-size:12px; color:var(--grey-400); font-weight:600; margin:-14px 0 18px 42px; }
+  .crumb b { color:var(--grey-600); font-weight:700; }
+
+  .perm-grid { display:grid; grid-template-columns:300px 1fr; gap:20px; align-items:start; }
+
+  /* 좌: 프로필 카드 */
+  .perm-profile { background:#fff; border-radius:16px; box-shadow:0 1px 3px rgba(15,23,42,.04),0 1px 2px rgba(15,23,42,.06); padding:28px 22px; text-align:center; position:sticky; top:76px; }
+  .avatar { width:92px; height:92px; border-radius:22px; margin:0 auto 14px; background:linear-gradient(135deg,#e8f3ff,#d1fae5); display:flex; align-items:center; justify-content:center; font-size:30px; font-weight:800; color:var(--blue-500); }
+  .perm-profile .p-name { font-size:22px; font-weight:800; color:var(--grey-900); }
+  .perm-profile .p-id { font-size:13px; color:var(--grey-500); margin-top:2px; }
+  .perm-profile .p-role { display:inline-block; margin-top:10px; padding:3px 10px; border-radius:999px; font-size:12px; font-weight:800; background:var(--blue-50); color:var(--blue-600); }
+  .perm-profile .p-status { display:inline-block; margin-top:8px; padding:2px 9px; border-radius:6px; font-size:11px; font-weight:700; background:var(--grey-100); color:var(--grey-600); }
+  .p-meta { margin-top:18px; padding-top:16px; border-top:1px solid var(--grey-100); display:flex; flex-direction:column; gap:9px; text-align:left; }
+  .p-meta .row { display:flex; justify-content:space-between; font-size:12px; }
+  .p-meta .k { color:var(--grey-500); }
+  .p-meta .v { color:var(--grey-800); font-weight:700; }
+  /* 역할 요약 (권한 조합으로 자동 결정) */
+  .role-summary { margin-top:16px; padding:12px 14px; border-radius:12px; background:linear-gradient(135deg,#eff6ff,#e8f3ff); border:1px solid var(--blue-500); text-align:left; }
+  .role-summary .rs-lab { font-size:10px; font-weight:800; color:var(--blue-500); letter-spacing:.4px; }
+  .role-summary .rs-val { font-size:15px; font-weight:800; color:var(--blue-600); margin-top:3px; }
+  .role-summary .rs-desc { font-size:11px; color:var(--grey-600); margin-top:4px; line-height:1.5; }
+
+  /* 우: 권한 */
+  .perm-main { display:flex; flex-direction:column; gap:12px; }
+  .perm-title { font-size:15px; font-weight:800; color:var(--grey-900); }
+  .perm-master { display:flex; align-items:center; justify-content:space-between; gap:12px; background:#fff; border:1px solid var(--grey-200); border-radius:12px; padding:14px 16px; }
+  .copy-btn { display:inline-flex; align-items:center; gap:6px; padding:8px 12px; border:1px solid var(--grey-200); border-radius:9px; background:#fff; color:var(--grey-700); font-size:12.5px; font-weight:700; cursor:pointer; }
+  .copy-btn:hover { border-color:var(--blue-500); color:var(--blue-500); }
+
+  /* 도메인 섹션 (아코디언) */
+  .perm-sec { background:#fff; border:1px solid var(--grey-200); border-radius:12px; overflow:hidden; }
+  .perm-sec-head { display:flex; align-items:center; gap:8px; padding:14px 16px; cursor:pointer; }
+  .perm-sec-title { font-size:14px; font-weight:800; color:var(--grey-900); }
+  .perm-sec-badge { font-size:10px; font-weight:800; padding:2px 7px; border-radius:5px; }
+  .perm-sec-badge.rev { background:var(--orange-50); color:var(--orange-500); }
+  .perm-sec-badge.grade { background:var(--violet-50); color:var(--violet-500); }
+  .perm-sec-count { margin-left:auto; font-size:11px; font-weight:700; color:var(--grey-400); }
+  .perm-sec-chev { width:16px; height:16px; color:var(--grey-400); transition:transform .18s; flex-shrink:0; }
+  .perm-sec.open .perm-sec-chev { transform:rotate(180deg); }
+  .perm-sec-body { display:none; padding:4px 16px 16px; border-top:1px solid var(--grey-100); }
+  .perm-sec.open .perm-sec-body { display:block; }
+
+  /* 담당 배정 (그룹/시험 선택) */
+  .scope-row { background:var(--grey-50); border-radius:10px; padding:12px 14px; margin:12px 0 14px; }
+  .scope-head { display:flex; align-items:center; justify-content:space-between; margin-bottom:8px; }
+  .scope-label { font-size:12px; font-weight:700; color:var(--grey-700); }
+  .scope-all { display:inline-flex; align-items:center; gap:7px; font-size:11px; font-weight:700; color:var(--grey-600); }
+  .switch { position:relative; width:38px; height:22px; flex-shrink:0; }
+  .switch input { position:absolute; opacity:0; width:0; height:0; }
+  .switch .track { position:absolute; inset:0; border-radius:999px; background:var(--grey-300); transition:.16s; }
+  .switch .track::before { content:''; position:absolute; width:16px; height:16px; border-radius:50%; background:#fff; top:3px; left:3px; transition:.16s; box-shadow:0 1px 2px rgba(0,0,0,.2); }
+  .switch input:checked + .track { background:var(--blue-500); }
+  .switch input:checked + .track::before { transform:translateX(16px); }
+  .scope-select { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+  .scope-chip { display:inline-flex; align-items:center; gap:5px; padding:5px 10px; border:1px solid var(--grey-200); border-radius:999px; background:#fff; font-size:12px; font-weight:600; color:var(--grey-700); }
+  .scope-chip .x { color:var(--grey-400); cursor:pointer; font-weight:700; }
+  .scope-chip .x:hover { color:var(--red-500); }
+  .scope-add { padding:6px 12px; border:1px dashed var(--grey-300); border-radius:999px; background:#fff; color:var(--grey-500); font-size:12px; font-weight:700; cursor:pointer; }
+  .scope-add:hover { border-color:var(--blue-500); color:var(--blue-500); }
+  .scope-row.locked { opacity:.5; }
+  .scope-row.locked .scope-select { pointer-events:none; }
+
+  /* 액션 체크 목록 */
+  .perm-check { display:flex; align-items:center; gap:10px; padding:9px 2px; font-size:13px; color:var(--grey-800); cursor:pointer; }
+  .perm-check input { width:18px; height:18px; accent-color:var(--blue-500); cursor:pointer; flex-shrink:0; }
+  .perm-check .lock { font-size:10px; font-weight:800; color:var(--orange-500); background:var(--orange-50); padding:1px 6px; border-radius:5px; }
+  .perm-check .sub { font-size:11px; color:var(--grey-400); font-weight:500; }
+
+  @media (max-width:1024px){ .perm-grid{ grid-template-columns:1fr; } .perm-profile{ position:static; } }
+</style>
+</head>
+<body data-page="admin-list" data-title="부관리자 권한 설정">
+<div class="page">
+
+  <div class="page-head">
+    <div class="page-title">
+      <a href="admin-list.html" class="back-btn" title="부관리자 목록"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg></a>
+      부관리자 권한 설정
+    </div>
+    <div class="page-actions">
+      <a class="btn btn-secondary" href="admin-list.html">취소</a>
+      <button class="btn btn-primary" id="permSave">완료</button>
+    </div>
+  </div>
+  <div class="crumb">홈 / <b>부관리자</b> / 권한 설정</div>
+
+  <div class="perm-grid">
+
+    <!-- 좌: 프로필 -->
+    <aside class="perm-profile">
+      <div class="avatar">김</div>
+      <div class="p-name">김민수</div>
+      <div class="p-id">op001@example.com</div>
+      <div><span class="p-role">부관리자</span></div>
+      <div><span class="p-status">미연동</span></div>
+
+      <div class="role-summary">
+        <div class="rs-lab">권한으로 결정된 역할</div>
+        <div class="rs-val" id="roleVal">전체 권한</div>
+        <div class="rs-desc" id="roleDesc">모든 메뉴를 운영·편집할 수 있습니다.</div>
+      </div>
+
+      <div class="p-meta">
+        <div class="row"><span class="k">계정 유형</span><span class="v">부관리자</span></div>
+        <div class="row"><span class="k">등록일</span><span class="v">2026-05-02</span></div>
+        <div class="row"><span class="k">최근 접속</span><span class="v">2026-07-19</span></div>
+      </div>
+    </aside>
+
+    <!-- 우: 권한 -->
+    <div class="perm-main">
+      <div class="perm-title">권한</div>
+
+      <div class="perm-master">
+        <label class="perm-check" style="padding:0;"><input type="checkbox" id="grantAll" checked> <strong>전체 권한 부여</strong></label>
+        <button class="copy-btn" id="copyBtn">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          다른 부관리자 권한 복사
+        </button>
+      </div>
+
+      <!-- 최고관리자 전용 안내 -->
+      <div style="display:flex;align-items:center;gap:8px;padding:11px 14px;background:var(--grey-50);border:1px solid var(--grey-200);border-radius:10px;margin-bottom:14px;font-size:12.5px;color:var(--grey-700);">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0;color:var(--grey-500)"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        <span><strong>부관리자·권한 관리</strong>는 최고관리자 전용입니다. 부관리자에게 위임되지 않습니다.</span>
+      </div>
+
+      <!-- 역할 ① 운영 · CS -->
+      <div class="perm-sec open" data-grp="ops">
+        <div class="perm-sec-head"><span class="perm-sec-title">운영 · CS</span><span class="perm-sec-count"></span><svg class="perm-sec-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+        <div class="perm-sec-body">
+          <label class="perm-check"><input type="checkbox" checked> 1:1 문의 응대</label>
+          <label class="perm-check"><input type="checkbox" checked> 결제 내역 조회 · 환불 처리 <span class="lock">매출</span></label>
+          <label class="perm-check"><input type="checkbox" checked> 공지 등록·수정·삭제</label>
+          <label class="perm-check"><input type="checkbox" checked> 회원 조회</label>
+        </div>
+      </div>
+
+      <!-- 역할 ② 출제 · 채점 -->
+      <div class="perm-sec open" data-grp="grade">
+        <div class="perm-sec-head"><span class="perm-sec-title">출제 · 채점</span><span class="perm-sec-badge grade">교수자</span><span class="perm-sec-count"></span><svg class="perm-sec-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+        <div class="perm-sec-body">
+          <div class="scope-row">
+            <div class="scope-head"><span class="scope-label">담당 시험 배정</span><label class="scope-all">전체 시험 <span class="switch"><input type="checkbox" class="scope-toggle" checked><span class="track"></span></span></label></div>
+            <div class="scope-select"><span class="scope-chip">전체 시험 <span class="x">✕</span></span><button class="scope-add">+ 시험 선택</button></div>
+          </div>
+          <label class="perm-check"><input type="checkbox" checked> 시험 등록·수정·운영 <span class="sub">(문항 구성·운영 전환·종료)</span></label>
+          <label class="perm-check"><input type="checkbox" checked> 문제 은행 관리 <span class="sub">(문항 조회·등록·수정·삭제)</span></label>
+          <label class="perm-check"><input type="checkbox" checked> 채점 <span class="sub">(배정 시험의 음성 확인·채점·결과 공개)</span></label>
+        </div>
+      </div>
+
+      <!-- 역할 ③ 상품 관리 -->
+      <div class="perm-sec open" data-grp="revenue">
+        <div class="perm-sec-head"><span class="perm-sec-title">상품 관리</span><span class="perm-sec-badge rev">매출</span><span class="perm-sec-count"></span><svg class="perm-sec-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+        <div class="perm-sec-body">
+          <label class="perm-check"><input type="checkbox" checked> 상품·판매 관리 <span class="lock">매출</span> <span class="sub">(상품 등록·수정·가격/할인·판매 상태·상품별 매출)</span></label>
+        </div>
+      </div>
+
+      <!-- 기본 접근 -->
+      <div class="perm-sec open" data-grp="base">
+        <div class="perm-sec-head"><span class="perm-sec-title">기본 접근</span><span class="perm-sec-count"></span><svg class="perm-sec-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+        <div class="perm-sec-body">
+          <label class="perm-check"><input type="checkbox" checked> 대시보드 조회</label>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script src="assets/admin-shell.js"></script>
+<script>
+(function(){
+  var secs = document.querySelectorAll('.perm-sec');
+  // 아코디언
+  secs.forEach(function(s){
+    s.querySelector('.perm-sec-head').addEventListener('click', function(){ s.classList.toggle('open'); });
+  });
+  // 담당 배정 전체 토글 → select 잠금
+  document.querySelectorAll('.scope-toggle').forEach(function(t){
+    var row = t.closest('.scope-row');
+    function sync(){ row.classList.toggle('locked', t.checked); }
+    t.addEventListener('change', sync); sync();
+  });
+
+  var allChecks = function(){ return document.querySelectorAll('.perm-sec input[type="checkbox"]:not(.scope-toggle)'); };
+
+  // 섹션별 체크 카운트
+  function updateCounts(){
+    secs.forEach(function(s){
+      var boxes = s.querySelectorAll('.perm-sec-body input[type="checkbox"]:not(.scope-toggle)');
+      var on = [].filter.call(boxes, function(b){ return b.checked; }).length;
+      s.querySelector('.perm-sec-count').textContent = on + '/' + boxes.length;
+    });
+  }
+
+  // 권한 조합 → 역할 자동 결정
+  var $roleVal = document.getElementById('roleVal'), $roleDesc = document.getElementById('roleDesc');
+  function anyChecked(grp){
+    return [].some.call(document.querySelectorAll('.perm-sec[data-grp="'+grp+'"] .perm-sec-body input[type="checkbox"]:not(.scope-toggle)'), function(b){ return b.checked; });
+  }
+  function allOn(){ return [].every.call(allChecks(), function(b){ return b.checked; }); }
+  function noneOn(){ return [].every.call(allChecks(), function(b){ return !b.checked; }); }
+  function updateRole(){
+    var ops = anyChecked('ops'), grade = anyChecked('grade'), rev = anyChecked('revenue');
+    var val, desc;
+    if (allOn()) { val='전체 권한'; desc='모든 메뉴를 운영·편집할 수 있습니다. (준-최고관리자)'; }
+    else if (noneOn()) { val='권한 없음'; desc='체크된 권한이 없습니다. 로그인만 가능합니다.'; }
+    else {
+      var roles = [];
+      if (ops) roles.push('운영·CS');
+      if (grade) roles.push('출제·채점');
+      if (rev) roles.push('상품 관리');
+      if (!roles.length) { val='기본 접근'; desc='대시보드 조회만 가능합니다.'; }
+      else if (roles.length === 1) {
+        val = roles[0];
+        desc = ops ? '1:1 문의·결제/환불 처리·공지·회원 조회를 담당합니다.'
+             : grade ? '시험 출제와 담당 시험 채점을 담당합니다.'
+             : '상품 등록·판매·가격을 관리합니다.';
+      } else {
+        val = roles.join(' + ');
+        desc = '선택한 직무 권한을 함께 담당합니다.';
+      }
+    }
+    $roleVal.textContent = val; $roleDesc.textContent = desc;
+  }
+
+  function refresh(){ updateCounts(); updateRole(); }
+
+  // 전체 권한 부여
+  document.getElementById('grantAll').addEventListener('change', function(){
+    var v = this.checked;
+    allChecks().forEach(function(b){ b.checked = v; });
+    refresh();
+  });
+  // 개별 체크 → grantAll 동기화 + 갱신
+  allChecks().forEach(function(b){
+    b.addEventListener('change', function(){
+      document.getElementById('grantAll').checked = allOn();
+      refresh();
+    });
+  });
+  // 복사 버튼 (데모)
+  document.getElementById('copyBtn').addEventListener('click', function(){
+    if(window.toast) toast('다른 부관리자의 권한 세트를 불러왔습니다.', 'info');
+  });
+  // 완료(저장) — 확인 모달 → 저장 토스트 → 목록 이동
+  var saveBtn = document.getElementById('permSave');
+  if(saveBtn) saveBtn.addEventListener('click', function(e){
+    e.preventDefault();
+    var role = $roleVal.textContent;
+    if(window.confirmAction){
+      confirmAction({
+        title: '이 권한으로 저장하시겠습니까?',
+        desc: '역할: ' + role + ' · 저장 즉시 해당 부관리자에게 적용됩니다.',
+        confirmText: '저장',
+        onConfirm: function(){
+          if(window.toast) toast('권한이 저장되었습니다. (' + role + ')', 'success');
+          setTimeout(function(){ location.href = 'admin-list.html'; }, 900);
+        }
+      });
+    } else { location.href = 'admin-list.html'; }
+  });
+
+  refresh();
+})();
+</script>
+</body>
+</html>
