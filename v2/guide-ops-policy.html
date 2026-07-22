@@ -117,7 +117,7 @@
     <input id="search-input" type="text" placeholder="정책 검색..." autocomplete="off" oninput="onSearch(this.value)" onfocus="onSearch(this.value)" onblur="setTimeout(()=>closeDrop(),180)">
     <div id="search-drop"></div>
   </div>
-  <span class="version-badge text-xs text-slate-400 bg-slate-100 px-2.5 py-1 rounded-full ml-3">일본 오픈 · v1.1 · 2026-07-21</span>
+  <span class="version-badge text-xs text-slate-400 bg-slate-100 px-2.5 py-1 rounded-full ml-3">일본 오픈 · v1.3 · 2026-07-22</span>
   <span class="text-xs bg-emerald-100 text-emerald-800 px-2.5 py-1 rounded-full ml-1.5 font-bold border border-emerald-300">📍 운영정책 SSOT</span>
 </header>
 
@@ -167,6 +167,10 @@ function closeMobileSidebar() { document.getElementById('sidebar').classList.rem
     <div class="nav-divider"></div>
     <div class="nav-group-title">6. 관리자 계정</div>
     <div class="nav-item" onclick="showPage('admin-accounts',this)"><span class="nav-dot"></span>부관리자 관리</div>
+
+    <div class="nav-divider"></div>
+    <div class="nav-group-title">7. PG 연동 <span style="color:#d97706">· 개발 전</span></div>
+    <div class="nav-item" onclick="showPage('pg-integration',this)"><span class="nav-dot"></span>PG 연동 가이드 (초안)</div>
 
     <div class="nav-divider"></div>
     <div class="nav-group-title">부록</div>
@@ -624,6 +628,18 @@ function closeMobileSidebar() { document.getElementById('sidebar').classList.rem
   <div class="page-tag">6. 관리자 계정</div>
   <div class="page-title">부관리자 관리</div>
   <div class="page-desc">관리자 계정은 유형 2종으로 나뉘며, 부관리자의 역할은 권한 설정으로 결정됩니다.</div>
+
+  <div class="guide-section">
+    <div class="section-title">계정 생성 원칙</div>
+    <div class="callout callout-blue">
+      <strong>최고관리자 계정은 시스템에 기본으로 반드시 생성됩니다.</strong> 항상 1개 이상 존재하며 삭제할 수 없습니다. 이후 모든 관리자(부관리자) 계정은 <strong>최고관리자가 직접 추가·권한 설정</strong>합니다.
+    </div>
+    <div class="mt-3 space-y-0">
+      <div class="step-row"><div class="step-num">1</div><div class="step-body"><div class="step-action">최고관리자 계정 기본 생성</div><div class="step-note">서비스 개설 시 최고관리자 계정이 무조건 만들어집니다. 전체 권한 고정 · 삭제 불가(항상 존재).</div></div></div>
+      <div class="step-row"><div class="step-num">2</div><div class="step-body"><div class="step-action">최고관리자가 관리자를 세팅</div><div class="step-note">이후 부관리자를 추가(임시 비밀번호 자동 발급)하고 권한 설정으로 역할을 지정합니다. 관리자 계정의 추가·권한 편집은 최고관리자만 가능.</div></div></div>
+    </div>
+  </div>
+
   <div class="guide-section">
     <div class="section-title">계정 · 권한</div>
     <div class="overflow-x-auto mt-3">
@@ -639,6 +655,119 @@ function closeMobileSidebar() { document.getElementById('sidebar').classList.rem
     </div>
     <div class="callout callout-amber">
       삭제 시 확인 모달("삭제" 입력). <strong>삭제 대상:</strong> 계정·로그인·권한 / <strong>유지:</strong> 작성 이력·감사 로그.
+    </div>
+  </div>
+</div>
+
+<!-- 7 PG 연동 가이드 (개발 전 초안) -->
+<div id="page-pg-integration" class="page">
+  <div class="page-tag">7. PG 연동 (개발 전)</div>
+  <div class="page-title">PG 연동 가이드 <span class="b b-yellow" style="vertical-align:middle;margin-left:6px;font-size:12px">개발 전 초안</span></div>
+  <div class="page-desc">GMO-PG(멀티페이먼트) 결제 연동을 위한 개발 기준 초안입니다. 결제 흐름·Webhook 확정·연동 타입·테스트↔운영 전환·에러 처리를 정리합니다.</div>
+
+  <div class="callout callout-red">
+    <strong>⚠ 개발 전·검토 전 초안입니다.</strong> 아직 구현·연동에 착수하지 않은 단계로, 아래 내용은 GMO-PG 공개 자료(docs.gmo-pg.com/mulpay)와 운영정책을 바탕으로 한 <strong>예상 기준</strong>입니다. 가맹점 계약·연동 타입 확정 후 재검토가 필요하며, 파라미터명·정확한 상태값은 <strong>GMO 사양서 기준으로 확정</strong>합니다.
+  </div>
+
+  <div class="guide-section">
+    <div class="section-title">연동 타입 선택 <span class="section-tag">검토</span></div>
+    <div class="overflow-x-auto mt-3">
+      <table class="xl-table">
+        <thead><tr><th style="width:150px">타입</th><th style="width:130px">방식</th><th>특징 / 적합</th></tr></thead>
+        <tbody>
+          <tr><td><span class="b b-blue">Link Type Plus</span></td><td>결제창 리다이렉트</td><td>GMO 호스팅 결제창으로 이동. 카드정보 미보유(PCI 부담 ↓)·빠른 구축. <strong>초기 오픈 권장</strong></td></tr>
+          <tr><td><span class="b b-violet">OpenAPI Type</span></td><td>서버 API 직접 호출</td><td>거래등록·실행·상태조회를 직접 제어. 결제상태·정산을 어드민에서 직접 관리해야 하면 채택</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout callout-amber"><strong>확정 필요:</strong> 두 타입 중 무엇으로 갈지 미정. 상태·정산 자체 관리 범위에 따라 결정 → 후속 과제(TODO).</div>
+  </div>
+
+  <div class="guide-section">
+    <div class="section-title">결제 처리 플로우 (공통)</div>
+    <div class="mt-3 space-y-0">
+      <div class="step-row"><div class="step-num">1</div><div class="step-body"><div class="step-action">거래 등록</div><div class="step-note">주문 생성 후 MaroPass 서버 → GMO에 거래등록(주문번호·금액·통화 JPY)</div></div></div>
+      <div class="step-row"><div class="step-num">2</div><div class="step-body"><div class="step-action">결제 실행 요청</div><div class="step-note">결제수단(카드/QR/편의점) 지정 → GMO가 결제창 URL 또는 결제 토큰 반환</div></div></div>
+      <div class="step-row"><div class="step-num">3</div><div class="step-body"><div class="step-action">결제창·리다이렉트</div><div class="step-note">카드=결제창(3DS) / QR=PC는 QR 표시·모바일은 앱스위치 / 편의점=번호 발급</div></div></div>
+      <div class="step-row"><div class="step-num">4</div><div class="step-body"><div class="step-action">승인</div><div class="step-note">사용자가 결제 완료(카드 3DS 인증 / 결제 앱 승인 / 편의점 입금)</div></div></div>
+      <div class="step-row"><div class="step-num">5</div><div class="step-body"><div class="step-action">결과 회신 2채널</div><div class="step-note">① 브라우저 리턴 URL 복귀(완료 화면) ② GMO → 서버 결과통지(Webhook)</div></div></div>
+      <div class="step-row"><div class="step-num">6</div><div class="step-body"><div class="step-action">확정</div><div class="step-note">서버가 상태 검증 후 주문 완료·응시권 부여·영수증 활성화</div></div></div>
+    </div>
+    <div class="callout callout-red">
+      <strong>결제 확정은 화면 복귀가 아니라 Webhook 기준으로 처리합니다.</strong> 사용자가 리턴하지 않아도 결제는 성립될 수 있습니다. (운영정책 「QR 결제 방식」과 동일 원칙)
+    </div>
+  </div>
+
+  <div class="guide-section">
+    <div class="section-title">Webhook (결과 통지) 처리 원칙</div>
+    <div class="overflow-x-auto mt-3">
+      <table class="xl-table">
+        <thead><tr><th style="width:160px">항목</th><th>원칙 (초안)</th></tr></thead>
+        <tbody>
+          <tr><td>확정 기준</td><td>Webhook 수신 → 서버가 GMO에 <strong>거래 상태 재조회</strong>로 교차검증 후 주문 확정 (통지 값 단독 신뢰 금지)</td></tr>
+          <tr><td>멱등 처리</td><td>동일 거래ID 중복 통지 대비 — 거래 단위로 <strong>1회만 반영</strong>(멱등키)</td></tr>
+          <tr><td>재통지 대응</td><td>정상 수신 시 즉시 200 응답. 실패 시 GMO 재시도 규칙에 따름</td></tr>
+          <tr><td>출처 검증</td><td>허용 IP·검증 값으로 위조 통지 차단 (사양 확정 필요)</td></tr>
+          <tr><td>미복귀 대비</td><td>사용자가 완료 화면으로 돌아오지 않아도 Webhook로 확정 처리</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="guide-section">
+    <div class="section-title">결제 상태 모델</div>
+    <div class="overflow-x-auto mt-3">
+      <table class="xl-table">
+        <thead><tr><th style="width:130px">상태</th><th>의미</th></tr></thead>
+        <tbody>
+          <tr><td><span class="b b-yellow">대기(pending)</span></td><td>외부 앱·편의점 왕복 중. QR·편의점에서 발생 → 결제 목록 배지에 반영</td></tr>
+          <tr><td><span class="b b-green">완료(승인)</span></td><td>Webhook 확정 완료</td></tr>
+          <tr><td><span class="b b-red">실패</span></td><td>승인 거절·인증 실패</td></tr>
+          <tr><td><span class="b b-slate">취소</span></td><td>사용자 중단·시간 만료</td></tr>
+          <tr><td><span class="b b-orange">환불</span></td><td>전액/부분 환불 (부분환불 지원 범위 확정 필요)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="guide-section">
+    <div class="section-title">환불 연동</div>
+    <div class="mt-3 space-y-0">
+      <div class="step-row"><div class="step-num">1</div><div class="step-body"><div class="step-action">환불 요청 접수</div><div class="step-note">어드민 환불 처리(정책7: 접수기간 내 미응시 건) → GMO 취소/환불 API 호출</div></div></div>
+      <div class="step-row"><div class="step-num">2</div><div class="step-body"><div class="step-action">결과 반영</div><div class="step-note">환불 상태(처리중·완료) 갱신, 정산 예정액 = 매출 − 환불 (운영정책 「정산」)</div></div></div>
+    </div>
+    <div class="callout callout-amber"><strong>확정 필요:</strong> 부분환불·환불 가능 기간·QR/편의점 환불 방식(원거래 취소 vs 반제)은 GMO 사양·계약 기준으로 확정.</div>
+  </div>
+
+  <div class="guide-section">
+    <div class="section-title">테스트 ↔ 운영 전환</div>
+    <div class="overflow-x-auto mt-3">
+      <table class="xl-table">
+        <thead><tr><th style="width:150px">단계</th><th>내용</th></tr></thead>
+        <tbody>
+          <tr><td>테스트 환경</td><td>GMO 테스트 숍ID·테스트 키로 샌드박스 결제 검증(카드·QR·편의점 각 시나리오)</td></tr>
+          <tr><td>환경 분리</td><td>테스트/운영 키·Webhook URL·엔드포인트를 <strong>환경변수·시크릿으로 분리</strong>(공통 인프라)</td></tr>
+          <tr><td>운영 전환 체크</td><td>가맹점 심사 통과 · 실 결제 소액 검증 · 운영 Webhook URL 등록 · 3DS/한도 설정 확인</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="guide-section">
+    <div class="section-title">에러 · 예외 · 재시도</div>
+    <div class="overflow-x-auto mt-3">
+      <table class="xl-table">
+        <thead><tr><th style="width:190px">상황</th><th>처리 (초안)</th></tr></thead>
+        <tbody>
+          <tr><td>결제창 이탈·타임아웃</td><td>대기 유지 → 일정 시간 후 미완료 정리(상태 재조회 후 취소)</td></tr>
+          <tr><td>중복 결제 요청</td><td>주문 단위 잠금·멱등키로 이중 결제 차단</td></tr>
+          <tr><td>Webhook 지연·누락</td><td>주기적 상태 재조회(폴백 배치)로 보완</td></tr>
+          <tr><td>승인 후 서버 오류</td><td>확정 실패 건 재처리 큐 → 응시권 부여 누락 방지</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout callout-blue">
+      본 문서는 <strong>연동 착수 전 검토용</strong>입니다. 구체적 API 파라미터·상태 코드·재시도 주기는 GMO-PG 사양서 확보 후 확정하며, 연동 착수 시 실제 구현 기준으로 본 페이지를 갱신합니다.
     </div>
   </div>
 </div>
@@ -699,7 +828,8 @@ function closeMobileSidebar() { document.getElementById('sidebar').classList.rem
     { id:'certificate',     label:'인증서',                  cat:'4. 성적·등급', kw:'인증서 진단 인증번호 PDF' },
     { id:'revenue-perm',    label:'매출 열람 권한',          cat:'5. 매출·권한', kw:'매출 권한 최고관리자 부관리자 통계' },
     { id:'stats-page',      label:'통계·매출 화면',          cat:'5. 매출·권한', kw:'통계 매출 KPI 순매출 결제수단 상품별' },
-    { id:'admin-accounts',  label:'부관리자 관리',           cat:'6. 관리자 계정', kw:'부관리자 최고관리자 권한 이름 아이디 이메일 임시 비밀번호 RBAC' },
+    { id:'admin-accounts',  label:'부관리자 관리',           cat:'6. 관리자 계정', kw:'부관리자 최고관리자 권한 이름 아이디 이메일 임시 비밀번호 RBAC 계정 생성 원칙 기본 생성 세팅 삭제 불가 2단계 인증' },
+    { id:'pg-integration',  label:'PG 연동 가이드 (초안)',   cat:'7. PG 연동', kw:'PG 연동 가이드 GMO 거래등록 결제실행 Webhook 확정 멱등 연동타입 Link Type Plus OpenAPI 테스트 운영 전환 환불 재시도 상태 대기 pending 개발 전 초안 검토' },
     { id:'todo',            label:'후속 과제 (TODO)',        cat:'부록' },
   ];
 
