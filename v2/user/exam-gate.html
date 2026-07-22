@@ -58,8 +58,15 @@
   .final-status{flex:1;min-width:260px}
   .pass-pill{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;background:var(--grey-100);color:var(--grey-600);border-radius:999px;font-size:13px;font-weight:700}
   .pass-pill.ok{background:var(--green-50);color:var(--green-500)}
-  .final-check{display:flex;gap:10px;align-items:flex-start;cursor:pointer;font-size:13px;color:var(--grey-700);line-height:1.6;margin-top:12px}
-  .final-check input{margin-top:3px;flex-shrink:0}
+  .final-note{font-size:13px;color:var(--grey-500);line-height:1.6;margin:12px 0 0}
+  .final-note strong{color:var(--blue-600)}
+  /* 비활성 버튼 시각화 (디저블 → 활성 전환이 보이도록) */
+  .btn:disabled,.btn:disabled:hover{background:var(--grey-200);color:var(--grey-400);cursor:not-allowed;box-shadow:none;transform:none;border-color:var(--grey-200)}
+  /* 응시 시작이 활성화되는 순간 강조 */
+  #start-exam:not(:disabled){animation:start-ready .45s ease}
+  @keyframes start-ready{0%{transform:scale(.96)}55%{transform:scale(1.04)}100%{transform:scale(1)}}
+  .final-check input:not(:disabled){cursor:pointer}
+  .final-check:has(input:disabled){opacity:.55;cursor:not-allowed}
 </style>
 </head>
 <body data-chrome="off">
@@ -71,35 +78,35 @@
     <button data-loc="ko" class="active" onclick="setLocale('ko')">한국어</button>
     <button data-loc="ja" onclick="setLocale('ja')">日本語</button>
   </div>
-  <button class="exit-btn" title="응시 중단 (마이페이지로)" onclick="exitToMypage()">
+  <button class="exit-btn" data-i18n-title="exitTitle" title="응시 중단 (마이페이지로)" onclick="exitToMypage()">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
   </button>
 </header>
 
 <div class="flow">
   <div class="flow-wrap">
-    <div class="flow-step done"><span class="n">✓</span><span>결제 완료</span></div>
+    <div class="flow-step done"><span class="n">✓</span><span data-i18n="flowPaid">결제 완료</span></div>
     <span class="flow-arrow">→</span>
-    <div class="flow-step done"><span class="n">✓</span><span>시험 시작</span></div>
+    <div class="flow-step done"><span class="n">✓</span><span data-i18n="flowStart">시험 시작</span></div>
     <span class="flow-arrow">→</span>
-    <div class="flow-step active"><span class="n">3</span><span>환경 점검 게이트</span></div>
+    <div class="flow-step active"><span class="n">3</span><span data-i18n="flowGate">환경 점검 게이트</span></div>
     <span class="flow-arrow">→</span>
-    <div class="flow-step"><span class="n">4</span><span>응시 클라이언트</span></div>
+    <div class="flow-step"><span class="n">4</span><span data-i18n="flowClient">응시 클라이언트</span></div>
   </div>
 </div>
 
 <div class="layout">
   <div class="page-head">
     <h1 class="page-title" id="test-name">응시 환경 점검</h1>
-    <p class="page-desc">응시 중 문제가 생기지 않도록 마이크·볼륨·녹음을 미리 확인합니다. 약 1분 소요.</p>
+    <p class="page-desc" data-i18n="pageDesc">응시 중 문제가 생기지 않도록 마이크·볼륨·녹음을 미리 확인합니다. 약 1분 소요.</p>
   </div>
 
   <div class="substep-bar">
-    <div class="substep active" data-step="1"><span class="ico">1</span><span>마이크</span></div>
+    <div class="substep active" data-step="1"><span class="ico">1</span><span data-i18n="subMic">마이크</span></div>
     <span class="substep-divider"></span>
-    <div class="substep" data-step="2"><span class="ico">2</span><span>볼륨</span></div>
+    <div class="substep" data-step="2"><span class="ico">2</span><span data-i18n="subVol">볼륨</span></div>
     <span class="substep-divider"></span>
-    <div class="substep" data-step="3"><span class="ico">3</span><span>5초 리플레이</span></div>
+    <div class="substep" data-step="3"><span class="ico">3</span><span data-i18n="subReplay">5초 리플레이</span></div>
   </div>
 
   <div class="check-card">
@@ -109,33 +116,33 @@
 
     <div class="mic-stage">
       <div class="mic-circle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg></div>
-      <div class="mic-status">● 녹음 중 — 말소리가 잘 잡힙니다</div>
+      <div class="mic-status" data-i18n="micStatus">● 녹음 중 — 말소리가 잘 잡힙니다</div>
       <div class="db-meter"><div class="db-bar low"></div><div class="db-bar low"></div><div class="db-bar low"></div><div class="db-bar mid"></div><div class="db-bar mid"></div><div class="db-bar mid"></div><div class="db-bar"></div><div class="db-bar"></div><div class="db-bar"></div><div class="db-bar"></div></div>
-      <div class="db-value">현재 입력 음량 <strong>-18 dB</strong> · 권장: -24dB ~ -6dB</div>
+      <div class="db-value" data-i18n-html="dbValue">현재 입력 음량 <strong>-18 dB</strong> · 권장: -24dB ~ -6dB</div>
     </div>
 
     <div class="actions">
-      <button class="btn btn-secondary">↺ 다시 시도</button>
+      <button class="btn btn-secondary" data-i18n="retry">↺ 다시 시도</button>
       <button class="btn btn-primary" id="next-step" onclick="passStep()">정상입니다, 다음 단계 →</button>
     </div>
   </div>
 
   <aside class="guide">
-    <h3 class="guide-title">💡 정확한 점검을 위한 팁</h3>
-    <div class="guide-item"><span class="guide-icon">①</span><span><strong>헤드셋 권장</strong> — 내장 마이크보다 인식률이 높습니다.</span></div>
-    <div class="guide-item"><span class="guide-icon">②</span><span><strong>조용한 환경</strong> — TV·라디오·환풍기 꺼주세요.</span></div>
-    <div class="guide-item"><span class="guide-icon">③</span><span><strong>입과 마이크 거리</strong> 10~15cm 유지.</span></div>
-    <div class="guide-item"><span class="guide-icon">④</span><span><strong>다른 녹음 앱 종료</strong> — 마이크 점유 시 인식 실패합니다.</span></div>
-    <div class="guide-tip"><strong>마이크 권한을 거부했나요?</strong><br>주소창의 🔒 → 사이트 설정 → 마이크 → 허용 으로 변경하세요.</div>
+    <h3 class="guide-title" data-i18n="guideTitle">💡 정확한 점검을 위한 팁</h3>
+    <div class="guide-item"><span class="guide-icon">①</span><span data-i18n-html="guide1"><strong>헤드셋 권장</strong> — 내장 마이크보다 인식률이 높습니다.</span></div>
+    <div class="guide-item"><span class="guide-icon">②</span><span data-i18n-html="guide2"><strong>조용한 환경</strong> — TV·라디오·환풍기 꺼주세요.</span></div>
+    <div class="guide-item"><span class="guide-icon">③</span><span data-i18n-html="guide3"><strong>입과 마이크 거리</strong> 10~15cm 유지.</span></div>
+    <div class="guide-item"><span class="guide-icon">④</span><span data-i18n-html="guide4"><strong>다른 녹음 앱 종료</strong> — 마이크 점유 시 인식 실패합니다.</span></div>
+    <div class="guide-tip" data-i18n-html="guideTip"><strong>마이크 권한을 거부했나요?</strong><br>주소창의 🔒 → 사이트 설정 → 마이크 → 허용 으로 변경하세요.</div>
   </aside>
 
   <div class="final-card">
     <div class="final-status">
-      <div style="display:flex;gap:8px;align-items:center"><span style="font-size:14px;font-weight:700">점검 진행 상황</span><span class="pass-pill" id="progress-pill">1 / 3 진행 중</span></div>
-      <label class="final-check"><input type="checkbox" id="agree" disabled onchange="syncStart()"><span>위 점검을 모두 통과했음을 확인하며, 응시 중 마이크 문제로 인한 환불은 점검 통과 이후 발생한 결함에 한정됨에 동의합니다.</span></label>
+      <div style="display:flex;gap:8px;align-items:center"><span style="font-size:14px;font-weight:700" data-i18n="progressLabel">점검 진행 상황</span><span class="pass-pill" id="progress-pill">1 / 3 진행 중</span></div>
+      <p class="final-note" id="final-note">3단계 점검을 모두 통과하면 <strong>응시 시작</strong> 버튼이 활성화됩니다.</p>
     </div>
     <div>
-      <button class="btn btn-primary btn-large" id="start-exam" disabled onclick="openStartModal()">응시 시작 →</button>
+      <button class="btn btn-primary btn-large" id="start-exam" disabled onclick="openStartModal()" data-i18n="startExamBtn">응시 시작 →</button>
     </div>
   </div>
 </div>
@@ -153,72 +160,218 @@
   .sx-list{list-style:none;padding:14px 16px;margin:0 0 20px;background:var(--grey-50);border-radius:12px;text-align:left;display:flex;flex-direction:column;gap:9px}
   .sx-list li{font-size:12.5px;color:var(--grey-700);display:flex;gap:8px;line-height:1.5}
   .sx-list li::before{content:'•';color:var(--blue-500);font-weight:900;flex-shrink:0}
+  .sx-consent{display:flex;gap:10px;align-items:flex-start;text-align:left;background:var(--blue-50);border:1.5px solid rgba(46,132,255,.28);border-radius:12px;padding:14px 16px;margin:0 0 18px;font-size:12.5px;color:var(--grey-700);line-height:1.6;cursor:pointer;transition:background-color .15s,border-color .15s}
+  .sx-consent input{margin-top:2px;flex-shrink:0;width:17px;height:17px;accent-color:var(--blue-500);cursor:pointer}
+  .sx-consent.checked{background:var(--green-50);border-color:rgba(3,178,108,.4)}
+  .sx-consent strong{color:var(--blue-600)}
   .sx-actions{display:flex;gap:10px}
   .sx-actions .btn{flex:1;justify-content:center;padding:14px;font-size:15px;font-weight:800}
 </style>
 <div class="sx-overlay" id="startModal" role="dialog" aria-modal="true">
   <div class="sx-modal">
     <div class="sx-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg></div>
-    <h3 class="sx-title" id="sxTitle">이제 <b>응시</b>를 시작합니다</h3>
+    <h3 class="sx-title" id="sxTitle" data-i18n-html="sxTitle">이제 <b>응시</b>를 시작합니다</h3>
     <p class="sx-body" id="sxName">TOPIK 말하기 초급</p>
     <ul class="sx-list">
-      <li>시작하면 타이머가 작동하고, 시간이 되면 문항이 자동으로 넘어갑니다.</li>
-      <li>영역이 바뀔 때마다 안내가 표시되며, 답변은 자동 저장됩니다.</li>
-      <li>응시 중 이탈하면 진행이 중단될 수 있으니 끝까지 진행해 주세요.</li>
+      <li data-i18n="sxLi1">시작하면 타이머가 작동하고, 시간이 되면 문항이 자동으로 넘어갑니다.</li>
+      <li data-i18n="sxLi2">영역이 바뀔 때마다 안내가 표시되며, 답변은 자동 저장됩니다.</li>
+      <li data-i18n="sxLi3">응시 중 이탈하면 진행이 중단될 수 있으니 끝까지 진행해 주세요.</li>
     </ul>
+    <label class="sx-consent" id="sxConsent">
+      <input type="checkbox" id="sxAgree">
+      <span data-i18n-html="sxConsentText">위 점검을 <strong>모두 통과</strong>했음을 확인하며, 응시 중 마이크 문제로 인한 <strong>환불은 점검 통과 이후 발생한 결함에 한정</strong>됨에 동의합니다.</span>
+    </label>
     <div class="sx-actions">
-      <button class="btn btn-secondary" id="sxCancel">취소</button>
-      <button class="btn btn-primary" id="sxStart">응시 시작</button>
+      <button class="btn btn-secondary" id="sxCancel" data-i18n="sxCancel">취소</button>
+      <button class="btn btn-primary" id="sxStart" disabled data-i18n="sxStart">응시 시작</button>
     </div>
   </div>
 </div>
 
 <a href="../index.html" class="demo-index-link">← ui2 인덱스</a>
 
+<script>
+  window.PAGE_I18N = {
+    ko:{
+      flowPaid:'결제 완료',
+      flowStart:'시험 시작',
+      flowGate:'환경 점검 게이트',
+      flowClient:'응시 클라이언트',
+      pageDesc:'응시 중 문제가 생기지 않도록 마이크·볼륨·녹음을 미리 확인합니다. 약 1분 소요.',
+      subMic:'마이크',
+      subVol:'볼륨',
+      subReplay:'5초 리플레이',
+      micStatus:'● 녹음 중 — 말소리가 잘 잡힙니다',
+      dbValue:'현재 입력 음량 <strong>-18 dB</strong> · 권장: -24dB ~ -6dB',
+      retry:'↺ 다시 시도',
+      guideTitle:'💡 정확한 점검을 위한 팁',
+      guide1:'<strong>헤드셋 권장</strong> — 내장 마이크보다 인식률이 높습니다.',
+      guide2:'<strong>조용한 환경</strong> — TV·라디오·환풍기 꺼주세요.',
+      guide3:'<strong>입과 마이크 거리</strong> 10~15cm 유지.',
+      guide4:'<strong>다른 녹음 앱 종료</strong> — 마이크 점유 시 인식 실패합니다.',
+      guideTip:'<strong>마이크 권한을 거부했나요?</strong><br>주소창의 🔒 → 사이트 설정 → 마이크 → 허용 으로 변경하세요.',
+      progressLabel:'점검 진행 상황',
+      startExamBtn:'응시 시작 →',
+      sxTitle:'이제 <b>응시</b>를 시작합니다',
+      sxLi1:'시작하면 타이머가 작동하고, 시간이 되면 문항이 자동으로 넘어갑니다.',
+      sxLi2:'영역이 바뀔 때마다 안내가 표시되며, 답변은 자동 저장됩니다.',
+      sxLi3:'응시 중 이탈하면 진행이 중단될 수 있으니 끝까지 진행해 주세요.',
+      sxConsentText:'위 점검을 <strong>모두 통과</strong>했음을 확인하며, 응시 중 마이크 문제로 인한 <strong>환불은 점검 통과 이후 발생한 결함에 한정</strong>됨에 동의합니다.',
+      sxCancel:'취소',
+      sxStart:'응시 시작'
+    },
+    ja:{
+      flowPaid:'決済完了',
+      flowStart:'試験開始',
+      flowGate:'環境チェックゲート',
+      flowClient:'受験クライアント',
+      pageDesc:'受験中に問題が起きないよう、マイク・音量・録音を事前に確認します。約1分かかります。',
+      subMic:'マイク',
+      subVol:'音量',
+      subReplay:'5秒リプレイ',
+      micStatus:'● 録音中 — 声がしっかり拾えています',
+      dbValue:'現在の入力音量 <strong>-18 dB</strong> · 推奨: -24dB ~ -6dB',
+      retry:'↺ もう一度試す',
+      guideTitle:'💡 正確なチェックのためのヒント',
+      guide1:'<strong>ヘッドセット推奨</strong> — 内蔵マイクより認識率が高くなります。',
+      guide2:'<strong>静かな環境</strong> — テレビ・ラジオ・換気扇を切ってください。',
+      guide3:'<strong>口とマイクの距離</strong>は10〜15cmを保ってください。',
+      guide4:'<strong>他の録音アプリを終了</strong> — マイクが占有されると認識に失敗します。',
+      guideTip:'<strong>マイクの許可を拒否しましたか？</strong><br>アドレスバーの🔒 → サイトの設定 → マイク → 許可 に変更してください。',
+      progressLabel:'チェックの進行状況',
+      startExamBtn:'受験開始 →',
+      sxTitle:'これから<b>受験</b>を開始します',
+      sxLi1:'開始するとタイマーが作動し、時間になると問題が自動で進みます。',
+      sxLi2:'領域が変わるたびに案内が表示され、回答は自動保存されます。',
+      sxLi3:'受験中に離脱すると進行が中断される場合がありますので、最後まで進めてください。',
+      sxConsentText:'上記のチェックを<strong>すべて通過</strong>したことを確認し、受験中のマイク不具合による<strong>返金はチェック通過後に発生した不具合に限定</strong>されることに同意します。',
+      sxCancel:'キャンセル',
+      sxStart:'受験開始'
+    }
+  };
+</script>
 <script src="assets/user-shell.js"></script>
 <script>
   // 응시 시험명 표시
   var params = new URLSearchParams(location.search);
   var testName = params.get('test') || 'TOPIK 말하기 초급';
-  document.getElementById('test-name').textContent = '응시 환경 점검 — ' + testName;
+
+  // 현재 로케일 헬퍼 (ja 이외는 ko)
+  function LC(){ return document.documentElement.lang === 'ja' ? 'ja' : 'ko'; }
+
+  // 로케일별 JS 문구 사전
+  var T = {
+    ko:{
+      gateTitle:'응시 환경 점검 — ',
+      progressOngoing:function(n){ return n + ' / 3 진행 중'; },
+      progressDone:'모두 통과 ✓',
+      nextNormal:'정상입니다, 다음 단계 →',
+      nextFinish:'정상입니다, 점검 완료 →',
+      nextDone:'점검 완료 ✓',
+      finalDefault:'3단계 점검을 모두 통과하면 <strong>응시 시작</strong> 버튼이 활성화됩니다.',
+      finalDone:'점검이 완료되었습니다. <strong>응시 시작</strong>을 누르면 최종 동의 후 응시가 시작됩니다.',
+      exitConfirm:'응시를 중단하고 마이페이지로 돌아갈까요? 진행 상황은 저장되지 않습니다.',
+      exitTitle:'응시 중단 (마이페이지로)'
+    },
+    ja:{
+      gateTitle:'受験環境チェック — ',
+      progressOngoing:function(n){ return n + ' / 3 進行中'; },
+      progressDone:'すべて通過 ✓',
+      nextNormal:'正常です、次のステップ →',
+      nextFinish:'正常です、チェック完了 →',
+      nextDone:'チェック完了 ✓',
+      finalDefault:'3段階のチェックをすべて通過すると<strong>受験開始</strong>ボタンが有効になります。',
+      finalDone:'チェックが完了しました。<strong>受験開始</strong>を押すと最終同意のうえ受験が始まります。',
+      exitConfirm:'受験を中断してマイページに戻りますか？進行状況は保存されません。',
+      exitTitle:'受験を中断（マイページへ）'
+    }
+  };
 
   var STEPS = [
-    { label:'단계 1 / 3', title:'마이크가 잘 인식되는지 확인합니다', desc:'<strong>"안녕하세요, MaroPass 응시 환경 점검입니다"</strong> 라고 말해 보세요. 아래 게이지가 함께 움직이면 정상입니다.' },
-    { label:'단계 2 / 3', title:'스피커 볼륨을 확인합니다', desc:'재생되는 안내 음성이 <strong>또렷하게 들리는지</strong> 확인하세요. 영역 2·3에서 질문 음성이 재생됩니다.' },
-    { label:'단계 3 / 3', title:'5초 리플레이 — 내 목소리 확인', desc:'방금 녹음된 <strong>내 목소리를 다시 듣고</strong>, 잡음 없이 잘 녹음되는지 확인하세요.' }
+    { label:{ko:'단계 1 / 3', ja:'ステップ 1 / 3'},
+      title:{ko:'마이크가 잘 인식되는지 확인합니다', ja:'マイクが正しく認識されるか確認します'},
+      desc:{ko:'<strong>"안녕하세요, MaroPass 응시 환경 점검입니다"</strong> 라고 말해 보세요. 아래 게이지가 함께 움직이면 정상입니다.', ja:'<strong>「こんにちは、MaroPass 受験環境チェックです」</strong> と話してみてください。下のゲージが一緒に動けば正常です。'} },
+    { label:{ko:'단계 2 / 3', ja:'ステップ 2 / 3'},
+      title:{ko:'스피커 볼륨을 확인합니다', ja:'スピーカーの音量を確認します'},
+      desc:{ko:'재생되는 안내 음성이 <strong>또렷하게 들리는지</strong> 확인하세요. 영역 2·3에서 질문 음성이 재생됩니다.', ja:'再生される案内音声が<strong>はっきり聞こえるか</strong>確認してください。領域2・3で質問音声が再生されます。'} },
+    { label:{ko:'단계 3 / 3', ja:'ステップ 3 / 3'},
+      title:{ko:'5초 리플레이 — 내 목소리 확인', ja:'5秒リプレイ — 自分の声を確認'},
+      desc:{ko:'방금 녹음된 <strong>내 목소리를 다시 듣고</strong>, 잡음 없이 잘 녹음되는지 확인하세요.', ja:'今録音された<strong>自分の声をもう一度聞いて</strong>、ノイズなく録音されているか確認してください。'} }
   ];
   var cur = 1;
   function passStep(){
+    var loc = LC();
     var bar = document.querySelectorAll('.substep');
     bar[cur-1].classList.remove('active'); bar[cur-1].classList.add('done');
     bar[cur-1].querySelector('.ico').textContent = '✓';
     if(cur < 3){
       cur++;
       bar[cur-1].classList.add('active');
-      document.getElementById('step-label').textContent = STEPS[cur-1].label;
-      document.getElementById('step-title').textContent = STEPS[cur-1].title;
-      document.getElementById('step-desc').innerHTML = STEPS[cur-1].desc;
-      document.getElementById('progress-pill').textContent = cur + ' / 3 진행 중';
-      if(cur === 3) document.getElementById('next-step').textContent = '정상입니다, 점검 완료 →';
+      document.getElementById('step-label').textContent = STEPS[cur-1].label[loc];
+      document.getElementById('step-title').textContent = STEPS[cur-1].title[loc];
+      document.getElementById('step-desc').innerHTML = STEPS[cur-1].desc[loc];
+      document.getElementById('progress-pill').textContent = T[loc].progressOngoing(cur);
+      if(cur === 3) document.getElementById('next-step').textContent = T[loc].nextFinish;
     } else {
-      // 모두 통과
+      // 모두 통과 → 응시 시작 버튼 활성화 (동의는 모달에서 받음)
       document.getElementById('next-step').disabled = true;
-      document.getElementById('next-step').textContent = '점검 완료 ✓';
+      document.getElementById('next-step').textContent = T[loc].nextDone;
       var pill = document.getElementById('progress-pill');
-      pill.textContent = '모두 통과 ✓'; pill.classList.add('ok');
-      var agree = document.getElementById('agree'); agree.disabled = false;
+      pill.textContent = T[loc].progressDone; pill.classList.add('ok');
+      document.getElementById('start-exam').disabled = false;
+      var note = document.getElementById('final-note');
+      if (note) note.innerHTML = T[loc].finalDone;
     }
   }
-  function syncStart(){ document.getElementById('start-exam').disabled = !document.getElementById('agree').checked; }
+
+  // 로케일 전환 시 JS로 세팅된 문구를 현재 로케일로 다시 적용
+  window.onLocaleChange = function(loc){
+    loc = (loc === 'ja') ? 'ja' : 'ko';
+    // 게이트 제목(시험명 결합)
+    document.getElementById('test-name').textContent = T[loc].gateTitle + testName;
+    // 현재 단계 텍스트
+    var s = STEPS[cur-1];
+    document.getElementById('step-label').textContent = s.label[loc];
+    document.getElementById('step-title').textContent = s.title[loc];
+    document.getElementById('step-desc').innerHTML = s.desc[loc];
+    // 진행 상황 pill
+    var pill = document.getElementById('progress-pill');
+    var startBtn = document.getElementById('start-exam');
+    var allDone = startBtn && !startBtn.disabled;
+    pill.textContent = allDone ? T[loc].progressDone : T[loc].progressOngoing(cur);
+    // 다음 단계 버튼
+    var next = document.getElementById('next-step');
+    if (next){
+      if (allDone) next.textContent = T[loc].nextDone;
+      else if (cur === 3) next.textContent = T[loc].nextFinish;
+      else next.textContent = T[loc].nextNormal;
+    }
+    // 최종 안내
+    var note = document.getElementById('final-note');
+    if (note) note.innerHTML = allDone ? T[loc].finalDone : T[loc].finalDefault;
+    // 모달 시험명 + 이탈 버튼 title
+    var nm = document.getElementById('sxName'); if (nm) nm.textContent = testName;
+    var exit = document.querySelector('.exit-btn'); if (exit) exit.title = T[loc].exitTitle;
+  };
   function startExam(){ location.href = 'exam.html?test=' + encodeURIComponent(testName) + '&plan=' + (params.get('plan') || 'basic'); }
 
   // 응시 시작 확인 모달
   function openStartModal(){
     if (document.getElementById('start-exam').disabled) return;
     var nm = document.getElementById('sxName'); if (nm) nm.textContent = testName;
+    // 동의 초기화 (매번 다시 동의)
+    var ag = document.getElementById('sxAgree');
+    ag.checked = false;
+    document.getElementById('sxConsent').classList.remove('checked');
+    document.getElementById('sxStart').disabled = true;
     document.getElementById('startModal').classList.add('open');
     document.body.style.overflow = 'hidden';
   }
+  // 모달 내 동의 체크 → 응시 시작 활성화
+  document.getElementById('sxAgree').addEventListener('change', function(){
+    document.getElementById('sxStart').disabled = !this.checked;
+    document.getElementById('sxConsent').classList.toggle('checked', this.checked);
+  });
   function closeStartModal(){
     document.getElementById('startModal').classList.remove('open');
     document.body.style.overflow = '';
@@ -227,7 +380,7 @@
   document.getElementById('sxStart').addEventListener('click', startExam);
   document.getElementById('startModal').addEventListener('click', function(e){ if(e.target === this) closeStartModal(); });
   document.addEventListener('keydown', function(e){ if(e.key==='Escape' && document.getElementById('startModal').classList.contains('open')) closeStartModal(); });
-  function exitToMypage(){ if(confirm('응시를 중단하고 마이페이지로 돌아갈까요? 진행 상황은 저장되지 않습니다.')) location.href = 'mypage-tests.html'; }
+  function exitToMypage(){ if(confirm(T[LC()].exitConfirm)) location.href = 'mypage-tests.html'; }
 </script>
 </body>
 </html>

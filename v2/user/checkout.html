@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MaroPass — 결제</title>
+<title data-i18n="title">MaroPass — 결제</title>
 <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
 <link rel="stylesheet" href="assets/user.css">
 <style>
@@ -36,52 +36,104 @@
 <body data-page="tests" data-authed="true">
 
 <div class="co-layout" id="co-form">
-  <div class="co-h"><h1 class="page-title">결제</h1><p class="page-desc">결제가 완료되면 마이페이지 <strong>응시할 시험</strong>에 바로 추가됩니다.</p></div>
+  <div class="co-h"><h1 class="page-title" data-i18n="pageTitle">결제</h1><p class="page-desc" data-i18n-html="pageDesc">결제가 완료되면 마이페이지 <strong>응시할 시험</strong>에 바로 추가됩니다.</p></div>
   <main>
     <div class="co-sec">
-      <h2>주문 상품</h2>
+      <h2 data-i18n="orderProduct">주문 상품</h2>
       <div class="test-row" style="padding-top:0">
-        <div class="test-thumb">말하기</div>
+        <div class="test-thumb" data-i18n="speaking">말하기</div>
         <div style="flex:1"><div class="test-name" id="co-name" lang="ko">TOPIK 말하기 초급</div><div class="test-meta"><b id="co-plan" style="color:var(--blue-600)">베이직 · AI 자동채점</b> · 결제 후 14일 응시 가능</div></div>
         <div style="font-weight:800" id="co-price">¥4,950</div>
       </div>
     </div>
     <div class="co-sec">
-      <h2>주문자 정보</h2>
-      <div class="field"><label>이름</label><input type="text" value="홍길동"></div>
-      <div class="field"><label>이메일 (영수증·안내 발송)</label><input type="email" value="hong@example.com"></div>
+      <h2 data-i18n="ordererInfo">주문자 정보</h2>
+      <div class="field"><label data-i18n="name">이름</label><input type="text" value="홍길동"></div>
+      <div class="field"><label data-i18n="email">이메일 (영수증·안내 발송)</label><input type="email" value="hong@example.com"></div>
     </div>
     <div class="co-sec">
-      <h2>결제 수단</h2>
-      <div class="pay-opt on" onclick="pick(this)"><span class="dot"></span><span>신용/체크카드</span></div>
+      <h2 data-i18n="paymentMethod">결제 수단</h2>
+      <div class="pay-opt on" onclick="pick(this)"><span class="dot"></span><span data-i18n="creditCard">신용/체크카드</span></div>
       <div class="pay-opt" onclick="pick(this)"><span class="dot"></span><span>PayPay</span></div>
     </div>
   </main>
   <aside>
     <div class="sum-card">
-      <div class="sum-row"><span>상품 금액</span><span id="sum-item">¥4,950</span></div>
+      <div class="sum-row"><span data-i18n="itemAmount">상품 금액</span><span id="sum-item">¥4,950</span></div>
       <div class="sum-row"><span id="sum-disc-label">할인</span><span id="sum-disc">-¥0</span></div>
-      <div class="sum-total"><span>총 결제 금액</span><span id="sum-total">¥4,950</span></div>
-      <button class="btn btn-primary btn-large" style="width:100%;justify-content:center;margin-top:18px" onclick="payNow()">결제하기</button>
-      <p style="font-size:11.5px;color:var(--grey-500);line-height:1.6;margin:12px 0 0">결제 시 이용약관 및 환불 정책에 동의하는 것으로 간주됩니다. 미응시 시 접수 기간 내 환불 신청이 가능합니다.</p>
+      <div class="sum-total"><span data-i18n="totalPay">총 결제 금액</span><span id="sum-total">¥4,950</span></div>
+      <button class="btn btn-primary btn-large" style="width:100%;justify-content:center;margin-top:18px" onclick="payNow()" data-i18n="payBtn">결제하기</button>
+      <p style="font-size:11.5px;color:var(--grey-500);line-height:1.6;margin:12px 0 0" data-i18n="notice">결제 시 이용약관 및 환불 정책에 동의하는 것으로 간주됩니다. 미응시 시 접수 기간 내 환불 신청이 가능합니다.</p>
     </div>
   </aside>
 </div>
 
 <div class="co-success" id="co-success">
   <div class="suc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></div>
-  <h1 class="suc-title">결제가 완료되었습니다 🎉</h1>
-  <p class="suc-desc">응시할 시험에 추가되었어요. 지금 바로 응시하거나, 결제 후 14일 이내 언제든 마이페이지에서 시작할 수 있습니다.</p>
+  <h1 class="suc-title" data-i18n="sucTitle">결제가 완료되었습니다 🎉</h1>
+  <p class="suc-desc" data-i18n="sucDesc">응시할 시험에 추가되었어요. 지금 바로 응시하거나, 결제 후 14일 이내 언제든 마이페이지에서 시작할 수 있습니다.</p>
   <div class="suc-card">
-    <div class="sum-row"><span>상품</span><span id="suc-name" style="font-weight:700;color:var(--grey-900)">TOPIK 말하기 초급</span></div>
-    <div class="sum-row"><span>결제 금액</span><span id="suc-price" style="font-weight:700;color:var(--grey-900)">¥4,950</span></div>
-    <div class="sum-row"><span>응시 기한</span><span style="font-weight:700;color:var(--grey-900)">D-14</span></div>
+    <div class="sum-row"><span data-i18n="product">상품</span><span id="suc-name" style="font-weight:700;color:var(--grey-900)">TOPIK 말하기 초급</span></div>
+    <div class="sum-row"><span data-i18n="payAmount">결제 금액</span><span id="suc-price" style="font-weight:700;color:var(--grey-900)">¥4,950</span></div>
+    <div class="sum-row"><span data-i18n="examDeadline">응시 기한</span><span style="font-weight:700;color:var(--grey-900)">D-14</span></div>
   </div>
-  <a class="btn btn-primary btn-large" style="width:100%;justify-content:center" href="exam-gate.html">지금 바로 응시하기 →</a>
-  <a class="btn btn-secondary" style="width:100%;justify-content:center;margin-top:8px" href="mypage-tests.html">나중에 · 마이페이지로</a>
+  <a class="btn btn-primary btn-large" style="width:100%;justify-content:center" href="exam-gate.html" data-i18n="takeNow">지금 바로 응시하기 →</a>
+  <a class="btn btn-secondary" style="width:100%;justify-content:center;margin-top:8px" href="mypage-tests.html" data-i18n="later">나중에 · 마이페이지로</a>
 </div>
 
-<a href="../index.html" class="demo-index-link">← ui2 인덱스</a>
+<a href="../index.html" class="demo-index-link" data-i18n="indexLink">← ui2 인덱스</a>
+<script>
+window.PAGE_I18N = {
+  ko: {
+    title: "MaroPass — 결제",
+    pageTitle: "결제",
+    pageDesc: "결제가 완료되면 마이페이지 <strong>응시할 시험</strong>에 바로 추가됩니다.",
+    orderProduct: "주문 상품",
+    speaking: "말하기",
+    ordererInfo: "주문자 정보",
+    name: "이름",
+    email: "이메일 (영수증·안내 발송)",
+    paymentMethod: "결제 수단",
+    creditCard: "신용/체크카드",
+    itemAmount: "상품 금액",
+    totalPay: "총 결제 금액",
+    payBtn: "결제하기",
+    notice: "결제 시 이용약관 및 환불 정책에 동의하는 것으로 간주됩니다. 미응시 시 접수 기간 내 환불 신청이 가능합니다.",
+    sucTitle: "결제가 완료되었습니다 🎉",
+    sucDesc: "응시할 시험에 추가되었어요. 지금 바로 응시하거나, 결제 후 14일 이내 언제든 마이페이지에서 시작할 수 있습니다.",
+    product: "상품",
+    payAmount: "결제 금액",
+    examDeadline: "응시 기한",
+    takeNow: "지금 바로 응시하기 →",
+    later: "나중에 · 마이페이지로",
+    indexLink: "← ui2 인덱스"
+  },
+  ja: {
+    title: "MaroPass — 決済",
+    pageTitle: "決済",
+    pageDesc: "決済が完了すると、マイページの<strong>受験する試験</strong>にすぐ追加されます。",
+    orderProduct: "注文商品",
+    speaking: "スピーキング",
+    ordererInfo: "注文者情報",
+    name: "氏名",
+    email: "メールアドレス（領収書・案内送付）",
+    paymentMethod: "決済方法",
+    creditCard: "クレジット/デビットカード",
+    itemAmount: "商品金額",
+    totalPay: "合計金額",
+    payBtn: "決済する",
+    notice: "決済すると、利用規約および返金ポリシーに同意したものとみなされます。未受験の場合、受付期間内に返金申請が可能です。",
+    sucTitle: "決済が完了しました 🎉",
+    sucDesc: "受験する試験に追加されました。今すぐ受験するか、決済後14日以内にいつでもマイページから開始できます。",
+    product: "商品",
+    payAmount: "決済金額",
+    examDeadline: "受験期限",
+    takeNow: "今すぐ受験する →",
+    later: "後で · マイページへ",
+    indexLink: "← ui2 インデックス"
+  }
+};
+</script>
 <script src="assets/user-shell.js"></script>
 <script>
   var p = new URLSearchParams(location.search);

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MaroPass — 결과</title>
+<title data-i18n="doc_title">MaroPass — 결과</title>
 <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
 <link rel="stylesheet" href="assets/user.css">
 <style>
@@ -20,72 +20,140 @@
 
 <div class="mp-layout">
   <aside class="mp-sidebar">
-    <div class="mp-sb-section">시험·결과</div>
-    <a href="mypage.html" class="mp-sb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg><span>대시보드</span></a>
-    <a href="mypage-tests.html" class="mp-sb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg><span>응시할 시험</span><span class="badge">2</span></a>
-    <a href="mypage-results.html" class="mp-sb-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>결과</span></a>
-    <a href="mypage-certificates.html" class="mp-sb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span>인증서</span></a>
-    <div class="mp-sb-section" style="margin-top:8px">결제</div>
-    <a href="mypage-payments.html" class="mp-sb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg><span>결제 내역</span></a>
-    <a href="mypage-refunds.html" class="mp-sb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg><span>환불</span></a>
-    <div class="mp-sb-section" style="margin-top:8px">계정</div>
-    <a href="mypage-profile.html" class="mp-sb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>프로필</span></a>
-    <a href="mypage-inquiries.html" class="mp-sb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span>문의 내역</span></a>
+    <div class="mp-sb-section" data-i18n="sb_sec_exam">시험·결과</div>
+    <a href="mypage.html" class="mp-sb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg><span data-i18n="sb_dashboard">대시보드</span></a>
+    <a href="mypage-tests.html" class="mp-sb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg><span data-i18n="sb_tests">응시할 시험</span><span class="badge">2</span></a>
+    <a href="mypage-results.html" class="mp-sb-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span data-i18n="sb_results">결과</span></a>
+    <a href="mypage-certificates.html" class="mp-sb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span data-i18n="sb_certs">인증서</span></a>
+    <div class="mp-sb-section" style="margin-top:8px" data-i18n="sb_sec_pay">결제</div>
+    <a href="mypage-payments.html" class="mp-sb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg><span data-i18n="sb_payments">결제 내역</span></a>
+    <a href="mypage-refunds.html" class="mp-sb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg><span data-i18n="sb_refunds">환불</span></a>
+    <div class="mp-sb-section" style="margin-top:8px" data-i18n="sb_sec_account">계정</div>
+    <a href="mypage-profile.html" class="mp-sb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span data-i18n="sb_profile">프로필</span></a>
+    <a href="mypage-inquiries.html" class="mp-sb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span data-i18n="sb_inquiries">문의 내역</span></a>
   </aside>
 
   <main>
-    <h1 class="page-title">결과</h1>
-    <p class="page-desc">응시를 마친 시험의 성적표예요. 결과 상세에서 영역별 점수와 발음 피드백을 확인하고, 인증서를 발급받을 수 있습니다.</p>
+    <h1 class="page-title" data-i18n="page_title">결과</h1>
+    <p class="page-desc" data-i18n="page_desc">응시를 마친 시험의 성적표예요. 결과 상세에서 영역별 점수와 발음 피드백을 확인하고, 인증서를 발급받을 수 있습니다.</p>
 
     <div class="mp-kpi-row">
-      <div class="mp-kpi"><div class="lab">완료한 시험</div><div class="val">5<span class="u">회</span></div></div>
-      <div class="mp-kpi"><div class="lab">평균 점수</div><div class="val res-score">132<span class="u">/200</span></div></div>
-      <div class="mp-kpi"><div class="lab">발급 인증서</div><div class="val">1<span class="u">건</span></div></div>
+      <div class="mp-kpi"><div class="lab" data-i18n="kpi_completed">완료한 시험</div><div class="val">5<span class="u" data-i18n="unit_hoe">회</span></div></div>
+      <div class="mp-kpi"><div class="lab" data-i18n="kpi_avg">평균 점수</div><div class="val res-score">132<span class="u">/200</span></div></div>
+      <div class="mp-kpi"><div class="lab" data-i18n="kpi_certs">발급 인증서</div><div class="val">1<span class="u" data-i18n="unit_gun">건</span></div></div>
     </div>
 
     <div class="mp-card">
       <div class="test-row" style="padding-top:0">
-        <div class="res-grade gA"><span class="g">A</span><span class="l">진단</span></div>
+        <div class="res-grade gA"><span class="g">A</span><span class="l" data-i18n="grade_diag">진단</span></div>
         <div style="flex:1">
-          <div class="test-name" lang="ko">TOPIK 말하기 초급</div>
-          <div class="test-meta">응시일 2026-06-28 · 종합 등급 <strong style="color:var(--green-500)">A</strong> · <span class="res-score">145 / 200</span> · <span class="chip-paid">인증서 발급됨</span></div>
+          <div class="test-name" lang="ko" data-i18n="name_topik_beginner">TOPIK 말하기 초급</div>
+          <div class="test-meta" data-i18n-html="meta_r1">응시일 2026-06-28 · 종합 등급 <strong style="color:var(--green-500)">A</strong> · <span class="res-score">145 / 200</span> · <span class="chip-paid">인증서 발급됨</span></div>
         </div>
-        <a class="btn btn-secondary" href="exam-result.html">결과 상세</a>
+        <a class="btn btn-secondary" href="exam-result.html" data-i18n="btn_result_detail">결과 상세</a>
       </div>
       <div class="test-row">
-        <div class="res-grade gB"><span class="g">B</span><span class="l">진단</span></div>
+        <div class="res-grade gB"><span class="g">B</span><span class="l" data-i18n="grade_diag">진단</span></div>
         <div style="flex:1">
-          <div class="test-name" lang="ko">발음 집중 진단 (초급)</div>
-          <div class="test-meta">응시일 2026-06-14 · 종합 등급 <strong style="color:var(--blue-500)">B</strong> · <span class="res-score">128 / 200</span></div>
+          <div class="test-name" lang="ko" data-i18n="name_pron_beginner">발음 집중 진단 (초급)</div>
+          <div class="test-meta" data-i18n-html="meta_r2">응시일 2026-06-14 · 종합 등급 <strong style="color:var(--blue-500)">B</strong> · <span class="res-score">128 / 200</span></div>
         </div>
-        <a class="btn btn-secondary" href="exam-result.html">결과 상세</a>
+        <a class="btn btn-secondary" href="exam-result.html" data-i18n="btn_result_detail">결과 상세</a>
       </div>
       <div class="test-row">
-        <div class="res-grade gB"><span class="g">B</span><span class="l">진단</span></div>
+        <div class="res-grade gB"><span class="g">B</span><span class="l" data-i18n="grade_diag">진단</span></div>
         <div style="flex:1">
-          <div class="test-name" lang="ko">TOPIK 말하기 초급</div>
-          <div class="test-meta">응시일 2026-05-30 · 종합 등급 <strong style="color:var(--blue-500)">B</strong> · <span class="res-score">121 / 200</span></div>
+          <div class="test-name" lang="ko" data-i18n="name_topik_beginner">TOPIK 말하기 초급</div>
+          <div class="test-meta" data-i18n-html="meta_r3">응시일 2026-05-30 · 종합 등급 <strong style="color:var(--blue-500)">B</strong> · <span class="res-score">121 / 200</span></div>
         </div>
-        <a class="btn btn-secondary" href="exam-result.html">결과 상세</a>
+        <a class="btn btn-secondary" href="exam-result.html" data-i18n="btn_result_detail">결과 상세</a>
       </div>
       <div class="test-row">
-        <div class="res-grade gC"><span class="g">C</span><span class="l">진단</span></div>
+        <div class="res-grade gC"><span class="g">C</span><span class="l" data-i18n="grade_diag">진단</span></div>
         <div style="flex:1">
-          <div class="test-name" lang="ko">TOPIK 말하기 중상급</div>
-          <div class="test-meta">응시일 2026-05-12 · 종합 등급 <strong style="color:var(--orange-500)">C</strong> · <span class="res-score">96 / 200</span></div>
+          <div class="test-name" lang="ko" data-i18n="name_topik_upper">TOPIK 말하기 중상급</div>
+          <div class="test-meta" data-i18n-html="meta_r4">응시일 2026-05-12 · 종합 등급 <strong style="color:var(--orange-500)">C</strong> · <span class="res-score">96 / 200</span></div>
         </div>
-        <a class="btn btn-secondary" href="exam-result.html">결과 상세</a>
+        <a class="btn btn-secondary" href="exam-result.html" data-i18n="btn_result_detail">결과 상세</a>
       </div>
     </div>
 
     <div class="notice-info">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-      <span>결과는 응시 종료 직후 자동 채점되어 여기에 기록돼요. 영역별 상세 점수·발음 피드백·모범 답안은 <strong>결과 상세</strong>에서, 인증서는 <a href="mypage-certificates.html" style="font-weight:700;text-decoration:underline">인증서</a> 메뉴에서 확인합니다.</span>
+      <span data-i18n-html="notice_info">결과는 응시 종료 직후 자동 채점되어 여기에 기록돼요. 영역별 상세 점수·발음 피드백·모범 답안은 <strong>결과 상세</strong>에서, 인증서는 <a href="mypage-certificates.html" style="font-weight:700;text-decoration:underline">인증서</a> 메뉴에서 확인합니다.</span>
     </div>
   </main>
 </div>
 
-<a href="../index.html" class="demo-index-link">← ui2 인덱스</a>
+<a href="../index.html" class="demo-index-link" data-i18n="demo_index">← ui2 인덱스</a>
+<script>
+window.PAGE_I18N = {
+  ko: {
+    doc_title: "MaroPass — 결과",
+    sb_sec_exam: "시험·결과",
+    sb_dashboard: "대시보드",
+    sb_tests: "응시할 시험",
+    sb_results: "결과",
+    sb_certs: "인증서",
+    sb_sec_pay: "결제",
+    sb_payments: "결제 내역",
+    sb_refunds: "환불",
+    sb_sec_account: "계정",
+    sb_profile: "프로필",
+    sb_inquiries: "문의 내역",
+    page_title: "결과",
+    page_desc: "응시를 마친 시험의 성적표예요. 결과 상세에서 영역별 점수와 발음 피드백을 확인하고, 인증서를 발급받을 수 있습니다.",
+    kpi_completed: "완료한 시험",
+    unit_hoe: "회",
+    kpi_avg: "평균 점수",
+    kpi_certs: "발급 인증서",
+    unit_gun: "건",
+    grade_diag: "진단",
+    name_topik_beginner: "TOPIK 말하기 초급",
+    name_pron_beginner: "발음 집중 진단 (초급)",
+    name_topik_upper: "TOPIK 말하기 중상급",
+    btn_result_detail: "결과 상세",
+    meta_r1: "응시일 2026-06-28 · 종합 등급 <strong style=\"color:var(--green-500)\">A</strong> · <span class=\"res-score\">145 / 200</span> · <span class=\"chip-paid\">인증서 발급됨</span>",
+    meta_r2: "응시일 2026-06-14 · 종합 등급 <strong style=\"color:var(--blue-500)\">B</strong> · <span class=\"res-score\">128 / 200</span>",
+    meta_r3: "응시일 2026-05-30 · 종합 등급 <strong style=\"color:var(--blue-500)\">B</strong> · <span class=\"res-score\">121 / 200</span>",
+    meta_r4: "응시일 2026-05-12 · 종합 등급 <strong style=\"color:var(--orange-500)\">C</strong> · <span class=\"res-score\">96 / 200</span>",
+    notice_info: "결과는 응시 종료 직후 자동 채점되어 여기에 기록돼요. 영역별 상세 점수·발음 피드백·모범 답안은 <strong>결과 상세</strong>에서, 인증서는 <a href=\"mypage-certificates.html\" style=\"font-weight:700;text-decoration:underline\">인증서</a> 메뉴에서 확인합니다.",
+    demo_index: "← ui2 인덱스"
+  },
+  ja: {
+    doc_title: "MaroPass — 結果",
+    sb_sec_exam: "試験・結果",
+    sb_dashboard: "ダッシュボード",
+    sb_tests: "受験する試験",
+    sb_results: "結果",
+    sb_certs: "証明書",
+    sb_sec_pay: "決済",
+    sb_payments: "決済履歴",
+    sb_refunds: "返金",
+    sb_sec_account: "アカウント",
+    sb_profile: "プロフィール",
+    sb_inquiries: "お問い合わせ履歴",
+    page_title: "結果",
+    page_desc: "受験を終えた試験の成績表です。結果詳細で領域別のスコアと発音フィードバックを確認し、証明書を発行できます。",
+    kpi_completed: "完了した試験",
+    unit_hoe: "回",
+    kpi_avg: "平均点",
+    kpi_certs: "発行証明書",
+    unit_gun: "件",
+    grade_diag: "診断",
+    name_topik_beginner: "TOPIK スピーキング 初級",
+    name_pron_beginner: "発音集中診断（初級）",
+    name_topik_upper: "TOPIK スピーキング 中上級",
+    btn_result_detail: "結果詳細",
+    meta_r1: "受験日 2026-06-28 · 総合グレード <strong style=\"color:var(--green-500)\">A</strong> · <span class=\"res-score\">145 / 200</span> · <span class=\"chip-paid\">証明書発行済み</span>",
+    meta_r2: "受験日 2026-06-14 · 総合グレード <strong style=\"color:var(--blue-500)\">B</strong> · <span class=\"res-score\">128 / 200</span>",
+    meta_r3: "受験日 2026-05-30 · 総合グレード <strong style=\"color:var(--blue-500)\">B</strong> · <span class=\"res-score\">121 / 200</span>",
+    meta_r4: "受験日 2026-05-12 · 総合グレード <strong style=\"color:var(--orange-500)\">C</strong> · <span class=\"res-score\">96 / 200</span>",
+    notice_info: "結果は受験終了直後に自動採点され、ここに記録されます。領域別の詳細スコア・発音フィードバック・模範解答は<strong>結果詳細</strong>で、証明書は<a href=\"mypage-certificates.html\" style=\"font-weight:700;text-decoration:underline\">証明書</a>メニューで確認できます。",
+    demo_index: "← ui2 インデックス"
+  }
+};
+</script>
 <script src="assets/user-shell.js"></script>
 </body>
 </html>

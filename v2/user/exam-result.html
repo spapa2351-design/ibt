@@ -2,12 +2,16 @@
 <html lang="ko">
 <head>
 <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap" rel="stylesheet">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MaroPass IBT — 시험 결과</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
-  html, body { font-family: "Pretendard Variable", "Pretendard JP Variable", Pretendard, "Pretendard JP", -apple-system, BlinkMacSystemFont, system-ui, sans-serif; }
+  html, body { font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, sans-serif; }
+  html[lang="ja"] body { font-family: "Noto Sans JP", "Pretendard Variable", sans-serif; }
   *, *::before, *::after { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; max-width: 100vw; overflow-x: hidden; }
   img, svg, video { max-width: 100%; height: auto; }
@@ -37,13 +41,15 @@
   @keyframes float { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(20px, -20px); } }
 
   .celebrate-wrap { max-width: 760px; margin: 0 auto; text-align: center; position: relative; z-index: 1; }
+  .examinee-name { font-size: 22px; font-weight: 800; color: var(--grey-900); margin-bottom: 4px; letter-spacing: -0.01em; }
+  .examinee-name .suffix { font-size: 15px; font-weight: 600; color: var(--grey-500); margin-left: 2px; }
   .test-name { font-size: 14px; color: var(--grey-700); font-weight: 600; margin-bottom: 8px; }
   .test-date { font-size: 12px; color: var(--grey-500); margin-bottom: 24px; }
   .grade-circle { width: 140px; height: 140px; border-radius: 50%; background: white; box-shadow: 0 16px 40px rgba(15, 23, 42, 0.1); display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 auto 20px; border: 4px solid var(--green-500); }
   .grade-num { font-size: 56px; font-weight: 800; color: var(--green-500); line-height: 1; }
   .grade-label { font-size: 12px; color: var(--grey-600); font-weight: 600; margin-top: 4px; }
-  .score-display { font-size: 48px; font-weight: 800; color: var(--grey-900); margin-bottom: 8px; font-family: 'SF Mono', Menlo, monospace; }
-  .score-display .small { color: var(--grey-500); font-size: 24px; font-weight: 500; }
+  .score-display { font-size: 48px; font-weight: 900; color: var(--grey-900); margin-bottom: 8px; letter-spacing: -0.01em; }
+  .score-display .small { color: var(--grey-500); font-size: 24px; font-weight: 700; }
   .grade-msg { font-size: 18px; color: var(--grey-700); font-weight: 600; }
 
   /* Content sections */
@@ -98,9 +104,16 @@
   .modal-backdrop { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.5); display: none; align-items: center; justify-content: center; z-index: 100; padding: 16px; }
   .modal-backdrop.show { display: flex; }
   .modal { background: white; border-radius: 24px; max-width: 480px; width: 100%; padding: 32px; max-height: 90vh; overflow-y: auto; }
-  .modal-close { position: absolute; top: 12px; right: 12px; width: 32px; height: 32px; border-radius: 50%; background: var(--grey-100); border: none; cursor: pointer; }
+  .modal-close { position: absolute; top: 12px; right: 12px; width: 32px; height: 32px; border-radius: 50%; background: var(--grey-100); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--grey-700); }
+  .modal-close:hover { background: var(--grey-200); }
   .modal-grade { width: 80px; height: 80px; border-radius: 50%; background: var(--gradient-success); display: flex; align-items: center; justify-content: center; font-size: 36px; font-weight: 800; color: var(--green-500); margin: 0 auto 8px; }
   .modal-grade-label { text-align: center; font-size: 13px; font-weight: 700; color: var(--green-500); margin-bottom: 16px; }
+  /* 피드백 모달 이전/다음 문항 이동 버튼 (블랙 라운드 + MUI 아이콘) */
+  .fb-nav { width: 38px; height: 38px; border-radius: 8px; border: 1.5px solid var(--grey-900); background: transparent; color: var(--grey-900); cursor: pointer; padding: 0; display: flex; align-items: center; justify-content: center; transition: background-color .15s, transform .06s; flex-shrink: 0; }
+  .fb-nav svg { width: 22px; height: 22px; fill: currentColor; }
+  .fb-nav:hover:not(:disabled) { background: var(--grey-100); }
+  .fb-nav:active:not(:disabled) { transform: scale(.92); }
+  .fb-nav:disabled { border-color: var(--grey-200); color: var(--grey-300); background: transparent; cursor: default; }
   .answer-compare { background: var(--blue-50); border-left: 3px solid var(--blue-500); border-radius: 0 8px 8px 0; padding: 12px 16px; margin-bottom: 8px; }
   .stt-compare { background: #fef2f2; border-left: 3px solid var(--red-500); border-radius: 0 8px 8px 0; padding: 12px 16px; margin-bottom: 16px; }
   .compare-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
@@ -139,7 +152,7 @@
   .cmp-role { font-size: 11px; font-weight: 800; letter-spacing: 0.4px; margin-bottom: 8px; }
   .cmp-cell .cmp-role { color: var(--grey-500); }
   .cmp-cell.confirmed .cmp-role { color: var(--green-500); }
-  .cmp-score { font-size: 30px; font-weight: 800; font-family: 'SF Mono', Menlo, monospace; color: var(--grey-900); line-height: 1; }
+  .cmp-score { font-size: 30px; font-weight: 900; color: var(--grey-900); line-height: 1; letter-spacing: -0.01em; }
   .cmp-cell.confirmed .cmp-score { color: var(--green-500); }
   .cmp-score .cmp-unit { font-size: 15px; font-weight: 600; color: var(--grey-400); }
   .cmp-meta { font-size: 12.5px; color: var(--grey-600); margin-top: 8px; font-weight: 600; }
@@ -153,7 +166,7 @@
   .prof-comment .pc-sign { font-size: 12px; color: var(--grey-500); margin-top: 14px; text-align: right; }
 
   /* 시연용 상태 토글 */
-  #demoSwitch { position: fixed; bottom: 24px; right: 24px; z-index: 45; display: flex; gap: 4px; background: rgba(255,255,255,0.96); border: 1px solid var(--grey-200); border-radius: 999px; padding: 5px; box-shadow: 0 6px 20px rgba(15,23,42,0.12); backdrop-filter: blur(8px); }
+  #demoSwitch { display: none; position: fixed; bottom: 24px; right: 24px; z-index: 45; gap: 4px; background: rgba(255,255,255,0.96); border: 1px solid var(--grey-200); border-radius: 999px; padding: 5px; box-shadow: 0 6px 20px rgba(15,23,42,0.12); backdrop-filter: blur(8px); }
   #demoSwitch button { border: none; background: transparent; color: var(--grey-600); font-size: 11.5px; font-weight: 700; padding: 6px 11px; border-radius: 999px; cursor: pointer; white-space: nowrap; }
   #demoSwitch button.on { background: var(--grey-900); color: white; }
   @media (max-width: 600px) { #demoSwitch { left: 12px; right: 12px; bottom: 12px; justify-content: center; } }
@@ -176,6 +189,7 @@
 <!-- Celebration Hero -->
 <section class="celebrate-hero">
   <div class="celebrate-wrap">
+    <div class="examinee-name" id="examineeName">홍길동<span class="suffix" data-i18n="name_suffix">님</span></div>
     <div class="test-name" lang="ko">한국어 말하기 · 초급</div>
     <div class="test-date" data-i18n="test_date">응시일 2025-10-23 14:30</div>
 
@@ -305,66 +319,18 @@
   <div class="section-card">
     <h2 class="section-title">📝 <span data-i18n="title_per_q">문항별 점수</span></h2>
 
-    <div class="question-row">
-      <div class="q-num-circle">1</div>
-      <div class="q-info">
-        <div class="q-label" data-i18n="q_type_1">① 짧은 문장 읽기</div>
-        <div class="q-text" lang="ko">화면의 문장을 자연스럽게 읽으십시오.</div>
-      </div>
-      <div class="q-score">17/20</div>
-      <button class="q-feedback-btn" onclick="showModal(0)">AI <span data-i18n="feedback_short">피드백</span></button>
-    </div>
-
-    <div class="question-row">
-      <div class="q-num-circle">2</div>
-      <div class="q-info">
-        <div class="q-label" data-i18n="q_type_2">② 질문 대답</div>
-        <div class="q-text" lang="ko">질문을 듣고 대답하십시오.</div>
-      </div>
-      <div class="q-score">24/30</div>
-      <button class="q-feedback-btn" onclick="showModal(1)">AI <span data-i18n="feedback_short">피드백</span></button>
-    </div>
-
-    <div class="question-row">
-      <div class="q-num-circle">3</div>
-      <div class="q-info">
-        <div class="q-label" data-i18n="q_type_3">③ 생활 속 대화</div>
-        <div class="q-text" lang="ko">상황을 듣고 알맞게 대화하십시오.</div>
-      </div>
-      <div class="q-score">17/24</div>
-      <button class="q-feedback-btn" onclick="showModal(2)">AI <span data-i18n="feedback_short">피드백</span></button>
-    </div>
-
-    <div class="question-row">
-      <div class="q-num-circle">4</div>
-      <div class="q-info">
-        <div class="q-label" data-i18n="q_type_4">④ 그림/사진 설명</div>
-        <div class="q-text" lang="ko">그림을 보고 설명하십시오.</div>
-      </div>
-      <div class="q-score">12/18</div>
-      <button class="q-feedback-btn" onclick="showModal(3)">AI <span data-i18n="feedback_short">피드백</span></button>
-    </div>
-
-    <div class="question-row">
-      <div class="q-num-circle">5</div>
-      <div class="q-info">
-        <div class="q-label" data-i18n="q_type_5">⑤ 화용 과제</div>
-        <div class="q-text" lang="ko">상황에 맞게 적절히 표현하십시오.</div>
-      </div>
-      <div class="q-score">4/8</div>
-      <button class="q-feedback-btn" onclick="showModal(4)">AI <span data-i18n="feedback_short">피드백</span></button>
-    </div>
+    <p style="font-size:12.5px;color:var(--grey-500);margin:0 0 4px;">전체 23문항 · 영역별로 각 문항의 점수와 <strong>내 녹음</strong>을 확인할 수 있어요.</p>
+    <div id="perQ"><!-- JS --></div>
   </div>
 
 
   <!-- CTA -->
   <div class="cta-section">
-    <button class="cta-btn primary" onclick="location.href='mypage-results.html'">
-      📄 <span data-i18n="btn_cert">마이페이지 결과·인증서에서 PDF 다운로드 →</span>
+    <button class="cta-btn primary" onclick="location.href='mypage-certificates.html'">
+      📄 <span data-i18n="btn_cert">인증서 다운로드</span>
     </button>
-    <button class="cta-btn outline" onclick="showModal(0)" data-i18n="btn_review">문제 다시보기</button>
+    <button class="cta-btn outline" onclick="location.href='mypage.html'" data-i18n="btn_mypage">마이페이지</button>
   </div>
-  <button class="cta-btn-block" onclick="location.href='mypage.html'" data-i18n="btn_close">마이페이지로 돌아가기</button>
 </div>
 
 <a href="../index.html" style="position: fixed; bottom: 24px; left: 24px; background: rgba(15,23,42,0.85); color: white; padding: 8px 14px; border-radius: 999px; text-decoration: none; font-size: 12px; font-weight: 600; backdrop-filter: blur(8px); z-index: 40;">← ui2 인덱스</a>
@@ -383,9 +349,9 @@
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
     </button>
     <div style="display:flex; align-items:center; justify-content:center; gap:14px; margin-bottom:2px;">
-      <button id="fbPrev" onclick="fbGo(-1)" aria-label="이전 문항" style="width:30px; height:30px; border-radius:50%; border:1px solid var(--grey-200); background:#fff; color:var(--grey-700); cursor:pointer; font-size:15px; line-height:1;">‹</button>
-      <h3 style="text-align:center; font-size:14px; color:var(--grey-600); font-weight:700; margin:0;"><span id="fbNum">1</span> / 5번 문항 · <span id="fbType">짧은 문장 읽기</span></h3>
-      <button id="fbNext" onclick="fbGo(1)" aria-label="다음 문항" style="width:30px; height:30px; border-radius:50%; border:1px solid var(--grey-200); background:#fff; color:var(--grey-700); cursor:pointer; font-size:15px; line-height:1;">›</button>
+      <button id="fbPrev" class="fb-nav" onclick="fbGo(-1)" aria-label="이전 문항"><svg viewBox="0 0 24 24"><path d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg></button>
+      <h3 style="text-align:center; font-size:14px; color:var(--grey-600); font-weight:700; margin:0;"><span id="fbType">짧은 문장 읽기</span> · <span id="fbNum">1 / 10문항</span></h3>
+      <button id="fbNext" class="fb-nav" onclick="fbGo(1)" aria-label="다음 문항"><svg viewBox="0 0 24 24"><path d="M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg></button>
     </div>
     <h2 style="text-align:center; font-size:16px; color:var(--grey-900); font-weight:700; margin:4px 0 10px;">AI 피드백</h2>
     <div id="fbDots" style="display:flex; justify-content:center; gap:7px; margin-bottom:18px;"></div>
@@ -414,7 +380,7 @@
 
     <div class="stt-compare">
       <div class="compare-head">
-        <div class="compare-label" data-i18n="compare_stt">녹음 (STT)</div>
+        <div class="compare-label" data-i18n="compare_stt">나의 녹음 파일</div>
         <button type="button" class="audio-play" data-player="stt" data-src="fbStt" aria-label="내 녹음 듣기">
           <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="6 4 20 12 6 20 6 4"/></svg><span data-i18n="play_listen">듣기</span>
         </button>
@@ -435,7 +401,7 @@
 <script>
 const i18n = {
   ko: {
-    header_title: '시험 결과',
+    header_title: '시험 결과', name_suffix: '님',
     test_date: '응시일 2025-10-23 14:30',
     grade_unit: '', grade_total: '종합 진단 등급',
     grade_msg: '잘하셨습니다! 진단 등급 A를 받으셨어요 👏',
@@ -446,16 +412,16 @@ const i18n = {
     q_type_1: '① 짧은 문장 읽기', q_type_2: '② 질문 대답', q_type_3: '③ 생활 속 대화',
     q_type_4: '④ 그림/사진 설명', q_type_5: '⑤ 화용 과제',
     feedback_short: '피드백',
-    btn_cert: '마이페이지 결과·인증서에서 PDF 다운로드 →', btn_review: '문제 다시보기', btn_close: '마이페이지로 돌아가기',
+    btn_cert: '인증서 다운로드', btn_mypage: '마이페이지', btn_review: '문제 다시보기', btn_close: '마이페이지로 돌아가기',
     pdf_notice_title: '인증서·결과지·영수증 PDF는 마이페이지에서',
     pdf_notice_desc: '결과지·인증서·영수증 PDF는 마이페이지에서 내려받을 수 있어요. 아래 버튼을 누르면 마이페이지 결과·인증서 화면으로 이동합니다.',
     modal_q_label: '1번 문항', modal_title: 'AI 피드백', modal_pron: '발음은 전체적으로 좋아요!',
-    compare_answer: '정답', compare_stt: '녹음 (STT)',
+    compare_answer: '정답', compare_stt: '나의 녹음 파일',
     play_listen: '듣기', play_stop: '정지',
     practice_title: '💪 추천 연습', btn_confirm: '확인',
   },
   ja: {
-    header_title: '試験結果',
+    header_title: '試験結果', name_suffix: '様',
     test_date: '受験日 2025-10-23 14:30',
     grade_unit: '', grade_total: '総合診断等級',
     grade_msg: 'よくできました! 診断等級Aを取得しました 👏',
@@ -466,11 +432,11 @@ const i18n = {
     q_type_1: '① 短い文の音読', q_type_2: '② 質問応答', q_type_3: '③ 生活会話',
     q_type_4: '④ 絵・写真の説明', q_type_5: '⑤ 語用課題',
     feedback_short: 'フィードバック',
-    btn_cert: 'マイページの結果・証明書で PDF ダウンロード →', btn_review: '問題を見直す', btn_close: 'マイページへ戻る',
+    btn_cert: '証明書ダウンロード', btn_mypage: 'マイページ', btn_review: '問題を見直す', btn_close: 'マイページへ戻る',
     pdf_notice_title: '証明書・結果レポート・領収書PDFはマイページから',
     pdf_notice_desc: '結果票・証明書・領収書のPDFはマイページからダウンロードできます。下のボタンを押すとマイページの結果・証明書画面へ移動します。',
     modal_q_label: '1問目', modal_title: 'AIフィードバック', modal_pron: '発音は全体的に良いです!',
-    compare_answer: '正答', compare_stt: '録音 (STT)',
+    compare_answer: '正答', compare_stt: '私の録音ファイル',
     play_listen: '再生', play_stop: '停止',
     practice_title: '💪 推奨練習', btn_confirm: '確認',
   }
@@ -484,50 +450,101 @@ function setLocale(loc) {
   document.querySelectorAll('.locale-toggle button').forEach((b, i) => b.classList.toggle('active', (i===0&&loc==='ko')||(i===1&&loc==='ja')));
 }
 // ── 문항별 AI 피드백 데이터 (초급 5유형) ──
-var QFB = [
-  { type:'짧은 문장 읽기', g:'A', gl:'Great · 발음이 또렷해요!',
-    q:'화면에 제시된 문장을 소리 내어 읽으십시오.', img:'', al:'정답',
-    a:'만나서 반갑습니다.', stt:'마나서 반갑습니다.',
-    p:["자음 보강: '만나서'의 ㄴ을 만-나-서로 또박또박 읽기","받침 연습: '반-갑-습-니-다' 끝까지 닫아 발음","억양: 말끝을 살짝 내려 ↘로 마무리"] },
-  { type:'질문 대답', g:'B', gl:'Good · 문장으로 잘 답했어요',
-    q:'질문을 듣고 대답하십시오. — “보통 몇 시에 자요?”', img:'', al:'모범 답안',
-    a:'저는 보통 열 시에 자요.', stt:'저는 보통 열시에 자요.',
-    p:["시간 표현 '열 시'를 또렷하게 끊어 발음","종결어미 '-아요/-어요' 자연스럽게","머뭇거림(음…)을 줄여 유창성 높이기"] },
-  { type:'생활 속 대화', g:'B', gl:'Good · 상황에 맞게 대응했어요',
-    q:'카페 상황입니다. 점원의 말을 듣고 알맞게 대답하십시오. — “주문하시겠어요?”', img:'../img/exam01.png', al:'모범 답안',
-    a:'네, 따뜻한 커피 한 잔 주세요. 카드로 계산할게요.', stt:'네 따뜻한 커피 주세요 카드로요.',
-    p:["요청 표현 '-주세요/-부탁드려요' 정확히 쓰기","수량·단위 '한 잔' 빠뜨리지 않기","존댓말 일관성 유지"] },
-  { type:'그림/사진 설명', g:'C', gl:'보완 필요 · 문장을 더 이어보세요',
-    q:'그림을 보고 하루 일과를 순서대로 설명하십시오.', img:'../img/exam01.png', al:'모범 답안',
-    a:'저는 아침 7시에 일어납니다. 세수를 하고 아침을 먹습니다.', stt:'아침에 일어나요 밥 먹어요.',
-    p:["문체 '-습니다/-ㅂ니다' 통일하기","연결어미 '-고, -아서'로 문장 잇기","3문장 이상으로 구성하기"] },
-  { type:'화용 과제', g:'D', gl:'보완 필요 · 완곡 표현을 연습하세요',
-    q:'다음 상황에 맞게 적절히 표현하십시오. — 친구에게 약속 변경을 정중히 부탁하기', img:'', al:'모범 답안',
-    a:'죄송하지만 약속을 다음 주로 미룰 수 있을까요?', stt:'약속 못 가요 미안해요.',
-    p:["완곡 표현 '-을 수 있을까요?'로 부탁하기","사과 → 이유 → 대안 순서로 말하기","반말·직설 표현 피하기"] },
+// 영역(exam.html과 동일 구성: 23문항) — 문항별 개별 점수·녹음
+var AREAS = [
+  { n:1, label:'영역 1 · 짧은 문장 읽기', mx:2 },
+  { n:2, label:'영역 2 · 질문 대답',      mx:6 },
+  { n:3, label:'영역 3 · 생활 속 대화',   mx:6 },
+  { n:4, label:'영역 4 · 그림/사진 설명', mx:6 },
+  { n:5, label:'영역 5 · 화용 과제',      mx:8 },
 ];
+var RQ = '화면의 문장을 소리 내어 읽으십시오.';
+var QFB = [
+  // 영역1 · 짧은 문장 읽기 (10문항 · 2점) = 17
+  { area:1, sc:2, q:RQ, al:'정답', a:'만나서 반갑습니다.', stt:'만나서 반갑습니다.', p:['말끝을 살짝 내려 자연스럽게 마무리'] },
+  { area:1, sc:2, q:RQ, al:'정답', a:'오늘 날씨가 정말 좋네요.', stt:'오늘 날씨가 정말 좋네요.', p:['감탄의 느낌을 살려 읽기'] },
+  { area:1, sc:1, q:RQ, al:'정답', a:'이 책 좀 보여 주세요.', stt:'이 책 좀 보여주세요.', p:['부탁하는 어조 살리기','받침 또렷하게'] },
+  { area:1, sc:2, q:RQ, al:'정답', a:'회의가 몇 시에 시작합니까?', stt:'회의가 몇 시에 시작합니까?', p:['문장 끝을 올려 의문 억양'] },
+  { area:1, sc:2, q:RQ, al:'정답', a:'한국어를 공부하면 친구가 많아져요.', stt:'한국어를 공부하면 친구가 마나져요.', p:['연음 자연스럽게 이어 읽기'] },
+  { area:1, sc:2, q:RQ, al:'정답', a:'저는 매일 운동을 하고 싶어요.', stt:'저는 매일 운동을 하고 싶어요.', p:['또렷한 발음 유지'] },
+  { area:1, sc:1, q:RQ, al:'정답', a:'비가 와서 우산을 가지고 갔어요.', stt:'비가 와서 우사늘 가지고 가써요.', p:['받침 연음에 유의'] },
+  { area:1, sc:2, q:RQ, al:'정답', a:'도서관에서 책을 빌릴 거예요.', stt:'도서관에서 채글 빌릴 거예요.', p:['미래 의지 담아 읽기'] },
+  { area:1, sc:1, q:RQ, al:'정답', a:'감기에 걸려서 어제 학교에 못 갔어요.', stt:'감기에 걸려서 어제 학교에 몯 가써요.', p:['"못" 발음에 주의'] },
+  { area:1, sc:2, q:RQ, al:'정답', a:'한국 음식 중에서 김치가 가장 맛있어요.', stt:'한국 음식 중에서 김치가 가장 마시써요.', p:['"가장" 강조해서 읽기'] },
+  // 영역2 · 질문 대답 (5문항 · 6점) = 24
+  { area:2, sc:6, q:'주말에는 보통 무엇을 합니까?', al:'모범 답안', a:'저는 주말에 보통 친구를 만나서 영화를 보거나 집에서 쉽니다.', stt:'주말에 친구 만나요. 영화 봐요.', p:['"-고 / -거나"로 문장 잇기','한 문장 더 붙여 정보량 늘리기'] },
+  { area:2, sc:5, q:'한국 음식 중에서 어떤 것을 좋아하세요? 이유도 함께 말해 주세요.', al:'모범 답안', a:'저는 불고기를 좋아합니다. 달콤하고 부드러워서 자주 먹습니다.', stt:'불고기 좋아해요. 맛있어요.', p:['이유를 "-아서/어서"로 구체화'] },
+  { area:2, sc:5, q:'고향은 어디입니까? 그곳은 어떤 곳이에요?', al:'모범 답안', a:'제 고향은 오사카입니다. 음식이 맛있고 사람들이 친절한 곳이에요.', stt:'고향은 오사카예요. 좋아요.', p:['특징을 형용사로 2개 이상 설명'] },
+  { area:2, sc:4, q:'한국어를 배우는 이유는 무엇입니까?', al:'모범 답안', a:'한국 드라마를 좋아해서 자막 없이 보고 싶어서 배웁니다.', stt:'드라마 좋아해서요.', p:['목적을 "-고 싶어서"로 마무리'] },
+  { area:2, sc:4, q:'최근에 본 영화나 드라마가 있으면 소개해 주세요.', al:'모범 답안', a:'최근에 한국 드라마를 봤는데 내용이 재미있고 배우들의 연기가 좋았습니다.', stt:'드라마 봤어요. 재미있어요.', p:['감상을 한 문장 더 덧붙이기'] },
+  // 영역3 · 생활 속 대화 (4문항 · 6점) = 17
+  { area:3, sc:5, img:'../img/exam01.png', q:'카페 상황 — 점원: "어서 오세요. 무엇을 드릴까요?"', al:'모범 답안', a:'따뜻한 아메리카노 한 잔 주세요. 카드로 계산할게요.', stt:'아메리카노 주세요. 카드요.', p:['수량·단위 "한 잔" 넣기','존댓말 일관성'] },
+  { area:3, sc:5, q:'길 묻기 — 상대: "실례합니다. 지하철역이 어디에 있어요?"', al:'모범 답안', a:'이 길로 쭉 가시면 오른쪽에 지하철역이 있어요.', stt:'저기 오른쪽에 있어요.', p:['방향 표현 구체적으로'] },
+  { area:3, sc:4, q:'식당 주문 — 점원: "주문하시겠어요? 추천 메뉴 있어요."', al:'모범 답안', a:'그럼 추천 메뉴로 비빔밥 하나 주세요.', stt:'비빔밥 주세요.', p:['상대 제안에 반응 덧붙이기'] },
+  { area:3, sc:3, q:'호텔 체크인 — 직원: "예약하셨나요? 성함이 어떻게 되세요?"', al:'모범 답안', a:'네, 예약했습니다. 제 이름은 다나카입니다.', stt:'네. 다나카요.', p:['문장으로 완결해서 답하기'] },
+  // 영역4 · 그림/사진 설명 (3문항 · 6점) = 12
+  { area:4, sc:5, img:'../img/exam01.png', q:'공원에서 사람들이 하는 활동을 자세히 설명해 보세요.', al:'모범 답안', a:'공원에서 아이들이 공놀이를 하고, 옆에서는 사람들이 산책을 합니다.', stt:'아이들이 놀아요. 사람 많아요.', p:['구체적 동작까지 묘사','3문장 이상으로'] },
+  { area:4, sc:4, q:'전통 시장의 풍경과 분위기를 설명해 주세요.', al:'모범 답안', a:'시장에는 과일과 채소를 파는 가게가 많고, 사람들로 활기찹니다.', stt:'시장이에요. 사람 많아요.', p:['분위기 형용사 추가'] },
+  { area:4, sc:3, q:'교실에서 일어나는 일을 설명해 보세요.', al:'모범 답안', a:'학생들이 자리에 앉아 선생님의 설명을 듣고 있습니다.', stt:'학생들 공부해요.', p:['문체 "-습니다" 통일','문장 확장'] },
+  // 영역5 · 화용 과제 (1문항 · 8점) = 4
+  { area:5, sc:4, q:'상황(일본어 제시): 친구와의 다음 주 약속을 급한 일로 변경하고 싶습니다. 이유를 설명하고 정중히 부탁하세요.', al:'모범 답안', a:'미안한데 다음 주에 급한 일이 생겨서, 약속을 그 다음 주로 미룰 수 있을까요?', stt:'약속 못 가요. 미안해요.', p:['완곡 표현 "-을 수 있을까요?"','사과 → 이유 → 대안 순서'] },
+];
+function areaOf(n){ return AREAS.filter(function(a){ return a.n===n; })[0]; }
 var fbIdx = 0;
-function fbColor(g){ return g==='A' ? 'var(--green-500)' : g==='B' ? 'var(--blue-500)' : g==='C' ? 'var(--orange-500)' : g==='D' ? 'var(--red-500)' : 'var(--grey-600)'; }
 function renderFb(i){
   if (i<0 || i>=QFB.length) return; fbStopAudio(); fbIdx=i; var q=QFB[i];
-  document.getElementById('fbNum').textContent = i+1;
-  document.getElementById('fbType').textContent = q.type;
+  var area = areaOf(q.area);
+  var items = QFB.filter(function(x){ return x.area===q.area; });
+  var within = items.indexOf(q);
+  document.getElementById('fbType').textContent = area.label;
+  document.getElementById('fbNum').textContent = (within+1) + ' / ' + items.length + '문항';
   document.getElementById('fbQuestion').textContent = q.q;
   var wrap=document.getElementById('fbImageWrap'), im=document.getElementById('fbImg');
-  if (q.img) { wrap.style.display='block'; im.src=q.img; im.alt=q.type+' 자료'; }
+  if (q.img) { wrap.style.display='block'; im.src=q.img; im.alt='문항 자료'; }
   else { wrap.style.display='none'; im.removeAttribute('src'); }
-  var g=document.getElementById('fbGrade'); g.textContent=q.g; g.style.background=fbColor(q.g); g.style.color='#fff';
-  var gl=document.getElementById('fbGradeLabel'); gl.textContent=q.gl; gl.style.color=fbColor(q.g);
+  var ratio = area.mx ? q.sc / area.mx : 0;
+  var col = ratio>=0.85 ? 'var(--green-500)' : ratio>=0.6 ? 'var(--blue-500)' : ratio>=0.4 ? 'var(--orange-500)' : 'var(--red-500)';
+  var g=document.getElementById('fbGrade');
+  g.textContent = q.sc;
+  g.style.background=col; g.style.color='#fff'; g.style.fontSize='30px';
+  var glText = ratio>=0.85 ? '아주 좋아요!' : ratio>=0.6 ? '잘했어요' : ratio>=0.4 ? '조금 더 연습해요' : '보완이 필요해요';
+  var gl=document.getElementById('fbGradeLabel'); gl.textContent=glText; gl.style.color=col;
   document.getElementById('fbAnswerLabel').textContent = q.al;
   document.getElementById('fbAnswer').textContent = q.a;
   document.getElementById('fbStt').textContent = q.stt;
   document.getElementById('fbPractice').innerHTML = q.p.map(function(x){ return '<li>'+x+'</li>'; }).join('');
-  document.getElementById('fbDots').innerHTML = QFB.map(function(_,k){
-    return '<span onclick="renderFb('+k+')" style="width:8px;height:8px;border-radius:50%;cursor:pointer;transition:.15s;background:'+(k===i?'var(--blue-500)':'var(--grey-200)')+';"></span>';
+  document.getElementById('fbDots').innerHTML = items.map(function(it){
+    var gk = QFB.indexOf(it);
+    return '<span onclick="renderFb('+gk+')" style="width:8px;height:8px;border-radius:50%;cursor:pointer;transition:.15s;background:'+(it===q?'var(--blue-500)':'var(--grey-200)')+';"></span>';
   }).join('');
   var p=document.getElementById('fbPrev'), n=document.getElementById('fbNext');
   p.disabled=(i===0); p.style.opacity=(i===0?.35:1); p.style.cursor=(i===0?'default':'pointer');
   n.disabled=(i===QFB.length-1); n.style.opacity=(i===QFB.length-1?.35:1); n.style.cursor=(i===QFB.length-1?'default':'pointer');
+}
+// 문항별 점수 목록 (영역별 그룹 · 전체 23문항)
+function renderPerQuestion(){
+  var host = document.getElementById('perQ');
+  if (!host) return;
+  var html = '';
+  AREAS.forEach(function(area, ai){
+    var items = QFB.filter(function(x){ return x.area===area.n; });
+    var sub = items.reduce(function(s,x){ return s + x.sc; }, 0);
+    var max = items.length * area.mx;
+    html += '<div style="display:flex;justify-content:space-between;align-items:center;margin:'+(ai===0?'4px':'20px')+' 0 4px;padding-bottom:6px;border-bottom:1px solid var(--grey-100);">'
+      + '<span style="font-size:14px;font-weight:800;color:var(--grey-900);">'+area.label+'</span>'
+      + '<span style="font-size:12.5px;font-weight:800;color:var(--blue-600);font-family:\'SF Mono\',Menlo,monospace;">'+sub+' / '+max+'점</span></div>';
+    items.forEach(function(q, k){
+      var gk = QFB.indexOf(q);
+      var rowText = (area.n===1) ? q.a : q.q;
+      html += '<div class="question-row">'
+        + '<div class="q-num-circle">'+(k+1)+'</div>'
+        + '<div class="q-info"><div class="q-text" lang="ko">'+rowText+'</div></div>'
+        + '<div class="q-score">'+q.sc+'/'+area.mx+'</div>'
+        + '<button class="q-feedback-btn" onclick="showModal('+gk+')">▶ 듣기·피드백</button>'
+        + '</div>';
+    });
+  });
+  host.innerHTML = html;
 }
 function fbGo(d){ renderFb(fbIdx + d); }
 function showModal(i){ renderFb(typeof i === 'number' ? i : 0); document.getElementById('modal').classList.add('show'); }
@@ -592,6 +609,7 @@ document.getElementById('modal').addEventListener('click', function(e){
 });
 
 setLocale(locale);
+renderPerQuestion();
 renderFb(0);
 
 // ── 플랜/채점 상태 (베이직 · 프리미엄 대기 · 프리미엄 확정) ──

@@ -33,13 +33,16 @@
   .e-note{font-size:12px;color:#8b95a1;line-height:1.6;margin:18px 0 0}
   .e-foot{padding:18px 32px;background:#f9fafb;border-top:1px solid #f2f4f6;font-size:11.5px;color:#8b95a1;line-height:1.6}
   .grade{display:inline-block;font-size:26px;font-weight:800;color:#03b26c}
+  .e-otp{font-size:34px;font-weight:800;letter-spacing:10px;color:#191f28;text-align:center;background:#f2f4f6;border-radius:12px;padding:18px 0 18px 10px;margin:0 0 18px;font-family:'SF Mono',Menlo,Consolas,monospace}
+  .e-warn{background:#fef2f2;border:1px solid #fde0e3;border-radius:10px;padding:12px 14px;font-size:12.5px;color:#c0303c;line-height:1.6;margin:0 0 4px}
+  .e-tag{font-size:11px;font-weight:800;color:#fff;background:#191f28;border-radius:5px;padding:2px 7px;margin-left:8px;vertical-align:middle;letter-spacing:.02em}
 </style>
 </head>
 <body>
 <div class="wrap">
   <div class="page-h">
     <h1>MaroPass 이메일 템플릿 샘플</h1>
-    <p>상품명: TOPIK 말하기 초급 · 6개 케이스 · 케이스별 순수 HTML 복사</p>
+    <p>상품명: TOPIK 말하기 초급 · 7개 케이스 · 케이스별 순수 HTML 복사</p>
   </div>
 
   <!-- 1. 회원가입 -->
@@ -173,6 +176,31 @@
         <p class="e-note">항목별 점수·발음 피드백·모범 답안은 결과 상세에서 확인할 수 있습니다.</p>
       </td></tr>
       <tr><td class="e-foot">© 2026 MaroPass · Newin Japan</td></tr>
+    </tbody></table>
+  </div>
+
+  <!-- 7. 관리자 2단계 인증 (2FA) -->
+  <div class="case">
+    <div class="case-head">
+      <span class="case-label">CASE 7 · 관리자 2단계 인증 (2FA)</span>
+      <button class="copy-btn" onclick="copyEmail('email-7', this)">순수 HTML 복사</button>
+    </div>
+    <table class="email" id="email-7"><tbody>
+      <tr><td class="e-head"><span class="e-logo">Maro<b>Pass</b></span><span class="e-tag">ADMIN</span></td></tr>
+      <tr><td class="e-body">
+        <h2 class="e-title">관리자 로그인 인증 코드</h2>
+        <p class="e-lead">관리자 콘솔 로그인을 위한 <b>2단계 인증(2FA)</b> 코드입니다.<br>아래 6자리 코드를 로그인 화면에 입력해 주세요.</p>
+        <div class="e-otp">418502</div>
+        <div class="e-box">
+          <div class="e-row">계정 · <b>admin@maropass.jp</b></div>
+          <div class="e-row">요청 시각 · <b>2026-07-22 14:03 (JST)</b></div>
+          <div class="e-row">요청 IP · <b>203.0.113.42</b></div>
+          <div class="e-row">유효 시간 · <b>발급 후 5분</b></div>
+        </div>
+        <div class="e-warn">⚠ 본인이 요청하지 않았다면 즉시 비밀번호를 변경하고 시스템 관리자(SA)에게 알려 주세요. 이 코드는 누구에게도 공유하지 마세요.</div>
+        <p class="e-note">보안을 위해 인증 코드는 이메일로만 발송되며, MaroPass 담당자가 코드를 묻는 일은 없습니다.</p>
+      </td></tr>
+      <tr><td class="e-foot">© 2026 MaroPass · Newin Japan · 관리자 전용 보안 메일<br>본 메일은 발신 전용입니다.</td></tr>
     </tbody></table>
   </div>
 

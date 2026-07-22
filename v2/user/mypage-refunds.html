@@ -43,86 +43,154 @@
 
 <div class="mp-layout">
   <aside class="mp-sidebar">
-    <div class="mp-sb-section">시험·결과</div>
-    <a href="mypage.html" class="mp-sb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg><span>대시보드</span></a>
-    <a href="mypage-tests.html" class="mp-sb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg><span>응시할 시험</span><span class="badge">2</span></a>
-    <a href="mypage-results.html" class="mp-sb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>결과</span></a>
-    <a href="mypage-certificates.html" class="mp-sb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span>인증서</span></a>
-    <div class="mp-sb-section" style="margin-top:8px">결제</div>
-    <a href="mypage-payments.html" class="mp-sb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg><span>결제 내역</span></a>
-    <a href="mypage-refunds.html" class="mp-sb-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg><span>환불</span></a>
-    <div class="mp-sb-section" style="margin-top:8px">계정</div>
-    <a href="mypage-profile.html" class="mp-sb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>프로필</span></a>
-    <a href="mypage-inquiries.html" class="mp-sb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span>문의 내역</span></a>
+    <div class="mp-sb-section" data-i18n="sb_sec_exam">시험·결과</div>
+    <a href="mypage.html" class="mp-sb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg><span data-i18n="sb_dashboard">대시보드</span></a>
+    <a href="mypage-tests.html" class="mp-sb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg><span data-i18n="sb_tests">응시할 시험</span><span class="badge">2</span></a>
+    <a href="mypage-results.html" class="mp-sb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span data-i18n="sb_results">결과</span></a>
+    <a href="mypage-certificates.html" class="mp-sb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span data-i18n="sb_certs">인증서</span></a>
+    <div class="mp-sb-section" style="margin-top:8px" data-i18n="sb_sec_pay">결제</div>
+    <a href="mypage-payments.html" class="mp-sb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg><span data-i18n="sb_payments">결제 내역</span></a>
+    <a href="mypage-refunds.html" class="mp-sb-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg><span data-i18n="sb_refunds">환불</span></a>
+    <div class="mp-sb-section" style="margin-top:8px" data-i18n="sb_sec_account">계정</div>
+    <a href="mypage-profile.html" class="mp-sb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span data-i18n="sb_profile">프로필</span></a>
+    <a href="mypage-inquiries.html" class="mp-sb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span data-i18n="sb_inquiries">문의 내역</span></a>
   </aside>
 
   <main>
-    <h1 class="page-title">환불</h1>
-    <p class="page-desc">아직 응시하지 않은 시험은 접수 기간 내 환불 신청이 가능해요. 응시를 시작한 시험은 환불 대상이 아닙니다.</p>
+    <h1 class="page-title" data-i18n="page_title">환불</h1>
+    <p class="page-desc" data-i18n="page_desc">아직 응시하지 않은 시험은 접수 기간 내 환불 신청이 가능해요. 응시를 시작한 시험은 환불 대상이 아닙니다.</p>
 
     <div class="mp-card">
-      <div class="mp-card-head"><h2>환불 가능한 결제</h2></div>
+      <div class="mp-card-head"><h2 data-i18n="card_eligible">환불 가능한 결제</h2></div>
       <div class="rf-eligible">
-        <div class="rf-thumb">말하기</div>
+        <div class="rf-thumb" data-i18n="thumb_speak">말하기</div>
         <div style="flex:1">
           <div class="test-name" lang="ko">TOPIK 말하기 초급</div>
-          <div class="test-meta">2026-05-28 결제 · 미응시 · <span class="chip-paid">환불 가능</span></div>
+          <div class="test-meta" data-i18n-html="meta_paid1">2026-05-28 결제 · 미응시 · <span class="chip-paid">환불 가능</span></div>
         </div>
         <div style="text-align:right">
           <div class="rf-amt">¥4,950</div>
-          <button class="btn btn-secondary" style="margin-top:6px;font-size:13px;padding:7px 14px" onclick="openRf('TOPIK 말하기 초급','¥4,950')">환불 신청</button>
+          <button class="btn btn-secondary" style="margin-top:6px;font-size:13px;padding:7px 14px" onclick="openRf('TOPIK 말하기 초급','¥4,950')" data-i18n="btn_request">환불 신청</button>
         </div>
       </div>
     </div>
 
     <div class="mp-card">
-      <div class="mp-card-head"><h2>환불 진행 내역</h2></div>
+      <div class="mp-card-head"><h2 data-i18n="card_history">환불 진행 내역</h2></div>
       <div class="rf-hist">
         <span class="rf-dot done"></span>
-        <div style="flex:1"><span style="font-weight:700" lang="ko">실전 모의고사 (중상급)</span> <span style="color:var(--grey-500)">· 2026-06-03 신청</span></div>
+        <div style="flex:1"><span style="font-weight:700" lang="ko">실전 모의고사 (중상급)</span> <span style="color:var(--grey-500)" data-i18n="applied_0603">· 2026-06-03 신청</span></div>
         <span class="rf-amt">¥5,940</span>
-        <span class="pill done">환불 완료</span>
+        <span class="pill done" data-i18n="status_done">환불 완료</span>
       </div>
       <div class="rf-hist">
         <span class="rf-dot ing"></span>
-        <div style="flex:1"><span style="font-weight:700" lang="ko">영역별 연습 세트</span> <span style="color:var(--grey-500)">· 2026-06-27 신청</span></div>
+        <div style="flex:1"><span style="font-weight:700" lang="ko">영역별 연습 세트</span> <span style="color:var(--grey-500)" data-i18n="applied_0627">· 2026-06-27 신청</span></div>
         <span class="rf-amt">¥1,980</span>
-        <span class="pill ing">처리 중</span>
+        <span class="pill ing" data-i18n="status_ing">처리 중</span>
       </div>
     </div>
 
     <div class="notice-warn">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-      <span>환불은 원 결제수단으로 처리되며 카드는 3~5영업일 소요됩니다. 응시 기간이 만료된 시험은 환불되지 않으니 유의하세요.</span>
+      <span data-i18n="notice_refund">환불은 원 결제수단으로 처리되며 카드는 3~5영업일 소요됩니다. 응시 기간이 만료된 시험은 환불되지 않으니 유의하세요.</span>
     </div>
   </main>
 </div>
 
 <div class="rf-backdrop" id="rf-modal">
   <div class="rf-modal">
-    <h2>환불 신청</h2>
-    <p><strong id="rf-name" lang="ko">TOPIK 말하기 초급</strong> 결제 건을 환불 신청합니다.</p>
-    <label>환불 사유</label>
+    <h2 data-i18n="modal_title">환불 신청</h2>
+    <p data-i18n-html="modal_desc"><strong id="rf-name" lang="ko">TOPIK 말하기 초급</strong> 결제 건을 환불 신청합니다.</p>
+    <label data-i18n="label_reason">환불 사유</label>
     <select>
-      <option>단순 변심</option>
-      <option>중복 결제</option>
-      <option>시험 정보와 다름</option>
-      <option>기타</option>
+      <option data-i18n="reason_change">단순 변심</option>
+      <option data-i18n="reason_dup">중복 결제</option>
+      <option data-i18n="reason_mismatch">시험 정보와 다름</option>
+      <option data-i18n="reason_etc">기타</option>
     </select>
-    <label>상세 내용 (선택)</label>
-    <textarea placeholder="환불 사유를 자세히 적어주시면 처리에 도움이 됩니다."></textarea>
+    <label data-i18n="label_detail">상세 내용 (선택)</label>
+    <textarea data-i18n-ph="ph_detail" placeholder="환불 사유를 자세히 적어주시면 처리에 도움이 됩니다."></textarea>
     <div class="rf-refundbox">
-      <div class="row"><span>결제 금액</span><span class="rf-amt" id="rf-amt">¥4,950</span></div>
-      <div class="row"><span>환불 예정 금액</span><strong class="rf-amt" id="rf-amt2">¥4,950</strong></div>
+      <div class="row"><span data-i18n="row_paid">결제 금액</span><span class="rf-amt" id="rf-amt">¥4,950</span></div>
+      <div class="row"><span data-i18n="row_expected">환불 예정 금액</span><strong class="rf-amt" id="rf-amt2">¥4,950</strong></div>
     </div>
     <div style="display:flex;gap:8px">
-      <button class="btn btn-secondary" style="flex:1;justify-content:center" onclick="closeRf()">취소</button>
-      <button class="btn btn-primary" style="flex:1.4;justify-content:center" onclick="submitRf(this)">환불 신청하기</button>
+      <button class="btn btn-secondary" style="flex:1;justify-content:center" onclick="closeRf()" data-i18n="btn_cancel">취소</button>
+      <button class="btn btn-primary" style="flex:1.4;justify-content:center" onclick="submitRf(this)" data-i18n="btn_submit">환불 신청하기</button>
     </div>
   </div>
 </div>
 
-<a href="../index.html" class="demo-index-link">← ui2 인덱스</a>
+<a href="../index.html" class="demo-index-link" data-i18n="demo_index">← ui2 인덱스</a>
+<script>
+window.PAGE_I18N = {
+  ko: {
+    sb_sec_exam: '시험·결과', sb_dashboard: '대시보드', sb_tests: '응시할 시험', sb_results: '결과', sb_certs: '인증서',
+    sb_sec_pay: '결제', sb_payments: '결제 내역', sb_refunds: '환불',
+    sb_sec_account: '계정', sb_profile: '프로필', sb_inquiries: '문의 내역',
+    page_title: '환불',
+    page_desc: '아직 응시하지 않은 시험은 접수 기간 내 환불 신청이 가능해요. 응시를 시작한 시험은 환불 대상이 아닙니다.',
+    card_eligible: '환불 가능한 결제',
+    thumb_speak: '말하기',
+    meta_paid1: '2026-05-28 결제 · 미응시 · <span class="chip-paid">환불 가능</span>',
+    btn_request: '환불 신청',
+    card_history: '환불 진행 내역',
+    applied_0603: '· 2026-06-03 신청',
+    applied_0627: '· 2026-06-27 신청',
+    status_done: '환불 완료',
+    status_ing: '처리 중',
+    notice_refund: '환불은 원 결제수단으로 처리되며 카드는 3~5영업일 소요됩니다. 응시 기간이 만료된 시험은 환불되지 않으니 유의하세요.',
+    modal_title: '환불 신청',
+    modal_desc: '<strong id="rf-name" lang="ko">TOPIK 말하기 초급</strong> 결제 건을 환불 신청합니다.',
+    label_reason: '환불 사유',
+    reason_change: '단순 변심',
+    reason_dup: '중복 결제',
+    reason_mismatch: '시험 정보와 다름',
+    reason_etc: '기타',
+    label_detail: '상세 내용 (선택)',
+    ph_detail: '환불 사유를 자세히 적어주시면 처리에 도움이 됩니다.',
+    row_paid: '결제 금액',
+    row_expected: '환불 예정 금액',
+    btn_cancel: '취소',
+    btn_submit: '환불 신청하기',
+    demo_index: '← ui2 인덱스'
+  },
+  ja: {
+    sb_sec_exam: '試験・結果', sb_dashboard: 'ダッシュボード', sb_tests: '受験する試験', sb_results: '結果', sb_certs: '証明書',
+    sb_sec_pay: '決済', sb_payments: '決済履歴', sb_refunds: '返金',
+    sb_sec_account: 'アカウント', sb_profile: 'プロフィール', sb_inquiries: 'お問い合わせ履歴',
+    page_title: '返金',
+    page_desc: 'まだ受験していない試験は、受付期間内であれば返金申請が可能です。受験を開始した試験は返金の対象外です。',
+    card_eligible: '返金可能な決済',
+    thumb_speak: '会話',
+    meta_paid1: '2026-05-28 決済 · 未受験 · <span class="chip-paid">返金可能</span>',
+    btn_request: '返金申請',
+    card_history: '返金の処理状況',
+    applied_0603: '· 2026-06-03 申請',
+    applied_0627: '· 2026-06-27 申請',
+    status_done: '返金完了',
+    status_ing: '処理中',
+    notice_refund: '返金は元の決済手段で処理され、カードの場合は3〜5営業日かかります。受験期間が満了した試験は返金されませんのでご注意ください。',
+    modal_title: '返金申請',
+    modal_desc: '<strong id="rf-name" lang="ko">TOPIK 말하기 초급</strong> の決済を返金申請します。',
+    label_reason: '返金理由',
+    reason_change: '単純な気変わり',
+    reason_dup: '重複決済',
+    reason_mismatch: '試験情報と異なる',
+    reason_etc: 'その他',
+    label_detail: '詳細内容（任意）',
+    ph_detail: '返金理由を詳しくご記入いただくと、処理の参考になります。',
+    row_paid: '決済金額',
+    row_expected: '返金予定金額',
+    btn_cancel: 'キャンセル',
+    btn_submit: '返金を申請する',
+    demo_index: '← ui2 インデックス'
+  }
+};
+window.onLocaleChange=function(loc){var d=(window.PAGE_I18N[loc]||window.PAGE_I18N.ko);document.querySelectorAll('[data-i18n-ph]').forEach(function(e){var k=e.getAttribute('data-i18n-ph');if(d[k]!=null)e.placeholder=d[k];});};
+document.addEventListener('DOMContentLoaded',function(){window.onLocaleChange(document.documentElement.lang||'ko');});
+</script>
 <script src="assets/user-shell.js"></script>
 <script>
   function openRf(name,amt){document.getElementById('rf-name').textContent=name;document.getElementById('rf-amt').textContent=amt;document.getElementById('rf-amt2').textContent=amt;document.getElementById('rf-modal').classList.add('show');}

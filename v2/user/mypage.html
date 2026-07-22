@@ -12,71 +12,107 @@
 <div class="mp-layout">
   <!-- 사이드바 -->
   <aside class="mp-sidebar">
-    <div class="mp-sb-section">시험·결과</div>
-    <a href="mypage.html" class="mp-sb-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg><span>대시보드</span></a>
-    <a href="mypage-tests.html" class="mp-sb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg><span>응시할 시험</span><span class="badge">2</span></a>
-    <a href="mypage-results.html" class="mp-sb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>결과</span></a>
-    <a href="mypage-certificates.html" class="mp-sb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span>인증서</span></a>
-    <div class="mp-sb-section" style="margin-top:8px">결제</div>
-    <a href="mypage-payments.html" class="mp-sb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg><span>결제 내역</span></a>
-    <a href="mypage-refunds.html" class="mp-sb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg><span>환불</span></a>
-    <div class="mp-sb-section" style="margin-top:8px">계정</div>
-    <a href="mypage-profile.html" class="mp-sb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>프로필</span></a>
-    <a href="mypage-inquiries.html" class="mp-sb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span>문의 내역</span></a>
+    <div class="mp-sb-section" data-i18n="sb_sec_exam">시험·결과</div>
+    <a href="mypage.html" class="mp-sb-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg><span data-i18n="sb_dashboard">대시보드</span></a>
+    <a href="mypage-tests.html" class="mp-sb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg><span data-i18n="sb_tests">응시할 시험</span><span class="badge">2</span></a>
+    <a href="mypage-results.html" class="mp-sb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span data-i18n="sb_results">결과</span></a>
+    <a href="mypage-certificates.html" class="mp-sb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span data-i18n="sb_certs">인증서</span></a>
+    <div class="mp-sb-section" style="margin-top:8px" data-i18n="sb_sec_pay">결제</div>
+    <a href="mypage-payments.html" class="mp-sb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg><span data-i18n="sb_payments">결제 내역</span></a>
+    <a href="mypage-refunds.html" class="mp-sb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg><span data-i18n="sb_refunds">환불</span></a>
+    <div class="mp-sb-section" style="margin-top:8px" data-i18n="sb_sec_account">계정</div>
+    <a href="mypage-profile.html" class="mp-sb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span data-i18n="sb_profile">프로필</span></a>
+    <a href="mypage-inquiries.html" class="mp-sb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span data-i18n="sb_inquiries">문의 내역</span></a>
   </aside>
 
   <main>
-    <h1 class="page-title">안녕하세요, 홍길동님 👋</h1>
-    <p class="page-desc">응시 대기 중인 시험 2건이 있어요. 응시부터 결과 확인까지 이 페이지에서 바로 진행됩니다.</p>
+    <h1 class="page-title" data-i18n="greeting">안녕하세요, 홍길동님 👋</h1>
+    <p class="page-desc" data-i18n="desc">응시 대기 중인 시험 2건이 있어요. 응시부터 결과 확인까지 이 페이지에서 바로 진행됩니다.</p>
 
     <div class="mp-kpi-row">
-      <div class="mp-kpi"><div class="lab">응시 대기</div><div class="val" style="color:var(--blue-500)">2<span class="u">건</span></div></div>
-      <div class="mp-kpi"><div class="lab">완료한 시험</div><div class="val">5<span class="u">회</span></div></div>
-      <div class="mp-kpi"><div class="lab">보유 인증서</div><div class="val" style="color:var(--green-500)">3<span class="u">개</span></div></div>
+      <div class="mp-kpi"><div class="lab" data-i18n="kpi_wait">응시 대기</div><div class="val" style="color:var(--blue-500)">2<span class="u" data-i18n="u_geon">건</span></div></div>
+      <div class="mp-kpi"><div class="lab" data-i18n="kpi_done">완료한 시험</div><div class="val">5<span class="u" data-i18n="u_hoe">회</span></div></div>
+      <div class="mp-kpi"><div class="lab" data-i18n="kpi_cert">보유 인증서</div><div class="val" style="color:var(--green-500)">3<span class="u" data-i18n="u_gae">개</span></div></div>
     </div>
 
     <!-- 응시할 시험 -->
     <div class="mp-card">
-      <div class="mp-card-head"><h2>응시할 시험</h2><a class="see-all" href="mypage-tests.html">전체 보기 →</a></div>
+      <div class="mp-card-head"><h2 data-i18n="card_tests">응시할 시험</h2><a class="see-all" href="mypage-tests.html" data-i18n="see_all">전체 보기 →</a></div>
       <div class="test-row">
-        <div class="test-thumb">말하기</div>
+        <div class="test-thumb" data-i18n="thumb_speak">말하기</div>
         <div style="flex:1">
-          <div class="test-name" lang="ko">TOPIK 말하기 초급</div>
-          <div class="test-meta">25분 · 23문항 · <span class="d-day">D-12</span> · <span class="chip-paid">결제 완료</span></div>
+          <div class="test-name" data-i18n="name_topik">TOPIK 말하기 초급</div>
+          <div class="test-meta" data-i18n-html="meta_1">25분 · 23문항 · <span class="d-day">D-12</span> · <span class="chip-paid">결제 완료</span></div>
         </div>
-        <a class="btn btn-primary" href="exam-gate.html?test=TOPIK%20말하기%20초급">응시하기 →</a>
+        <a class="btn btn-primary" href="exam-gate.html?test=TOPIK%20말하기%20초급" data-i18n="btn_take">응시하기 →</a>
       </div>
       <div class="test-row">
-        <div class="test-thumb green">말하기</div>
+        <div class="test-thumb green" data-i18n="thumb_speak">말하기</div>
         <div style="flex:1">
-          <div class="test-name" lang="ko">발음 집중 진단 (초급)</div>
-          <div class="test-meta">15분 · 10문항 · <span class="d-day warn">D-3</span> · <span class="chip-paid">결제 완료</span></div>
+          <div class="test-name" data-i18n="name_pron">발음 집중 진단 (초급)</div>
+          <div class="test-meta" data-i18n-html="meta_2">15분 · 10문항 · <span class="d-day warn">D-3</span> · <span class="chip-paid">결제 완료</span></div>
         </div>
-        <a class="btn btn-primary" href="exam-gate.html?test=발음%20집중%20진단">응시하기 →</a>
+        <a class="btn btn-primary" href="exam-gate.html?test=발음%20집중%20진단" data-i18n="btn_take">응시하기 →</a>
       </div>
     </div>
 
     <!-- 최근 결과 -->
     <div class="mp-card">
-      <div class="mp-card-head"><h2>최근 결과</h2><a class="see-all" href="mypage-results.html">전체 보기 →</a></div>
+      <div class="mp-card-head"><h2 data-i18n="card_recent">최근 결과</h2><a class="see-all" href="mypage-results.html" data-i18n="see_all">전체 보기 →</a></div>
       <div class="test-row">
-        <div class="test-thumb">말하기</div>
+        <div class="test-thumb" data-i18n="thumb_speak">말하기</div>
         <div style="flex:1">
-          <div class="test-name" lang="ko">TOPIK 말하기 초급</div>
-          <div class="test-meta">응시일 2026-06-28 · 종합 등급 <strong style="color:var(--green-500)">A</strong> · 145 / 200</div>
+          <div class="test-name" data-i18n="name_topik">TOPIK 말하기 초급</div>
+          <div class="test-meta" data-i18n-html="meta_result">응시일 2026-06-28 · 종합 등급 <strong style="color:var(--green-500)">A</strong> · 145 / 200</div>
         </div>
-        <a class="btn btn-secondary" href="exam-result.html">결과 보기</a>
+        <a class="btn btn-secondary" href="exam-result.html" data-i18n="btn_view_result">결과 보기</a>
       </div>
     </div>
 
     <div class="notice-info">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-      <span><strong>응시하기</strong>를 누르면 이 사이트 안에서 <strong>환경 점검 → 응시 → 결과</strong>가 순서대로 진행돼요. 별도 창은 열리지 않으며, 결과·인증서·영수증 PDF는 그대로 마이페이지에서 다운로드합니다.</span>
+      <span data-i18n-html="notice"><strong>응시하기</strong>를 누르면 이 사이트 안에서 <strong>환경 점검 → 응시 → 결과</strong>가 순서대로 진행돼요. 별도 창은 열리지 않으며, 결과·인증서·영수증 PDF는 그대로 마이페이지에서 다운로드합니다.</span>
     </div>
   </main>
 </div>
 
 <a href="../index.html" class="demo-index-link">← ui2 인덱스</a>
+<script>
+window.PAGE_I18N = {
+  ko: {
+    sb_sec_exam:'시험·결과', sb_dashboard:'대시보드', sb_tests:'응시할 시험', sb_results:'결과', sb_certs:'인증서',
+    sb_sec_pay:'결제', sb_payments:'결제 내역', sb_refunds:'환불',
+    sb_sec_account:'계정', sb_profile:'프로필', sb_inquiries:'문의 내역',
+    greeting:'안녕하세요, 홍길동님 👋',
+    desc:'응시 대기 중인 시험 2건이 있어요. 응시부터 결과 확인까지 이 페이지에서 바로 진행됩니다.',
+    kpi_wait:'응시 대기', kpi_done:'완료한 시험', kpi_cert:'보유 인증서',
+    u_geon:'건', u_hoe:'회', u_gae:'개',
+    card_tests:'응시할 시험', card_recent:'최근 결과', see_all:'전체 보기 →',
+    thumb_speak:'말하기', name_topik:'TOPIK 말하기 초급', name_pron:'발음 집중 진단 (초급)',
+    meta_1:'25분 · 23문항 · <span class="d-day">D-12</span> · <span class="chip-paid">결제 완료</span>',
+    meta_2:'15분 · 10문항 · <span class="d-day warn">D-3</span> · <span class="chip-paid">결제 완료</span>',
+    meta_result:'응시일 2026-06-28 · 종합 등급 <strong style="color:var(--green-500)">A</strong> · 145 / 200',
+    btn_take:'응시하기 →', btn_view_result:'결과 보기',
+    notice:'<strong>응시하기</strong>를 누르면 이 사이트 안에서 <strong>환경 점검 → 응시 → 결과</strong>가 순서대로 진행돼요. 별도 창은 열리지 않으며, 결과·인증서·영수증 PDF는 그대로 마이페이지에서 다운로드합니다.'
+  },
+  ja: {
+    sb_sec_exam:'試験・結果', sb_dashboard:'ダッシュボード', sb_tests:'受験する試験', sb_results:'結果', sb_certs:'証明書',
+    sb_sec_pay:'決済', sb_payments:'決済履歴', sb_refunds:'返金',
+    sb_sec_account:'アカウント', sb_profile:'プロフィール', sb_inquiries:'お問い合わせ履歴',
+    greeting:'こんにちは、홍길동様 👋',
+    desc:'受験待ちの試験が2件あります。受験から結果確認まで、このページで進められます。',
+    kpi_wait:'受験待ち', kpi_done:'完了した試験', kpi_cert:'保有証明書',
+    u_geon:'件', u_hoe:'回', u_gae:'個',
+    card_tests:'受験する試験', card_recent:'最近の結果', see_all:'すべて見る →',
+    thumb_speak:'会話', name_topik:'TOPIK スピーキング 初級', name_pron:'発音集中診断（初級）',
+    meta_1:'25分 · 23問 · <span class="d-day">D-12</span> · <span class="chip-paid">決済完了</span>',
+    meta_2:'15分 · 10問 · <span class="d-day warn">D-3</span> · <span class="chip-paid">決済完了</span>',
+    meta_result:'受験日 2026-06-28 · 総合グレード <strong style="color:var(--green-500)">A</strong> · 145 / 200',
+    btn_take:'受験する →', btn_view_result:'結果を見る',
+    notice:'<strong>受験する</strong>を押すと、このサイト内で<strong>環境チェック → 受験 → 結果</strong>が順番に進みます。別ウィンドウは開かず、結果・証明書・領収書のPDFはそのままマイページからダウンロードできます。'
+  }
+};
+</script>
 <script src="assets/user-shell.js"></script>
 </body>
 </html>
