@@ -13,7 +13,8 @@
   /* 탭바 + 권한 미리보기 토글 */
   .pay-tabbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px;flex-wrap:wrap}
   .rev-lock{font-size:10px}
-  .perm-preview{display:inline-flex;align-items:center;gap:8px;font-size:12px;color:var(--grey-600);font-weight:700;background:#fff;border:1px dashed var(--grey-300);border-radius:999px;padding:5px 12px;cursor:pointer}
+  .perm-preview{display:none} /* 매출 열람 권한 미리보기 토글 숨김 (요소는 유지 → JS 참조 안전) */
+  .perm-preview.__shown{display:inline-flex;align-items:center;gap:8px;font-size:12px;color:var(--grey-600);font-weight:700;background:#fff;border:1px dashed var(--grey-300);border-radius:999px;padding:5px 12px;cursor:pointer}
   .perm-preview .switch-lbl{color:var(--orange-500)}
   .mini-switch{position:relative;width:34px;height:20px}
   .mini-switch input{position:absolute;opacity:0;width:0;height:0}
@@ -99,7 +100,7 @@
   <div class="pay-tabbar">
     <div class="dtabs" id="dtabs">
       <button class="active" data-tab="payments">결제 내역</button>
-      <button class="perm-revenue" data-tab="stats">매출 통계 <span class="rev-lock">🔒</span></button>
+      <button class="perm-revenue" data-tab="stats">매출 통계</button>
     </div>
     <label class="perm-preview" title="매출 열람 권한이 없는 부관리자 화면을 미리보기">
       <span class="switch-lbl">🔒 매출 열람 권한</span>

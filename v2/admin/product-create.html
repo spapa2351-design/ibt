@@ -42,6 +42,21 @@
   .pc-save{font-size:12.5px;font-weight:700;color:var(--green-500);min-height:16px}
   @media(max-width:620px){.pc-result{margin-left:0;width:100%} .pc-arrow{display:none}}
 
+  /* 기간 토글 (판매기간·응시기간 공용) */
+  .period-seg{display:inline-flex;border:1px solid var(--grey-200);border-radius:9px;overflow:hidden;background:#fff}
+  .period-seg label{padding:8px 16px;font-size:13px;font-weight:700;color:var(--grey-600);cursor:pointer;transition:background .12s,color .12s}
+  .period-seg label:has(input:checked){background:var(--blue-50);color:var(--blue-600)}
+  .period-seg input{position:absolute;opacity:0;pointer-events:none}
+  .period-seg label + label{border-left:1px solid var(--grey-200)}
+  .date-range{display:flex;align-items:center;gap:10px;margin-top:10px}
+  .date-range input[type=date]{border:1px solid var(--grey-200);border-radius:9px;padding:9px 12px;font-family:inherit;font-size:14px;color:var(--grey-900);background:#fff}
+  .date-range input[type=date]:focus{outline:none;border-color:var(--blue-500)}
+  .date-range .sep{color:var(--grey-400)}
+  .is-hidden{display:none}
+  .access-input{display:inline-flex;align-items:center;gap:8px;font-size:14px;color:var(--grey-700);font-weight:600}
+  .access-input input{width:76px;border:1px solid var(--grey-200);border-radius:9px;padding:9px 12px;font-family:inherit;font-size:15px;font-weight:700;text-align:right;color:var(--grey-900);background:#fff}
+  .access-input input:focus{outline:none;border-color:var(--blue-500)}
+
   .sticky-actions{position:sticky;bottom:0;background:rgba(255,255,255,.9);backdrop-filter:blur(6px);border-top:1px solid var(--grey-200);padding:14px 24px;display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:8px}
   .sticky-actions .picked{font-size:13px;color:var(--grey-600)}
   .sticky-actions .picked strong{color:var(--grey-900)}
@@ -163,6 +178,14 @@
     </div>
 
     <div class="field">
+      <label>결제 후 응시기간 <span class="req">*</span></label>
+      <div class="access-input">
+        결제 후 <input id="accessDays" type="number" min="1" value="30"> 일 이내 응시
+      </div>
+      <div class="hint">구매자마다 결제 시점부터 카운트됩니다. 기간이 지나면 응시할 수 없습니다. (판매 종료와 무관하게 이미 구매한 사람의 응시 권한은 이 기간까지 유지)</div>
+    </div>
+
+    <div class="field">
       <label>판매 가격 (JPY) <span class="req">*</span></label>
       <div class="price-calc">
         <div class="pc-row">
@@ -185,6 +208,20 @@
         </div>
       </div>
       <div class="hint">정가와 할인율을 입력하면 최종 판매가가 자동 계산됩니다. (10엔 단위 반올림)</div>
+    </div>
+
+    <div class="field">
+      <label>판매 기간</label>
+      <div class="period-seg" id="salePeriodSeg">
+        <label><input type="radio" name="salePeriod" value="always" checked>상시 판매</label>
+        <label><input type="radio" name="salePeriod" value="ranged">기간 지정</label>
+      </div>
+      <div class="date-range is-hidden" id="salePeriodRange">
+        <input type="date" id="saleStart">
+        <span class="sep">~</span>
+        <input type="date" id="saleEnd">
+      </div>
+      <div class="hint">‘상시 판매’는 종료일 없이 계속 노출됩니다. ‘기간 지정’은 종료일이 지나면 판매가 자동 종료됩니다. (이미 구매한 사람의 응시 권한은 위 ‘결제 후 응시기간’까지 유지)</div>
     </div>
 
     <div class="field" style="max-width:280px;margin-bottom:0">
@@ -239,6 +276,16 @@
     listPrice.addEventListener('input', calc);
     discRate.addEventListener('input', calc);
     calc();
+
+    // 판매 기간: 기간 지정일 때만 날짜 범위 노출
+    var seg = document.getElementById('salePeriodSeg');
+    var range = document.getElementById('salePeriodRange');
+    if (seg && range) {
+      seg.addEventListener('change', function (e) {
+        if (e.target.name !== 'salePeriod') return;
+        range.classList.toggle('is-hidden', e.target.value !== 'ranged');
+      });
+    }
   })();
 </script>
 <script>

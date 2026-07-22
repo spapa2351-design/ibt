@@ -26,6 +26,12 @@
   .tree-item.active .count { color: var(--blue-500); }
   .tree-divider { height: 1px; background: var(--grey-100); margin: 6px 4px; }
   .tree-caption { font-size: 10px; font-weight: 800; color: var(--grey-400); letter-spacing: 0.4px; padding: 4px 10px 2px; }
+  .tree-item .cat-name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .tree-item .pin { font-size: 11px; color: var(--orange-500); flex-shrink: 0; }
+
+  /* 상단 레벨 세그먼트 */
+  .qb-level-bar { display: flex; align-items: center; gap: 12px; padding: 14px 20px 0; }
+  .qb-level-bar .lbl { font-size: 12px; font-weight: 800; color: var(--grey-700); }
 
   .filter-input .plus { width: 24px; height: 24px; border-radius: 50%; background: var(--blue-50); color: var(--blue-500); display: flex; align-items: center; justify-content: center; font-weight: 700; }
 
@@ -65,9 +71,59 @@
   .filter-axis-note { font-size: 11px; color: var(--grey-500); }
   .filter-axis-note strong { color: var(--grey-700); font-weight: 700; }
 
+  /* ── 분류 모달 (관리 / 등록) ── */
+  .cm-overlay { position: fixed; inset: 0; background: rgba(15,23,42,0.5); display: none; align-items: center; justify-content: center; z-index: 9990; padding: 24px; }
+  .cm-overlay.open { display: flex; }
+  .cm-card { background: #fff; border-radius: 18px; width: 100%; box-shadow: 0 24px 70px rgba(15,23,42,0.3); font-family: inherit; display: flex; flex-direction: column; max-height: 86vh; }
+  .cm-head { display: flex; align-items: flex-start; justify-content: space-between; padding: 22px 24px; }
+  .cm-titles h3 { font-size: 19px; font-weight: 800; color: var(--grey-900); margin: 0; }
+  .cm-titles p { font-size: 12.5px; color: var(--grey-500); margin: 6px 0 0; }
+  .cm-x { width: 34px; height: 34px; border-radius: 9px; border: none; background: var(--grey-100); color: var(--grey-600); cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .cm-x:hover { background: var(--grey-200); color: var(--grey-900); }
+
+  /* 관리 모달 */
+  .cm-manage { max-width: 620px; }
+  .cm-toolbar { display: flex; gap: 12px; padding: 0 24px 14px; }
+  .cm-search { flex: 1; position: relative; }
+  .cm-search svg { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px; color: var(--grey-400); }
+  .cm-search input { width: 100%; padding: 11px 14px 11px 40px; border: 1px solid var(--grey-200); border-radius: 12px; font-size: 13.5px; font-family: inherit; color: var(--grey-900); }
+  .cm-search input:focus { border-color: var(--blue-500); outline: none; }
+  .cm-new-btn { display: inline-flex; align-items: center; gap: 6px; padding: 0 18px; border: 1px solid var(--blue-500); border-radius: 12px; background: #fff; color: var(--blue-600); font-size: 13.5px; font-weight: 800; cursor: pointer; white-space: nowrap; }
+  .cm-new-btn:hover { background: var(--blue-50); }
+  .cm-list { overflow-y: auto; border-top: 1px solid var(--grey-100); }
+  .cm-row { display: flex; align-items: center; gap: 12px; padding: 14px 24px; border-bottom: 1px solid var(--grey-100); background: #fff; }
+  .cm-row[draggable="true"] { cursor: grab; }
+  .cm-row:hover { background: var(--grey-50); }
+  .cm-row.dragging { opacity: 0.4; }
+  .cm-row.drag-over { box-shadow: inset 0 2px 0 var(--blue-500); }
+  .cm-grip { color: var(--grey-300); flex-shrink: 0; display: flex; }
+  .cm-name { font-size: 14px; font-weight: 600; color: var(--grey-900); flex-shrink: 0; min-width: 190px; display: flex; align-items: center; gap: 6px; }
+  .cm-name .pin { color: var(--orange-500); }
+  .cm-desc { font-size: 13px; color: var(--grey-400); flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .cm-del { opacity: 0; width: 28px; height: 28px; border-radius: 7px; border: none; background: transparent; color: var(--grey-400); cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .cm-row:hover .cm-del { opacity: 1; }
+  .cm-del:hover { background: var(--red-50); color: var(--red-500); }
+  .cm-empty { padding: 44px 24px; text-align: center; color: var(--grey-400); font-size: 13px; }
+
+  /* 등록 모달 */
+  .cm-create { max-width: 600px; z-index: 9992; }
+  .cm-create .cm-head { border-bottom: 1px solid var(--grey-100); }
+  .cm-body { padding: 22px 24px; }
+  .cm-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .cm-inp { width: 100%; padding: 12px 14px; border: 1px solid var(--grey-200); border-radius: 12px; font-size: 14px; font-family: inherit; color: var(--grey-900); }
+  .cm-inp:focus { border-color: var(--blue-500); outline: none; }
+  .cm-foot { display: flex; justify-content: flex-end; padding: 16px 24px; border-top: 1px solid var(--grey-100); }
+  .cm-submit { display: inline-flex; align-items: center; gap: 7px; padding: 11px 22px; border-radius: 11px; border: none; background: var(--blue-500); color: #fff; font-size: 14px; font-weight: 800; cursor: pointer; transition: background 0.12s; }
+  .cm-submit:hover { background: var(--blue-600); }
+  .cm-submit:disabled { background: var(--grey-100); color: var(--grey-400); cursor: not-allowed; }
+
   @media (max-width: 1024px) {
     .qb-grid { grid-template-columns: 1fr; }
     .tree-card { position: static; }
+  }
+  @media (max-width: 560px) {
+    .cm-fields { grid-template-columns: 1fr; }
+    .cm-name { min-width: 120px; }
   }
 </style>
 </head>
@@ -86,17 +142,26 @@
 
   <div class="qb-grid">
 
-    <!-- 좌: 레벨 트리 -->
+    <!-- 좌: 분류 트리 (기존 터치클래스 문제은행과 동일) -->
     <aside class="tree-card">
       <div class="tree-head">
-        <div class="tree-title">레벨</div>
-        <button class="tree-cog" title="분류 설정"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>
+        <div class="tree-title">분류</div>
+        <button class="tree-cog" id="catManageBtn" title="분류 관리"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>
       </div>
-      <div class="tree-list" id="level-tree"><!-- JS --></div>
+      <div class="tree-list" id="cat-tree"><!-- JS --></div>
     </aside>
 
     <!-- 우: 표 -->
     <div class="card">
+      <!-- 레벨: 좌측 트리 대신 상단 세그먼트로 이동 -->
+      <div class="qb-level-bar">
+        <span class="lbl">레벨</span>
+        <div class="seg" id="levelSeg">
+          <button data-level="all" class="active">전체</button>
+          <button data-level="beginner">초급</button>
+          <button data-level="mid">중상급</button>
+        </div>
+      </div>
       <div class="filter-bar" style="flex-direction: column; align-items: stretch; gap: 10px;">
         <div style="display:flex; align-items:center; gap:12px;">
           <div class="filter-input" style="flex:1;">
@@ -131,6 +196,7 @@
         <thead>
           <tr>
             <th style="width:48px;"><input type="checkbox"></th>
+            <th style="width:120px;">분류</th>
             <th style="width:76px;">레벨</th>
             <th style="min-width:150px;">문제 유형</th>
             <th>질문</th>
@@ -160,6 +226,49 @@
   </div>
 </div>
 
+<!-- ── 분류 관리 모달 ── -->
+<div class="cm-overlay" id="catManageOverlay">
+  <div class="cm-card cm-manage">
+    <div class="cm-head">
+      <div class="cm-titles">
+        <h3>분류 관리</h3>
+        <p>드래그 앤 드롭하여 순서를 변경할 수 있습니다.</p>
+      </div>
+      <button class="cm-x" id="cmManageClose" title="닫기"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+    <div class="cm-toolbar">
+      <div class="cm-search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="cmSearch" placeholder="분류 검색">
+      </div>
+      <button class="cm-new-btn" id="cmNewBtn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> 새 분류</button>
+    </div>
+    <div class="cm-list" id="cmList"><!-- JS --></div>
+  </div>
+</div>
+
+<!-- ── 새 분류 등록 모달 ── -->
+<div class="cm-overlay" id="catCreateOverlay">
+  <div class="cm-card cm-create">
+    <div class="cm-head">
+      <div class="cm-titles"><h3>새 분류 등록</h3></div>
+      <button class="cm-x" id="cmCreateClose" title="닫기"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+    <div class="cm-body">
+      <div class="cm-fields">
+        <input class="cm-inp" type="text" id="cmName" placeholder="분류명" maxlength="40">
+        <input class="cm-inp" type="text" id="cmDesc" placeholder="설명" maxlength="80">
+      </div>
+    </div>
+    <div class="cm-foot">
+      <button class="cm-submit" id="cmSubmit" disabled>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        등록
+      </button>
+    </div>
+  </div>
+</div>
+
 <script src="assets/admin-shell.js"></script>
 <script>
 // ─── 문제 은행 SSOT — 문제 만들기(question-create.html)의 LEVELS 모델과 정렬 ───
@@ -168,6 +277,21 @@ const LEVELS = {
   beginner: { label:'초급', badgeCls:'badge-lv-beg', short:'초', total:238 },
   mid:      { label:'중상급', badgeCls:'badge-lv-mid', short:'중', total:174 },
 };
+
+// ─── 분류(카테고리) — 기존 터치클래스 문제은행의 좌측 분류 트리와 동일 개념 ───
+// 사용자가 자유롭게 만드는 폴더형 분류. 레벨과 별개의 교차 축.
+const CATEGORIES = {
+  reg1: { label:'정기시험 1회',   total:96, fav:true, desc:'상반기 정기 평가 출제 문항' },
+  reg2: { label:'정기시험 2회',   total:88, desc:'하반기 정기 평가 출제 문항' },
+  mock: { label:'모의고사',       total:74, desc:'실전 대비 모의 문항' },
+  pron: { label:'발음·읽기 연습', total:52, desc:'발음·낭독 훈련용' },
+  conv: { label:'회화·역할극',    total:61, desc:'상황별 역할 수행 과제' },
+  prag: { label:'화용 과제',      total:33, desc:'의뢰·거절 등 화행 과제' },
+  none: { label:'미분류',         total:8,  desc:'' },
+};
+// 분류 표시 순서 (드래그로 재정렬)
+let CAT_ORDER = Object.keys(CATEGORIES);
+let catSeq = 0; // 신규 분류 키 생성용
 
 // 유형 카탈로그 (create의 types와 동일 키/라벨/kind/분류축)
 const TYPES = [
@@ -192,29 +316,30 @@ const TYPE_MAP = Object.fromEntries(TYPES.map(t => [t.key, t]));
 
 // 샘플 문항 (유형별 분류축 값 = 태그)
 const QUESTIONS = [
-  { id:'Q-1051', type:'read',      q:'만나서 반갑습니다. — 문장을 자연스럽게 읽어 보세요.',              tags:['평서문','연음화'],       date:'2026-04-22' },
-  { id:'Q-1042', type:'qa',        q:'보통 몇 시에 자요?',                                              tags:['생활 습관'],            date:'2026-04-22' },
-  { id:'Q-1039', type:'qa',        q:'오늘 아침에 한 일을 순서대로 말해 보세요.',                        tags:['과거 경험'],            date:'2026-04-18' },
-  { id:'Q-1036', type:'dialog',    q:'카페에서 음료를 주문하는 상황 — 점원의 말을 듣고 알맞게 대답하세요.', tags:['카페'],                 date:'2026-04-17' },
-  { id:'Q-1031', type:'dialog',    q:'식당에서 메뉴를 보고 친구에게 음식을 추천해 보세요.',              tags:['식당'],                 date:'2026-04-14' },
-  { id:'Q-1028', type:'describe',  q:'사진 속 풍경을 보고 자유롭게 설명해 보세요.',                      tags:['상황·동작'],            date:'2026-04-13' },
-  { id:'Q-1024', type:'describe',  q:'하루 일과 그림을 보고 시간 순서대로 설명해 보세요.',               tags:['시간적 변화'],          date:'2026-04-11' },
-  { id:'Q-1019', type:'pragmatic', q:'친구에게 약속 변경을 정중히 부탁하는 상황을 한국어로 말해 보세요.',  tags:['의뢰'],                 date:'2026-04-09' },
-  { id:'Q-0992', type:'m-read',    q:'한국어를 공부하면 친구가 많아져요. — 두 절을 자연스럽게 이어 읽어 보세요.', tags:['복문','유음화'],  date:'2026-04-08' },
-  { id:'Q-0987', type:'m-qa',      q:'자신의 취미와 그것을 시작하게 된 계기를 이야기해 보세요.',          tags:['취미'],                 date:'2026-04-06' },
-  { id:'Q-0981', type:'m-role',    q:'미용실에서 원하는 머리 스타일을 구체적으로 요청해 보세요.',         tags:['미용실'],               date:'2026-04-04' },
-  { id:'Q-0975', type:'m-desc',    q:'회의 장면을 보고 인물들의 행동과 분위기를 설명해 보세요.',          tags:['회의'],                 date:'2026-04-02' },
-  { id:'Q-0970', type:'m-seq',     q:'김치볶음밥을 만드는 순서를 그림을 보고 차례대로 설명해 보세요.',     tags:['요리법'],               date:'2026-03-31' },
-  { id:'Q-0964', type:'m-act',     q:'회사 동기가 50만원을 빌려달라고 합니다. 상황에 맞게 정중히 거절해 보세요.', tags:['거절'],          date:'2026-03-28' },
-  { id:'Q-0958', type:'m-data',    q:'스마트폰 과다 사용 비율 그래프를 해석하고 원인과 의견을 말해 보세요.', tags:['사회 현상'],          date:'2026-03-25' },
-  { id:'Q-0953', type:'m-opdialog',q:'공공장소 예절에 대한 대화를 듣고 자신의 의견을 제시해 보세요.',      tags:['공공 예절'],            date:'2026-03-22' },
-  { id:'Q-0947', type:'m-present', q:'여자 대학의 남녀공학 전환에 대한 의견을 근거를 들어 발표해 보세요.',  tags:['사회','교육'],          date:'2026-03-19' },
+  { id:'Q-1051', type:'read',      cat:'pron', q:'만나서 반갑습니다. — 문장을 자연스럽게 읽어 보세요.',              tags:['평서문','연음화'],       date:'2026-04-22' },
+  { id:'Q-1042', type:'qa',        cat:'reg1', q:'보통 몇 시에 자요?',                                              tags:['생활 습관'],            date:'2026-04-22' },
+  { id:'Q-1039', type:'qa',        cat:'reg1', q:'오늘 아침에 한 일을 순서대로 말해 보세요.',                        tags:['과거 경험'],            date:'2026-04-18' },
+  { id:'Q-1036', type:'dialog',    cat:'conv', q:'카페에서 음료를 주문하는 상황 — 점원의 말을 듣고 알맞게 대답하세요.', tags:['카페'],                 date:'2026-04-17' },
+  { id:'Q-1031', type:'dialog',    cat:'conv', q:'식당에서 메뉴를 보고 친구에게 음식을 추천해 보세요.',              tags:['식당'],                 date:'2026-04-14' },
+  { id:'Q-1028', type:'describe',  cat:'mock', q:'사진 속 풍경을 보고 자유롭게 설명해 보세요.',                      tags:['상황·동작'],            date:'2026-04-13' },
+  { id:'Q-1024', type:'describe',  cat:'mock', q:'하루 일과 그림을 보고 시간 순서대로 설명해 보세요.',               tags:['시간적 변화'],          date:'2026-04-11' },
+  { id:'Q-1019', type:'pragmatic', cat:'prag', q:'친구에게 약속 변경을 정중히 부탁하는 상황을 한국어로 말해 보세요.',  tags:['의뢰'],                 date:'2026-04-09' },
+  { id:'Q-0992', type:'m-read',    cat:'pron', q:'한국어를 공부하면 친구가 많아져요. — 두 절을 자연스럽게 이어 읽어 보세요.', tags:['복문','유음화'],  date:'2026-04-08' },
+  { id:'Q-0987', type:'m-qa',      cat:'reg2', q:'자신의 취미와 그것을 시작하게 된 계기를 이야기해 보세요.',          tags:['취미'],                 date:'2026-04-06' },
+  { id:'Q-0981', type:'m-role',    cat:'conv', q:'미용실에서 원하는 머리 스타일을 구체적으로 요청해 보세요.',         tags:['미용실'],               date:'2026-04-04' },
+  { id:'Q-0975', type:'m-desc',    cat:'reg2', q:'회의 장면을 보고 인물들의 행동과 분위기를 설명해 보세요.',          tags:['회의'],                 date:'2026-04-02' },
+  { id:'Q-0970', type:'m-seq',     cat:'mock', q:'김치볶음밥을 만드는 순서를 그림을 보고 차례대로 설명해 보세요.',     tags:['요리법'],               date:'2026-03-31' },
+  { id:'Q-0964', type:'m-act',     cat:'prag', q:'회사 동기가 50만원을 빌려달라고 합니다. 상황에 맞게 정중히 거절해 보세요.', tags:['거절'],          date:'2026-03-28' },
+  { id:'Q-0958', type:'m-data',    cat:'mock', q:'스마트폰 과다 사용 비율 그래프를 해석하고 원인과 의견을 말해 보세요.', tags:['사회 현상'],          date:'2026-03-25' },
+  { id:'Q-0953', type:'m-opdialog',cat:'prag', q:'공공장소 예절에 대한 대화를 듣고 자신의 의견을 제시해 보세요.',      tags:['공공 예절'],            date:'2026-03-22' },
+  { id:'Q-0947', type:'m-present', cat:'reg2', q:'여자 대학의 남녀공학 전환에 대한 의견을 근거를 들어 발표해 보세요.',  tags:['사회','교육'],          date:'2026-03-19' },
 ];
 
 // ─── 상태 ───
-const state = { level: 'all', types: new Set() };
+const state = { category: 'all', level: 'all', types: new Set() };
 
-const $tree = document.getElementById('level-tree');
+const $tree = document.getElementById('cat-tree');
+const $levelSeg = document.getElementById('levelSeg');
 const $typeList = document.getElementById('typeFilterList');
 const $typeScope = document.getElementById('typeScopeLabel');
 const $summary = document.getElementById('areaSummary');
@@ -223,26 +348,45 @@ const $body = document.getElementById('qb-body');
 const TOTAL_ALL = LEVELS.beginner.total + LEVELS.mid.total;
 
 function levelOfType(key) { return TYPE_MAP[key].level; }
-function rowsForLevel(lv) { return QUESTIONS.filter(q => lv === 'all' || levelOfType(q.type) === lv); }
 function typesForScope() { return state.level === 'all' ? TYPES : TYPES.filter(t => t.level === state.level); }
 
-// ─── 좌측 레벨 트리 ───
-function renderTree() {
-  const cnt = lv => (lv === 'all' ? TOTAL_ALL : LEVELS[lv].total);
-  const item = (lv, name) =>
-    `<div class="tree-item ${state.level === lv ? 'active' : ''}" data-level="${lv}">${name} <span class="count">${cnt(lv)}</span></div>`;
+// 분류 · 레벨 교차 필터
+function filteredRows() {
+  return QUESTIONS.filter(q =>
+    (state.category === 'all' || q.cat === state.category) &&
+    (state.level === 'all' || levelOfType(q.type) === state.level) &&
+    (state.types.size === 0 || state.types.has(q.type))
+  );
+}
+
+// ─── 좌측 분류 트리 (기존 터치클래스와 동일: 폴더형 분류 목록) ───
+function renderCatTree() {
+  const item = (key, cfg) => {
+    const active = state.category === key ? ' active' : '';
+    const pin = cfg && cfg.fav ? '<span class="pin" title="즐겨찾기">📌</span>' : '';
+    const cnt = key === 'all' ? TOTAL_ALL : cfg.total;
+    return `<div class="tree-item${active}" data-cat="${key}">${pin}<span class="cat-name">${key === 'all' ? '전체' : cfg.label}</span><span class="count">${cnt}</span></div>`;
+  };
   $tree.innerHTML =
-    item('all', '전체') +
+    item('all') +
     '<div class="tree-divider"></div>' +
-    item('beginner', '초급') +
-    item('mid', '중상급') +
-    '<div class="tree-divider"></div>' +
-    '<div class="tree-item" style="color:var(--grey-500);">미분류 <span class="count">0</span></div>';
-  $tree.querySelectorAll('.tree-item[data-level]').forEach(el => {
+    CAT_ORDER.map(k => item(k, CATEGORIES[k])).join('');
+  $tree.querySelectorAll('.tree-item[data-cat]').forEach(el => {
     el.addEventListener('click', () => {
-      state.level = el.dataset.level;
+      state.category = el.dataset.cat;
+      renderCatTree(); renderTable();
+    });
+  });
+}
+
+// ─── 상단 레벨 세그먼트 ───
+function initLevelSeg() {
+  $levelSeg.querySelectorAll('button[data-level]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      state.level = btn.dataset.level;
       state.types.clear();
-      renderTree(); renderTypeFilter(); renderTable();
+      $levelSeg.querySelectorAll('button').forEach(b => b.classList.toggle('active', b === btn));
+      renderTypeFilter(); renderTable();
     });
   });
 }
@@ -269,13 +413,15 @@ function renderTypeFilter() {
 
 // ─── 테이블 ───
 function renderTable() {
-  const rows = rowsForLevel(state.level).filter(q => state.types.size === 0 || state.types.has(q.type));
+  const rows = filteredRows();
   $body.innerHTML = rows.map(q => {
     const t = TYPE_MAP[q.type];
     const lv = LEVELS[t.level];
+    const cat = CATEGORIES[q.cat];
     const tags = q.tags.map(tag => `<span class="topic-chip">${tag}</span>`).join('');
     return `<tr>
       <td><input type="checkbox"></td>
+      <td class="cell-question" title="${cat ? cat.label : '미분류'}">${cat ? cat.label : '미분류'}</td>
       <td><span class="badge ${lv.badgeCls}">${lv.label}</span></td>
       <td><span class="badge badge-k k-${t.kind}">${t.badge}</span></td>
       <td class="cell-question" title="${q.q}">${q.q}</td>
@@ -288,11 +434,10 @@ function renderTable() {
     </tr>`;
   }).join('');
 
-  const scopeTotal = state.level === 'all' ? TOTAL_ALL : LEVELS[state.level].total;
-  const filtered = state.types.size > 0;
-  $total.innerHTML = filtered
-    ? `필터 결과 <strong>${rows.length}</strong>건 / ${scopeTotal}`
-    : `총 <strong>${scopeTotal}</strong>`;
+  const narrowed = state.category !== 'all' || state.level !== 'all' || state.types.size > 0;
+  $total.innerHTML = narrowed
+    ? `필터 결과 <strong>${rows.length}</strong>건 / ${TOTAL_ALL}`
+    : `총 <strong>${TOTAL_ALL}</strong>`;
 }
 
 document.getElementById('areaReset').addEventListener('click', () => {
@@ -300,8 +445,109 @@ document.getElementById('areaReset').addEventListener('click', () => {
   renderTypeFilter(); renderTable();
 });
 
+// ─── 분류 관리 / 등록 모달 ───
+const $manageOv = document.getElementById('catManageOverlay');
+const $createOv = document.getElementById('catCreateOverlay');
+const $cmList   = document.getElementById('cmList');
+const $cmSearch = document.getElementById('cmSearch');
+const $cmName   = document.getElementById('cmName');
+const $cmDesc   = document.getElementById('cmDesc');
+const $cmSubmit = document.getElementById('cmSubmit');
+
+function openManage()  { renderManageList(); $manageOv.classList.add('open'); }
+function closeManage() { $manageOv.classList.remove('open'); }
+function openCreate()  { $cmName.value = ''; $cmDesc.value = ''; syncSubmit(); $createOv.classList.add('open'); setTimeout(() => $cmName.focus(), 50); }
+function closeCreate() { $createOv.classList.remove('open'); }
+function syncSubmit()  { $cmSubmit.disabled = $cmName.value.trim() === ''; }
+
+// 분류 관리 리스트 (드래그 재정렬 · 검색 · 삭제)
+let dragKey = null;
+function renderManageList() {
+  const kw = ($cmSearch.value || '').trim().toLowerCase();
+  const keys = CAT_ORDER.filter(k => {
+    const c = CATEGORIES[k];
+    return !kw || c.label.toLowerCase().includes(kw) || (c.desc || '').toLowerCase().includes(kw);
+  });
+  if (!keys.length) { $cmList.innerHTML = '<div class="cm-empty">검색 결과가 없습니다.</div>'; return; }
+  const canDrag = !kw; // 검색 중에는 재정렬 비활성
+  $cmList.innerHTML = keys.map(k => {
+    const c = CATEGORIES[k];
+    const pin = c.fav ? '<span class="pin" title="즐겨찾기">📌</span>' : '';
+    return `<div class="cm-row" data-key="${k}" ${canDrag ? 'draggable="true"' : ''}>
+      <span class="cm-grip"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="6" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="18" r="1"/><circle cx="15" cy="6" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="18" r="1"/></svg></span>
+      <span class="cm-name">${pin}${c.label}</span>
+      <span class="cm-desc">${c.desc || ''}</span>
+      <button class="cm-del" data-del="${k}" title="삭제"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg></button>
+    </div>`;
+  }).join('');
+
+  $cmList.querySelectorAll('.cm-row[draggable="true"]').forEach(row => {
+    row.addEventListener('dragstart', () => { dragKey = row.dataset.key; row.classList.add('dragging'); });
+    row.addEventListener('dragend',   () => { row.classList.remove('dragging'); $cmList.querySelectorAll('.drag-over').forEach(r => r.classList.remove('drag-over')); });
+    row.addEventListener('dragover',  e => { e.preventDefault(); if (row.dataset.key !== dragKey) row.classList.add('drag-over'); });
+    row.addEventListener('dragleave', () => row.classList.remove('drag-over'));
+    row.addEventListener('drop', e => {
+      e.preventDefault();
+      row.classList.remove('drag-over');
+      const target = row.dataset.key;
+      if (!dragKey || dragKey === target) return;
+      CAT_ORDER.splice(CAT_ORDER.indexOf(dragKey), 1);
+      CAT_ORDER.splice(CAT_ORDER.indexOf(target), 0, dragKey);
+      renderManageList(); renderCatTree();
+    });
+  });
+
+  $cmList.querySelectorAll('.cm-del').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const k = btn.dataset.del, c = CATEGORIES[k];
+      window.confirmAction({
+        title: '분류를 삭제할까요?', danger: true,
+        desc: `"${c.label}" 분류를 삭제합니다. 소속 문항은 미분류로 이동합니다.`,
+        confirmText: '삭제',
+        onConfirm: () => {
+          QUESTIONS.forEach(q => { if (q.cat === k) q.cat = 'none'; });
+          if (!CATEGORIES.none) { CATEGORIES.none = { label:'미분류', total:0, desc:'' }; if (!CAT_ORDER.includes('none')) CAT_ORDER.push('none'); }
+          delete CATEGORIES[k];
+          CAT_ORDER = CAT_ORDER.filter(x => x !== k);
+          if (state.category === k) state.category = 'all';
+          renderManageList(); renderCatTree(); renderTable();
+          window.toast('분류를 삭제했습니다.');
+        }
+      });
+    });
+  });
+}
+
+// 새 분류 등록
+function submitCreate() {
+  const name = $cmName.value.trim();
+  if (!name) return;
+  const key = 'cat' + (++catSeq) + '_' + Date.now().toString(36);
+  CATEGORIES[key] = { label: name, total: 0, desc: $cmDesc.value.trim() };
+  CAT_ORDER.push(key);
+  closeCreate(); renderManageList(); renderCatTree();
+  window.toast('새 분류를 등록했습니다.');
+}
+
+document.getElementById('catManageBtn').addEventListener('click', openManage);
+document.getElementById('cmManageClose').addEventListener('click', closeManage);
+document.getElementById('cmNewBtn').addEventListener('click', openCreate);
+document.getElementById('cmCreateClose').addEventListener('click', closeCreate);
+$cmSearch.addEventListener('input', renderManageList);
+$cmName.addEventListener('input', syncSubmit);
+$cmSubmit.addEventListener('click', submitCreate);
+$cmDesc.addEventListener('keydown', e => { if (e.key === 'Enter') submitCreate(); });
+$cmName.addEventListener('keydown', e => { if (e.key === 'Enter') $cmDesc.focus(); });
+[$manageOv, $createOv].forEach(ov => ov.addEventListener('click', e => { if (e.target === ov) ov.classList.remove('open'); }));
+document.addEventListener('keydown', e => {
+  if (e.key !== 'Escape') return;
+  if ($createOv.classList.contains('open')) closeCreate();
+  else if ($manageOv.classList.contains('open')) closeManage();
+});
+
 // 초기화
-renderTree();
+renderCatTree();
+initLevelSeg();
 renderTypeFilter();
 renderTable();
 </script>

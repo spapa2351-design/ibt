@@ -31,7 +31,8 @@
     {
       title: '시험 관리', icon: ICON.exam, items: [
         { key: 'tests-list', label: '시험 목록', href: 'tests-list.html' },
-        { key: 'test-create', label: '시험 등록', href: 'test-create.html' }
+        { key: 'test-create', label: '시험 등록', href: 'test-create.html' },
+        { key: 'exam-grade-queue', label: '교수 채점 큐', href: 'exam-grade-queue.html', count: 4 }
       ]
     },
     {
@@ -56,6 +57,7 @@
     },
     {
       title: '시스템', icon: ICON.system, items: [
+        { key: 'legal-docs', label: '약관·정책', href: 'legal-docs.html' },
         { key: 'activity-log', label: '활동 로그', href: 'activity-log.html' }
       ]
     }

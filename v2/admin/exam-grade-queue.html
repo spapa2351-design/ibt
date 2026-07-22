@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MaroPass Admin — 교수 채점 큐</title>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+<link rel="stylesheet" href="assets/admin.css">
+<style>
+  /* ── 교수 채점 큐 전용 (공유 클래스로 안 잡히는 것만) ── */
+  .policy-note { background: var(--grey-50); border: 1px solid var(--grey-200); border-radius: 10px; padding: 12px 16px; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+  .policy-note .muted { color: var(--grey-600); }
+
+  /* 마감(SLA) 셀 */
+  .due { display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .due .dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
+  .due-urgent { color: var(--red-500); }
+  .due-soon { color: var(--orange-500); }
+  .due-normal { color: var(--grey-600); }
+  .due-done { color: var(--grey-400); font-weight: 600; }
+
+  /* AI 잠정 점수 셀 */
+  td.ai-prov { font-family: 'SF Mono', Menlo, monospace; font-weight: 800; font-variant-numeric: tabular-nums; color: var(--grey-900); white-space: nowrap; }
+  td.ai-prov .max { color: var(--grey-400); font-weight: 600; }
+  .gchip { font-size: 11px; font-weight: 800; padding: 2px 8px; border-radius: 999px; margin-left: 7px; font-family: "Pretendard Variable", sans-serif; }
+  .gchip.gA { background: var(--green-50); color: var(--green-500); }
+  .gchip.gB { background: var(--blue-50); color: var(--blue-600); }
+  .gchip.gC { background: var(--orange-50); color: var(--orange-500); }
+
+  td.asgn { font-size: 13px; color: var(--grey-800); font-weight: 600; white-space: nowrap; }
+  td.asgn .me { color: var(--blue-600); font-weight: 700; }
+
+  .qa-actions .btn { padding: 6px 12px; font-size: 12px; }
+  tr[data-status="done"] { background: var(--grey-50); }
+  tr[data-status="done"] td.cell-name { color: var(--grey-700); }
+</style>
+</head>
+<body data-page="exam-grade-queue" data-title="교수 채점 큐">
+<div class="page">
+
+  <div class="page-head">
+    <div>
+      <h1 class="page-title">교수 채점 큐</h1>
+      <div class="page-sub">프리미엄 플랜 응시건을 교수가 음성을 듣고 정밀 채점·확정합니다. 마감(SLA 2영업일) 임박 순 정렬.</div>
+    </div>
+    <div class="page-actions">
+      <button class="btn btn-secondary" id="refreshBtn">새로고침</button>
+    </div>
+  </div>
+
+  <!-- 정책 안내 -->
+  <div class="policy-note">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--grey-500)" stroke-width="2" style="flex-shrink:0"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+    <span class="muted">프리미엄 응시건만 이 큐에 노출됩니다(베이직은 AI 자동 확정). <strong>채점 권한(교수자형)</strong>이 있는 관리자만 접근·처리할 수 있습니다.</span>
+  </div>
+
+  <!-- KPI -->
+  <div class="kpi-row">
+    <div class="kpi-card">
+      <div class="kpi-top"><span class="kpi-label">채점 대기</span><span class="kpi-ic warn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span></div>
+      <div class="kpi-value"><span id="kpiPending">4</span><span class="kpi-unit">건</span></div>
+      <div class="kpi-badge">배정·채점 대기</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-top"><span class="kpi-label">마감 임박 (24시간 내)</span><span class="kpi-ic warn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span></div>
+      <div class="kpi-value" style="color:var(--red-500)"><span id="kpiUrgent">3</span><span class="kpi-unit">건</span></div>
+      <div class="kpi-badge">SLA 준수 주의</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-top"><span class="kpi-label">오늘 확정</span><span class="kpi-ic green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span></div>
+      <div class="kpi-value"><span id="kpiDone">2</span><span class="kpi-unit">건</span></div>
+      <div class="kpi-trend up"><span class="kpi-pct">확정 후 응시자 알림 발송</span></div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-top"><span class="kpi-label">평균 채점 소요</span><span class="kpi-ic blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></span></div>
+      <div class="kpi-value">12<span class="kpi-unit">분/건</span></div>
+      <div class="kpi-trend"><span class="kpi-pct" style="color:var(--grey-500)">최근 7일 기준</span></div>
+    </div>
+  </div>
+
+  <!-- 큐 목록 -->
+  <div class="card">
+    <div class="filter-bar">
+      <div class="seg" id="statusSeg">
+        <button class="active" data-filter="all">전체</button>
+        <button data-filter="pending">대기</button>
+        <button data-filter="grading">채점중</button>
+        <button data-filter="done">확정</button>
+      </div>
+      <div class="filter-input">
+        <span class="plus">+</span>
+        <span>응시자·시험명으로 검색</span>
+      </div>
+    </div>
+
+    <div class="table-tools">
+      <div class="total-count">표시 <strong id="totalCount">8</strong>건</div>
+      <div class="tool-group">
+        <button class="tool-btn">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 21v-7"/><path d="M4 10V3"/><path d="M12 21v-9"/><path d="M12 8V3"/><path d="M20 21v-5"/><path d="M20 12V3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>
+          필터
+        </button>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th style="width:84px;">상태</th>
+          <th style="width:120px;">마감 <span class="sort">▲</span></th>
+          <th>응시자</th>
+          <th>시험 · 레벨</th>
+          <th style="width:120px;">응시일시</th>
+          <th style="width:110px;">담당 교수</th>
+          <th style="width:120px;">AI 잠정</th>
+          <th style="width:200px; text-align:right;">처리</th>
+        </tr>
+      </thead>
+      <tbody id="queueBody">
+        <!-- 대기 (미배정) -->
+        <tr data-status="pending" data-urgent="1">
+          <td><span class="badge badge-pending">대기</span></td>
+          <td><span class="due due-urgent"><span class="dot"></span>3시간 남음</span></td>
+          <td class="cell-name">田中 美咲</td>
+          <td>한국어 말하기 · <span class="badge badge-grade-int">중상급</span> (정기)</td>
+          <td class="cell-mono">05-07 16:40</td>
+          <td class="asgn"><span class="muted">미배정</span></td>
+          <td class="ai-prov">128<span class="max">/147</span><span class="gchip gA">A</span></td>
+          <td class="cell-actions qa-actions">
+            <button class="btn btn-secondary" data-assign>나에게 배정</button>
+            <a class="btn btn-primary" href="test-grade.html">채점</a>
+          </td>
+        </tr>
+        <tr data-status="pending" data-urgent="1">
+          <td><span class="badge badge-pending">대기</span></td>
+          <td><span class="due due-urgent"><span class="dot"></span>8시간 남음</span></td>
+          <td class="cell-name">山田 太郎</td>
+          <td>한국어 말하기 · <span class="badge badge-grade-beg">초급</span> (정기)</td>
+          <td class="cell-mono">05-07 15:10</td>
+          <td class="asgn"><span class="muted">미배정</span></td>
+          <td class="ai-prov">82<span class="max">/100</span><span class="gchip gB">B</span></td>
+          <td class="cell-actions qa-actions">
+            <button class="btn btn-secondary" data-assign>나에게 배정</button>
+            <a class="btn btn-primary" href="test-grade.html">채점</a>
+          </td>
+        </tr>
+        <tr data-status="pending">
+          <td><span class="badge badge-pending">대기</span></td>
+          <td><span class="due due-normal"><span class="dot"></span>1일 4시간</span></td>
+          <td class="cell-name">佐藤 健</td>
+          <td>한국어 말하기 · <span class="badge badge-grade-int">중상급</span> (정기)</td>
+          <td class="cell-mono">05-08 10:22</td>
+          <td class="asgn"><span class="muted">미배정</span></td>
+          <td class="ai-prov">96<span class="max">/147</span><span class="gchip gB">B</span></td>
+          <td class="cell-actions qa-actions">
+            <button class="btn btn-secondary" data-assign>나에게 배정</button>
+            <a class="btn btn-primary" href="test-grade.html">채점</a>
+          </td>
+        </tr>
+        <tr data-status="pending">
+          <td><span class="badge badge-pending">대기</span></td>
+          <td><span class="due due-normal"><span class="dot"></span>1일 6시간</span></td>
+          <td class="cell-name">中村 优</td>
+          <td>한국어 말하기 · <span class="badge badge-grade-beg">초급</span> (정기)</td>
+          <td class="cell-mono">05-08 09:03</td>
+          <td class="asgn"><span class="muted">미배정</span></td>
+          <td class="ai-prov">74<span class="max">/100</span><span class="gchip gB">B</span></td>
+          <td class="cell-actions qa-actions">
+            <button class="btn btn-secondary" data-assign>나에게 배정</button>
+            <a class="btn btn-primary" href="test-grade.html">채점</a>
+          </td>
+        </tr>
+
+        <!-- 채점중 (배정됨) -->
+        <tr data-status="grading" data-urgent="1">
+          <td><span class="badge badge-grade-beg">채점중</span></td>
+          <td><span class="due due-urgent"><span class="dot"></span>6시간 남음</span></td>
+          <td class="cell-name">鈴木 花子</td>
+          <td>한국어 말하기 · <span class="badge badge-grade-int">중상급</span> (정기)</td>
+          <td class="cell-mono">05-06 16:40</td>
+          <td class="asgn">구교환</td>
+          <td class="ai-prov">118<span class="max">/147</span><span class="gchip gA">A</span></td>
+          <td class="cell-actions qa-actions">
+            <a class="btn btn-primary" href="test-grade.html">이어서 채점</a>
+          </td>
+        </tr>
+        <tr data-status="grading">
+          <td><span class="badge badge-grade-beg">채점중</span></td>
+          <td><span class="due due-soon"><span class="dot"></span>20시간 남음</span></td>
+          <td class="cell-name">高橋 直樹</td>
+          <td>한국어 말하기 · <span class="badge badge-grade-beg">초급</span> (정기)</td>
+          <td class="cell-mono">05-06 14:05</td>
+          <td class="asgn">카리나</td>
+          <td class="ai-prov">79<span class="max">/100</span><span class="gchip gB">B</span></td>
+          <td class="cell-actions qa-actions">
+            <a class="btn btn-primary" href="test-grade.html">이어서 채점</a>
+          </td>
+        </tr>
+
+        <!-- 확정 완료 -->
+        <tr data-status="done">
+          <td><span class="badge badge-open">확정</span></td>
+          <td><span class="due due-done">05-07 확정</span></td>
+          <td class="cell-name">伊藤 さくら</td>
+          <td>한국어 말하기 · <span class="badge badge-grade-int">중상급</span> (정기)</td>
+          <td class="cell-mono">05-05 11:20</td>
+          <td class="asgn">구교환</td>
+          <td class="ai-prov">132<span class="max">/147</span><span class="gchip gA">A</span></td>
+          <td class="cell-actions qa-actions">
+            <a class="btn btn-secondary" href="test-grade.html">결과 보기</a>
+          </td>
+        </tr>
+        <tr data-status="done">
+          <td><span class="badge badge-open">확정</span></td>
+          <td><span class="due due-done">05-07 확정</span></td>
+          <td class="cell-name">渡辺 陽菜</td>
+          <td>한국어 말하기 · <span class="badge badge-grade-beg">초급</span> (정기)</td>
+          <td class="cell-mono">05-05 09:48</td>
+          <td class="asgn">카리나</td>
+          <td class="ai-prov">88<span class="max">/100</span><span class="gchip gB">B</span></td>
+          <td class="cell-actions qa-actions">
+            <a class="btn btn-secondary" href="test-grade.html">결과 보기</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+
+    <div class="pager">
+      <button class="pager-btn" disabled>‹</button>
+      <button class="pager-btn active">1</button>
+      <button class="pager-btn" disabled>›</button>
+      <div class="pager-rows">
+        <span>페이지당</span>
+        <select><option>20</option><option>50</option><option>100</option></select>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script src="assets/admin-shell.js"></script>
+<script>
+  // 로그인 교수(데모)
+  var ME = '김민정';
+  var rows = Array.prototype.slice.call(document.querySelectorAll('#queueBody tr[data-status]'));
+
+  function refreshCounts() {
+    var pending = 0, grading = 0, done = 0, urgent = 0;
+    rows.forEach(function (r) {
+      var s = r.dataset.status;
+      if (s === 'pending') pending++;
+      else if (s === 'grading') grading++;
+      else if (s === 'done') done++;
+      if (r.dataset.urgent === '1' && s !== 'done') urgent++;
+    });
+    document.getElementById('kpiPending').textContent = pending;
+    document.getElementById('kpiGrading') && (document.getElementById('kpiGrading').textContent = grading);
+    document.getElementById('kpiDone').textContent = done;
+    document.getElementById('kpiUrgent').textContent = urgent;
+  }
+
+  function applyFilter(f) {
+    var shown = 0;
+    rows.forEach(function (r) {
+      var vis = (f === 'all') || (r.dataset.status === f);
+      r.style.display = vis ? '' : 'none';
+      if (vis) shown++;
+    });
+    document.getElementById('totalCount').textContent = shown;
+  }
+
+  // 세그먼트 필터 (shell이 .active 토글은 처리, 여기선 필터만)
+  document.getElementById('statusSeg').addEventListener('click', function (e) {
+    var btn = e.target.closest('button[data-filter]');
+    if (btn) applyFilter(btn.getAttribute('data-filter'));
+  });
+
+  // "나에게 배정" → 채점중으로 전환
+  document.getElementById('queueBody').addEventListener('click', function (e) {
+    var btn = e.target.closest('[data-assign]');
+    if (!btn) return;
+    var tr = btn.closest('tr');
+    tr.dataset.status = 'grading';
+    tr.querySelector('td:first-child').innerHTML = '<span class="badge badge-grade-beg">채점중</span>';
+    tr.querySelector('td.asgn').innerHTML = '<span class="me">' + ME + ' (나)</span>';
+    var actions = tr.querySelector('td.cell-actions');
+    actions.innerHTML = '<a class="btn btn-primary" href="test-grade.html">이어서 채점</a>';
+    refreshCounts();
+    var active = document.querySelector('#statusSeg button.active');
+    if (active) applyFilter(active.getAttribute('data-filter'));
+    if (window.toast) window.toast(tr.querySelector('.cell-name').textContent.trim() + ' 채점을 배정했습니다.');
+  });
+
+  document.getElementById('refreshBtn').addEventListener('click', function () {
+    if (window.toast) window.toast('채점 큐를 새로고침했습니다.', 'info');
+  });
+
+  refreshCounts();
+  applyFilter('all');
+</script>
+</body>
+</html>
