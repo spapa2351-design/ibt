@@ -148,7 +148,7 @@
         <span>문서 구분 <b>보고용 기능 명세</b></span>
         <span>대상 범위 <b>서비스 메인 사이트</b></span>
         <span>작성일 <b>2026-07-20</b></span>
-        <span>버전 <b>v1.2</b></span>
+        <span>버전 <b>v1.3</b></span>
       </div>
     </div>
 
@@ -177,9 +177,9 @@
     </div>
 
     <div class="summary">
-      <div class="sm-cell"><div class="sm-num">4</div><div class="sm-lbl">대분류</div></div>
-      <div class="sm-cell"><div class="sm-num">18</div><div class="sm-lbl">기능</div></div>
-      <div class="sm-cell"><div class="sm-num">53</div><div class="sm-lbl">세부 개발 작업</div></div>
+      <div class="sm-cell"><div class="sm-num">5</div><div class="sm-lbl">대분류</div></div>
+      <div class="sm-cell"><div class="sm-num">20</div><div class="sm-lbl">기능</div></div>
+      <div class="sm-cell"><div class="sm-num">58</div><div class="sm-lbl">세부 개발 작업</div></div>
       <div class="sm-cell"><div class="sm-num">10+</div><div class="sm-lbl">외부 연동 (PG·소셜·메일)</div></div>
     </div>
 
@@ -246,7 +246,7 @@
     <section class="sec">
       <div class="sec-head" role="button" tabindex="0" aria-expanded="true">
         <span class="sec-no">02</span><span class="sec-title">상품 및 결제</span>
-        <span class="sec-count">4개 기능 · 15개 세부 작업</span>
+        <span class="sec-count">4개 기능 · 16개 세부 작업</span>
         <svg class="sec-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
       </div>
       <div class="sec-body">
@@ -273,6 +273,7 @@
             <tr><td class="c-no">2.3.1</td><td class="c-task">구매 옵션 선택 UI</td><td class="c-note">응시 시험·옵션 선택</td></tr>
             <tr><td class="c-no">2.3.2</td><td class="c-task">주문서 작성</td><td class="c-note">구매자 정보 확인 및 주문 항목 정리</td></tr>
             <tr><td class="c-no">2.3.3</td><td class="c-task">주문 생성·임시 저장</td><td class="c-note">주문 데이터 생성 및 결제 전 보관</td></tr>
+            <tr><td class="c-no">2.3.4</td><td class="c-task">판매 플랜 선택</td><td class="c-note">베이직(AI 자동채점)·프리미엄(AI+교수 채점) 중 선택</td></tr>
           </tbody></table>
         </div>
         <div class="feat">
@@ -375,6 +376,31 @@
       </div>
     </section>
 
+    <!-- 05 정책·다국어 -->
+    <section class="sec">
+      <div class="sec-head" role="button" tabindex="0" aria-expanded="true">
+        <span class="sec-no">05</span><span class="sec-title">정책·다국어</span>
+        <span class="sec-count">2개 기능 · 4개 세부 작업</span>
+        <svg class="sec-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="sec-body">
+        <div class="feat">
+          <div class="feat-head"><span class="feat-no">5.1</span><span class="feat-name">약관·정책 문서 열람</span><span class="feat-note">푸터</span></div>
+          <table class="task-tbl"><thead><tr><th class="c-no">No.</th><th class="c-task">세부 개발 작업</th><th class="c-note">설명</th></tr></thead><tbody>
+            <tr><td class="c-no">5.1.1</td><td class="c-task">정책 문서 모달</td><td class="c-note">이용약관·개인정보처리방침·특정상거래법 표기 클릭 시 모달 열람</td></tr>
+            <tr><td class="c-no">5.1.2</td><td class="c-task">사업자 정보 표기</td><td class="c-note">특정상거래법 기반 사업자·연락처·반품 조건 표기</td></tr>
+          </tbody></table>
+        </div>
+        <div class="feat">
+          <div class="feat-head"><span class="feat-no">5.2</span><span class="feat-name">다국어 지원</span><span class="feat-note">한국어 · 일본어</span></div>
+          <table class="task-tbl"><thead><tr><th class="c-no">No.</th><th class="c-task">세부 개발 작업</th><th class="c-note">설명</th></tr></thead><tbody>
+            <tr><td class="c-no">5.2.1</td><td class="c-task">언어 전환 UI</td><td class="c-note">한국어·일본어 전환 토글 (전 페이지 공통)</td></tr>
+            <tr><td class="c-no">5.2.2</td><td class="c-task">화면 문구 다국어 처리</td><td class="c-note">화면 문구 i18n 및 선택 언어 유지</td></tr>
+          </tbody></table>
+        </div>
+      </div>
+    </section>
+
     <div class="foot">
       <b>안내</b> · 본 문서는 서비스 메인 사이트(시험 접수·결제)의 개발 기능을 세부 작업 단위로 정리한 보고용 명세입니다.
       넘버링(대분류·기능·세부 작업)은 개발·검수·산정의 기준으로 활용됩니다.
@@ -393,7 +419,7 @@
         <span>문서 구분 <b>보고용 기능 명세</b></span>
         <span>대상 범위 <b>관리자 사이트 (백오피스)</b></span>
         <span>작성일 <b>2026-07-20</b></span>
-        <span>버전 <b>v1.0</b></span>
+        <span>버전 <b>v1.1</b></span>
       </div>
     </div>
 
@@ -422,9 +448,9 @@
     </div>
 
     <div class="summary">
-      <div class="sm-cell"><div class="sm-num">7</div><div class="sm-lbl">대분류</div></div>
-      <div class="sm-cell"><div class="sm-num">22</div><div class="sm-lbl">기능</div></div>
-      <div class="sm-cell"><div class="sm-num">62</div><div class="sm-lbl">세부 개발 작업</div></div>
+      <div class="sm-cell"><div class="sm-num">8</div><div class="sm-lbl">대분류</div></div>
+      <div class="sm-cell"><div class="sm-num">25</div><div class="sm-lbl">기능</div></div>
+      <div class="sm-cell"><div class="sm-num">72</div><div class="sm-lbl">세부 개발 작업</div></div>
       <div class="sm-cell"><div class="sm-num">6+</div><div class="sm-lbl">핵심 연동 (AI STT·PG·인증서)</div></div>
     </div>
 
@@ -484,7 +510,7 @@
     <section class="sec">
       <div class="sec-head" role="button" tabindex="0" aria-expanded="true">
         <span class="sec-no">02</span><span class="sec-title">평가 및 채점</span>
-        <span class="sec-count">4개 기능 · 13개 세부 작업</span>
+        <span class="sec-count">5개 기능 · 16개 세부 작업</span>
         <svg class="sec-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
       </div>
       <div class="sec-body">
@@ -519,6 +545,14 @@
             <tr><td class="c-no">2.4.2</td><td class="c-task">응시 음성 재생</td><td class="c-note">파형·구간 반복·재생 속도 조절</td></tr>
             <tr><td class="c-no">2.4.3</td><td class="c-task">유형별 채점축 보정</td><td class="c-note">AI 점수 기준, 문항 소계·총점 실시간 반영</td></tr>
             <tr><td class="c-no">2.4.4</td><td class="c-task">채점자 기록</td><td class="c-note">채점한 부관리자 자동 기록 (관리자 전용·응시자 비노출)</td></tr>
+          </tbody></table>
+        </div>
+        <div class="feat">
+          <div class="feat-head"><span class="feat-no">2.5</span><span class="feat-name">교수 채점 큐</span><span class="feat-note">프리미엄 플랜 · 채점 권한</span></div>
+          <table class="task-tbl"><thead><tr><th class="c-no">No.</th><th class="c-task">세부 개발 작업</th><th class="c-note">설명</th></tr></thead><tbody>
+            <tr><td class="c-no">2.5.1</td><td class="c-task">채점 대기 큐 목록</td><td class="c-note">프리미엄 응시건만 노출(베이직은 AI 자동 확정), 상태(대기·채점중·확정) 필터·검색</td></tr>
+            <tr><td class="c-no">2.5.2</td><td class="c-task">SLA 마감 관리</td><td class="c-note">마감(SLA) 임박 순 정렬·경고, 채점 KPI(대기·마감 임박·오늘 확정·평균 소요)</td></tr>
+            <tr><td class="c-no">2.5.3</td><td class="c-task">배정·채점·확정</td><td class="c-note">나에게 배정 → 채점(보정 화면) → 확정. 확정 시 AI 잠정 점수 대체 및 응시자 알림 발송</td></tr>
           </tbody></table>
         </div>
       </div>
@@ -582,7 +616,7 @@
     <section class="sec">
       <div class="sec-head" role="button" tabindex="0" aria-expanded="true">
         <span class="sec-no">05</span><span class="sec-title">시스템 설정 및 보안</span>
-        <span class="sec-count">4개 기능 · 7개 세부 작업</span>
+        <span class="sec-count">4개 기능 · 8개 세부 작업</span>
         <svg class="sec-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
       </div>
       <div class="sec-body">
@@ -594,10 +628,11 @@
           </tbody></table>
         </div>
         <div class="feat">
-          <div class="feat-head"><span class="feat-no">5.2</span><span class="feat-name">이용약관·개인정보처리방침 관리</span></div>
+          <div class="feat-head"><span class="feat-no">5.2</span><span class="feat-name">약관·정책 문서 관리</span><span class="feat-note">사용자 페이지 노출</span></div>
           <table class="task-tbl"><thead><tr><th class="c-no">No.</th><th class="c-task">세부 개발 작업</th><th class="c-note">설명</th></tr></thead><tbody>
-            <tr><td class="c-no">5.2.1</td><td class="c-task">약관·방침 관리</td><td class="c-note">이용약관·개인정보처리방침 등록·편집</td></tr>
-            <tr><td class="c-no">5.2.2</td><td class="c-task">버전·게시 관리</td><td class="c-note">개정 버전 관리 및 게시 이력</td></tr>
+            <tr><td class="c-no">5.2.1</td><td class="c-task">이용약관·개인정보처리방침</td><td class="c-note">리치텍스트 에디터로 등록·편집</td></tr>
+            <tr><td class="c-no">5.2.2</td><td class="c-task">특정상거래법 표기 관리</td><td class="c-note">特定商取引法 항목형 표기(일본 법정 필수) — 사업자·판매가·인도 시기·반품 조건</td></tr>
+            <tr><td class="c-no">5.2.3</td><td class="c-task">버전·게시 관리</td><td class="c-note">개정 버전 관리 및 게시 이력</td></tr>
           </tbody></table>
         </div>
         <div class="feat">
@@ -620,7 +655,7 @@
     <section class="sec">
       <div class="sec-head" role="button" tabindex="0" aria-expanded="true">
         <span class="sec-no">06</span><span class="sec-title">상품·판매 관리</span>
-        <span class="sec-count">3개 기능 · 8개 세부 작업</span>
+        <span class="sec-count">3개 기능 · 10개 세부 작업</span>
         <svg class="sec-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
       </div>
       <div class="sec-body">
@@ -633,11 +668,13 @@
           </tbody></table>
         </div>
         <div class="feat">
-          <div class="feat-head"><span class="feat-no">6.2</span><span class="feat-name">가격·판매 설정</span><span class="feat-note">매출 권한</span></div>
+          <div class="feat-head"><span class="feat-no">6.2</span><span class="feat-name">판매 플랜·가격·기간 설정</span></div>
           <table class="task-tbl"><thead><tr><th class="c-no">No.</th><th class="c-task">세부 개발 작업</th><th class="c-note">설명</th></tr></thead><tbody>
-            <tr><td class="c-no">6.2.1</td><td class="c-task">가격·할인 설정</td><td class="c-note">JPY 정가·할인율, 최종 판매가 자동 계산</td></tr>
-            <tr><td class="c-no">6.2.2</td><td class="c-task">판매 상태 설정</td><td class="c-note">판매중·일시중지·종료 (예약 판매 없음)</td></tr>
-            <tr><td class="c-no">6.2.3</td><td class="c-task">응시 유효 기간</td><td class="c-note">결제 후 응시 가능 일수</td></tr>
+            <tr><td class="c-no">6.2.1</td><td class="c-task">판매 플랜 설정</td><td class="c-note">베이직(AI 자동채점) / 프리미엄(AI+교수 채점, 확정 SLA)</td></tr>
+            <tr><td class="c-no">6.2.2</td><td class="c-task">가격·할인 설정</td><td class="c-note">JPY 정가·할인율, 최종 판매가 자동 계산(10엔 반올림)</td></tr>
+            <tr><td class="c-no">6.2.3</td><td class="c-task">판매 기간 설정</td><td class="c-note">상시 판매 / 기간 지정(시작일~종료일, 종료 시 자동 판매종료)</td></tr>
+            <tr><td class="c-no">6.2.4</td><td class="c-task">결제 후 응시기간</td><td class="c-note">결제 후 N일 이내 응시(구매자별). 판매 종료와 무관하게 응시권 유지</td></tr>
+            <tr><td class="c-no">6.2.5</td><td class="c-task">판매 상태 설정</td><td class="c-note">판매중·일시중지·종료</td></tr>
           </tbody></table>
         </div>
         <div class="feat">
@@ -677,6 +714,31 @@
           <table class="task-tbl"><thead><tr><th class="c-no">No.</th><th class="c-task">세부 개발 작업</th><th class="c-note">설명</th></tr></thead><tbody>
             <tr><td class="c-no">7.3.1</td><td class="c-task">환불 요청 검토·처리</td><td class="c-note">요청 승인·거절 및 환불 실행</td></tr>
             <tr><td class="c-no">7.3.2</td><td class="c-task">환불 상태 관리</td><td class="c-note">처리중·완료 상태 추적</td></tr>
+          </tbody></table>
+        </div>
+      </div>
+    </section>
+
+    <!-- 08 고객 지원 -->
+    <section class="sec">
+      <div class="sec-head" role="button" tabindex="0" aria-expanded="true">
+        <span class="sec-no">08</span><span class="sec-title">고객 지원</span>
+        <span class="sec-count">2개 기능 · 4개 세부 작업</span>
+        <svg class="sec-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="sec-body">
+        <div class="feat">
+          <div class="feat-head"><span class="feat-no">8.1</span><span class="feat-name">공지사항 관리</span></div>
+          <table class="task-tbl"><thead><tr><th class="c-no">No.</th><th class="c-task">세부 개발 작업</th><th class="c-note">설명</th></tr></thead><tbody>
+            <tr><td class="c-no">8.1.1</td><td class="c-task">공지 등록·편집</td><td class="c-note">공지 작성·수정·게시 (에디터)</td></tr>
+            <tr><td class="c-no">8.1.2</td><td class="c-task">공지 목록·노출 관리</td><td class="c-note">게시 상태·노출 순서 관리, 사용자 페이지 연동</td></tr>
+          </tbody></table>
+        </div>
+        <div class="feat">
+          <div class="feat-head"><span class="feat-no">8.2</span><span class="feat-name">1:1 문의 관리</span></div>
+          <table class="task-tbl"><thead><tr><th class="c-no">No.</th><th class="c-task">세부 개발 작업</th><th class="c-note">설명</th></tr></thead><tbody>
+            <tr><td class="c-no">8.2.1</td><td class="c-task">문의 목록·상태</td><td class="c-note">접수·답변완료 상태별 조회·필터</td></tr>
+            <tr><td class="c-no">8.2.2</td><td class="c-task">문의 답변 처리</td><td class="c-note">답변 작성·발송 및 처리 상태 갱신</td></tr>
           </tbody></table>
         </div>
       </div>

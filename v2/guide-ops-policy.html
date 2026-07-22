@@ -117,7 +117,7 @@
     <input id="search-input" type="text" placeholder="정책 검색..." autocomplete="off" oninput="onSearch(this.value)" onfocus="onSearch(this.value)" onblur="setTimeout(()=>closeDrop(),180)">
     <div id="search-drop"></div>
   </div>
-  <span class="version-badge text-xs text-slate-400 bg-slate-100 px-2.5 py-1 rounded-full ml-3">일본 오픈 · v1.0 · 2026-07-20</span>
+  <span class="version-badge text-xs text-slate-400 bg-slate-100 px-2.5 py-1 rounded-full ml-3">일본 오픈 · v1.1 · 2026-07-21</span>
   <span class="text-xs bg-emerald-100 text-emerald-800 px-2.5 py-1 rounded-full ml-1.5 font-bold border border-emerald-300">📍 운영정책 SSOT</span>
 </header>
 
@@ -482,8 +482,27 @@ function closeMobileSidebar() { document.getElementById('sidebar').classList.rem
     <div class="callout callout-green">
       <strong>문항을 시험에 담는 순간 사본으로 고정(스냅샷 온 애드)됩니다.</strong> 이후 문제은행에서 원본을 수정해도 <strong>이미 담긴 시험에는 영향이 없습니다.</strong>
     </div>
-    <p class="text-sm text-slate-700 mt-3">문제 분류는 <strong>과목 &gt; 레벨 &gt; 유형 &gt; 세부</strong> 트리이며, 분류축은 유형별로 다릅니다.</p>
+    <p class="text-sm text-slate-700 mt-3">시험에 담긴 문항은 사본이므로 이후 문제은행의 원본·분류 변경과 무관하게 고정됩니다.</p>
   </div>
+
+  <div class="guide-section">
+    <div class="section-title">문제 분류(카테고리) <span class="section-tag">개편</span></div>
+    <p class="text-sm text-slate-700 mt-1 mb-3">문제 분류를 기존 트리(<strong>과목 &gt; 레벨 &gt; 유형 &gt; 세부</strong>)에서 <strong>폴더형 사용자 분류</strong>로 개편했습니다. 관리자가 자유롭게 만든 폴더에 문항을 다중 배정하고, 레벨은 분류에서 분리해 목록 상단 필터로 둡니다. (기존 터치클래스 문제은행과 동일 방식)</p>
+    <div class="overflow-x-auto mt-1">
+      <table class="xl-table">
+        <thead><tr><th style="width:130px">항목</th><th>규칙</th></tr></thead>
+        <tbody>
+          <tr><td>분류 체계</td><td><strong>폴더형 사용자 정의 분류</strong>(문제 은행 좌측 트리). 예: 정기시험 1회·2회 · 모의고사 · 발음·읽기 연습 · 회화·역할극 · 화용 과제 · 미분류</td></tr>
+          <tr><td>레벨</td><td><span class="b b-blue">초급</span> / <span class="b b-blue">중상급</span> — 분류 트리에서 분리해 <strong>목록 상단 필터</strong>로 이동</td></tr>
+          <tr><td>배정</td><td>문항은 여러 분류에 <strong>다중 배정</strong> (문제 등록·문제 은행에서 분류 선택 → 칩)</td></tr>
+          <tr><td>분류 관리</td><td>추가(분류명 + 설명) · 삭제(소속 문항 <strong>미분류로 이동</strong>) · <strong>드래그 순서 변경</strong> · 검색 — 분류 관리 모달</td></tr>
+          <tr><td>유형별 분류축</td><td>장소·상황, 화행 등 유형별 축 값은 <strong>태그</strong>로 유지(문제 은행 태그 열)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout callout-amber"><strong>미완/후속:</strong> 위 분류명은 예시(샘플)이며, 실제 운영 분류 목록은 확정 후 반영합니다.</div>
+  </div>
+
   <div class="guide-section">
     <div class="section-title">2차 예정 <span class="section-tag">미구현</span></div>
     <div class="overflow-x-auto mt-3">
@@ -675,7 +694,7 @@ function closeMobileSidebar() { document.getElementById('sidebar').classList.rem
     { id:'exam-build',      label:'시험 구성',               cat:'3. 시험 운영', kw:'시험 구성 레벨 유형 문항 배점 총점 채점 방식 AI 보정 응시 기간' },
     { id:'exam-grading',    label:'채점 · 결과 공개',        cat:'3. 시험 운영', kw:'채점 AI 보정 결과 공개 채점중 응시완료 test-grade 일괄 공개' },
     { id:'exam-takers',     label:'응시자 관리',             cat:'3. 시험 운영', kw:'응시자 상태 응시완료 채점중 미응시 등급 분포 통계 평균 점수' },
-    { id:'exam-questions',  label:'문항 스냅샷 · 출제 이력',  cat:'3. 시험 운영', kw:'문항 스냅샷 사본 고정 문제은행 버전 출제 이력 중복 복제 회차 시험지' },
+    { id:'exam-questions',  label:'문항 스냅샷 · 출제 이력',  cat:'3. 시험 운영', kw:'문항 스냅샷 사본 고정 문제은행 버전 출제 이력 중복 복제 회차 시험지 문제 분류 카테고리 폴더 정기시험 미분류 다중 배정 분류 관리 레벨 상단 필터 태그' },
     { id:'grade-system',    label:'진단 등급 체계',          cat:'4. 성적·등급', kw:'진단 등급 A B C 급수 수료 합격 불합격 모의고사 점수' },
     { id:'certificate',     label:'인증서',                  cat:'4. 성적·등급', kw:'인증서 진단 인증번호 PDF' },
     { id:'revenue-perm',    label:'매출 열람 권한',          cat:'5. 매출·권한', kw:'매출 권한 최고관리자 부관리자 통계' },
