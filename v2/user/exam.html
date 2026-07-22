@@ -47,7 +47,7 @@
   .mini-ring .ring-bg { stroke: var(--grey-200); fill: none; }
   .mini-ring .ring-fg { stroke: var(--blue-500); fill: none; transition: stroke-dashoffset 1s linear; }
   .mini-ring.urgent .ring-fg { stroke: var(--red-500); }
-  .mini-ring-label { font-size: 12px; color: var(--grey-600); font-weight: 600; font-family: 'SF Mono', Menlo, Consolas, monospace; }
+  .mini-ring-label { font-size: 16px; color: var(--grey-600); font-weight: 800; font-family: 'SF Mono', Menlo, Consolas, monospace; }
   .mini-ring.urgent .mini-ring-label { color: var(--red-500); }
   .score-badge { background: var(--blue-50); color: var(--blue-600); padding: 4px 12px; border-radius: 999px; font-size: 13px; font-weight: 700; }
   .area-badge { background: var(--grey-100); color: var(--grey-700); padding: 4px 12px; border-radius: 999px; font-size: 13px; font-weight: 600; }
@@ -108,11 +108,13 @@
   .pragmatic-act { background: var(--red-500); color: white; padding: 4px 12px; border-radius: 999px; font-size: 12px; font-weight: 700; }
 
   /* Answer pane */
-  .answer-pane { padding: 16px 24px; background: white; display: grid; grid-template-columns: 220px 1fr auto; gap: 20px; align-items: stretch; flex-shrink: 0; }
+  .answer-pane { padding: 14px 24px; background: white; display: flex; flex-direction: column; align-items: center; gap: 12px; flex-shrink: 0; }
   @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
 
-  .timer-prep { background: var(--blue-50); border: 1px solid var(--blue-500); border-radius: 12px; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-  .timer-record { background: #fef2f2; border: 1px solid var(--red-500); border-radius: 12px; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  /* 상단 타이머 바 */
+  .timer-top { margin-bottom: 18px; }
+  .timer-prep { background: var(--blue-50); border: 1px solid var(--blue-500); border-radius: 12px; padding: 12px 18px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .timer-record { background: #fef2f2; border: 1px solid var(--red-500); border-radius: 12px; padding: 12px 18px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
   .timer-icon { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700; color: var(--blue-500); }
   .timer-record .timer-icon { color: var(--red-500); }
   .timer-value { font-size: 32px; font-weight: 800; font-family: 'SF Mono', Menlo, Consolas, monospace; color: var(--blue-500); line-height: 1; letter-spacing: -1px; }
@@ -133,11 +135,6 @@
   .rec-time { font-size: 12px; color: var(--grey-600); font-variant-numeric: tabular-nums; font-family: 'SF Mono', Menlo, monospace; flex-shrink: 0; }
   .rec-redo { align-self: center; background: #fff; border: 1px solid var(--grey-200); border-radius: 9px; padding: 8px 18px; font-size: 13px; font-weight: 700; color: var(--grey-700); cursor: pointer; }
   .rec-redo:hover { border-color: var(--blue-500); color: var(--blue-500); }
-
-  .memo { background: var(--grey-50); border: 1px solid var(--grey-200); border-radius: 12px; padding: 10px 14px; display: flex; flex-direction: column; min-height: 0; }
-  .memo-label { font-size: 11px; color: var(--grey-500); margin-bottom: 4px; font-weight: 600; }
-  .memo-input { flex: 1; border: none; outline: none; resize: none; font-size: 13px; color: var(--grey-900); line-height: 1.5; font-family: inherit; background: transparent; min-height: 0; }
-  .memo-input::placeholder { color: var(--grey-400); }
 
   .waveform { display: flex; gap: 4px; align-items: center; }
   .wf-dot { width: 8px; height: 8px; border-radius: 50%; background: #fda4af; }
@@ -209,7 +206,7 @@
   /* ===== 반응형 (기본 규칙 뒤에 위치해야 오버라이드가 적용됨) ===== */
   @media (max-width: 768px) {
     .question-pane { padding: 24px 20px; }
-    .answer-pane { padding: 14px 20px; grid-template-columns: 1fr; gap: 10px; }
+    .answer-pane { padding: 14px 20px; gap: 10px; }
     .exam-footer { padding: 0 20px; }
     .exam-header { padding: 0 14px; gap: 8px 10px; }
     .exam-title { font-size: 13px; }
@@ -262,6 +259,34 @@
 <div class="exam-layout">
   <!-- Question pane -->
   <div class="question-pane">
+    <!-- 타이머 (상단 고정) -->
+    <div class="timer-top">
+      <!-- 준비 타이머 -->
+      <div class="timer-prep" id="timer-prep">
+        <div class="timer-icon">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          <span data-i18n="timer_prep_label">준비 시간</span>
+        </div>
+        <div class="timer-value" id="timer-prep-value">00:10</div>
+      </div>
+      <!-- 녹음 타이머 -->
+      <div class="timer-record" id="timer-record" style="display: none;">
+        <div class="timer-icon">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/></svg>
+          <span data-i18n="timer_record_label">녹음 시간</span>
+        </div>
+        <div class="timer-value" id="timer-record-value">00:10</div>
+        <div class="waveform">
+          <div class="wf-dot active"></div>
+          <div class="wf-dot active"></div>
+          <div class="wf-dot active"></div>
+          <div class="wf-dot active"></div>
+        </div>
+      </div>
+      <!-- 준비시간 없음 (영역 1 전용) -->
+      <div class="no-prep-hint" id="no-prep-hint" style="display: none;">⚡ 영역 1 · 준비 시간 없이 바로 녹음</div>
+    </div>
+
     <div class="question-header">
       <span class="score-badge" id="score-badge">2점</span>
       <span class="area-badge area-1" id="area-badge">영역 1 · 짧은 문장 읽기</span>
@@ -290,37 +315,6 @@
 
   <!-- Answer pane -->
   <div class="answer-pane">
-    <!-- 준비 타이머 -->
-    <div class="timer-prep" id="timer-prep">
-      <div>
-        <div class="timer-icon">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-          <span data-i18n="timer_prep_label">준비 시간</span>
-        </div>
-        <div class="timer-value" id="timer-prep-value">00:10</div>
-      </div>
-    </div>
-
-    <!-- 녹음 타이머 -->
-    <div class="timer-record" id="timer-record" style="display: none;">
-      <div>
-        <div class="timer-icon">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/></svg>
-          <span data-i18n="timer_record_label">녹음 시간</span>
-        </div>
-        <div class="timer-value" id="timer-record-value">00:10</div>
-      </div>
-      <div class="waveform">
-        <div class="wf-dot active"></div>
-        <div class="wf-dot active"></div>
-        <div class="wf-dot active"></div>
-        <div class="wf-dot active"></div>
-      </div>
-    </div>
-
-    <!-- 준비시간 없음 (영역 1 전용) -->
-    <div class="no-prep-hint" id="no-prep-hint" style="display: none;">⚡ 영역 1 · 준비 시간 없이 바로 녹음</div>
-
     <!-- 녹음 완료 — 다시듣기 -->
     <div class="rec-done" id="rec-done">
       <div class="rec-done-label" data-i18n="rec_done">🎧 녹음이 완료되었습니다. 다시 들어볼 수 있어요.</div>
@@ -332,11 +326,6 @@
         <span class="rec-time"><span id="recCur">0:24</span> / <span id="recDur">0:52</span></span>
       </div>
       <button class="rec-redo" id="recRedo" type="button" data-i18n="rec_redo">↺ 다시 풀기</button>
-    </div>
-
-    <div class="memo">
-      <div class="memo-label" data-i18n="memo_label">📝 메모장 (답변 구상용 — 시험에 영향 없음)</div>
-      <textarea class="memo-input" data-i18n-placeholder="memo_placeholder" placeholder="답변을 미리 정리해 보세요..."></textarea>
     </div>
 
     <div class="autosave">
@@ -442,6 +431,20 @@
       <button class="grade-done-btn" id="gradeGoResult" onclick="location.href='exam-result.html'">시험 결과 보기 →</button>
     </div>
   </div>
+</div>
+
+<!-- 답변 전송 중 오버레이 (녹음 종료 → 다음 문항 전 잠깐) -->
+<style>
+  .send-overlay{position:fixed;inset:0;background:rgba(255,255,255,.9);backdrop-filter:blur(3px);display:none;flex-direction:column;align-items:center;justify-content:center;gap:16px;z-index:210}
+  .send-overlay.open{display:flex}
+  .send-overlay .grade-spinner{margin:0}
+  .send-overlay .send-title{font-size:17px;font-weight:800;color:var(--grey-900)}
+  .send-overlay .send-sub{font-size:13px;color:var(--grey-500);margin-top:-8px}
+</style>
+<div class="send-overlay" id="sendOverlay" role="status" aria-live="polite">
+  <div class="grade-spinner"></div>
+  <div class="send-title" id="sendTitle">답변을 전송하고 있어요…</div>
+  <div class="send-sub" id="sendSub">잠시만 기다려 주세요. 곧 다음 문항으로 이동합니다.</div>
 </div>
 
 <!-- Demo toggle — 영역 + 단계 -->
@@ -582,8 +585,6 @@ const i18n = {
     status_preparing: '준비 중', status_recording: '녹음 중',
     timer_prep_label: '준비 시간', timer_record_label: '녹음 시간',
     rec_done: '🎧 녹음이 완료되었습니다. 다시 들어볼 수 있어요.', rec_redo: '↺ 다시 풀기',
-    memo_label: '📝 메모장 (답변 구상용 — 시험에 영향 없음)',
-    memo_placeholder: '답변을 미리 정리해 보세요...',
     auto_save: '답변은 자동 저장됩니다. 네트워크가 끊겨도 응시는 계속됩니다.',
     btn_prev: '이전', btn_next: '다음', auto_advance: '시간이 되면 자동으로 다음 문항으로 이동합니다',
     unit_score: '점', num_question: '번 문항', unit_min: '분', unit_q: '문항'
@@ -592,8 +593,6 @@ const i18n = {
     status_preparing: '準備中', status_recording: '録音中',
     timer_prep_label: '準備時間', timer_record_label: '録音時間',
     rec_done: '🎧 録音が完了しました。もう一度聞けます。', rec_redo: '↺ もう一度解く',
-    memo_label: '📝 メモ帳 (回答構想用 — 試験に影響なし)',
-    memo_placeholder: '回答を事前に整理しましょう...',
     auto_save: '回答は自動保存されます。ネットワークが切れても受験は継続します。',
     btn_prev: '前へ', btn_next: '次へ', auto_advance: '時間が来ると自動的に次の問題に移動します',
     unit_score: '点', num_question: '問目', unit_min: '分', unit_q: '問'
@@ -703,9 +702,6 @@ function renderQuestion(idx, opts = {}) {
     showAreaToast(q.area);
   }
 
-  // Memo 초기화 (각 문항마다 새 메모)
-  const memoInput = document.querySelector('.memo-input');
-  if (memoInput && !opts.preserveState) memoInput.value = '';
 }
 
 function nextQuestion() {
@@ -922,6 +918,70 @@ function setArea(n) {
   if (firstIdx >= 0) renderQuestion(firstIdx);
 }
 
+// ── 카운트다운 엔진 ─────────────────────────────
+let _countTick = null;
+const RING_C = 81.68; // 2πr (r=13)
+
+function stopCountdown() {
+  if (_countTick) { clearInterval(_countTick); _countTick = null; }
+}
+
+function paintTimer(state, remain, total) {
+  const valEl = document.getElementById(state === 'prep' ? 'timer-prep-value' : 'timer-record-value');
+  if (valEl) valEl.textContent = fmt(remain);
+  const ringLabel = document.getElementById('mini-ring-label');
+  const ringFg = document.getElementById('mini-ring-fg');
+  if (ringLabel) ringLabel.textContent = fmt(remain);
+  if (ringFg) {
+    const frac = total > 0 ? Math.max(0, remain) / total : 0;
+    ringFg.style.strokeDashoffset = (RING_C * (1 - frac)).toFixed(2);
+  }
+  // 마지막 3초 긴급 표시
+  const urgent = remain <= 3 && remain > 0;
+  const box = document.getElementById(state === 'prep' ? 'timer-prep' : 'timer-record');
+  if (box) box.classList.toggle('urgent', urgent);
+}
+
+function startCountdown(state, seconds) {
+  stopCountdown();
+  let remain = seconds;
+  paintTimer(state, remain, seconds);
+  _countTick = setInterval(() => {
+    remain -= 1;
+    paintTimer(state, remain, seconds);
+    if (remain <= 0) {
+      stopCountdown();
+      onCountdownEnd(state);
+    }
+  }, 1000);
+}
+
+function onCountdownEnd(state) {
+  const q = questionList[currentQuestionIdx];
+  const a = areas[q.area];
+  if (state === 'prep') {
+    // 준비 시간 종료 → 녹음 시작
+    setExamState('record');
+  } else if (state === 'record') {
+    // 녹음(예: 10초) 종료 → 답변 전송 잠깐 → 자동으로 다음 버튼 클릭
+    setExamState('done');
+    sendAnswerThenNext();
+  }
+}
+
+// 녹음 종료 후 "답변 전송 중" 오버레이를 잠깐 보여준 뒤 다음 문항으로
+function sendAnswerThenNext() {
+  const ov = document.getElementById('sendOverlay');
+  document.getElementById('sendTitle').textContent = locale === 'ja' ? '回答を送信しています…' : '답변을 전송하고 있어요…';
+  document.getElementById('sendSub').textContent = locale === 'ja' ? 'しばらくお待ちください。まもなく次の問題に移動します。' : '잠시만 기다려 주세요. 곧 다음 문항으로 이동합니다.';
+  ov.classList.add('open');
+  setTimeout(() => {
+    ov.classList.remove('open');
+    pulseNextBtn();
+    document.getElementById('btn-next').click();
+  }, 1600);
+}
+
 function setExamState(state) {
   currentState = state;
   const q = questionList[currentQuestionIdx];
@@ -950,6 +1010,7 @@ function setExamState(state) {
     noPrepHint.style.display = 'none';
     ring.classList.remove('urgent');
     ringLabel.textContent = fmt(a.prep);
+    startCountdown('prep', a.prep);
   } else if (state === 'done') {
     pill.classList.remove('recording');
     pillText.textContent = (locale === 'ja' ? '録音完了' : '녹음 완료');
@@ -959,6 +1020,9 @@ function setExamState(state) {
     if (recDone) recDone.style.display = 'flex';
     ring.classList.remove('urgent');
     ringLabel.textContent = '✓';
+    stopCountdown();
+    document.getElementById('timer-prep').classList.remove('urgent');
+    document.getElementById('timer-record').classList.remove('urgent');
   } else {
     pill.classList.add('recording');
     pillText.textContent = t('status_recording');
@@ -967,6 +1031,7 @@ function setExamState(state) {
     noPrepHint.style.display = a.prep === 0 ? 'flex' : 'none';
     ring.classList.add('urgent');
     ringLabel.textContent = fmt(a.record);
+    startCountdown('record', a.record);
   }
 }
 
