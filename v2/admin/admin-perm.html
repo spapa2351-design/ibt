@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MaroPass Admin — 부관리자 권한 설정</title>
+<title data-i18n="pageTitle">MaroPass Admin — 부관리자 권한 설정</title>
 <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
 <link rel="stylesheet" href="assets/admin.css">
 <style>
@@ -87,15 +87,15 @@
 
   <div class="page-head">
     <div class="page-title">
-      <a href="admin-list.html" class="back-btn" title="부관리자 목록"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg></a>
-      부관리자 권한 설정
+      <a href="admin-list.html" class="back-btn" id="backBtn" title="부관리자 목록"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg></a>
+      <span data-i18n="headTitle">부관리자 권한 설정</span>
     </div>
     <div class="page-actions">
-      <a class="btn btn-secondary" href="admin-list.html">취소</a>
-      <button class="btn btn-primary" id="permSave">완료</button>
+      <a class="btn btn-secondary" href="admin-list.html" data-i18n="cancel">취소</a>
+      <button class="btn btn-primary" id="permSave" data-i18n="done">완료</button>
     </div>
   </div>
-  <div class="crumb">홈 / <b>부관리자</b> / 권한 설정</div>
+  <div class="crumb" data-i18n-html="crumb">홈 / <b>부관리자</b> / 권한 설정</div>
 
   <div class="perm-grid">
 
@@ -104,78 +104,78 @@
       <div class="avatar">김</div>
       <div class="p-name">김민수</div>
       <div class="p-id">op001@example.com</div>
-      <div><span class="p-role">부관리자</span></div>
-      <div><span class="p-status">미연동</span></div>
+      <div><span class="p-role" data-i18n="subAdmin">부관리자</span></div>
+      <div><span class="p-status" data-i18n="notLinked">미연동</span></div>
 
       <div class="role-summary">
-        <div class="rs-lab">권한으로 결정된 역할</div>
+        <div class="rs-lab" data-i18n="roleByPerm">권한으로 결정된 역할</div>
         <div class="rs-val" id="roleVal">전체 권한</div>
         <div class="rs-desc" id="roleDesc">모든 메뉴를 운영·편집할 수 있습니다.</div>
       </div>
 
       <div class="p-meta">
-        <div class="row"><span class="k">계정 유형</span><span class="v">부관리자</span></div>
-        <div class="row"><span class="k">등록일</span><span class="v">2026-05-02</span></div>
-        <div class="row"><span class="k">최근 접속</span><span class="v">2026-07-19</span></div>
+        <div class="row"><span class="k" data-i18n="accountType">계정 유형</span><span class="v" data-i18n="subAdmin">부관리자</span></div>
+        <div class="row"><span class="k" data-i18n="regDate">등록일</span><span class="v">2026-05-02</span></div>
+        <div class="row"><span class="k" data-i18n="lastAccess">최근 접속</span><span class="v">2026-07-19</span></div>
       </div>
     </aside>
 
     <!-- 우: 권한 -->
     <div class="perm-main">
-      <div class="perm-title">권한</div>
+      <div class="perm-title" data-i18n="permTitle">권한</div>
 
       <div class="perm-master">
-        <label class="perm-check" style="padding:0;"><input type="checkbox" id="grantAll" checked> <strong>전체 권한 부여</strong></label>
+        <label class="perm-check" style="padding:0;"><input type="checkbox" id="grantAll" checked> <strong data-i18n="grantAll">전체 권한 부여</strong></label>
         <button class="copy-btn" id="copyBtn">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-          다른 부관리자 권한 복사
+          <span data-i18n="copyPerm">다른 부관리자 권한 복사</span>
         </button>
       </div>
 
       <!-- 최고관리자 전용 안내 -->
       <div style="display:flex;align-items:center;gap:8px;padding:11px 14px;background:var(--grey-50);border:1px solid var(--grey-200);border-radius:10px;margin-bottom:14px;font-size:12.5px;color:var(--grey-700);">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0;color:var(--grey-500)"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-        <span><strong>부관리자·권한 관리</strong>는 최고관리자 전용입니다. 부관리자에게 위임되지 않습니다.</span>
+        <span data-i18n-html="superOnly"><strong>부관리자·권한 관리</strong>는 최고관리자 전용입니다. 부관리자에게 위임되지 않습니다.</span>
       </div>
 
       <!-- 역할 ① 운영 · CS -->
       <div class="perm-sec open" data-grp="ops">
-        <div class="perm-sec-head"><span class="perm-sec-title">운영 · CS</span><span class="perm-sec-count"></span><svg class="perm-sec-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+        <div class="perm-sec-head"><span class="perm-sec-title" data-i18n="secOps">운영 · CS</span><span class="perm-sec-count"></span><svg class="perm-sec-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
         <div class="perm-sec-body">
-          <label class="perm-check"><input type="checkbox" checked> 1:1 문의 응대</label>
-          <label class="perm-check"><input type="checkbox" checked> 결제 내역 조회 · 환불 처리 <span class="lock">매출</span></label>
-          <label class="perm-check"><input type="checkbox" checked> 공지 등록·수정·삭제</label>
-          <label class="perm-check"><input type="checkbox" checked> 회원 조회</label>
+          <label class="perm-check"><input type="checkbox" checked> <span data-i18n="permInquiry">1:1 문의 응대</span></label>
+          <label class="perm-check"><input type="checkbox" checked> <span data-i18n="permPayRefund">결제 내역 조회 · 환불 처리</span> <span class="lock" data-i18n="lockRevenue">매출</span></label>
+          <label class="perm-check"><input type="checkbox" checked> <span data-i18n="permNotice">공지 등록·수정·삭제</span></label>
+          <label class="perm-check"><input type="checkbox" checked> <span data-i18n="permMemberView">회원 조회</span></label>
         </div>
       </div>
 
       <!-- 역할 ② 출제 · 채점 -->
       <div class="perm-sec open" data-grp="grade">
-        <div class="perm-sec-head"><span class="perm-sec-title">출제 · 채점</span><span class="perm-sec-badge grade">교수자</span><span class="perm-sec-count"></span><svg class="perm-sec-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+        <div class="perm-sec-head"><span class="perm-sec-title" data-i18n="secGrade">출제 · 채점</span><span class="perm-sec-badge grade" data-i18n="badgeProfessor">교수자</span><span class="perm-sec-count"></span><svg class="perm-sec-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
         <div class="perm-sec-body">
           <div class="scope-row">
-            <div class="scope-head"><span class="scope-label">담당 시험 배정</span><label class="scope-all">전체 시험 <span class="switch"><input type="checkbox" class="scope-toggle" checked><span class="track"></span></span></label></div>
-            <div class="scope-select"><span class="scope-chip">전체 시험 <span class="x">✕</span></span><button class="scope-add">+ 시험 선택</button></div>
+            <div class="scope-head"><span class="scope-label" data-i18n="scopeLabel">담당 시험 배정</span><label class="scope-all"><span data-i18n="allExams">전체 시험</span> <span class="switch"><input type="checkbox" class="scope-toggle" checked><span class="track"></span></span></label></div>
+            <div class="scope-select"><span class="scope-chip"><span data-i18n="allExams">전체 시험</span> <span class="x">✕</span></span><button class="scope-add" data-i18n="addExam">+ 시험 선택</button></div>
           </div>
-          <label class="perm-check"><input type="checkbox" checked> 시험 등록·수정·운영 <span class="sub">(문항 구성·운영 전환·종료)</span></label>
-          <label class="perm-check"><input type="checkbox" checked> 문제 은행 관리 <span class="sub">(문항 조회·등록·수정·삭제)</span></label>
-          <label class="perm-check"><input type="checkbox" checked> 채점 <span class="sub">(배정 시험의 음성 확인·채점·결과 공개)</span></label>
+          <label class="perm-check"><input type="checkbox" checked> <span data-i18n="permExamManage">시험 등록·수정·운영</span> <span class="sub" data-i18n="subExamManage">(문항 구성·운영 전환·종료)</span></label>
+          <label class="perm-check"><input type="checkbox" checked> <span data-i18n="permQuestionBank">문제 은행 관리</span> <span class="sub" data-i18n="subQuestionBank">(문항 조회·등록·수정·삭제)</span></label>
+          <label class="perm-check"><input type="checkbox" checked> <span data-i18n="permGrading">채점</span> <span class="sub" data-i18n="subGrading">(배정 시험의 음성 확인·채점·결과 공개)</span></label>
         </div>
       </div>
 
       <!-- 역할 ③ 상품 관리 -->
       <div class="perm-sec open" data-grp="revenue">
-        <div class="perm-sec-head"><span class="perm-sec-title">상품 관리</span><span class="perm-sec-badge rev">매출</span><span class="perm-sec-count"></span><svg class="perm-sec-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+        <div class="perm-sec-head"><span class="perm-sec-title" data-i18n="secProduct">상품 관리</span><span class="perm-sec-badge rev" data-i18n="lockRevenue">매출</span><span class="perm-sec-count"></span><svg class="perm-sec-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
         <div class="perm-sec-body">
-          <label class="perm-check"><input type="checkbox" checked> 상품·판매 관리 <span class="lock">매출</span> <span class="sub">(상품 등록·수정·가격/할인·판매 상태·상품별 매출)</span></label>
+          <label class="perm-check"><input type="checkbox" checked> <span data-i18n="permProductManage">상품·판매 관리</span> <span class="lock" data-i18n="lockRevenue">매출</span> <span class="sub" data-i18n="subProductManage">(상품 등록·수정·가격/할인·판매 상태·상품별 매출)</span></label>
         </div>
       </div>
 
       <!-- 기본 접근 -->
       <div class="perm-sec open" data-grp="base">
-        <div class="perm-sec-head"><span class="perm-sec-title">기본 접근</span><span class="perm-sec-count"></span><svg class="perm-sec-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+        <div class="perm-sec-head"><span class="perm-sec-title" data-i18n="secBase">기본 접근</span><span class="perm-sec-count"></span><svg class="perm-sec-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
         <div class="perm-sec-body">
-          <label class="perm-check"><input type="checkbox" checked> 대시보드 조회</label>
+          <label class="perm-check"><input type="checkbox" checked> <span data-i18n="permDashboard">대시보드 조회</span></label>
         </div>
       </div>
 
@@ -183,9 +183,91 @@
   </div>
 </div>
 
+<script>window.PAGE_I18N={
+  ko:{
+    pageTitle:'MaroPass Admin — 부관리자 권한 설정',
+    headTitle:'부관리자 권한 설정',
+    cancel:'취소',
+    done:'완료',
+    crumb:'홈 / <b>부관리자</b> / 권한 설정',
+    subAdmin:'부관리자',
+    notLinked:'미연동',
+    roleByPerm:'권한으로 결정된 역할',
+    accountType:'계정 유형',
+    regDate:'등록일',
+    lastAccess:'최근 접속',
+    permTitle:'권한',
+    grantAll:'전체 권한 부여',
+    copyPerm:'다른 부관리자 권한 복사',
+    superOnly:'<strong>부관리자·권한 관리</strong>는 최고관리자 전용입니다. 부관리자에게 위임되지 않습니다.',
+    secOps:'운영 · CS',
+    permInquiry:'1:1 문의 응대',
+    permPayRefund:'결제 내역 조회 · 환불 처리',
+    lockRevenue:'매출',
+    permNotice:'공지 등록·수정·삭제',
+    permMemberView:'회원 조회',
+    secGrade:'출제 · 채점',
+    badgeProfessor:'교수자',
+    scopeLabel:'담당 시험 배정',
+    allExams:'전체 시험',
+    addExam:'+ 시험 선택',
+    permExamManage:'시험 등록·수정·운영',
+    subExamManage:'(문항 구성·운영 전환·종료)',
+    permQuestionBank:'문제 은행 관리',
+    subQuestionBank:'(문항 조회·등록·수정·삭제)',
+    permGrading:'채점',
+    subGrading:'(배정 시험의 음성 확인·채점·결과 공개)',
+    secProduct:'상품 관리',
+    permProductManage:'상품·판매 관리',
+    subProductManage:'(상품 등록·수정·가격/할인·판매 상태·상품별 매출)',
+    secBase:'기본 접근',
+    permDashboard:'대시보드 조회'
+  },
+  ja:{
+    pageTitle:'MaroPass Admin — 副管理者権限設定',
+    headTitle:'副管理者権限設定',
+    cancel:'キャンセル',
+    done:'完了',
+    crumb:'ホーム / <b>副管理者</b> / 権限設定',
+    subAdmin:'副管理者',
+    notLinked:'未連携',
+    roleByPerm:'権限で決まるロール',
+    accountType:'アカウント種別',
+    regDate:'登録日',
+    lastAccess:'最終アクセス',
+    permTitle:'権限',
+    grantAll:'全権限を付与',
+    copyPerm:'他の副管理者の権限をコピー',
+    superOnly:'<strong>副管理者・権限管理</strong>は最高管理者専用です。副管理者には委任されません。',
+    secOps:'運用 · CS',
+    permInquiry:'1:1お問い合わせ対応',
+    permPayRefund:'決済履歴の閲覧 · 返金処理',
+    lockRevenue:'売上',
+    permNotice:'お知らせの作成・編集・削除',
+    permMemberView:'会員の閲覧',
+    secGrade:'出題 · 採点',
+    badgeProfessor:'教授者',
+    scopeLabel:'担当試験の割り当て',
+    allExams:'すべての試験',
+    addExam:'+ 試験を選択',
+    permExamManage:'試験の登録・編集・運用',
+    subExamManage:'(問題構成・運用切替・終了)',
+    permQuestionBank:'問題バンク管理',
+    subQuestionBank:'(問題の閲覧・作成・編集・削除)',
+    permGrading:'採点',
+    subGrading:'(担当試験の音声確認・採点・結果公開)',
+    secProduct:'商品管理',
+    permProductManage:'商品・販売管理',
+    subProductManage:'(商品の登録・編集・価格/割引・販売状態・商品別売上)',
+    secBase:'基本アクセス',
+    permDashboard:'ダッシュボードの閲覧'
+  }
+};</script>
 <script src="assets/admin-shell.js"></script>
 <script>
 (function(){
+  function LOC(){ return (typeof window.adminLocale === 'function') ? window.adminLocale() : (document.documentElement.lang || 'ko'); }
+  function T(ko, ja){ return (LOC() === 'ja') ? ja : ko; }
   var secs = document.querySelectorAll('.perm-sec');
   // 아코디언
   secs.forEach(function(s){
@@ -219,22 +301,22 @@
   function updateRole(){
     var ops = anyChecked('ops'), grade = anyChecked('grade'), rev = anyChecked('revenue');
     var val, desc;
-    if (allOn()) { val='전체 권한'; desc='모든 메뉴를 운영·편집할 수 있습니다. (준-최고관리자)'; }
-    else if (noneOn()) { val='권한 없음'; desc='체크된 권한이 없습니다. 로그인만 가능합니다.'; }
+    if (allOn()) { val=T('전체 권한','全権限'); desc=T('모든 메뉴를 운영·편집할 수 있습니다. (준-최고관리자)','すべてのメニューを運用・編集できます。(準・最高管理者)'); }
+    else if (noneOn()) { val=T('권한 없음','権限なし'); desc=T('체크된 권한이 없습니다. 로그인만 가능합니다.','付与された権限がありません。ログインのみ可能です。'); }
     else {
       var roles = [];
-      if (ops) roles.push('운영·CS');
-      if (grade) roles.push('출제·채점');
-      if (rev) roles.push('상품 관리');
-      if (!roles.length) { val='기본 접근'; desc='대시보드 조회만 가능합니다.'; }
+      if (ops) roles.push(T('운영·CS','運用・CS'));
+      if (grade) roles.push(T('출제·채점','出題・採点'));
+      if (rev) roles.push(T('상품 관리','商品管理'));
+      if (!roles.length) { val=T('기본 접근','基本アクセス'); desc=T('대시보드 조회만 가능합니다.','ダッシュボードの閲覧のみ可能です。'); }
       else if (roles.length === 1) {
         val = roles[0];
-        desc = ops ? '1:1 문의·결제/환불 처리·공지·회원 조회를 담당합니다.'
-             : grade ? '시험 출제와 담당 시험 채점을 담당합니다.'
-             : '상품 등록·판매·가격을 관리합니다.';
+        desc = ops ? T('1:1 문의·결제/환불 처리·공지·회원 조회를 담당합니다.','1:1お問い合わせ・決済/返金処理・お知らせ・会員閲覧を担当します。')
+             : grade ? T('시험 출제와 담당 시험 채점을 담당합니다.','試験の出題と担当試験の採点を担当します。')
+             : T('상품 등록·판매·가격을 관리합니다.','商品の登録・販売・価格を管理します。');
       } else {
         val = roles.join(' + ');
-        desc = '선택한 직무 권한을 함께 담당합니다.';
+        desc = T('선택한 직무 권한을 함께 담당합니다.','選択した職務権限を併せて担当します。');
       }
     }
     $roleVal.textContent = val; $roleDesc.textContent = desc;
@@ -257,7 +339,7 @@
   });
   // 복사 버튼 (데모)
   document.getElementById('copyBtn').addEventListener('click', function(){
-    if(window.toast) toast('다른 부관리자의 권한 세트를 불러왔습니다.', 'info');
+    if(window.toast) toast(T('다른 부관리자의 권한 세트를 불러왔습니다.','他の副管理者の権限セットを読み込みました。'), 'info');
   });
   // 완료(저장) — 확인 모달 → 저장 토스트 → 목록 이동
   var saveBtn = document.getElementById('permSave');
@@ -266,16 +348,23 @@
     var role = $roleVal.textContent;
     if(window.confirmAction){
       confirmAction({
-        title: '이 권한으로 저장하시겠습니까?',
-        desc: '역할: ' + role + ' · 저장 즉시 해당 부관리자에게 적용됩니다.',
-        confirmText: '저장',
+        title: T('이 권한으로 저장하시겠습니까?','この権限で保存しますか?'),
+        desc: T('역할: ' + role + ' · 저장 즉시 해당 부관리자에게 적용됩니다.','ロール: ' + role + ' · 保存後すぐに該当の副管理者へ適用されます。'),
+        confirmText: T('저장','保存'),
         onConfirm: function(){
-          if(window.toast) toast('권한이 저장되었습니다. (' + role + ')', 'success');
+          if(window.toast) toast(T('권한이 저장되었습니다. (' + role + ')','権限を保存しました。(' + role + ')'), 'success');
           setTimeout(function(){ location.href = 'admin-list.html'; }, 900);
         }
       });
     } else { location.href = 'admin-list.html'; }
   });
+
+  // 로케일 전환 시: 뒤로가기 title + 역할 요약 재계산 (텍스트 노드는 admin-shell이 처리)
+  window.onLocaleChange = function(loc){
+    var bb = document.getElementById('backBtn');
+    if(bb) bb.title = (loc === 'ja') ? '副管理者一覧' : '부관리자 목록';
+    updateRole();
+  };
 
   refresh();
 })();

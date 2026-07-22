@@ -50,6 +50,12 @@
   .err.on{display:block}
   .foot{text-align:center;font-size:12px;color:var(--grey-500);margin-top:20px}
 
+  /* 언어 토글 */
+  .locale-toggle{display:flex;justify-content:center;gap:0;margin-bottom:20px}
+  .locale-toggle .seg{display:inline-flex;border:1px solid var(--grey-200);border-radius:999px;padding:3px;background:var(--grey-50)}
+  .locale-toggle button{border:none;background:none;font-family:inherit;font-size:12px;font-weight:700;color:var(--grey-600);padding:6px 14px;border-radius:999px;cursor:pointer;transition:background-color .12s,color .12s}
+  .locale-toggle button.active{background:#fff;color:var(--blue-500);box-shadow:0 1px 3px rgba(15,23,42,.1)}
+
   @media (max-width:440px){
     .form-box{padding:32px 22px 26px;border:none;box-shadow:none;background:transparent}
     body{background:#fff}
@@ -66,16 +72,23 @@
     <div class="tag">ADMIN CONSOLE</div>
   </div>
 
-  <div class="fb-head">
-    <h2>관리자 로그인</h2>
-    <p>등록된 관리자 계정으로 접속합니다.</p>
+  <div class="locale-toggle">
+    <div class="seg">
+      <button type="button" id="locKo" data-loc="ko">한국어</button>
+      <button type="button" id="locJa" data-loc="ja">日本語</button>
+    </div>
   </div>
 
-  <div class="err" id="err">이메일 또는 비밀번호를 확인해 주세요.</div>
+  <div class="fb-head">
+    <h2 data-i18n="heading">관리자 로그인</h2>
+    <p data-i18n="sub">등록된 관리자 계정으로 접속합니다.</p>
+  </div>
+
+  <div class="err" id="err" data-i18n="err">이메일 또는 비밀번호를 확인해 주세요.</div>
 
   <form id="loginForm" novalidate>
     <div class="field">
-      <label for="adminId">이메일</label>
+      <label for="adminId" data-i18n="labelEmail">이메일</label>
       <div class="input-wrap">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
         <input class="input" id="adminId" type="text" placeholder="admin@maropass.jp" autocomplete="username" value="admin@maropass.jp">
@@ -83,10 +96,10 @@
     </div>
 
     <div class="field">
-      <label for="adminPw">비밀번호</label>
+      <label for="adminPw" data-i18n="labelPw">비밀번호</label>
       <div class="input-wrap">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-        <input class="input" id="adminPw" type="password" placeholder="비밀번호 입력" autocomplete="current-password" value="········">
+        <input class="input" id="adminPw" type="password" placeholder="비밀번호 입력" data-i18n-ph="phPw" autocomplete="current-password" value="········">
         <button type="button" class="toggle-pw" id="togglePw" aria-label="비밀번호 표시">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
         </button>
@@ -94,19 +107,19 @@
     </div>
 
     <div class="row-between">
-      <label class="checkbox"><input type="checkbox" id="remember"> 로그인 상태 유지</label>
-      <a class="link" href="#">비밀번호 찾기</a>
+      <label class="checkbox"><input type="checkbox" id="remember"> <span data-i18n="remember">로그인 상태 유지</span></label>
+      <a class="link" href="#" data-i18n="forgot">비밀번호 찾기</a>
     </div>
 
-    <button type="submit" class="btn-login">로그인</button>
+    <button type="submit" class="btn-login" data-i18n="login">로그인</button>
   </form>
 
   <div class="notice">
-    <strong>관리자 전용 페이지입니다.</strong><br>
-    계정 발급·권한 문의는 시스템 관리자(SA)에게 요청하세요. 접속 기록이 저장됩니다.
+    <strong data-i18n="noticeTitle">관리자 전용 페이지입니다.</strong><br>
+    <span data-i18n="noticeBody">계정 발급·권한 문의는 시스템 관리자(SA)에게 요청하세요. 접속 기록이 저장됩니다.</span>
   </div>
 
-  <div class="foot">© 2026 Newin · MaroPass IBT · 관리자 전용 시스템</div>
+  <div class="foot"><span data-i18n="foot">© 2026 Newin · MaroPass IBT · 관리자 전용 시스템</span></div>
 </div>
 
 <script>
@@ -123,6 +136,60 @@
     if (!id || !pw) { document.getElementById('err').classList.add('on'); return; }
     window.location.href = 'dashboard.html';
   });
+</script>
+
+<script>
+  // 다국어 (자체 포함 — admin-shell 미사용)
+  var I18N = {
+    ko: {
+      heading: '관리자 로그인',
+      sub: '등록된 관리자 계정으로 접속합니다.',
+      err: '이메일 또는 비밀번호를 확인해 주세요.',
+      labelEmail: '이메일',
+      labelPw: '비밀번호',
+      phPw: '비밀번호 입력',
+      remember: '로그인 상태 유지',
+      forgot: '비밀번호 찾기',
+      login: '로그인',
+      noticeTitle: '관리자 전용 페이지입니다.',
+      noticeBody: '계정 발급·권한 문의는 시스템 관리자(SA)에게 요청하세요. 접속 기록이 저장됩니다.',
+      foot: '© 2026 Newin · MaroPass IBT · 관리자 전용 시스템'
+    },
+    ja: {
+      heading: '管理者ログイン',
+      sub: '登録済みの管理者アカウントでログインします。',
+      err: 'メールアドレスまたはパスワードをご確認ください。',
+      labelEmail: 'メールアドレス',
+      labelPw: 'パスワード',
+      phPw: 'パスワードを入力',
+      remember: 'ログイン状態を保持',
+      forgot: 'パスワードを忘れた方',
+      login: 'ログイン',
+      noticeTitle: '管理者専用ページです。',
+      noticeBody: 'アカウント発行・権限に関するお問い合わせはシステム管理者(SA)へご連絡ください。アクセス履歴が記録されます。',
+      foot: '© 2026 Newin · MaroPass IBT · 管理者専用システム'
+    }
+  };
+  function setLocale(loc){
+    if(!I18N[loc]) loc = 'ko';
+    localStorage.setItem('kopass_admin_locale', loc);
+    document.documentElement.lang = loc;
+    document.querySelectorAll('[data-i18n]').forEach(function(e){
+      var k = e.getAttribute('data-i18n');
+      if(I18N[loc][k] != null) e.textContent = I18N[loc][k];
+    });
+    document.querySelectorAll('[data-i18n-ph]').forEach(function(e){
+      var k = e.getAttribute('data-i18n-ph');
+      if(I18N[loc][k] != null) e.placeholder = I18N[loc][k];
+    });
+    document.querySelectorAll('.locale-toggle button').forEach(function(b){
+      b.classList.toggle('active', b.getAttribute('data-loc') === loc);
+    });
+  }
+  document.querySelectorAll('.locale-toggle button').forEach(function(b){
+    b.addEventListener('click', function(){ setLocale(b.getAttribute('data-loc')); });
+  });
+  setLocale(localStorage.getItem('kopass_admin_locale') || 'ko');
 </script>
 
 </body>

@@ -331,45 +331,45 @@
     <div class="page-head">
       <div class="page-title">
         <a href="question-bank.html" class="back-btn" title="목록으로"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg></a>
-        문제 만들기
+        <span data-i18n="page.title">문제 만들기</span>
       </div>
       <div class="page-actions">
-        <button class="btn btn-secondary" data-action="draft">임시 저장</button>
-        <button class="btn btn-primary" data-action="submit">등록</button>
+        <button class="btn btn-secondary" data-action="draft"><span data-i18n="act.draft">임시 저장</span></button>
+        <button class="btn btn-primary" data-action="submit"><span data-i18n="act.submit">등록</span></button>
       </div>
     </div>
 
     <!-- 1. 레벨 (유형 세트를 가름) -->
     <div class="qc-card">
-      <div class="card-title"><span class="card-num">1</span> 레벨</div>
+      <div class="card-title"><span class="card-num">1</span> <span data-i18n="card.level">레벨</span></div>
       <div class="level-seg" id="level-seg">
-        <button type="button" data-level="beginner" class="on">초급<span class="seg-meta">문제 유형 5종 · 0~2점</span></button>
-        <button type="button" data-level="mid">중상급<span class="seg-meta">문제 유형 9종 · 0~3점</span></button>
+        <button type="button" data-level="beginner" class="on" data-i18n-html="level.beginner">초급<span class="seg-meta">문제 유형 5종 · 척도 0~2</span></button>
+        <button type="button" data-level="mid" data-i18n-html="level.mid">중상급<span class="seg-meta">문제 유형 9종 · 척도 0~3</span></button>
       </div>
-      <div class="guide-box">
-        레벨을 고르면 그 레벨의 <strong>고정 문제 유형 세트</strong>가 아래에 나타납니다. 유형별로 시간·채점축·배점·지시문이 자동 적용되며, 관리자는 유형 틀에 맞는 <strong>문항 내용</strong>만 입력합니다.
+      <div class="guide-box" data-i18n-html="guide.level">
+        레벨을 고르면 그 레벨의 <strong>고정 문제 유형 세트</strong>가 아래에 나타납니다. 유형별로 시간·채점축·지시문이 자동 적용되며, <strong>배점은 문항마다 직접 설정</strong>합니다. 관리자는 유형 틀에 맞는 <strong>문항 내용</strong>만 입력합니다.
       </div>
     </div>
 
     <!-- 2. 문제 유형 (레벨별 고정 세트) -->
     <div class="qc-card">
-      <div class="card-title"><span class="card-num">2</span> 문제 유형 <span class="lock-pill type-lock"><svg class="lock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>고정 세트</span></div>
+      <div class="card-title"><span class="card-num">2</span> <span data-i18n="card.type">문제 유형</span> <span class="lock-pill type-lock"><svg class="lock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span data-i18n="lock.fixedSet">고정 세트</span></span></div>
       <div class="area-tabs" id="area-tabs"><!-- JS가 레벨별로 채움 --></div>
 
       <!-- 평가 기준 (선택한 유형에 따라 자동 변경) — 일단 숨김 처리 -->
       <div class="rubric-box" style="display:none;">
-        <div class="rubric-box-head">평가 기준 <span id="rubric-area-label"></span></div>
+        <div class="rubric-box-head"><span data-i18n="rubric.head">평가 기준</span> <span id="rubric-area-label"></span></div>
         <div class="rubric-content" id="rubric-content"><!-- JS가 유형별로 채움 --></div>
       </div>
 
-      <div class="guide-box">
+      <div class="guide-box" data-i18n-html="guide.type">
         단일 문항 1개 등록. 저장하면 문제 은행에 <strong>레벨·유형</strong> 태그로 쌓입니다. 여러 문항 묶음은 「시험 만들기」에서 유형별로 담습니다.
       </div>
     </div>
 
     <!-- 3. 문제 분류 (기존 서비스형 분류 선택) -->
     <div class="qc-card">
-      <div class="card-title"><span class="card-num">3</span> 문제 분류</div>
+      <div class="card-title"><span class="card-num">3</span> <span data-i18n="card.cat">문제 분류</span></div>
       <div class="catsel-row">
         <button type="button" class="catsel-btn" id="catselBtn" aria-expanded="false">
           <svg id="catselIcon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
@@ -378,7 +378,7 @@
         <div class="catsel-pop" id="catselPop" hidden>
           <div class="catsel-search">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-            <input type="text" id="catselSearch" placeholder="분류 검색">
+            <input type="text" id="catselSearch" placeholder="분류 검색" data-i18n-ph="cat.searchPh">
           </div>
           <div class="catsel-list" id="catselList"><!-- JS --></div>
         </div>
@@ -393,11 +393,11 @@
       <!-- 한국어 지시문 (응시자 화면 노출) -->
       <div class="compact-card">
         <div class="label-row">
-          <label class="label">한국어 지시문 <span class="lang-label ko">KO</span></label>
+          <label class="label"><span id="instr-label-text">한국어 지시문</span> <span class="lang-label ko" id="instr-lang-badge">KO</span></label>
           <div class="tts-cluster">
             <div class="voice-mini" data-tts="ko">
-              <button type="button" class="on" data-voice="male">남</button>
-              <button type="button" data-voice="female">여</button>
+              <button type="button" class="on" data-voice="male" data-i18n="voice.male">남</button>
+              <button type="button" data-voice="female" data-i18n="voice.female">여</button>
             </div>
             <button type="button" class="tts-mini">
               <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
@@ -405,36 +405,41 @@
             </button>
           </div>
         </div>
-        <p class="hint">유형 선택 시 자동 채워집니다. 수정 가능.</p>
+        <p class="hint" data-i18n="hint.instrAuto">유형 선택 시 자동 채워집니다. 수정 가능.</p>
         <textarea class="textarea" id="input-instr-ko" style="min-height: 56px;"></textarea>
       </div>
 
       <!-- ===== kind: read — 문장 읽기 ===== -->
       <div class="compact-card area-only" data-kind="read">
-        <label class="label">한국어 문장 <span class="req">*</span></label>
-        <p class="hint">제한 시간 안에 읽는 1문장. 인사·평서·의문·청유·복문 권장.</p>
+        <label class="label"><span data-i18n="read.sentence">한국어 문장</span> <span class="req">*</span></label>
+        <p class="hint" data-i18n="read.sentenceHint">제한 시간 안에 읽는 1문장. 인사·평서·의문·청유·복문 권장.</p>
         <input type="text" class="input" id="q-read-sentence" placeholder="예: 만나서 반갑습니다." value="만나서 반갑습니다.">
+        <div style="margin-top: 14px;">
+          <label class="label"><span data-i18n="read.pron">표준 발음 (모범 답안)</span> <span class="req">*</span></label>
+          <p class="hint" data-i18n="read.pronHint">AI가 응시자 음성을 비교·분석하는 기준입니다. 연음·경음화 등 실제 발음대로 입력. (예: 만나서 반갑씀니다)</p>
+          <input type="text" class="input" id="q-read-answer" placeholder="예: 만나서 반갑씀니다" value="만나서 반갑씀니다">
+        </div>
       </div>
 
       <!-- ===== kind: qa — 질문 대답 ===== -->
       <div class="compact-card area-only" data-kind="qa">
         <div class="label-row">
-          <label class="label">질문 <span class="req">*</span> <span class="hint" style="display:inline; margin-left:4px;">응시자에게 음성으로 재생</span></label>
+          <label class="label"><span data-i18n="qa.question">질문</span> <span class="req">*</span> <span class="hint" style="display:inline; margin-left:4px;" data-i18n="hint.playAudio">응시자에게 음성으로 재생</span></label>
           <div class="tts-cluster">
             <div class="voice-mini" data-tts="qa-q">
-              <button type="button" class="on" data-voice="male">남</button>
-              <button type="button" data-voice="female">여</button>
+              <button type="button" class="on" data-voice="male" data-i18n="voice.male">남</button>
+              <button type="button" data-voice="female" data-i18n="voice.female">여</button>
             </div>
             <button type="button" class="tts-mini">
               <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-              듣기
+              <span data-i18n="btn.listen">듣기</span>
             </button>
           </div>
         </div>
         <input type="text" class="input" id="q-qa-question" placeholder="예: 보통 몇 시에 자요?" value="보통 몇 시에 자요?">
         <div style="margin-top: 14px;">
-          <label class="label">모범 답안 <span class="req">*</span></label>
-          <p class="hint">1~5개 입력. AI 채점 시 의미 유사도 기준이 됩니다.</p>
+          <label class="label"><span data-i18n="label.modelAnswer">모범 답안</span> <span class="req">*</span></label>
+          <p class="hint" data-i18n="qa.answerHint">1~5개 입력. AI 채점 시 의미 유사도 기준이 됩니다.</p>
           <div class="answer-list" id="qa-answers">
             <div class="answer-row">
               <span class="num">1</span>
@@ -447,134 +452,134 @@
               <button class="del-mini">✕</button>
             </div>
           </div>
-          <button class="add-answer" style="margin-top: 8px;">+ 답안 추가</button>
+          <button class="add-answer" style="margin-top: 8px;" data-i18n="btn.addAnswer">+ 답안 추가</button>
         </div>
       </div>
 
       <!-- ===== kind: dialog — 생활 속 대화 / 역할 수행 ===== -->
       <div class="compact-card area-only" data-kind="dialog">
-        <label class="label">상황 일러스트 <span class="req">*</span></label>
-        <p class="hint">대화 상황 그림 (카페·서점·병원·미용실·길찾기 등)</p>
+        <label class="label"><span data-i18n="dialog.illust">상황 일러스트</span> <span class="req">*</span></label>
+        <p class="hint" data-i18n="dialog.illustHint">대화 상황 그림 (카페·서점·병원·미용실·길찾기 등)</p>
         <div class="upload-slot" data-upload-slot>
           <div class="upload-zone" style="padding: 16px;" data-upload-empty>
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-            <div style="font-size: 12px; margin-top: 4px;">클릭 또는 드래그</div>
-            <div style="font-size: 11px; color: var(--grey-400); margin-top: 4px;">PNG · JPG · WebP · 최대 5MB · 권장 1200×800</div>
+            <div style="font-size: 12px; margin-top: 4px;" data-i18n="upload.clickDrag">클릭 또는 드래그</div>
+            <div style="font-size: 11px; color: var(--grey-400); margin-top: 4px;" data-i18n="upload.spec1">PNG · JPG · WebP · 최대 5MB · 권장 1200×800</div>
           </div>
           <div class="upload-preview" data-upload-filled style="display: none;">
             <div class="thumb">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5" fill="currentColor"/><polyline points="21 15 16 10 5 21"/></svg>
-              <span class="placeholder-label">미리보기</span>
+              <span class="placeholder-label" data-i18n="upload.preview">미리보기</span>
             </div>
             <div class="info">
               <div class="filename">cafe-counter-scene.png</div>
               <div class="meta">
                 <span>1200 × 800</span><span class="dot"></span>
                 <span>312 KB</span><span class="dot"></span>
-                <span class="ok">✓ 업로드 완료</span>
+                <span class="ok" data-i18n="upload.done">✓ 업로드 완료</span>
               </div>
               <div class="upload-progress"><div class="bar" style="width: 100%;"></div></div>
             </div>
             <div class="actions">
-              <button type="button" class="btn-mini" data-upload-replace>교체</button>
-              <button type="button" class="btn-mini danger" data-upload-remove>삭제</button>
+              <button type="button" class="btn-mini" data-upload-replace data-i18n="btn.replace">교체</button>
+              <button type="button" class="btn-mini danger" data-upload-remove data-i18n="btn.delete">삭제</button>
             </div>
           </div>
         </div>
 
         <div style="margin-top: 14px;">
           <div class="label-row">
-            <label class="label">상대 대사 <span class="req">*</span> <span class="hint" style="display:inline; margin-left:4px;">응시자에게 음성으로 재생</span></label>
+            <label class="label"><span data-i18n="dialog.line">상대 대사</span> <span class="req">*</span> <span class="hint" style="display:inline; margin-left:4px;" data-i18n="hint.playAudio">응시자에게 음성으로 재생</span></label>
             <div class="tts-cluster">
               <div class="voice-mini" data-tts="dialog-line">
-                <button type="button" class="on" data-voice="male">남</button>
-                <button type="button" data-voice="female">여</button>
+                <button type="button" class="on" data-voice="male" data-i18n="voice.male">남</button>
+                <button type="button" data-voice="female" data-i18n="voice.female">여</button>
               </div>
               <button type="button" class="tts-mini">
                 <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-                듣기
+                <span data-i18n="btn.listen">듣기</span>
               </button>
             </div>
           </div>
-          <p class="hint">예: 직원의 "주문하시겠습니까?"</p>
+          <p class="hint" data-i18n="dialog.lineHint">예: 직원의 "주문하시겠습니까?"</p>
           <input type="text" class="input" id="q-dialog-line" placeholder="상대(직원·의사 등)가 던지는 한 마디" value="주문하시겠습니까?">
         </div>
 
         <div style="margin-top: 14px;">
-          <label class="label">답변 풍선 (상황 지시) <span class="req">*</span></label>
-          <p class="hint">응시자가 답할 핵심 키워드 (그림 풍선으로 노출)</p>
+          <label class="label"><span data-i18n="dialog.balloon">답변 풍선 (상황 지시)</span> <span class="req">*</span></label>
+          <p class="hint" data-i18n="dialog.balloonHint">응시자가 답할 핵심 키워드 (그림 풍선으로 노출)</p>
           <textarea class="textarea" id="q-dialog-balloon" placeholder="예: 따뜻한 커피 한 잔, 카드(로 계산)" style="min-height: 50px;">따뜻한 커피 한 잔, 카드(로 계산)</textarea>
         </div>
 
         <div style="margin-top: 14px;">
-          <label class="label">모범 답안 <span class="req">*</span></label>
+          <label class="label"><span data-i18n="label.modelAnswer">모범 답안</span> <span class="req">*</span></label>
           <textarea class="textarea" placeholder="예: 네, 따뜻한 커피 한 잔 주세요. 그리고 카드로 부탁드립니다." style="min-height: 60px;"></textarea>
         </div>
       </div>
 
       <!-- ===== kind: describe — 그림/사진·상황 설명 ===== -->
       <div class="compact-card area-only" data-kind="describe">
-        <label class="label">그림/사진 <span class="req">*</span></label>
-        <p class="hint">일과·풍경·사건 전개 등을 설명할 이미지 (순서 설명형은 다단계 이미지)</p>
+        <label class="label"><span data-i18n="describe.image">그림/사진</span> <span class="req">*</span></label>
+        <p class="hint" data-i18n="describe.imageHint">일과·풍경·사건 전개 등을 설명할 이미지 (순서 설명형은 다단계 이미지)</p>
         <div class="upload-slot" data-upload-slot>
           <div class="upload-zone" style="padding: 16px;" data-upload-empty>
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-            <div style="font-size: 12px; margin-top: 4px;">클릭 또는 드래그</div>
-            <div style="font-size: 11px; color: var(--grey-400); margin-top: 4px;">PNG · JPG · WebP · 최대 5MB · 권장 1200×800</div>
+            <div style="font-size: 12px; margin-top: 4px;" data-i18n="upload.clickDrag">클릭 또는 드래그</div>
+            <div style="font-size: 11px; color: var(--grey-400); margin-top: 4px;" data-i18n="upload.spec1">PNG · JPG · WebP · 최대 5MB · 권장 1200×800</div>
           </div>
           <div class="upload-preview" data-upload-filled style="display: none;">
             <div class="thumb">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5" fill="currentColor"/><polyline points="21 15 16 10 5 21"/></svg>
-              <span class="placeholder-label">미리보기</span>
+              <span class="placeholder-label" data-i18n="upload.preview">미리보기</span>
             </div>
             <div class="info">
               <div class="filename">daily-routine.jpg</div>
               <div class="meta">
                 <span>1200 × 800</span><span class="dot"></span>
                 <span>284 KB</span><span class="dot"></span>
-                <span class="ok">✓ 업로드 완료</span>
+                <span class="ok" data-i18n="upload.done">✓ 업로드 완료</span>
               </div>
               <div class="upload-progress"><div class="bar" style="width: 100%;"></div></div>
             </div>
             <div class="actions">
-              <button type="button" class="btn-mini" data-upload-replace>교체</button>
-              <button type="button" class="btn-mini danger" data-upload-remove>삭제</button>
+              <button type="button" class="btn-mini" data-upload-replace data-i18n="btn.replace">교체</button>
+              <button type="button" class="btn-mini danger" data-upload-remove data-i18n="btn.delete">삭제</button>
             </div>
           </div>
         </div>
 
         <div style="margin-top: 14px;">
-          <label class="label">설명 주제 <span class="req">*</span></label>
+          <label class="label"><span data-i18n="describe.topic">설명 주제</span> <span class="req">*</span></label>
           <input type="text" class="input" id="q-describe-topic" placeholder="예: 하루 일과 / 공원 풍경 / 사건의 시간적 변화" value="하루 일과">
         </div>
 
         <div style="margin-top: 14px;">
-          <label class="label">모범 답안 <span class="req">*</span></label>
-          <p class="hint">3~5문장 권장.</p>
+          <label class="label"><span data-i18n="label.modelAnswer">모범 답안</span> <span class="req">*</span></label>
+          <p class="hint" data-i18n="describe.answerHint">3~5문장 권장.</p>
           <textarea class="textarea" placeholder="예: 저는 아침 7시에 일어납니다. 일어난 후 7시 15분쯤에 세수를 하고 하루를 시작합니다..." style="min-height: 90px;"></textarea>
         </div>
       </div>
 
       <!-- ===== kind: pragmatic — 화용 과제 (초급) ===== -->
       <div class="compact-card area-only" data-kind="pragmatic">
-        <label class="label">상황 설명 <span class="lang-label ja">JA</span> <span class="req">*</span></label>
-        <p class="hint">응시자에게 일본어로 제시되는 상황 (의뢰·사과·감사·조언·요청 등)</p>
+        <label class="label"><span data-i18n="prag.situation">상황 설명</span> <span class="lang-label ja">JA</span> <span class="req">*</span></label>
+        <p class="hint" data-i18n="prag.situationHint">응시자에게 일본어로 제시되는 상황 (의뢰·사과·감사·조언·요청 등)</p>
         <textarea class="textarea" id="q-prag-situation" placeholder="例：来週の授業で韓国語の発表をすることになりました。..." style="min-height: 88px;">来週の授業で韓国語の発表をすることになりました。発表の内容を一緒に練習したいので、留学生の「민지 씨」に協力をお願いしてみましょう。そのとき、「민지 씨」がいつなら練習できるか、どこで練習するのがいいかも聞いてみてください。</textarea>
 
         <div style="margin-top: 14px;">
-          <label class="label">화행 유형</label>
+          <label class="label" data-i18n="prag.actType">화행 유형</label>
           <div class="radio-row" style="margin-top: 4px;">
-            <label class="radio-chip"><input type="radio" name="pragmatic-type" checked> 의뢰</label>
-            <label class="radio-chip"><input type="radio" name="pragmatic-type"> 사과</label>
-            <label class="radio-chip"><input type="radio" name="pragmatic-type"> 감사</label>
-            <label class="radio-chip"><input type="radio" name="pragmatic-type"> 조언</label>
-            <label class="radio-chip"><input type="radio" name="pragmatic-type"> 요청</label>
+            <label class="radio-chip"><input type="radio" name="pragmatic-type" checked> <span data-i18n="prag.req">의뢰</span></label>
+            <label class="radio-chip"><input type="radio" name="pragmatic-type"> <span data-i18n="prag.apology">사과</span></label>
+            <label class="radio-chip"><input type="radio" name="pragmatic-type"> <span data-i18n="prag.thanks">감사</span></label>
+            <label class="radio-chip"><input type="radio" name="pragmatic-type"> <span data-i18n="prag.advice">조언</span></label>
+            <label class="radio-chip"><input type="radio" name="pragmatic-type"> <span data-i18n="prag.request">요청</span></label>
           </div>
         </div>
 
         <div style="margin-top: 14px;">
-          <label class="label">모범 답안 <span class="req">*</span></label>
-          <p class="hint">화행 표현 + 상황 핵심 정보 포함.</p>
+          <label class="label"><span data-i18n="label.modelAnswer">모범 답안</span> <span class="req">*</span></label>
+          <p class="hint" data-i18n="prag.answerHint">화행 표현 + 상황 핵심 정보 포함.</p>
           <textarea class="textarea" placeholder="예: 민지 씨, 안녕하세요? 다음 주 수업에서 한국어 발표를 해야 하는데..." style="min-height: 90px;"></textarea>
         </div>
       </div>
@@ -582,83 +587,83 @@
       <!-- ===== kind: dialogcont — 대화 듣고 이어 말하기 (중상급 화용/의견) ===== -->
       <div class="compact-card area-only" data-kind="dialogcont">
         <div class="label-row">
-          <label class="label">대화 스크립트 <span class="req">*</span> <span class="hint" style="display:inline; margin-left:4px;">A·B 대화, 마지막 발화 뒤 응시자가 이어 말함</span></label>
+          <label class="label"><span data-i18n="dc.script">대화 스크립트</span> <span class="req">*</span> <span class="hint" style="display:inline; margin-left:4px;" data-i18n="dc.scriptHint2">A·B 대화, 마지막 발화 뒤 응시자가 이어 말함</span></label>
           <div class="tts-cluster">
             <div class="voice-mini" data-tts="dc-script">
-              <button type="button" class="on" data-voice="male">남</button>
-              <button type="button" data-voice="female">여</button>
+              <button type="button" class="on" data-voice="male" data-i18n="voice.male">남</button>
+              <button type="button" data-voice="female" data-i18n="voice.female">여</button>
             </div>
             <button type="button" class="tts-mini">
               <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-              듣기
+              <span data-i18n="btn.listen">듣기</span>
             </button>
           </div>
         </div>
-        <p class="hint">예: 회사 동기가 50만원을 빌려달라 → 어떻게 거절할지. (분류축에서 화행/논제 선택)</p>
+        <p class="hint" data-i18n="dc.scriptHint">예: 회사 동기가 50만원을 빌려달라 → 어떻게 거절할지. (분류축에서 화행/논제 선택)</p>
         <textarea class="textarea" id="q-dc-script" placeholder="A : 급해서 그러는데 50만원만 빌려 줬으면 하는데…&#10;B : 무슨 일인데? 갑자기 50만원을…&#10;A : 다음 주까지 꼭 갚을게. 좀 부탁할게.&#10;B : ______ (응시자 발화)" style="min-height: 110px;">A : 급해서 그러는데 50만원만 빌려 줬으면 하는데…
 B : 무슨 일인데? 갑자기 50만원을…
 A : 다음 주까지 꼭 갚을게. 좀 부탁할게.
 B : ______ (응시자가 이어서 말함)</textarea>
 
         <div style="margin-top: 14px;">
-          <label class="label">모범 답안 <span class="req">*</span></label>
-          <p class="hint">요구되는 화행 표현 + 이유/배려 표현 포함.</p>
+          <label class="label"><span data-i18n="label.modelAnswer">모범 답안</span> <span class="req">*</span></label>
+          <p class="hint" data-i18n="dc.answerHint">요구되는 화행 표현 + 이유/배려 표현 포함.</p>
           <textarea class="textarea" placeholder="예: 그래, 갑자기 무슨 일인지는 모르겠지만 미안해. 내가 지금 상황이 안 좋아서 좀 어려워. 잘 해결됐으면 좋겠다." style="min-height: 90px;"></textarea>
         </div>
       </div>
 
       <!-- ===== kind: data — 자료 해석하기 (중상급 5-1) ===== -->
       <div class="compact-card area-only" data-kind="data">
-        <label class="label">자료 (그래프·통계·표) <span class="req">*</span></label>
-        <p class="hint">사회 현상 자료. 응시자가 설명 + 원인/의견 제시</p>
+        <label class="label"><span data-i18n="data.material">자료 (그래프·통계·표)</span> <span class="req">*</span></label>
+        <p class="hint" data-i18n="data.materialHint">사회 현상 자료. 응시자가 설명 + 원인/의견 제시</p>
         <div class="upload-slot" data-upload-slot>
           <div class="upload-zone" style="padding: 16px;" data-upload-empty>
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-            <div style="font-size: 12px; margin-top: 4px;">클릭 또는 드래그</div>
-            <div style="font-size: 11px; color: var(--grey-400); margin-top: 4px;">그래프/통계 이미지 · 최대 5MB</div>
+            <div style="font-size: 12px; margin-top: 4px;" data-i18n="upload.clickDrag">클릭 또는 드래그</div>
+            <div style="font-size: 11px; color: var(--grey-400); margin-top: 4px;" data-i18n="upload.spec2">그래프/통계 이미지 · 최대 5MB</div>
           </div>
           <div class="upload-preview" data-upload-filled style="display: none;">
             <div class="thumb">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 3v18h18"/><rect x="7" y="10" width="3" height="8"/><rect x="12" y="6" width="3" height="12"/><rect x="17" y="13" width="3" height="5"/></svg>
-              <span class="placeholder-label">자료</span>
+              <span class="placeholder-label" data-i18n="upload.material">자료</span>
             </div>
             <div class="info">
               <div class="filename">smartphone-overuse.png</div>
               <div class="meta">
                 <span>1200 × 800</span><span class="dot"></span>
                 <span>198 KB</span><span class="dot"></span>
-                <span class="ok">✓ 업로드 완료</span>
+                <span class="ok" data-i18n="upload.done">✓ 업로드 완료</span>
               </div>
               <div class="upload-progress"><div class="bar" style="width: 100%;"></div></div>
             </div>
             <div class="actions">
-              <button type="button" class="btn-mini" data-upload-replace>교체</button>
-              <button type="button" class="btn-mini danger" data-upload-remove>삭제</button>
+              <button type="button" class="btn-mini" data-upload-replace data-i18n="btn.replace">교체</button>
+              <button type="button" class="btn-mini danger" data-upload-remove data-i18n="btn.delete">삭제</button>
             </div>
           </div>
         </div>
 
         <div style="margin-top: 14px;">
-          <label class="label">자료 주제 <span class="req">*</span></label>
+          <label class="label"><span data-i18n="data.topic">자료 주제</span> <span class="req">*</span></label>
           <input type="text" class="input" id="q-data-topic" placeholder="예: 스마트폰 과다 사용 비율" value="스마트폰 과다 사용 비율">
         </div>
 
         <div style="margin-top: 14px;">
-          <label class="label">모범 답안 (서론·본론·결론) <span class="req">*</span></label>
-          <p class="hint">자료 해석 → 문제 파악 → 의견 제시 흐름.</p>
+          <label class="label"><span data-i18n="label.modelAnswerSep">모범 답안 (서론·본론·결론)</span> <span class="req">*</span></label>
+          <p class="hint" data-i18n="data.answerHint">자료 해석 → 문제 파악 → 의견 제시 흐름.</p>
           <textarea class="textarea" placeholder="서론: 자료 해석 / 본론: 원인·문제 / 결론: 의견 제시" style="min-height: 100px;"></textarea>
         </div>
       </div>
 
       <!-- ===== kind: opinion — 의견 제시·프레젠테이션 (중상급 6) ===== -->
       <div class="compact-card area-only" data-kind="opinion">
-        <label class="label">논제 <span class="req">*</span></label>
-        <p class="hint">찬반이 갈리는 사회 이슈. 응시자가 근거를 들어 의견 제시</p>
+        <label class="label"><span data-i18n="op.topic">논제</span> <span class="req">*</span></label>
+        <p class="hint" data-i18n="op.topicHint">찬반이 갈리는 사회 이슈. 응시자가 근거를 들어 의견 제시</p>
         <textarea class="textarea" id="q-op-topic" placeholder="예: 여자 대학의 남녀공학 전환에 대한 의견을 구체적으로 말하십시오." style="min-height: 70px;">최근 일본에서는 여자 대학의 남녀공학으로의 전환이 화제가 되고 있습니다. 이에 대한 여러분의 의견을 구체적으로 말하십시오.</textarea>
 
         <div style="margin-top: 14px;">
-          <label class="label">모범 답안 (서론·본론·결론) <span class="req">*</span></label>
-          <p class="hint">문제 파악 → 구체적 의견 → 논리적 결론.</p>
+          <label class="label"><span data-i18n="label.modelAnswerSep">모범 답안 (서론·본론·결론)</span> <span class="req">*</span></label>
+          <p class="hint" data-i18n="op.answerHint">문제 파악 → 구체적 의견 → 논리적 결론.</p>
           <textarea class="textarea" placeholder="서론: 문제 파악 / 본론: 구체적 의견 제시 / 결론: 논리적 결론" style="min-height: 100px;"></textarea>
         </div>
       </div>
@@ -666,71 +671,54 @@ B : ______ (응시자가 이어서 말함)</textarea>
       <!-- 시간 설정 (유형별 자동 잠금) -->
       <div class="compact-card">
         <div class="label-row">
-          <label class="label">시간 설정</label>
-          <span class="lock-pill"><svg class="lock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>유형별 권장값</span>
+          <label class="label" data-i18n="time.set">시간 설정</label>
+          <span class="lock-pill"><svg class="lock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span data-i18n="time.recVal">유형별 권장값</span></span>
         </div>
-        <p class="hint">수정 가능하나 시험 일관성에 영향. 권장값에서 벗어나면 경고가 표시됩니다.</p>
+        <p class="hint" data-i18n="time.hint">수정 가능하나 시험 일관성에 영향. 권장값에서 벗어나면 경고가 표시됩니다.</p>
         <div class="time-pair" style="margin-top: 10px;">
           <div class="time-cell prep">
-            <div class="label">준비</div>
+            <div class="label" data-i18n="time.prep">준비</div>
             <div class="row">
               <input type="number" id="time-prep" value="0" min="0" max="120">
-              <span class="unit">초</span>
+              <span class="unit" data-i18n="unit.sec">초</span>
             </div>
           </div>
           <div class="time-cell record">
-            <div class="label">발화/녹음</div>
+            <div class="label" data-i18n="time.record">발화/녹음</div>
             <div class="row">
               <input type="number" id="time-record" value="10" min="5" max="180">
-              <span class="unit">초</span>
+              <span class="unit" data-i18n="unit.sec">초</span>
             </div>
           </div>
         </div>
-        <p id="time-warn" class="hint" style="margin-top: 8px; color: var(--orange-500); display: none;">⚠ 유형 권장값과 다릅니다. (권장: 준비 <span id="rec-prep">0</span>초 · 녹음 <span id="rec-rec">10</span>초)</p>
+        <p id="time-warn" class="hint" style="margin-top: 8px; color: var(--orange-500); display: none;"><span data-i18n="warn.pre">⚠ 유형 권장값과 다릅니다. (권장: 준비 </span><span id="rec-prep">0</span><span data-i18n="warn.mid">초 · 녹음 </span><span id="rec-rec">10</span><span data-i18n="warn.post">초)</span></p>
       </div>
 
-      <!-- 배점 (채점축 × 척도 = 점/문항 자동 산출) -->
+      <!-- 배점 (문항별 직접 설정 · 시험 총점 100점 고정) -->
       <div class="compact-card">
         <div class="label-row">
-          <label class="label">배점</label>
-          <span class="hint" style="font-size:11px; display:inline;">점/문항 = 채점축 × 척도 (자동)</span>
+          <label class="label" data-i18n="score.label">배점</label>
+          <span class="hint" style="font-size:11px; display:inline;" data-i18n="score.note">문항별 직접 설정 · 시험 총점 100점 고정</span>
         </div>
         <div class="score-edit">
           <div class="score-cell">
-            <div class="score-cell-label">문항 수</div>
+            <div class="score-cell-label" data-i18n="score.perItem">이 문항 배점</div>
             <div class="score-cell-row">
-              <input type="number" id="score-count" value="10" min="1" max="50">
-              <span class="unit">문항</span>
-            </div>
-          </div>
-          <div class="score-op">×</div>
-          <div class="score-cell derived">
-            <div class="score-cell-label">점/문항</div>
-            <div class="score-cell-row">
-              <span class="score-per-val" id="score-per">2</span>
-              <span class="unit">점</span>
-            </div>
-          </div>
-          <div class="score-op">=</div>
-          <div class="score-cell total">
-            <div class="score-cell-label">총점</div>
-            <div class="score-cell-row">
-              <span class="score-total-val" id="score-total">20</span>
-              <span class="unit" style="color:var(--blue-600);">점</span>
+              <input type="number" id="score-per-input" value="4" min="0" max="100" step="0.5">
+              <span class="unit" data-i18n="unit.point">점</span>
             </div>
           </div>
         </div>
-        <p class="score-formula" id="score-formula">채점축 <strong id="sf-axes">1</strong>개 × 척도 <strong id="sf-scale">2</strong>점 = <strong id="sf-per">2</strong>점/문항</p>
-        <p id="score-warn" class="hint" style="margin-top: 8px; color: var(--orange-500); display: none;">⚠ 유형 권장 문항 수와 다릅니다. (권장: <span id="rec-score-count">10</span>문항)</p>
+        <p class="score-formula" data-i18n-html="score.formula">시험 전체 <strong>총점은 100점</strong>으로 고정됩니다. 문항별 배점 합계가 100점이 되도록 <strong>「시험 만들기」</strong>에서 조정하세요.</p>
       </div>
 
     </div>
 
     <!-- 하단 액션 -->
     <div style="display:flex; justify-content:flex-end; gap:8px; padding: 16px 0 32px;">
-      <button class="btn btn-secondary" data-action="cancel">취소</button>
-      <button class="btn btn-secondary" data-action="draft">임시 저장</button>
-      <button class="btn btn-primary" data-action="submit">등록</button>
+      <button class="btn btn-secondary" data-action="cancel"><span data-i18n="act.cancel">취소</span></button>
+      <button class="btn btn-secondary" data-action="draft"><span data-i18n="act.draft">임시 저장</span></button>
+      <button class="btn btn-primary" data-action="submit"><span data-i18n="act.submit">등록</span></button>
     </div>
 
   </div>
@@ -740,7 +728,7 @@ B : ______ (응시자가 이어서 말함)</textarea>
 
     <!-- 툴바 (라벨 + 재생) -->
     <div class="preview-toolbar">
-      <span class="label">응시자 화면 (모바일 IBT)</span>
+      <span class="label" data-i18n="preview.label">응시자 화면 (모바일 IBT)</span>
       <button class="play-all-btn" id="play-all-btn">
         <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
         재생
@@ -763,7 +751,7 @@ B : ______ (응시자가 이어서 말함)</textarea>
           <div class="app-meta">
             <span class="b-mini" style="background: var(--blue-50); color: var(--blue-600);" id="mock-score">2점</span>
             <span class="b-mini" style="background: var(--grey-100); color: var(--grey-700);" id="mock-type-label">짧은 문장 읽기</span>
-            <span class="b-mini" style="background: var(--grey-100); color: var(--grey-700);">1번 문항</span>
+            <span class="b-mini" style="background: var(--grey-100); color: var(--grey-700);" data-i18n="mock.itemNo">1번 문항</span>
           </div>
           <div class="app-progress">
             <div class="app-progress-bar"><div class="app-progress-fill" id="mock-progress-fill"></div></div>
@@ -783,7 +771,7 @@ B : ______ (응시자가 이어서 말함)</textarea>
           <!-- 지시문 박스 (지시문 단계만) -->
           <div class="mock-instr-box" id="mock-instr-box">
             <span id="mock-instr-text">화면에 보이는 문장을 읽어 주세요.</span><br>
-            <strong id="mock-time-hint">바로 답해 주세요.</strong> '삐' 소리 후 <span style="color:var(--red-500); font-weight:700;" id="mock-rec-hint">10초 동안</span> 말하십시오.
+            <strong id="mock-time-hint">바로 답해 주세요.</strong> <span id="mock-beep-pre">'삐' 소리 후</span> <span style="color:var(--red-500); font-weight:700;" id="mock-rec-hint">10초 동안</span> <span id="mock-say">말하십시오.</span>
           </div>
 
           <!-- ===== read: 큰 한국어 문장 ===== -->
@@ -796,7 +784,7 @@ B : ______ (응시자가 이어서 말함)</textarea>
             <div class="audio-pulse">
               <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 7.97v8.05a4.5 4.5 0 0 0 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
             </div>
-            <div class="audio-label">질문이 음성으로 재생됩니다</div>
+            <div class="audio-label" data-i18n="mock.qaAudio">질문이 음성으로 재생됩니다</div>
             <div class="audio-q" id="mock-qa-text">보통 몇 시에 자요?</div>
           </div>
 
@@ -804,7 +792,7 @@ B : ______ (응시자가 이어서 말함)</textarea>
           <div class="area-mock area-mock-dialog">
             <div class="dialog-illust">
               <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-              <div>상황 일러스트</div>
+              <div data-i18n="mock.dialogIllust">상황 일러스트</div>
             </div>
             <div class="dialog-balloon" id="mock-dialog-line">주문하시겠습니까?</div>
             <div class="dialog-hint" id="mock-dialog-balloon">💬 따뜻한 커피 한 잔, 카드(로 계산)</div>
@@ -831,7 +819,7 @@ B : ______ (응시자가 이어서 말함)</textarea>
             <div class="audio-pulse">
               <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 7.97v8.05a4.5 4.5 0 0 0 2.5-4.02z"/></svg>
             </div>
-            <div class="audio-label">대화를 듣고 이어서 말하세요</div>
+            <div class="audio-label" data-i18n="mock.dcAudio">대화를 듣고 이어서 말하세요</div>
             <div class="situation-box" style="background:#eff6ff; border-color:#bfdbfe;">
               <p id="mock-dc-text" style="white-space:pre-line;">A : 급해서 그러는데 50만원만…
 B : ______ (이어 말하기)</p>
@@ -849,20 +837,20 @@ B : ______ (이어 말하기)</p>
           <!-- ===== opinion: 논제 박스 ===== -->
           <div class="area-mock area-mock-opinion">
             <div class="situation-box" style="background:#fffbeb; border-color:#fde68a;">
-              <span class="sit-lang" style="background:#fef3c7; color:#92400e;">논제</span>
+              <span class="sit-lang" style="background:#fef3c7; color:#92400e;" data-i18n="mock.opTag">논제</span>
               <p id="mock-op-text">여자 대학의 남녀공학 전환에 대한 의견을 말하십시오.</p>
             </div>
           </div>
 
           <!-- 준비 타이머 -->
           <div class="mock-timer prep" id="mock-timer-prep" style="display: none;">
-            <div class="mock-timer-label">준비 시간</div>
+            <div class="mock-timer-label" data-i18n="mock.timerPrep">준비 시간</div>
             <div class="mock-timer-value" id="mock-timer-prep-val">00:00</div>
           </div>
 
           <!-- 녹음 타이머 -->
           <div class="mock-timer record" id="mock-timer-record" style="display: none;">
-            <div class="mock-timer-label">녹음 시간</div>
+            <div class="mock-timer-label" data-i18n="mock.timerRec">녹음 시간</div>
             <div class="mock-timer-value" id="mock-timer-record-val">00:10</div>
             <div class="mock-waveform"><div class="mock-wf"></div><div class="mock-wf"></div><div class="mock-wf"></div><div class="mock-wf"></div></div>
           </div>
@@ -873,9 +861,9 @@ B : ______ (이어 말하기)</p>
     <!-- 하단 미니멀 컨트롤 (단계 탭 + 가로 타임라인) -->
     <div class="preview-controls">
       <div class="stage-tabs">
-        <button class="stage-tab active" data-stage="instr">안내</button>
-        <button class="stage-tab" data-stage="prep">준비</button>
-        <button class="stage-tab" data-stage="record">녹음</button>
+        <button class="stage-tab active" data-stage="instr" data-i18n="stage.instr">안내</button>
+        <button class="stage-tab" data-stage="prep" data-i18n="stage.prep">준비</button>
+        <button class="stage-tab" data-stage="record" data-i18n="stage.record">녹음</button>
       </div>
       <div class="timeline">
         <div class="timeline-track">
@@ -1015,6 +1003,58 @@ B : ______ (이어 말하기)</p>
     }
   };
 
+  // ─── JS 구동 텍스트의 일본어 대역 (관리자 UI 로케일용) ───
+  // 유형 탭/이름 (t.key 기준) — 문항 내용(instrKo/instrJa·샘플값)은 데이터로 유지
+  const TYPE_JA = {
+    'read':       { tab:'① 短い文の音読',        label:'短い文の音読' },
+    'qa':         { tab:'② 質問応答',            label:'質問に答える' },
+    'dialog':     { tab:'③ 日常会話',            label:'日常会話をする' },
+    'describe':   { tab:'④ 絵・写真の説明',       label:'絵・写真を見て説明する' },
+    'pragmatic':  { tab:'⑤ 語用課題',            label:'語用課題を遂行する' },
+    'm-read':     { tab:'① 語彙の発音区別',       label:'語彙の発音を区別する' },
+    'm-qa':       { tab:'② 自分について話す',      label:'自分について話す' },
+    'm-role':     { tab:'③-1 役割遂行',          label:'役割を遂行する' },
+    'm-desc':     { tab:'③-2 絵の説明',          label:'絵を説明する' },
+    'm-seq':      { tab:'③-3 状況説明（順序）',    label:'状況を説明する（順序）' },
+    'm-act':      { tab:'④ 語用能力',            label:'語用能力を評価する' },
+    'm-data':     { tab:'⑤-1 資料解釈',          label:'資料を解釈する' },
+    'm-opdialog': { tab:'⑤-2 会話を聞いて意見',    label:'会話を聞いて意見を述べる' },
+    'm-present':  { tab:'⑥ 意見プレゼンテーション', label:'意見提示（プレゼンテーション）' },
+  };
+  // 채점축 라벨
+  const AXIS_JA = {
+    '발음·문장 특성':'発音・文の特性', '어휘/문법':'語彙・文法', '내용/구성':'内容・構成',
+    '화용 능력':'語用能力', '발음·억양':'発音・イントネーション', '내용':'内容',
+    '구조/전개':'構造・展開', '화행 능력':'発話行為能力', '논리/설득력':'論理・説得力',
+  };
+  // rubric 행 설명 (평가 기준 표)
+  const ROW_JA = {
+    '어색한 발음·문장 특성으로 이해에 지장':'不自然な発音・文の特性で理解に支障', '어색하나 이해 가능':'不自然だが理解可能', '전체적으로 자연스러움':'全体的に自然',
+    '거의 못 씀, 의사소통 불가':'ほとんど使えず、意思疎通が不可', '한정적·오류 있으나 의사소통 가능':'限定的・誤りはあるが意思疎通が可能', '적절히 사용':'適切に使用',
+    '질문에 거의 답하지 못함':'質問にほとんど答えられない', '단어 수준, 문장 구성 못 함':'単語レベルで、文の構成ができない', '정확한 문장으로 적절히 대답':'正確な文で適切に回答',
+    '상황 전개·묘사 거의 설명 못 함':'状況の展開・描写をほとんど説明できない', '부분적, 문장 미완성':'部分的で、文が未完成', '내용을 모두 정확한 문장으로 설명':'内容をすべて正確な文で説明',
+    '화행이 전혀 안 나타남/의도 파악 안 됨':'発話行為が全く現れない／意図が把握できない', '일부 나타나나 불완전':'一部現れるが不完全', '상황·맥락에 맞게 적절히 사용':'状況・文脈に合わせて適切に使用',
+    '어색한 발음·억양으로 의사소통 지장':'不自然な発音・イントネーションで意思疎通に支障', '어색하나 지장 없음':'不自然だが支障なし', '약간 어색하나 이해 가능':'やや不自然だが理解可能', '대체로 자연스러움':'概ね自然',
+    '거의 못 씀, 오류 많아 의사소통 문제':'ほとんど使えず、誤りが多く意思疎通に問題', '한정적·오류 있으나 문제없음':'限定的・誤りはあるが問題なし', '적절하나 약간의 오류':'適切だが若干の誤り',
+    '과제에 거의 답하지 못함':'課題にほとんど答えられない', '단순·빈약':'単純で貧弱', '정형화·예측 가능한 내용':'定型的・予測可能な内容', '주제 중심으로 말함':'主題を中心に話す',
+    '단순 문장, 논리적 전개 없음':'単純な文で、論理的展開がない', '단순하나 어느 정도 전개':'単純だがある程度展開', '다양한 표현·논리적 전개':'多様な表現・論理的展開', '다양한 구조·유창':'多様な構造で流暢',
+    '화행 전혀 안 됨':'発話行為が全くできない', '한정적':'限定的', '적절한 화행':'適切な発話行為', '적절·유창':'適切で流暢',
+    '기승전결 전개 전혀 없음':'起承転結の展開が全くない', '전개 불분명':'展開が不明瞭', '근거로 기승전결 전개':'根拠を挙げ起承転結で展開', '근거·논리로 타당성 제시':'根拠・論理で妥当性を提示',
+  };
+  function jaOn() { return (typeof window.adminLocale === 'function' ? window.adminLocale() : document.documentElement.lang) === 'ja'; }
+  function typeTab(t) { return jaOn() && TYPE_JA[t.key] ? TYPE_JA[t.key].tab : t.tab; }
+  function typeLabel(t) { return jaOn() && TYPE_JA[t.key] ? TYPE_JA[t.key].label : t.label; }
+  function axisLabel(a) { return jaOn() && AXIS_JA[a] ? AXIS_JA[a] : a; }
+  function updateInstrLabel() {
+    const instrIsJa = (currentLevel === 'beginner'); // 초급 응시자 안내=일본어
+    $instrLabelText.textContent = instrIsJa
+      ? (jaOn() ? '日本語の指示文' : '일본어 지시문')
+      : (jaOn() ? '韓国語の指示文' : '한국어 지시문');
+    $instrLangBadge.textContent = instrIsJa ? 'JA' : 'KO';
+    $instrLangBadge.className = 'lang-label ' + (instrIsJa ? 'ja' : 'ko');
+    $instrKo.lang = instrIsJa ? 'ja' : 'ko';
+  }
+
   // ─── DOM 참조 ───
   const formArea = document.getElementById('form-area');
   const previewSidebar = document.getElementById('preview-sidebar');
@@ -1022,19 +1062,14 @@ B : ______ (이어 말하기)</p>
   const $areaTabs = document.getElementById('area-tabs');
 
   const $instrKo = document.getElementById('input-instr-ko');
+  const $instrLabelText = document.getElementById('instr-label-text');
+  const $instrLangBadge = document.getElementById('instr-lang-badge');
   const $timePrep = document.getElementById('time-prep');
   const $timeRec = document.getElementById('time-record');
   const $timeWarn = document.getElementById('time-warn');
   const $recPrep = document.getElementById('rec-prep');
   const $recRec = document.getElementById('rec-rec');
-  const $scoreCount = document.getElementById('score-count');
-  const $scorePer = document.getElementById('score-per');
-  const $scoreTotal = document.getElementById('score-total');
-  const $scoreWarn = document.getElementById('score-warn');
-  const $recScoreCount = document.getElementById('rec-score-count');
-  const $sfAxes = document.getElementById('sf-axes');
-  const $sfScale = document.getElementById('sf-scale');
-  const $sfPer = document.getElementById('sf-per');
+  const $scorePerInput = document.getElementById('score-per-input');
   const $rubricLabel = document.getElementById('rubric-area-label');
   const $rubricContent = document.getElementById('rubric-content');
 
@@ -1069,12 +1104,11 @@ B : ______ (이어 말하기)</p>
   function renderTypeTabs() {
     $areaTabs.innerHTML = '';
     LEVELS[currentLevel].types.forEach((t, i) => {
-      const scale = curScaleMax();
-      const per = t.axes.length * scale;
       const btn = document.createElement('button');
       btn.className = 'area-tab' + (i === currentIdx ? ' active' : '');
       btn.dataset.idx = i;
-      btn.innerHTML = t.tab + ' <span class="meta">' + t.count + '문항 · ' + (t.count * per) + '점</span>';
+      const recTxt = jaOn() ? ('推奨 ' + t.count + '問') : ('권장 ' + t.count + '문항');
+      btn.innerHTML = typeTab(t) + ' <span class="meta">' + recTxt + '</span>';
       btn.addEventListener('click', () => applyType(i));
       $areaTabs.appendChild(btn);
     });
@@ -1108,7 +1142,7 @@ B : ______ (이어 말하기)</p>
   function renderCatList() {
     const kw = ($catselSearch.value || '').trim().toLowerCase();
     const rows = CATEGORIES.filter(c => !kw || c.label.toLowerCase().includes(kw));
-    if (!rows.length) { $catselList.innerHTML = '<div class="catsel-empty">검색 결과가 없습니다.</div>'; return; }
+    if (!rows.length) { $catselList.innerHTML = '<div class="catsel-empty">' + (jaOn() ? '検索結果がありません。' : '검색 결과가 없습니다.') + '</div>'; return; }
     $catselList.innerHTML = rows.map(c => {
       const pin = c.fav ? '<span class="pin">📌</span>' : '';
       const on = selectedCats.has(c.key) ? 'checked' : '';
@@ -1140,11 +1174,12 @@ B : ______ (이어 말하기)</p>
     });
     // 버튼 라벨/아이콘: 선택 전 "분류 선택(+)", 선택 후 "변경(⇄)"
     const has = keys.length > 0;
-    $catselBtnLabel.textContent = has ? '변경' : '분류 선택';
+    const ja = jaOn();
+    $catselBtnLabel.textContent = has ? (ja ? '変更' : '변경') : (ja ? '分類を選択' : '분류 선택');
     $catselIcon.innerHTML = has ? ICON_SWAP : ICON_PLUS;
     $catSummary.innerHTML = has
-      ? '<strong>' + keys.length + '</strong>개 선택됨 · ' + keys.map(k => CAT_MAP[k].label).join(', ')
-      : '<strong>0</strong>개 선택됨';
+      ? '<strong>' + keys.length + '</strong>' + (ja ? '件選択済み · ' : '개 선택됨 · ') + keys.map(k => CAT_MAP[k].label).join(', ')
+      : '<strong>0</strong>' + (ja ? '件選択済み' : '개 선택됨');
   }
 
   function openCatPop() { renderCatList(); $catselPop.hidden = false; $catselBtn.setAttribute('aria-expanded', 'true'); setTimeout(() => $catselSearch.focus(), 30); }
@@ -1160,16 +1195,25 @@ B : ______ (이어 말하기)</p>
   function renderRubric() {
     const t = curType();
     const scale = curScaleMax();
+    const ja = jaOn();
+    const repL = axisLabel(t.repAxis);
     let html = '<div class="axis-pills">';
-    t.axes.forEach(a => { html += '<span class="axis-pill">' + a + '</span>'; });
-    html += '</div><p style="margin-top:6px;">채점축 ' + t.axes.length + '개 (각 0~' + scale + '점) · 아래는 <strong>' + t.repAxis + '</strong> 기준</p>';
-    html += '<table><thead><tr><th>점수</th><th>' + t.repAxis + '</th></tr></thead><tbody>';
+    t.axes.forEach(a => { html += '<span class="axis-pill">' + axisLabel(a) + '</span>'; });
+    html += '</div>';
+    if (ja) {
+      html += '<p style="margin-top:6px;">採点軸 ' + t.axes.length + '個（各 0～' + scale + '点）· 下は <strong>' + repL + '</strong> 基準</p>';
+      html += '<table><thead><tr><th>点数</th><th>' + repL + '</th></tr></thead><tbody>';
+    } else {
+      html += '<p style="margin-top:6px;">채점축 ' + t.axes.length + '개 (각 0~' + scale + '점) · 아래는 <strong>' + t.repAxis + '</strong> 기준</p>';
+      html += '<table><thead><tr><th>점수</th><th>' + t.repAxis + '</th></tr></thead><tbody>';
+    }
     t.rows.forEach(r => {
-      html += '<tr><td class="score-cell">' + r[0] + '</td><td>' + r[1] + '</td></tr>';
+      const desc = ja && ROW_JA[r[1]] ? ROW_JA[r[1]] : r[1];
+      html += '<tr><td class="score-cell">' + r[0] + '</td><td>' + desc + '</td></tr>';
     });
     html += '</tbody></table>';
     $rubricContent.innerHTML = html;
-    $rubricLabel.textContent = '(' + t.label + ')';
+    $rubricLabel.textContent = '(' + typeLabel(t) + ')';
   }
 
   // ─── 유형 적용 ───
@@ -1185,8 +1229,11 @@ B : ______ (이어 말하기)</p>
     previewSidebar.dataset.kind = t.kind;
     previewSidebar.classList.add('show');
 
-    // 지시문 자동 채움 (운영자 수동 입력 보호)
-    if ($instrKo.dataset.auto !== '0') { $instrKo.value = t.instrKo; $instrKo.dataset.auto = '1'; }
+    // 지시문 언어: 초급=일본어(JA), 중상급=한국어(KO) — 라벨은 관리자 로케일 반영
+    const instrIsJa = (currentLevel === 'beginner');
+    updateInstrLabel();
+    // 지시문 자동 채움 (운영자 수동 입력 보호) — 내용은 데이터(instrKo/instrJa) 그대로
+    if ($instrKo.dataset.auto !== '0') { $instrKo.value = instrIsJa ? t.instrJa : t.instrKo; $instrKo.dataset.auto = '1'; }
 
     // 시간 자동 (운영자 수동 입력 보호)
     if ($timePrep.dataset.auto !== '0') { $timePrep.value = t.prep; $timePrep.dataset.auto = '1'; }
@@ -1194,19 +1241,10 @@ B : ______ (이어 말하기)</p>
     $recPrep.textContent = t.prep;
     $recRec.textContent = t.rec;
 
-    // 배점 (점/문항 = 채점축 × 척도, 자동 산출)
-    const per = t.axes.length * scale;
-    if ($scoreCount.dataset.auto !== '0') { $scoreCount.value = t.count; $scoreCount.dataset.auto = '1'; }
-    $recScoreCount.textContent = t.count;
-    $sfAxes.textContent = t.axes.length;
-    $sfScale.textContent = scale;
-    $sfPer.textContent = per;
-    $scorePer.textContent = per;
-    syncScoreTotal();
-
-    // 앱 헤더 (유형 이름 + 점/문항)
-    $mockTypeLabel.textContent = t.label;
-    $mockScore.textContent = per + '점';
+    // 배점 (문항별 직접 설정 · 시험 총점 100점 고정)
+    // 앱 헤더 (유형 이름 + 이 문항 배점)
+    $mockTypeLabel.textContent = typeLabel(t);
+    syncScore();
 
     syncMock();
     checkTimeWarn();
@@ -1219,7 +1257,7 @@ B : ______ (이어 말하기)</p>
     currentLevel = level;
     currentIdx = 0;
     // 수동 입력 플래그 초기화 (레벨 바뀌면 유형 기본값 재적용)
-    [$instrKo, $timePrep, $timeRec, $scoreCount].forEach(el => el.dataset.auto = '1');
+    [$instrKo, $timePrep, $timeRec].forEach(el => el.dataset.auto = '1');
     $levelSeg.querySelectorAll('button').forEach(b => b.classList.toggle('on', b.dataset.level === level));
     renderTypeTabs();
     applyType(0);
@@ -1245,9 +1283,15 @@ B : ______ (이어 말하기)</p>
   function syncMock() {
     const tp = parseInt($timePrep.value) || 0;
     const tr = parseInt($timeRec.value) || 0;
+    const ja = (currentLevel === 'beginner'); // 초급 응시자 안내=일본어
     $mockInstrText.textContent = $instrKo.value || '';
-    $mockTimeHint.textContent = (tp > 0 ? tp + '초 동안 준비하십시오.' : '바로 답해 주세요.');
-    $mockRecHint.textContent = tr + '초 동안';
+    $mockTimeHint.textContent = ja
+      ? (tp > 0 ? tp + '秒間準備してください。' : 'すぐに答えてください。')
+      : (tp > 0 ? tp + '초 동안 준비하십시오.' : '바로 답해 주세요.');
+    $mockRecHint.textContent = ja ? (tr + '秒間') : (tr + '초 동안');
+    const beepPre = document.getElementById('mock-beep-pre'), saySpan = document.getElementById('mock-say');
+    if (beepPre) beepPre.textContent = ja ? '「ピー」の音の後' : "'삐' 소리 후";
+    if (saySpan) saySpan.textContent = ja ? '話してください。' : '말하십시오.';
     $mockTimerPrepVal.textContent = fmtTime(tp);
     $mockTimerRecVal.textContent = fmtTime(tr);
     $mockTotal.textContent = fmtTime(tp + tr);
@@ -1255,8 +1299,8 @@ B : ______ (이어 말하기)</p>
     $segPrep.style.flex = String(Math.max(1, tp));
     $segRec.style.flex = String(Math.max(1, tr));
     $segPrep.style.display = tp > 0 ? '' : 'none';
-    $segPrep.textContent = '준비 ' + tp + 's';
-    $segRec.textContent = '녹음 ' + tr + 's';
+    $segPrep.textContent = (jaOn() ? '準備 ' : '준비 ') + tp + 's';
+    $segRec.textContent = (jaOn() ? '録音 ' : '녹음 ') + tr + 's';
     syncMockContent();
   }
 
@@ -1267,13 +1311,8 @@ B : ______ (이어 말하기)</p>
     $timeWarn.style.display = (tp !== t.prep || tr !== t.rec) ? 'block' : 'none';
   }
 
-  function syncScoreTotal() {
-    const t = curType();
-    const cnt = parseInt($scoreCount.value) || 0;
-    const per = t.axes.length * curScaleMax();
-    $scoreTotal.textContent = cnt * per;
-    $scoreWarn.style.display = (cnt !== t.count) ? 'block' : 'none';
-    if ($mockScore) $mockScore.textContent = per + '점';
+  function syncScore() {
+    if ($mockScore) $mockScore.textContent = ($scorePerInput.value || '0') + (jaOn() ? '点' : '점');
   }
 
   // ─── 레벨 세그 클릭 ───
@@ -1285,7 +1324,7 @@ B : ______ (이어 말하기)</p>
   $instrKo.addEventListener('input', () => { $instrKo.dataset.auto = '0'; syncMock(); });
   $timePrep.addEventListener('input', () => { $timePrep.dataset.auto = '0'; syncMock(); checkTimeWarn(); });
   $timeRec.addEventListener('input', () => { $timeRec.dataset.auto = '0'; syncMock(); checkTimeWarn(); });
-  $scoreCount.addEventListener('input', () => { $scoreCount.dataset.auto = '0'; syncScoreTotal(); });
+  $scorePerInput.addEventListener('input', syncScore);
 
   // 유형별 메인 콘텐츠 → mock 반영
   document.addEventListener('input', (e) => {
@@ -1303,23 +1342,26 @@ B : ______ (이어 말하기)</p>
   const $mockTimerPrep = document.getElementById('mock-timer-prep');
   const $mockTimerRec = document.getElementById('mock-timer-record');
 
+  let currentStage = 'instr';
   function setStage(stage) {
+    currentStage = stage;
+    const ja = jaOn();
     stageTabs.forEach(t => t.classList.toggle('active', t.dataset.stage === stage));
     if (stage === 'instr') {
       $mockPill.classList.remove('record'); $mockPill.classList.add('prep');
-      $mockStageLabel.textContent = '안내 중';
+      $mockStageLabel.textContent = ja ? '案内中' : '안내 중';
       $mockInstrBox.style.display = 'block';
       $mockTimerPrep.style.display = 'none'; $mockTimerRec.style.display = 'none';
       $mockProgressFill.style.width = '5%';
     } else if (stage === 'prep') {
       $mockPill.classList.remove('record'); $mockPill.classList.add('prep');
-      $mockStageLabel.textContent = '준비 중';
+      $mockStageLabel.textContent = ja ? '準備中' : '준비 중';
       $mockInstrBox.style.display = 'none';
       $mockTimerPrep.style.display = 'block'; $mockTimerRec.style.display = 'none';
       $mockProgressFill.style.width = '40%';
     } else if (stage === 'record') {
       $mockPill.classList.remove('prep'); $mockPill.classList.add('record');
-      $mockStageLabel.textContent = '녹음 중';
+      $mockStageLabel.textContent = ja ? '録音中' : '녹음 중';
       $mockInstrBox.style.display = 'none';
       $mockTimerPrep.style.display = 'none'; $mockTimerRec.style.display = 'block';
       $mockProgressFill.style.width = '80%';
@@ -1336,7 +1378,7 @@ B : ______ (이어 말하기)</p>
   function stopPlay() {
     if (playTimer) { clearInterval(playTimer); playTimer = null; }
     $playBtn.classList.remove('playing');
-    $playBtn.innerHTML = '<svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg> 재생';
+    $playBtn.innerHTML = '<svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg> ' + (jaOn() ? '再生' : '재생');
     $cursor.classList.remove('show');
   }
 
@@ -1346,7 +1388,7 @@ B : ______ (이어 말하기)</p>
     const total = tp + tr;
     if (total <= 0) return;
     $playBtn.classList.add('playing');
-    $playBtn.innerHTML = '<svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="6" width="12" height="12" rx="1"/></svg> 정지';
+    $playBtn.innerHTML = '<svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="6" width="12" height="12" rx="1"/></svg> ' + (jaOn() ? '停止' : '정지');
     $cursor.classList.add('show');
     playStart = Date.now();
     setStage(tp > 0 ? 'prep' : 'record');
@@ -1415,15 +1457,18 @@ B : ______ (이어 말하기)</p>
   document.querySelectorAll('[data-action]').forEach(btn => {
     btn.addEventListener('click', () => {
       const act = btn.dataset.action;
+      const ja = jaOn();
       if (act === 'draft') {
-        window.toast('임시 저장되었습니다.', 'info');
+        window.toast(ja ? '一時保存しました。' : '임시 저장되었습니다.', 'info');
       } else if (act === 'submit') {
-        if (!primaryQuestionValue()) { window.toast('문제 내용을 입력해 주세요.', 'error'); return; }
-        window.toast('문제가 등록되었습니다. (' + curType().label + ')');
+        if (!primaryQuestionValue()) { window.toast(ja ? '問題の内容を入力してください。' : '문제 내용을 입력해 주세요.', 'error'); return; }
+        window.toast((ja ? '問題が登録されました。（' : '문제가 등록되었습니다. (') + typeLabel(curType()) + (ja ? '）' : ')'));
         setTimeout(() => { location.href = 'question-bank.html'; }, 1000);
       } else if (act === 'cancel') {
         window.confirmAction({
-          title: '작성을 취소할까요?', desc: '입력한 내용은 저장되지 않습니다.', danger: true, confirmText: '나가기',
+          title: ja ? '作成を中止しますか？' : '작성을 취소할까요?',
+          desc: ja ? '入力した内容は保存されません。' : '입력한 내용은 저장되지 않습니다.',
+          danger: true, confirmText: ja ? '中止する' : '나가기',
           onConfirm: () => { location.href = 'question-bank.html'; }
         });
       }
@@ -1435,6 +1480,22 @@ B : ______ (이어 말하기)</p>
   applyType(0);
   renderCatList();
   renderSelectedCats();
+
+  // ─── 로케일 변경 시 JS 구동 텍스트 갱신 (admin-shell가 호출; 로드 시 1회 포함) ───
+  window.onLocaleChange = function (loc) {
+    renderTypeTabs();
+    updateInstrLabel();
+    $mockTypeLabel.textContent = typeLabel(curType());
+    renderRubric();
+    syncMock();
+    syncScore();
+    setStage(currentStage);
+    renderCatList();
+    renderSelectedCats();
+    if (!playTimer) stopPlay();
+    var d = window.PAGE_I18N && (window.PAGE_I18N[loc] || window.PAGE_I18N.ko);
+    if (d && d['page.title']) document.title = 'MaroPass Admin — ' + d['page.title'];
+  };
 
   // ── 이미지 첨부 — 빈 ↔ 첨부 상태 토글 (정적 시안 데모) ──
   document.querySelectorAll('[data-upload-slot]').forEach(slot => {
@@ -1449,7 +1510,7 @@ B : ______ (이어 말하기)</p>
       filled.style.display = 'flex';
       if (simulate) {
         progress.classList.add('show');
-        okBadge.textContent = '⏳ 업로드 중';
+        okBadge.textContent = jaOn() ? '⏳ アップロード中' : '⏳ 업로드 중';
         okBadge.style.color = '#2272eb';
         bar.style.width = '0%';
         let w = 0;
@@ -1461,7 +1522,7 @@ B : ______ (이어 말하기)</p>
             bar.style.width = '100%';
             setTimeout(() => {
               progress.classList.remove('show');
-              okBadge.textContent = '✓ 업로드 완료';
+              okBadge.textContent = jaOn() ? '✓ アップロード完了' : '✓ 업로드 완료';
               okBadge.style.color = '#03b26c';
             }, 300);
           } else {
@@ -1475,7 +1536,7 @@ B : ______ (이어 말하기)</p>
       empty.style.display = 'block';
       progress.classList.remove('show');
       bar.style.width = '100%';
-      okBadge.textContent = '✓ 업로드 완료';
+      okBadge.textContent = jaOn() ? '✓ アップロード完了' : '✓ 업로드 완료';
       okBadge.style.color = '#03b26c';
     }
 
@@ -1489,6 +1550,196 @@ B : ______ (이어 말하기)</p>
       showEmpty();
     });
   });
+</script>
+<script>
+window.PAGE_I18N = {
+  ko: {
+    "page.title": "문제 만들기",
+    "act.draft": "임시 저장",
+    "act.submit": "등록",
+    "act.cancel": "취소",
+    "card.level": "레벨",
+    "level.beginner": "초급<span class=\"seg-meta\">문제 유형 5종 · 척도 0~2</span>",
+    "level.mid": "중상급<span class=\"seg-meta\">문제 유형 9종 · 척도 0~3</span>",
+    "guide.level": "레벨을 고르면 그 레벨의 <strong>고정 문제 유형 세트</strong>가 아래에 나타납니다. 유형별로 시간·채점축·지시문이 자동 적용되며, <strong>배점은 문항마다 직접 설정</strong>합니다. 관리자는 유형 틀에 맞는 <strong>문항 내용</strong>만 입력합니다.",
+    "card.type": "문제 유형",
+    "lock.fixedSet": "고정 세트",
+    "rubric.head": "평가 기준",
+    "guide.type": "단일 문항 1개 등록. 저장하면 문제 은행에 <strong>레벨·유형</strong> 태그로 쌓입니다. 여러 문항 묶음은 「시험 만들기」에서 유형별로 담습니다.",
+    "card.cat": "문제 분류",
+    "cat.searchPh": "분류 검색",
+    "hint.instrAuto": "유형 선택 시 자동 채워집니다. 수정 가능.",
+    "voice.male": "남",
+    "voice.female": "여",
+    "read.sentence": "한국어 문장",
+    "read.sentenceHint": "제한 시간 안에 읽는 1문장. 인사·평서·의문·청유·복문 권장.",
+    "read.pron": "표준 발음 (모범 답안)",
+    "read.pronHint": "AI가 응시자 음성을 비교·분석하는 기준입니다. 연음·경음화 등 실제 발음대로 입력. (예: 만나서 반갑씀니다)",
+    "qa.question": "질문",
+    "hint.playAudio": "응시자에게 음성으로 재생",
+    "qa.answerHint": "1~5개 입력. AI 채점 시 의미 유사도 기준이 됩니다.",
+    "btn.addAnswer": "+ 답안 추가",
+    "btn.listen": "듣기",
+    "label.modelAnswer": "모범 답안",
+    "label.modelAnswerSep": "모범 답안 (서론·본론·결론)",
+    "upload.clickDrag": "클릭 또는 드래그",
+    "upload.spec1": "PNG · JPG · WebP · 최대 5MB · 권장 1200×800",
+    "upload.spec2": "그래프/통계 이미지 · 최대 5MB",
+    "upload.preview": "미리보기",
+    "upload.material": "자료",
+    "upload.done": "✓ 업로드 완료",
+    "btn.replace": "교체",
+    "btn.delete": "삭제",
+    "dialog.illust": "상황 일러스트",
+    "dialog.illustHint": "대화 상황 그림 (카페·서점·병원·미용실·길찾기 등)",
+    "dialog.line": "상대 대사",
+    "dialog.lineHint": "예: 직원의 \"주문하시겠습니까?\"",
+    "dialog.balloon": "답변 풍선 (상황 지시)",
+    "dialog.balloonHint": "응시자가 답할 핵심 키워드 (그림 풍선으로 노출)",
+    "describe.image": "그림/사진",
+    "describe.imageHint": "일과·풍경·사건 전개 등을 설명할 이미지 (순서 설명형은 다단계 이미지)",
+    "describe.topic": "설명 주제",
+    "describe.answerHint": "3~5문장 권장.",
+    "prag.situation": "상황 설명",
+    "prag.situationHint": "응시자에게 일본어로 제시되는 상황 (의뢰·사과·감사·조언·요청 등)",
+    "prag.actType": "화행 유형",
+    "prag.req": "의뢰",
+    "prag.apology": "사과",
+    "prag.thanks": "감사",
+    "prag.advice": "조언",
+    "prag.request": "요청",
+    "prag.answerHint": "화행 표현 + 상황 핵심 정보 포함.",
+    "dc.script": "대화 스크립트",
+    "dc.scriptHint2": "A·B 대화, 마지막 발화 뒤 응시자가 이어 말함",
+    "dc.scriptHint": "예: 회사 동기가 50만원을 빌려달라 → 어떻게 거절할지. (분류축에서 화행/논제 선택)",
+    "dc.answerHint": "요구되는 화행 표현 + 이유/배려 표현 포함.",
+    "data.material": "자료 (그래프·통계·표)",
+    "data.materialHint": "사회 현상 자료. 응시자가 설명 + 원인/의견 제시",
+    "data.topic": "자료 주제",
+    "data.answerHint": "자료 해석 → 문제 파악 → 의견 제시 흐름.",
+    "op.topic": "논제",
+    "op.topicHint": "찬반이 갈리는 사회 이슈. 응시자가 근거를 들어 의견 제시",
+    "op.answerHint": "문제 파악 → 구체적 의견 → 논리적 결론.",
+    "time.set": "시간 설정",
+    "time.recVal": "유형별 권장값",
+    "time.hint": "수정 가능하나 시험 일관성에 영향. 권장값에서 벗어나면 경고가 표시됩니다.",
+    "time.prep": "준비",
+    "time.record": "발화/녹음",
+    "unit.sec": "초",
+    "warn.pre": "⚠ 유형 권장값과 다릅니다. (권장: 준비 ",
+    "warn.mid": "초 · 녹음 ",
+    "warn.post": "초)",
+    "score.label": "배점",
+    "score.note": "문항별 직접 설정 · 시험 총점 100점 고정",
+    "score.perItem": "이 문항 배점",
+    "unit.point": "점",
+    "score.formula": "시험 전체 <strong>총점은 100점</strong>으로 고정됩니다. 문항별 배점 합계가 100점이 되도록 <strong>「시험 만들기」</strong>에서 조정하세요.",
+    "preview.label": "응시자 화면 (모바일 IBT)",
+    "mock.itemNo": "1번 문항",
+    "mock.qaAudio": "질문이 음성으로 재생됩니다",
+    "mock.dialogIllust": "상황 일러스트",
+    "mock.dcAudio": "대화를 듣고 이어서 말하세요",
+    "mock.opTag": "논제",
+    "mock.timerPrep": "준비 시간",
+    "mock.timerRec": "녹음 시간",
+    "stage.instr": "안내",
+    "stage.prep": "준비",
+    "stage.record": "녹음"
+  },
+  ja: {
+    "page.title": "問題作成",
+    "act.draft": "一時保存",
+    "act.submit": "登録",
+    "act.cancel": "キャンセル",
+    "card.level": "レベル",
+    "level.beginner": "初級<span class=\"seg-meta\">問題タイプ5種 · 尺度 0~2</span>",
+    "level.mid": "中上級<span class=\"seg-meta\">問題タイプ9種 · 尺度 0~3</span>",
+    "guide.level": "レベルを選ぶと、そのレベルの<strong>固定された問題タイプセット</strong>が下に表示されます。タイプごとに時間・採点軸・指示文が自動適用され、<strong>配点は設問ごとに直接設定</strong>します。管理者はタイプの枠に合う<strong>設問内容</strong>のみを入力します。",
+    "card.type": "問題タイプ",
+    "lock.fixedSet": "固定セット",
+    "rubric.head": "評価基準",
+    "guide.type": "単一設問を1件登録します。保存すると問題バンクに<strong>レベル・タイプ</strong>タグで蓄積されます。複数設問のまとまりは「試験作成」でタイプ別に追加します。",
+    "card.cat": "問題分類",
+    "cat.searchPh": "分類を検索",
+    "hint.instrAuto": "タイプ選択時に自動入力されます。修正可能。",
+    "voice.male": "男",
+    "voice.female": "女",
+    "read.sentence": "韓国語の文",
+    "read.sentenceHint": "制限時間内に読む1文。あいさつ・平叙・疑問・勧誘・複文を推奨。",
+    "read.pron": "標準発音（模範解答）",
+    "read.pronHint": "AIが受験者の音声を比較・分析する基準です。連音・濃音化など実際の発音どおりに入力してください。（例：만나서 반갑씀니다）",
+    "qa.question": "質問",
+    "hint.playAudio": "受験者に音声で再生",
+    "qa.answerHint": "1～5個入力。AI採点時の意味類似度の基準になります。",
+    "btn.addAnswer": "+ 解答を追加",
+    "btn.listen": "再生",
+    "label.modelAnswer": "模範解答",
+    "label.modelAnswerSep": "模範解答（序論・本論・結論）",
+    "upload.clickDrag": "クリックまたはドラッグ",
+    "upload.spec1": "PNG · JPG · WebP · 最大5MB · 推奨1200×800",
+    "upload.spec2": "グラフ/統計の画像 · 最大5MB",
+    "upload.preview": "プレビュー",
+    "upload.material": "資料",
+    "upload.done": "✓ アップロード完了",
+    "btn.replace": "差し替え",
+    "btn.delete": "削除",
+    "dialog.illust": "状況イラスト",
+    "dialog.illustHint": "会話状況の絵（カフェ・書店・病院・美容室・道案内など）",
+    "dialog.line": "相手のセリフ",
+    "dialog.lineHint": "例：店員の「ご注文はお決まりですか？」",
+    "dialog.balloon": "回答の吹き出し（状況指示）",
+    "dialog.balloonHint": "受験者が答える核心キーワード（吹き出しで表示）",
+    "describe.image": "絵・写真",
+    "describe.imageHint": "日課・風景・出来事の展開などを説明する画像（順序説明型は多段階の画像）",
+    "describe.topic": "説明テーマ",
+    "describe.answerHint": "3～5文を推奨。",
+    "prag.situation": "状況説明",
+    "prag.situationHint": "受験者に日本語で提示される状況（依頼・謝罪・感謝・助言・要請など）",
+    "prag.actType": "発話行為タイプ",
+    "prag.req": "依頼",
+    "prag.apology": "謝罪",
+    "prag.thanks": "感謝",
+    "prag.advice": "助言",
+    "prag.request": "要請",
+    "prag.answerHint": "発話行為の表現＋状況の核心情報を含める。",
+    "dc.script": "会話スクリプト",
+    "dc.scriptHint2": "A・Bの会話、最後の発話の後に受験者が続けて話す",
+    "dc.scriptHint": "例：会社の同期が50万ウォン貸してほしいと言う→どう断るか。（分類軸で発話行為/論題を選択）",
+    "dc.answerHint": "求められる発話行為の表現＋理由・配慮の表現を含める。",
+    "data.material": "資料（グラフ・統計・表）",
+    "data.materialHint": "社会現象の資料。受験者が説明＋原因・意見を提示。",
+    "data.topic": "資料テーマ",
+    "data.answerHint": "資料解釈→問題把握→意見提示の流れ。",
+    "op.topic": "論題",
+    "op.topicHint": "賛否が分かれる社会的イシュー。受験者が根拠を挙げて意見を提示。",
+    "op.answerHint": "問題把握→具体的な意見→論理的な結論。",
+    "time.set": "時間設定",
+    "time.recVal": "タイプ別の推奨値",
+    "time.hint": "修正可能ですが試験の一貫性に影響します。推奨値から外れると警告が表示されます。",
+    "time.prep": "準備",
+    "time.record": "発話/録音",
+    "unit.sec": "秒",
+    "warn.pre": "⚠ タイプの推奨値と異なります。（推奨：準備 ",
+    "warn.mid": "秒 · 録音 ",
+    "warn.post": "秒）",
+    "score.label": "配点",
+    "score.note": "設問ごとに直接設定 · 試験の合計点は100点固定",
+    "score.perItem": "この設問の配点",
+    "unit.point": "点",
+    "score.formula": "試験全体の<strong>合計点は100点</strong>に固定されます。設問ごとの配点合計が100点になるよう<strong>「試験作成」</strong>で調整してください。",
+    "preview.label": "受験者画面（モバイルIBT）",
+    "mock.itemNo": "1番の設問",
+    "mock.qaAudio": "質問が音声で再生されます",
+    "mock.dialogIllust": "状況イラスト",
+    "mock.dcAudio": "会話を聞いて続けて話してください",
+    "mock.opTag": "論題",
+    "mock.timerPrep": "準備時間",
+    "mock.timerRec": "録音時間",
+    "stage.instr": "案内",
+    "stage.prep": "準備",
+    "stage.record": "録音"
+  }
+};
 </script>
 <script src="assets/admin-shell.js"></script>
 </body>

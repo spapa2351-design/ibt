@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MaroPass Admin — 상품 등록</title>
+<title data-i18n="pageTitle">MaroPass Admin — 상품 등록</title>
 <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
 <link rel="stylesheet" href="assets/admin.css">
 <style>
@@ -66,81 +66,81 @@
 <div class="page">
   <div class="page-head">
     <div>
-      <h1 class="page-title">상품 등록</h1>
-      <div class="page-sub">만들어둔 시험을 불러와 판매 상품으로 등록합니다 (문항 구성은 시험 관리에서)</div>
+      <h1 class="page-title" data-i18n="pageHead">상품 등록</h1>
+      <div class="page-sub" data-i18n="pageSub">만들어둔 시험을 불러와 판매 상품으로 등록합니다 (문항 구성은 시험 관리에서)</div>
     </div>
     <div class="page-actions">
-      <a class="btn btn-ghost" href="products.html">← 목록</a>
+      <a class="btn btn-ghost" href="products.html" data-i18n="btnList">← 목록</a>
     </div>
   </div>
 
   <!-- STEP 1. 시험 불러오기 -->
   <div class="form-card">
-    <h2><span class="step-label">1</span>판매할 시험 선택</h2>
-    <p class="form-card-sub">문항 구성이 완료된 시험만 등록할 수 있습니다. 이미 등록된 시험은 선택할 수 없습니다.</p>
+    <h2><span class="step-label">1</span><span data-i18n="step1Title">판매할 시험 선택</span></h2>
+    <p class="form-card-sub" data-i18n="step1Sub">문항 구성이 완료된 시험만 등록할 수 있습니다. 이미 등록된 시험은 선택할 수 없습니다.</p>
 
     <div class="field">
-      <label>판매할 시험 <span class="req">*</span></label>
+      <label data-i18n-html="labelExam">판매할 시험 <span class="req">*</span></label>
       <select class="select" id="examSelect">
-        <optgroup label="판매 대기 (등록 가능)">
-          <option value="TOPIK 모의고사 · 중급 (3·4급)">TOPIK 모의고사 · 중급 (3·4급) — 중급 · 80문항 · 120분</option>
-          <option value="실전 회화 평가 · 중급">실전 회화 평가 · 중급 — 중급 · 40문항 · 60분</option>
+        <optgroup label="판매 대기 (등록 가능)" data-i18n-og="ogWaiting">
+          <option value="TOPIK 모의고사 · 중급 (3·4급)" data-i18n="opt1">TOPIK 모의고사 · 중급 (3·4급) — 중급 · 80문항 · 120분</option>
+          <option value="실전 회화 평가 · 중급" data-i18n="opt2">실전 회화 평가 · 중급 — 중급 · 40문항 · 60분</option>
         </optgroup>
-        <optgroup label="이미 등록됨 (선택 불가)">
-          <option value="" disabled>TOPIK 모의고사 · 중상급 (3~6급) — 등록됨</option>
-          <option value="" disabled>TOPIK 모의고사 · 초급 (1·2급) — 등록됨</option>
-          <option value="" disabled>비즈니스 한국어 진단평가 — 등록됨</option>
+        <optgroup label="이미 등록됨 (선택 불가)" data-i18n-og="ogRegistered">
+          <option value="" disabled data-i18n="opt3">TOPIK 모의고사 · 중상급 (3~6급) — 등록됨</option>
+          <option value="" disabled data-i18n="opt4">TOPIK 모의고사 · 초급 (1·2급) — 등록됨</option>
+          <option value="" disabled data-i18n="opt5">비즈니스 한국어 진단평가 — 등록됨</option>
         </optgroup>
-        <optgroup label="문항 구성 필요 (선택 불가)">
-          <option value="" disabled>발음·말하기 평가 (베타) — 문항 12/25</option>
+        <optgroup label="문항 구성 필요 (선택 불가)" data-i18n-og="ogNeedItems">
+          <option value="" disabled data-i18n="opt6">발음·말하기 평가 (베타) — 문항 12/25</option>
         </optgroup>
       </select>
-      <div class="hint">등록 가능한 시험만 선택됩니다. 목록에 없으면 먼저 시험을 만들어 주세요.</div>
+      <div class="hint" data-i18n="hintExam">등록 가능한 시험만 선택됩니다. 목록에 없으면 먼저 시험을 만들어 주세요.</div>
     </div>
 
     <div class="hstack" style="margin-top:6px">
-      <a class="btn btn-secondary" href="test-create.html">+ 새 시험 만들기</a>
+      <a class="btn btn-secondary" href="test-create.html" data-i18n="btnNewExam">+ 새 시험 만들기</a>
     </div>
   </div>
 
   <!-- STEP 2. 판매 정보 -->
   <div class="form-card">
-    <h2><span class="step-label">2</span>판매 정보</h2>
-    <p class="form-card-sub">선택한 시험을 어떻게 판매할지 설정합니다. 콘텐츠(문항·영역)는 시험을 그대로 따릅니다.</p>
+    <h2><span class="step-label">2</span><span data-i18n="step2Title">판매 정보</span></h2>
+    <p class="form-card-sub" data-i18n="step2Sub">선택한 시험을 어떻게 판매할지 설정합니다. 콘텐츠(문항·영역)는 시험을 그대로 따릅니다.</p>
 
     <div class="field">
-      <label>판매명 <span class="req">*</span></label>
+      <label data-i18n-html="labelSaleName">판매명 <span class="req">*</span></label>
       <input class="input" id="saleName" type="text" value="TOPIK 모의고사 · 중급 (3·4급)">
-      <div class="hint">기본값은 시험명입니다. 판매 페이지에 노출될 이름으로 수정할 수 있습니다.</div>
+      <div class="hint" data-i18n="hintSaleName">기본값은 시험명입니다. 판매 페이지에 노출될 이름으로 수정할 수 있습니다.</div>
     </div>
 
     <div class="field">
-      <label>서브타이틀</label>
-      <input class="input" id="subtitle" type="text" placeholder="예) 실전과 동일한 난이도로 5·6급을 대비하세요 (선택)">
-      <div class="hint">판매 페이지에서 판매명 아래 한 줄로 노출됩니다.</div>
+      <label data-i18n="labelSubtitle">서브타이틀</label>
+      <input class="input" id="subtitle" type="text" placeholder="예) 실전과 동일한 난이도로 5·6급을 대비하세요 (선택)" data-i18n-ph="phSubtitle">
+      <div class="hint" data-i18n="hintSubtitle">판매 페이지에서 판매명 아래 한 줄로 노출됩니다.</div>
     </div>
 
     <div class="field">
-      <label>상품 소개 <span style="font-weight:600;color:var(--blue-500)">· 판매 페이지 노출</span></label>
+      <label data-i18n-html="labelIntro">상품 소개 <span style="font-weight:600;color:var(--blue-500)">· 판매 페이지 노출</span></label>
       <div class="editor-card">
         <div class="editor-toolbar">
-          <button type="button" class="tb-btn" data-cmd="formatBlock" data-val="h2" title="제목">H2</button>
-          <button type="button" class="tb-btn" data-cmd="formatBlock" data-val="p" title="본문">본문</button>
+          <button type="button" class="tb-btn" data-cmd="formatBlock" data-val="h2" title="제목" data-i18n-title="tbH2">H2</button>
+          <button type="button" class="tb-btn" data-cmd="formatBlock" data-val="p" title="본문" data-i18n-title="tbP" data-i18n="tbPText">본문</button>
           <span class="tb-sep"></span>
-          <button type="button" class="tb-btn" data-cmd="bold" title="굵게"><span>B</span></button>
-          <button type="button" class="tb-btn" data-cmd="italic" title="기울임"><span class="i-italic">I</span></button>
-          <button type="button" class="tb-btn" data-cmd="underline" title="밑줄"><span class="i-underline">U</span></button>
+          <button type="button" class="tb-btn" data-cmd="bold" title="굵게" data-i18n-title="tbBold"><span>B</span></button>
+          <button type="button" class="tb-btn" data-cmd="italic" title="기울임" data-i18n-title="tbItalic"><span class="i-italic">I</span></button>
+          <button type="button" class="tb-btn" data-cmd="underline" title="밑줄" data-i18n-title="tbUnderline"><span class="i-underline">U</span></button>
           <span class="tb-sep"></span>
-          <button type="button" class="tb-btn" data-cmd="insertUnorderedList" title="글머리 목록">•≡</button>
-          <button type="button" class="tb-btn" data-cmd="insertOrderedList" title="번호 목록">1.≡</button>
+          <button type="button" class="tb-btn" data-cmd="insertUnorderedList" title="글머리 목록" data-i18n-title="tbUl">•≡</button>
+          <button type="button" class="tb-btn" data-cmd="insertOrderedList" title="번호 목록" data-i18n-title="tbOl">1.≡</button>
           <span class="tb-sep"></span>
-          <button type="button" class="tb-btn" data-cmd="createLink" title="링크">🔗</button>
-          <button type="button" class="tb-btn" data-cmd="insertHorizontalRule" title="구분선">―</button>
+          <button type="button" class="tb-btn" data-cmd="createLink" title="링크" data-i18n-title="tbLink">🔗</button>
+          <button type="button" class="tb-btn" data-cmd="insertHorizontalRule" title="구분선" data-i18n-title="tbHr">―</button>
         </div>
-        <div class="editor-area" contenteditable="true" data-editor data-placeholder="시험 목적·대상·구성 등 구매자에게 보여줄 소개를 입력하세요."><p><strong>실전과 동일한 난이도의 말하기 진단평가입니다.</strong> 자신의 말하기 실력을 객관적으로 확인하세요.</p><p>모든 답변은 자동 녹음되어 AI 채점 후 결과가 제공되며, 진단 등급과 영역별 피드백을 받아볼 수 있습니다.</p></div>
-        <div class="editor-foot"><span>사용자 상세 페이지 「시험 소개」에 그대로 노출됩니다.</span><span class="editor-charcount">0자</span></div>
+        <div class="editor-area" contenteditable="true" data-editor data-placeholder="시험 목적·대상·구성 등 구매자에게 보여줄 소개를 입력하세요." data-i18n-dph="edPlaceholder"><p><strong>실전과 동일한 난이도의 말하기 진단평가입니다.</strong> 자신의 말하기 실력을 객관적으로 확인하세요.</p><p>모든 답변은 자동 녹음되어 AI 채점 후 결과가 제공되며, 진단 등급과 영역별 피드백을 받아볼 수 있습니다.</p></div>
+        <div class="editor-foot"><span data-i18n="edFoot">사용자 상세 페이지 「시험 소개」에 그대로 노출됩니다.</span><span class="editor-charcount">0자</span></div>
       </div>
-      <div class="hint">구매자에게 보여줄 소개입니다. (관리자 내부용 「시험 소개」와는 별개 데이터)</div>
+      <div class="hint" data-i18n="hintIntro">구매자에게 보여줄 소개입니다. (관리자 내부용 「시험 소개」와는 별개 데이터)</div>
     </div>
 
     <style>
@@ -162,82 +162,82 @@
       .pl-sla select{border:1px solid var(--grey-200);border-radius:6px;padding:3px 6px;font-family:inherit;font-size:11.5px}
     </style>
     <div class="field">
-      <label>판매 플랜 <span class="req">*</span></label>
+      <label data-i18n-html="labelPlan">판매 플랜 <span class="req">*</span></label>
       <div class="plan-cards">
         <label class="plan-card">
-          <div class="pl-top"><input type="radio" name="salePlan" class="plan-chk" checked><span class="pl-name">베이직</span><span class="pl-tag basic">AI 자동채점</span></div>
-          <div class="pl-desc">응시 직후 AI 자동채점으로 즉시 최종 결과를 제공합니다.</div>
+          <div class="pl-top"><input type="radio" name="salePlan" class="plan-chk" checked><span class="pl-name" data-i18n="planBasic">베이직</span><span class="pl-tag basic" data-i18n="tagBasic">AI 자동채점</span></div>
+          <div class="pl-desc" data-i18n="planBasicDesc">응시 직후 AI 자동채점으로 즉시 최종 결과를 제공합니다.</div>
         </label>
         <label class="plan-card">
-          <div class="pl-top"><input type="radio" name="salePlan" class="plan-chk"><span class="pl-name">프리미엄</span><span class="pl-tag premium">AI + 교수 채점</span></div>
-          <div class="pl-desc">AI 1차 채점 후 교수진이 음성을 듣고 정밀 보정·확정합니다. (AI 잠정 결과는 즉시 열람)</div>
-          <div class="pl-sla">교수 확정 SLA <select><option>2영업일</option><option>3영업일</option><option>5영업일</option></select></div>
+          <div class="pl-top"><input type="radio" name="salePlan" class="plan-chk"><span class="pl-name" data-i18n="planPremium">프리미엄</span><span class="pl-tag premium" data-i18n="tagPremium">AI + 교수 채점</span></div>
+          <div class="pl-desc" data-i18n="planPremiumDesc">AI 1차 채점 후 교수진이 음성을 듣고 정밀 보정·확정합니다. (AI 잠정 결과는 즉시 열람)</div>
+          <div class="pl-sla"><span data-i18n="slaLabel">교수 확정 SLA</span> <select><option data-i18n="sla2">2영업일</option><option data-i18n="sla3">3영업일</option><option data-i18n="sla5">5영업일</option></select></div>
         </label>
       </div>
-      <div class="hint">판매할 플랜을 선택합니다. 가격은 아래에서 설정하며, 프리미엄 응시건은 교수 채점 대기 큐로 들어가 확정 시 학습자에게 알림이 갑니다.</div>
+      <div class="hint" data-i18n="hintPlan">판매할 플랜을 선택합니다. 가격은 아래에서 설정하며, 프리미엄 응시건은 교수 채점 대기 큐로 들어가 확정 시 학습자에게 알림이 갑니다.</div>
     </div>
 
     <div class="field">
-      <label>결제 후 응시기간 <span class="req">*</span></label>
+      <label data-i18n-html="labelAccess">결제 후 응시기간 <span class="req">*</span></label>
       <div class="access-input">
-        결제 후 <input id="accessDays" type="number" min="1" value="30"> 일 이내 응시
+        <span data-i18n="accessPre">결제 후</span> <input id="accessDays" type="number" min="1" value="30"> <span data-i18n="accessPost">일 이내 응시</span>
       </div>
-      <div class="hint">구매자마다 결제 시점부터 카운트됩니다. 기간이 지나면 응시할 수 없습니다. (판매 종료와 무관하게 이미 구매한 사람의 응시 권한은 이 기간까지 유지)</div>
+      <div class="hint" data-i18n="hintAccess">구매자마다 결제 시점부터 카운트됩니다. 기간이 지나면 응시할 수 없습니다. (판매 종료와 무관하게 이미 구매한 사람의 응시 권한은 이 기간까지 유지)</div>
     </div>
 
     <div class="field">
-      <label>판매 가격 (JPY) <span class="req">*</span></label>
+      <label data-i18n-html="labelPrice">판매 가격 (JPY) <span class="req">*</span></label>
       <div class="price-calc">
         <div class="pc-row">
           <div class="pc-field">
-            <span class="pc-lab">정가</span>
+            <span class="pc-lab" data-i18n="priceList">정가</span>
             <div class="pc-input"><span class="pc-cur">¥</span><input id="listPrice" type="text" inputmode="numeric" placeholder="6,600"></div>
           </div>
           <div class="pc-field pc-narrow">
-            <span class="pc-lab">할인율</span>
+            <span class="pc-lab" data-i18n="priceDisc">할인율</span>
             <div class="pc-input disc"><input id="discRate" type="number" min="0" max="100" placeholder="0"><span class="pc-cur">%</span></div>
           </div>
           <div class="pc-arrow">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
           </div>
           <div class="pc-result">
-            <span class="pc-lab">최종 판매가</span>
+            <span class="pc-lab" data-i18n="priceFinal">최종 판매가</span>
             <div class="pc-final" id="finalPrice">—</div>
             <div class="pc-save" id="saveAmount"></div>
           </div>
         </div>
       </div>
-      <div class="hint">정가와 할인율을 입력하면 최종 판매가가 자동 계산됩니다. (10엔 단위 반올림)</div>
+      <div class="hint" data-i18n="hintPrice">정가와 할인율을 입력하면 최종 판매가가 자동 계산됩니다. (10엔 단위 반올림)</div>
     </div>
 
     <div class="field">
-      <label>판매 기간</label>
+      <label data-i18n="labelPeriod">판매 기간</label>
       <div class="period-seg" id="salePeriodSeg">
-        <label><input type="radio" name="salePeriod" value="always" checked>상시 판매</label>
-        <label><input type="radio" name="salePeriod" value="ranged">기간 지정</label>
+        <label><input type="radio" name="salePeriod" value="always" checked><span data-i18n="periodAlways">상시 판매</span></label>
+        <label><input type="radio" name="salePeriod" value="ranged"><span data-i18n="periodRanged">기간 지정</span></label>
       </div>
       <div class="date-range is-hidden" id="salePeriodRange">
         <input type="date" id="saleStart">
         <span class="sep">~</span>
         <input type="date" id="saleEnd">
       </div>
-      <div class="hint">‘상시 판매’는 종료일 없이 계속 노출됩니다. ‘기간 지정’은 종료일이 지나면 판매가 자동 종료됩니다. (이미 구매한 사람의 응시 권한은 위 ‘결제 후 응시기간’까지 유지)</div>
+      <div class="hint" data-i18n="hintPeriod">‘상시 판매’는 종료일 없이 계속 노출됩니다. ‘기간 지정’은 종료일이 지나면 판매가 자동 종료됩니다. (이미 구매한 사람의 응시 권한은 위 ‘결제 후 응시기간’까지 유지)</div>
     </div>
 
     <div class="field" style="max-width:280px;margin-bottom:0">
-      <label>판매 상태</label>
+      <label data-i18n="labelStatus">판매 상태</label>
       <select class="select">
-        <option>즉시 판매</option>
-        <option>임시저장</option>
+        <option data-i18n="statusNow">즉시 판매</option>
+        <option data-i18n="statusDraft">임시저장</option>
       </select>
     </div>
   </div>
 
   <div class="sticky-actions">
-    <div class="picked">선택한 시험: <strong id="pickedName">TOPIK 모의고사 · 중급 (3·4급)</strong></div>
+    <div class="picked"><span data-i18n="pickedLabel">선택한 시험:</span> <strong id="pickedName">TOPIK 모의고사 · 중급 (3·4급)</strong></div>
     <div class="hstack">
-      <a class="btn btn-secondary" href="products.html">임시저장</a>
-      <button class="btn btn-primary" id="submitProduct">상품 등록</button>
+      <a class="btn btn-secondary" href="products.html" data-i18n="btnDraft">임시저장</a>
+      <button class="btn btn-primary" id="submitProduct" data-i18n="btnSubmit">상품 등록</button>
     </div>
   </div>
 </div>
@@ -271,11 +271,13 @@
       var final = list;
       if (rate > 0) final = Math.round(list * (1 - rate / 100) / 10) * 10;
       finalPrice.textContent = fmt(final);
-      saveAmount.textContent = (rate > 0) ? (fmt(list - final) + ' (' + rate + '%) 할인') : '';
+      var ja = (typeof window.adminLocale === 'function' && window.adminLocale() === 'ja');
+      saveAmount.textContent = (rate > 0) ? (fmt(list - final) + ' (' + rate + '%) ' + (ja ? '割引' : '할인')) : '';
     }
     listPrice.addEventListener('input', calc);
     discRate.addEventListener('input', calc);
     calc();
+    window.__pcRecalc = calc;
 
     // 판매 기간: 기간 지정일 때만 날짜 범위 노출
     var seg = document.getElementById('salePeriodSeg');
@@ -299,7 +301,7 @@
         b.addEventListener('click', function () {
           var cmd = b.getAttribute('data-cmd'), val = b.getAttribute('data-val') || null;
           ed.focus();
-          if (cmd === 'createLink') { var u = window.prompt('링크 URL을 입력하세요', 'https://'); if (u) document.execCommand('createLink', false, u); }
+          if (cmd === 'createLink') { var _ja = (typeof window.adminLocale === 'function' && window.adminLocale() === 'ja'); var u = window.prompt(_ja ? 'リンクURLを入力してください' : '링크 URL을 입력하세요', 'https://'); if (u) document.execCommand('createLink', false, u); }
           else if (cmd === 'formatBlock') { document.execCommand('formatBlock', false, val); }
           else document.execCommand(cmd, false, val);
           active(); count();
@@ -312,9 +314,10 @@
           b.classList.toggle('active', on);
         });
       }
-      function count() { if (cc) cc.textContent = (ed.textContent || '').replace(/\s/g, '').length + '자'; }
+      function count() { if (cc) { var ja = (typeof window.adminLocale === 'function' && window.adminLocale() === 'ja'); cc.textContent = (ed.textContent || '').replace(/\s/g, '').length + (ja ? '文字' : '자'); } }
       document.addEventListener('selectionchange', function () { if (document.activeElement === ed) active(); });
       ed.addEventListener('input', count); count();
+      card.__edRecount = count;
     });
   })();
 </script>
@@ -328,17 +331,184 @@
       var planName = checked ? checked.closest('.plan-card').querySelector('.pl-name').textContent : '';
       var go = function () { location.href = 'products.html'; };
       if (!window.confirmAction) { go(); return; }
+      var ja = (typeof window.adminLocale === 'function' && window.adminLocale() === 'ja');
       confirmAction({
-        title: '이 상품을 등록할까요?',
-        desc: (planName ? '「' + planName + '」 플랜으로 ' : '') + '판매를 시작합니다. 등록 후 가격·판매 상태는 상품 목록에서 언제든 수정할 수 있어요.',
-        confirmText: '등록',
+        title: ja ? 'この商品を登録しますか?' : '이 상품을 등록할까요?',
+        desc: ja
+          ? ((planName ? '「' + planName + '」プランで' : '') + '販売を開始します。登録後も価格・販売ステータスは商品一覧からいつでも変更できます。')
+          : ((planName ? '「' + planName + '」 플랜으로 ' : '') + '판매를 시작합니다. 등록 후 가격·판매 상태는 상품 목록에서 언제든 수정할 수 있어요.'),
+        confirmText: ja ? '登録' : '등록',
         onConfirm: function () {
-          if (window.toast) toast('상품이 등록되었습니다.', 'success');
+          if (window.toast) toast(ja ? '商品が登録されました。' : '상품이 등록되었습니다.', 'success');
           setTimeout(go, 800);
         }
       });
     });
   })();
+</script>
+<script>
+  window.PAGE_I18N = {
+    ko: {
+      pageTitle: 'MaroPass Admin — 상품 등록',
+      pageHead: '상품 등록',
+      pageSub: '만들어둔 시험을 불러와 판매 상품으로 등록합니다 (문항 구성은 시험 관리에서)',
+      btnList: '← 목록',
+      step1Title: '판매할 시험 선택',
+      step1Sub: '문항 구성이 완료된 시험만 등록할 수 있습니다. 이미 등록된 시험은 선택할 수 없습니다.',
+      labelExam: '판매할 시험 <span class="req">*</span>',
+      ogWaiting: '판매 대기 (등록 가능)',
+      ogRegistered: '이미 등록됨 (선택 불가)',
+      ogNeedItems: '문항 구성 필요 (선택 불가)',
+      opt1: 'TOPIK 모의고사 · 중급 (3·4급) — 중급 · 80문항 · 120분',
+      opt2: '실전 회화 평가 · 중급 — 중급 · 40문항 · 60분',
+      opt3: 'TOPIK 모의고사 · 중상급 (3~6급) — 등록됨',
+      opt4: 'TOPIK 모의고사 · 초급 (1·2급) — 등록됨',
+      opt5: '비즈니스 한국어 진단평가 — 등록됨',
+      opt6: '발음·말하기 평가 (베타) — 문항 12/25',
+      hintExam: '등록 가능한 시험만 선택됩니다. 목록에 없으면 먼저 시험을 만들어 주세요.',
+      btnNewExam: '+ 새 시험 만들기',
+      step2Title: '판매 정보',
+      step2Sub: '선택한 시험을 어떻게 판매할지 설정합니다. 콘텐츠(문항·영역)는 시험을 그대로 따릅니다.',
+      labelSaleName: '판매명 <span class="req">*</span>',
+      hintSaleName: '기본값은 시험명입니다. 판매 페이지에 노출될 이름으로 수정할 수 있습니다.',
+      labelSubtitle: '서브타이틀',
+      phSubtitle: '예) 실전과 동일한 난이도로 5·6급을 대비하세요 (선택)',
+      hintSubtitle: '판매 페이지에서 판매명 아래 한 줄로 노출됩니다.',
+      labelIntro: '상품 소개 <span style="font-weight:600;color:var(--blue-500)">· 판매 페이지 노출</span>',
+      tbH2: '제목',
+      tbP: '본문',
+      tbPText: '본문',
+      tbBold: '굵게',
+      tbItalic: '기울임',
+      tbUnderline: '밑줄',
+      tbUl: '글머리 목록',
+      tbOl: '번호 목록',
+      tbLink: '링크',
+      tbHr: '구분선',
+      edPlaceholder: '시험 목적·대상·구성 등 구매자에게 보여줄 소개를 입력하세요.',
+      edFoot: '사용자 상세 페이지 「시험 소개」에 그대로 노출됩니다.',
+      hintIntro: '구매자에게 보여줄 소개입니다. (관리자 내부용 「시험 소개」와는 별개 데이터)',
+      labelPlan: '판매 플랜 <span class="req">*</span>',
+      planBasic: '베이직',
+      tagBasic: 'AI 자동채점',
+      planBasicDesc: '응시 직후 AI 자동채점으로 즉시 최종 결과를 제공합니다.',
+      planPremium: '프리미엄',
+      tagPremium: 'AI + 교수 채점',
+      planPremiumDesc: 'AI 1차 채점 후 교수진이 음성을 듣고 정밀 보정·확정합니다. (AI 잠정 결과는 즉시 열람)',
+      slaLabel: '교수 확정 SLA',
+      sla2: '2영업일',
+      sla3: '3영업일',
+      sla5: '5영업일',
+      hintPlan: '판매할 플랜을 선택합니다. 가격은 아래에서 설정하며, 프리미엄 응시건은 교수 채점 대기 큐로 들어가 확정 시 학습자에게 알림이 갑니다.',
+      labelAccess: '결제 후 응시기간 <span class="req">*</span>',
+      accessPre: '결제 후',
+      accessPost: '일 이내 응시',
+      hintAccess: '구매자마다 결제 시점부터 카운트됩니다. 기간이 지나면 응시할 수 없습니다. (판매 종료와 무관하게 이미 구매한 사람의 응시 권한은 이 기간까지 유지)',
+      labelPrice: '판매 가격 (JPY) <span class="req">*</span>',
+      priceList: '정가',
+      priceDisc: '할인율',
+      priceFinal: '최종 판매가',
+      hintPrice: '정가와 할인율을 입력하면 최종 판매가가 자동 계산됩니다. (10엔 단위 반올림)',
+      labelPeriod: '판매 기간',
+      periodAlways: '상시 판매',
+      periodRanged: '기간 지정',
+      hintPeriod: '‘상시 판매’는 종료일 없이 계속 노출됩니다. ‘기간 지정’은 종료일이 지나면 판매가 자동 종료됩니다. (이미 구매한 사람의 응시 권한은 위 ‘결제 후 응시기간’까지 유지)',
+      labelStatus: '판매 상태',
+      statusNow: '즉시 판매',
+      statusDraft: '임시저장',
+      pickedLabel: '선택한 시험:',
+      btnDraft: '임시저장',
+      btnSubmit: '상품 등록'
+    },
+    ja: {
+      pageTitle: 'MaroPass Admin — 商品登録',
+      pageHead: '商品登録',
+      pageSub: '作成済みの試験を読み込んで販売商品として登録します(問題構成は試験管理から)',
+      btnList: '← 一覧',
+      step1Title: '販売する試験の選択',
+      step1Sub: '問題構成が完了した試験のみ登録できます。すでに登録済みの試験は選択できません。',
+      labelExam: '販売する試験 <span class="req">*</span>',
+      ogWaiting: '販売待ち(登録可能)',
+      ogRegistered: '登録済み(選択不可)',
+      ogNeedItems: '問題構成が必要(選択不可)',
+      opt1: 'TOPIK模擬試験 · 中級 (3・4級) — 中級 · 80問 · 120分',
+      opt2: '実践会話評価 · 中級 — 中級 · 40問 · 60分',
+      opt3: 'TOPIK模擬試験 · 中上級 (3〜6級) — 登録済み',
+      opt4: 'TOPIK模擬試験 · 初級 (1・2級) — 登録済み',
+      opt5: 'ビジネス韓国語診断評価 — 登録済み',
+      opt6: '発音・スピーキング評価(ベータ) — 問題 12/25',
+      hintExam: '登録可能な試験のみ選択できます。一覧にない場合はまず試験を作成してください。',
+      btnNewExam: '+ 新しい試験を作成',
+      step2Title: '販売情報',
+      step2Sub: '選択した試験の販売方法を設定します。コンテンツ(問題・領域)は試験の内容をそのまま引き継ぎます。',
+      labelSaleName: '販売名 <span class="req">*</span>',
+      hintSaleName: '初期値は試験名です。販売ページに表示される名称に変更できます。',
+      labelSubtitle: 'サブタイトル',
+      phSubtitle: '例) 実践と同じ難易度で5・6級に備えましょう(任意)',
+      hintSubtitle: '販売ページで販売名の下に1行で表示されます。',
+      labelIntro: '商品紹介 <span style="font-weight:600;color:var(--blue-500)">· 販売ページに表示</span>',
+      tbH2: '見出し',
+      tbP: '本文',
+      tbPText: '本文',
+      tbBold: '太字',
+      tbItalic: '斜体',
+      tbUnderline: '下線',
+      tbUl: '箇条書き',
+      tbOl: '番号付きリスト',
+      tbLink: 'リンク',
+      tbHr: '区切り線',
+      edPlaceholder: '試験の目的・対象・構成など、購入者に見せる紹介を入力してください。',
+      edFoot: 'ユーザー詳細ページの「試験紹介」にそのまま表示されます。',
+      hintIntro: '購入者に見せる紹介です。(管理者内部用の「試験紹介」とは別のデータ)',
+      labelPlan: '販売プラン <span class="req">*</span>',
+      planBasic: 'ベーシック',
+      tagBasic: 'AI自動採点',
+      planBasicDesc: '受験直後にAI自動採点で即座に最終結果を提供します。',
+      planPremium: 'プレミアム',
+      tagPremium: 'AI + 教授採点',
+      planPremiumDesc: 'AIによる1次採点の後、教授陣が音声を聴いて精密に補正・確定します。(AIの暫定結果は即座に閲覧可能)',
+      slaLabel: '教授確定SLA',
+      sla2: '2営業日',
+      sla3: '3営業日',
+      sla5: '5営業日',
+      hintPlan: '販売するプランを選択します。価格は下で設定し、プレミアムの受験分は教授採点の待機キューに入り、確定時に受験者へ通知が送られます。',
+      labelAccess: '決済後の受験期間 <span class="req">*</span>',
+      accessPre: '決済後',
+      accessPost: '日以内に受験',
+      hintAccess: '購入者ごとに決済時点からカウントされます。期間を過ぎると受験できません。(販売終了に関わらず、すでに購入した人の受験権限はこの期間まで維持されます)',
+      labelPrice: '販売価格 (JPY) <span class="req">*</span>',
+      priceList: '定価',
+      priceDisc: '割引率',
+      priceFinal: '最終販売価格',
+      hintPrice: '定価と割引率を入力すると最終販売価格が自動計算されます。(10円単位で四捨五入)',
+      labelPeriod: '販売期間',
+      periodAlways: '常時販売',
+      periodRanged: '期間指定',
+      hintPeriod: '「常時販売」は終了日なしで継続表示されます。「期間指定」は終了日を過ぎると販売が自動終了します。(すでに購入した人の受験権限は上記「決済後の受験期間」まで維持されます)',
+      labelStatus: '販売ステータス',
+      statusNow: '即時販売',
+      statusDraft: '一時保存',
+      pickedLabel: '選択した試験:',
+      btnDraft: '一時保存',
+      btnSubmit: '商品登録'
+    }
+  };
+
+  // 셸이 처리하지 못하는 항목(optgroup label·title 속성·contenteditable placeholder) + 재계산
+  window.onLocaleChange = function (loc) {
+    var d = (window.PAGE_I18N && (window.PAGE_I18N[loc] || window.PAGE_I18N.ko)) || {};
+    document.querySelectorAll('[data-i18n-og]').forEach(function (el) {
+      var k = el.getAttribute('data-i18n-og'); if (d[k] != null) el.label = d[k];
+    });
+    document.querySelectorAll('[data-i18n-title]').forEach(function (el) {
+      var k = el.getAttribute('data-i18n-title'); if (d[k] != null) el.title = d[k];
+    });
+    document.querySelectorAll('[data-i18n-dph]').forEach(function (el) {
+      var k = el.getAttribute('data-i18n-dph'); if (d[k] != null) el.setAttribute('data-placeholder', d[k]);
+    });
+    if (typeof window.__pcRecalc === 'function') window.__pcRecalc();
+    document.querySelectorAll('.editor-card').forEach(function (c) { if (typeof c.__edRecount === 'function') c.__edRecount(); });
+  };
 </script>
 <script src="assets/admin-shell.js"></script>
 </body>

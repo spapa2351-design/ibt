@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MaroPass Admin — 채점 보정</title>
+<title data-i18n="docTitle">MaroPass Admin — 채점 보정</title>
 <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
 <link rel="stylesheet" href="assets/admin.css">
 <style>
@@ -44,25 +44,25 @@
 
   /* 시험지 원본 */
   .sheet-label { font-size:11px; font-weight:800; letter-spacing:.4px; color:var(--grey-500); text-transform:uppercase; margin-bottom:7px; }
-  .sheet-sentence { background:#fff; border:1px solid var(--grey-200); border-radius:12px; padding:20px 16px; font-size:18px; font-weight:700; text-align:center; color:var(--grey-900); }
-  .sheet-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:6px; }
-  .sheet-cell { aspect-ratio:4/3; border-radius:8px; background:linear-gradient(135deg,#eef4ff,#e6f7ee); display:flex; align-items:flex-start; justify-content:flex-start; padding:6px; font-size:11px; font-weight:800; color:var(--blue-600); }
-  .sheet-graph { border:1px solid var(--grey-200); border-radius:12px; padding:16px; }
-  .sheet-graph .bars { display:flex; align-items:flex-end; gap:14px; height:110px; padding:0 8px; }
+  .sheet-sentence { background:#fff; border:1px solid var(--grey-200); border-radius:12px; padding:13px 16px; font-size:15px; font-weight:700; text-align:center; color:var(--grey-900); }
+  .sheet-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:5px; max-width:300px; }
+  .sheet-cell { aspect-ratio:16/10; border-radius:8px; background:linear-gradient(135deg,#eef4ff,#e6f7ee); display:flex; align-items:flex-start; justify-content:flex-start; padding:5px; font-size:10.5px; font-weight:800; color:var(--blue-600); }
+  .sheet-graph { border:1px solid var(--grey-200); border-radius:12px; padding:12px; max-width:330px; }
+  .sheet-graph .bars { display:flex; align-items:flex-end; gap:12px; height:68px; padding:0 6px; }
   .sheet-graph .bar { flex:1; background:linear-gradient(180deg,#2e84ff,#7cb2ff); border-radius:6px 6px 0 0; }
   .sheet-graph .cap { font-size:11px; color:var(--grey-500); margin-top:8px; text-align:center; }
 
   /* 응시자 답안 */
   .ans-block { margin-top:16px; }
-  .aud { display:flex; align-items:center; gap:10px; background:#0f172a; border-radius:12px; padding:10px 14px; color:#fff; flex-wrap:wrap; }
-  .aud-play { width:38px; height:38px; border-radius:50%; background:var(--blue-500); border:none; color:#fff; cursor:pointer; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
-  .aud-wave { flex:1; min-width:120px; display:flex; align-items:center; gap:2px; height:30px; }
+  .aud { display:flex; align-items:center; gap:8px; background:#0f172a; border-radius:10px; padding:6px 10px; color:#fff; flex-wrap:wrap; }
+  .aud-play { width:28px; height:28px; border-radius:50%; background:var(--blue-500); border:none; color:#fff; cursor:pointer; display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:11px; }
+  .aud-wave { flex:1; min-width:100px; display:flex; align-items:center; gap:2px; height:18px; }
   .aud-wave i { flex:1; background:rgba(255,255,255,.35); border-radius:2px; }
-  .aud-time { font-size:11px; font-variant-numeric:tabular-nums; opacity:.85; font-family:'SF Mono',Menlo,monospace; }
-  .aud-speed { display:inline-flex; border:1px solid rgba(255,255,255,.25); border-radius:7px; overflow:hidden; }
-  .aud-speed button { background:none; border:none; color:rgba(255,255,255,.7); font-size:11px; font-weight:700; padding:4px 8px; cursor:pointer; }
+  .aud-time { font-size:10.5px; font-variant-numeric:tabular-nums; opacity:.85; font-family:'SF Mono',Menlo,monospace; }
+  .aud-speed { display:inline-flex; border:1px solid rgba(255,255,255,.25); border-radius:6px; overflow:hidden; }
+  .aud-speed button { background:none; border:none; color:rgba(255,255,255,.7); font-size:10.5px; font-weight:700; padding:3px 7px; cursor:pointer; }
   .aud-speed button.on { background:rgba(255,255,255,.2); color:#fff; }
-  .aud-loop { background:rgba(255,255,255,.12); border:none; color:#fff; font-size:11px; font-weight:700; padding:6px 10px; border-radius:7px; cursor:pointer; }
+  .aud-loop { background:rgba(255,255,255,.12); border:none; color:#fff; font-size:10.5px; font-weight:700; padding:4px 9px; border-radius:6px; cursor:pointer; }
 
   .stt { margin-top:10px; background:var(--grey-50); border:1px solid var(--grey-200); border-radius:10px; padding:11px 13px; font-size:13px; color:var(--grey-800); line-height:1.6; }
   .stt .lowconf { background:#fff3cd; border-bottom:2px dotted #e0a800; padding:0 2px; }
@@ -111,82 +111,82 @@
     <div class="gh-title">
       <a class="back-btn" href="test-manage.html" title="응시자 목록으로"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg></a>
       <div>
-        <h1 class="page-title">채점 보정 — 鈴木 花子</h1>
-        <div class="page-sub">한국어 말하기 · 중상급 (정기) · 응시 2026-05-07 16:40</div>
+        <h1 class="page-title" data-i18n-html="pageTitle">채점 보정 — 鈴木 花子</h1>
+        <div class="page-sub" data-i18n-html="pageSub">한국어 말하기 · 중상급 (정기) · 응시 2026-05-07 16:40</div>
       </div>
     </div>
     <div class="page-actions">
-      <button class="btn btn-secondary">임시 저장</button>
-      <button class="btn btn-primary">채점 확정</button>
+      <button class="btn btn-secondary" data-i18n="tmpSave">임시 저장</button>
+      <button class="btn btn-primary" data-i18n="confirmGrade">채점 확정</button>
     </div>
   </div>
 
   <!-- 상단 요약 (sticky) -->
   <div class="grade-summary">
-    <div class="gs-item"><span class="gs-lab">보정 총점</span><span class="gs-val blue"><span id="sumScore">0</span><span class="muted"> / <span id="sumMax">0</span></span></span></div>
-    <div class="gs-item"><span class="gs-lab">AI 총점</span><span class="gs-val"><span id="aiScore">0</span><span class="muted"> / <span id="sumMax2">0</span></span></span></div>
+    <div class="gs-item"><span class="gs-lab" data-i18n="sumScoreLab">보정 총점</span><span class="gs-val blue"><span id="sumScore">0</span><span class="muted"> / <span id="sumMax">0</span></span></span></div>
+    <div class="gs-item"><span class="gs-lab" data-i18n="aiScoreLab">AI 총점</span><span class="gs-val"><span id="aiScore">0</span><span class="muted"> / <span id="sumMax2">0</span></span></span></div>
     <div class="gs-progress">
-      <span class="gs-lab">보정 진행률 <b id="progText">0 / 3</b></span>
+      <span class="gs-lab" data-i18n-html="progLab">보정 진행률 <b id="progText">0 / 3</b></span>
       <div class="gs-bar"><div class="gs-bar-fill" id="progFill"></div></div>
     </div>
     <div class="gs-grader">
       <span class="gs-grader-col" style="display:flex;flex-direction:column;gap:3px;align-items:flex-end">
-        <span class="who"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>채점자 구교환</span>
-        <span class="lock">🔒 응시자 비노출 · 관리자만 조회</span>
+        <span class="who"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span data-i18n-html="grader">채점자 구교환</span></span>
+        <span class="lock" data-i18n="lock">🔒 응시자 비노출 · 관리자만 조회</span>
       </span>
     </div>
   </div>
 
-  <div class="demo-note">시안 안내 · 실제 시험은 18문항이며, 아래는 대표 유형 <b>3문항</b>(어휘 발음 · 그림 설명 · 자료 해석)만 발췌한 채점 화면입니다. 유형마다 채점축·척도가 다릅니다(중상급 0~3점).</div>
+  <div class="demo-note" data-i18n-html="demoNote">AI 채점이 완료된 상태입니다. 각 문항의 <b>AI 점수·AI 피드백(초안)</b>이 미리 채워지며, 관리자가 검토·수정 후 확정합니다 — <b>베이직·프리미엄 공통</b>. (시안: 실제 18문항 중 대표 3문항만 발췌 · 유형마다 채점축·척도가 다름, 중상급 0~3점)</div>
 
   <!-- ══════ 문항 1: 어휘 발음 구별 (1축) ══════ -->
   <div class="q-card" data-q>
     <div class="q-head">
       <span class="q-pt">3점</span>
-      <span class="q-type">① 어휘 발음 구별</span>
-      <span class="q-lv">중상급</span>
-      <span class="q-state ai" data-state>AI 채점 완료</span>
+      <span class="q-type" data-i18n="qType1">① 어휘 발음 구별</span>
+      <span class="q-lv" data-i18n="lv">중상급</span>
+      <span class="q-state ai" data-state data-i18n="stateAi">AI 채점 완료</span>
     </div>
     <div class="q-body">
       <div>
-        <div class="q-instr">1. 화면에 보이는 문장을 읽어 주세요.</div>
-        <div class="q-guide">"삐" 소리 후 20초 안에 답하세요.</div>
+        <div class="q-instr" data-i18n="qInstr1">1. 화면에 보이는 문장을 읽어 주세요.</div>
+        <div class="q-guide" data-i18n="qGuide1">"삐" 소리 후 20초 안에 답하세요.</div>
 
-        <div class="sheet-label">시험지 (응시자가 본 화면)</div>
+        <div class="sheet-label" data-i18n="sheetLabel">시험지 (응시자가 본 화면)</div>
         <div class="sheet-sentence">업무의 효율성을 높이기 위해 협력을 부탁합니다.</div>
 
         <div class="ans-block">
-          <div class="sheet-label">응시자 답안</div>
+          <div class="sheet-label" data-i18n="ansLabel">응시자 답안</div>
           <div class="aud">
             <button class="aud-play" aria-label="재생">▶</button>
             <div class="aud-wave"></div>
             <span class="aud-time">00:14</span>
             <div class="aud-speed"><button>0.75×</button><button class="on">1×</button><button>1.5×</button></div>
-            <button class="aud-loop">구간 반복</button>
+            <button class="aud-loop" data-i18n="loop">구간 반복</button>
           </div>
           <div class="stt">
-            <span class="stt-tag">STT 변환 (편집 가능 · 저신뢰 구간 표시)</span>
+            <span class="stt-tag" data-i18n="sttTag1">STT 변환 (편집 가능 · 저신뢰 구간 표시)</span>
             어무의 효율썽을 높이기 위해 <span class="lowconf">혐녁</span>을 부탁함니다.
           </div>
           <details class="model-toggle">
-            <summary>💡 모범답안 보기</summary>
+            <summary data-i18n="modelAnsBtn">💡 모범답안 보기</summary>
             <div class="model-ans">업무의 효율성을 높이기 위해 협력을 부탁합니다. <span style="color:var(--grey-500)">[비음화·격음화 유의]</span></div>
           </details>
         </div>
       </div>
 
       <div class="score-panel" data-panel>
-        <div class="sp-head"><span class="sp-title">채점</span><span class="ai-grade">AI 참고</span></div>
+        <div class="sp-head"><span class="sp-title" data-i18n="spTitle">채점</span><span class="ai-grade" data-i18n="aiRef">AI 참고</span></div>
         <div class="ax">
-          <span class="ax-name">발음·억양</span>
+          <span class="ax-name" data-i18n="axPron">발음·억양</span>
           <span class="ax-ai">AI <b>2</b></span>
           <div class="ax-step"><button class="minus">−</button><input class="ax-input" type="number" min="0" max="3" value="2" data-ai="2"><button class="plus">+</button></div>
           <span class="ax-max">/3</span>
         </div>
-        <div class="sp-sub"><span class="sp-sub-lab">문항 소계</span><span class="sp-sub-val"><span class="q-subtotal">2</span><span class="muted"> / 3</span></span></div>
+        <div class="sp-sub"><span class="sp-sub-lab" data-i18n="subLab">문항 소계</span><span class="sp-sub-val"><span class="q-subtotal">2</span><span class="muted"> / 3</span></span></div>
         <div class="cmt">
-          <label>평가자 코멘트 <span class="hint">응시자 성적표에 노출</span></label>
-          <textarea placeholder="예) 격음화 발음이 어색합니다. '협력'의 받침 연음에 유의하세요."></textarea>
+          <label data-i18n-html="fbLabel">AI 피드백 <span class="ai-grade">AI 초안</span> <span class="hint">관리자 수정 가능 · 응시자 성적표에 노출</span></label>
+          <textarea>전반적으로 또렷하게 읽었습니다. 다만 '협력'의 격음화 발음이 약하고 문장 끝을 흐리는 경향이 있어, 받침을 끝까지 발음하는 연습을 권장합니다.</textarea>
         </div>
       </div>
     </div>
@@ -196,50 +196,50 @@
   <div class="q-card" data-q>
     <div class="q-head">
       <span class="q-pt">9점</span>
-      <span class="q-type">③-2 그림 설명</span>
-      <span class="q-lv">중상급</span>
-      <span class="q-state ai" data-state>AI 채점 완료</span>
+      <span class="q-type" data-i18n="qType2">③-2 그림 설명</span>
+      <span class="q-lv" data-i18n="lv">중상급</span>
+      <span class="q-state ai" data-state data-i18n="stateAi">AI 채점 완료</span>
     </div>
     <div class="q-body">
       <div>
-        <div class="q-instr">2. 그림을 보고 세 문장 이상 설명해 주세요.</div>
-        <div class="q-guide">40초간 준비한 뒤 "삐" 소리 후 60초 안에 말하세요.</div>
+        <div class="q-instr" data-i18n="qInstr2">2. 그림을 보고 세 문장 이상 설명해 주세요.</div>
+        <div class="q-guide" data-i18n="qGuide2">40초간 준비한 뒤 "삐" 소리 후 60초 안에 말하세요.</div>
 
-        <div class="sheet-label">시험지 (응시자가 본 화면)</div>
+        <div class="sheet-label" data-i18n="sheetLabel">시험지 (응시자가 본 화면)</div>
         <div class="sheet-grid">
           <div class="sheet-cell">7:00</div><div class="sheet-cell">7:15</div><div class="sheet-cell">8:00</div>
           <div class="sheet-cell">19:00</div><div class="sheet-cell">21:00</div><div class="sheet-cell">22:00</div>
         </div>
 
         <div class="ans-block">
-          <div class="sheet-label">응시자 답안</div>
+          <div class="sheet-label" data-i18n="ansLabel">응시자 답안</div>
           <div class="aud">
             <button class="aud-play" aria-label="재생">▶</button>
             <div class="aud-wave"></div>
             <span class="aud-time">00:52</span>
             <div class="aud-speed"><button>0.75×</button><button class="on">1×</button><button>1.5×</button></div>
-            <button class="aud-loop">구간 반복</button>
+            <button class="aud-loop" data-i18n="loop">구간 반복</button>
           </div>
           <div class="stt">
-            <span class="stt-tag">STT 변환 (편집 가능)</span>
+            <span class="stt-tag" data-i18n="sttTag2">STT 변환 (편집 가능)</span>
             이 그림은 한 남자의 하루를 보여줍니다. 아침 7시에 일어나고 세수를 합니다. 8시에 회사에 갑니다. 저녁에 집에 와서 <span class="lowconf">저녁을 먹꼬</span> 잡니다.
           </div>
           <details class="model-toggle">
-            <summary>💡 모범답안 보기</summary>
+            <summary data-i18n="modelAnsBtn">💡 모범답안 보기</summary>
             <div class="model-ans">저는 아침 7시에 일어납니다. 7시 15분쯤 세수를 하고 8시에 회사로 출근합니다. 저녁 7시에 돌아와 식사를 하고 밤 10시에 잡니다.</div>
           </details>
         </div>
       </div>
 
       <div class="score-panel" data-panel>
-        <div class="sp-head"><span class="sp-title">채점</span><span class="ai-grade">AI 참고</span></div>
-        <div class="ax"><span class="ax-name">어휘/문법</span><span class="ax-ai">AI <b>2</b></span><div class="ax-step"><button class="minus">−</button><input class="ax-input" type="number" min="0" max="3" value="2" data-ai="2"><button class="plus">+</button></div><span class="ax-max">/3</span></div>
-        <div class="ax"><span class="ax-name">내용</span><span class="ax-ai">AI <b>2</b></span><div class="ax-step"><button class="minus">−</button><input class="ax-input" type="number" min="0" max="3" value="2" data-ai="2"><button class="plus">+</button></div><span class="ax-max">/3</span></div>
-        <div class="ax"><span class="ax-name">구조/전개</span><span class="ax-ai">AI <b>1</b></span><div class="ax-step"><button class="minus">−</button><input class="ax-input" type="number" min="0" max="3" value="1" data-ai="1"><button class="plus">+</button></div><span class="ax-max">/3</span></div>
-        <div class="sp-sub"><span class="sp-sub-lab">문항 소계</span><span class="sp-sub-val"><span class="q-subtotal">5</span><span class="muted"> / 9</span></span></div>
+        <div class="sp-head"><span class="sp-title" data-i18n="spTitle">채점</span><span class="ai-grade" data-i18n="aiRef">AI 참고</span></div>
+        <div class="ax"><span class="ax-name" data-i18n="axVocab">어휘/문법</span><span class="ax-ai">AI <b>2</b></span><div class="ax-step"><button class="minus">−</button><input class="ax-input" type="number" min="0" max="3" value="2" data-ai="2"><button class="plus">+</button></div><span class="ax-max">/3</span></div>
+        <div class="ax"><span class="ax-name" data-i18n="axContent">내용</span><span class="ax-ai">AI <b>2</b></span><div class="ax-step"><button class="minus">−</button><input class="ax-input" type="number" min="0" max="3" value="2" data-ai="2"><button class="plus">+</button></div><span class="ax-max">/3</span></div>
+        <div class="ax"><span class="ax-name" data-i18n="axStruct">구조/전개</span><span class="ax-ai">AI <b>1</b></span><div class="ax-step"><button class="minus">−</button><input class="ax-input" type="number" min="0" max="3" value="1" data-ai="1"><button class="plus">+</button></div><span class="ax-max">/3</span></div>
+        <div class="sp-sub"><span class="sp-sub-lab" data-i18n="subLab">문항 소계</span><span class="sp-sub-val"><span class="q-subtotal">5</span><span class="muted"> / 9</span></span></div>
         <div class="cmt">
-          <label>평가자 코멘트 <span class="hint">응시자 성적표에 노출</span></label>
-          <textarea placeholder="예) 시간 순서 전개는 좋으나 문장 연결어가 단조롭습니다."></textarea>
+          <label data-i18n-html="fbLabel">AI 피드백 <span class="ai-grade">AI 초안</span> <span class="hint">관리자 수정 가능 · 응시자 성적표에 노출</span></label>
+          <textarea>시간 순서대로 설명한 점이 좋습니다. 문장 연결어가 단조로우니 '-고 / -아서'로 이어 3문장 이상으로 확장하고, 문체를 '-습니다'로 통일하면 더 자연스럽습니다.</textarea>
         </div>
       </div>
     </div>
@@ -249,51 +249,51 @@
   <div class="q-card" data-q>
     <div class="q-head">
       <span class="q-pt">12점</span>
-      <span class="q-type">⑤-1 자료 해석</span>
-      <span class="q-lv">중상급</span>
-      <span class="q-state ai" data-state>AI 채점 완료</span>
+      <span class="q-type" data-i18n="qType3">⑤-1 자료 해석</span>
+      <span class="q-lv" data-i18n="lv">중상급</span>
+      <span class="q-state ai" data-state data-i18n="stateAi">AI 채점 완료</span>
     </div>
     <div class="q-body">
       <div>
-        <div class="q-instr">3. 자료를 보고 설명한 후 자신의 의견을 제시해 주세요.</div>
-        <div class="q-guide">70초간 준비한 뒤 "삐" 소리 후 80초 안에 말하세요.</div>
+        <div class="q-instr" data-i18n="qInstr3">3. 자료를 보고 설명한 후 자신의 의견을 제시해 주세요.</div>
+        <div class="q-guide" data-i18n="qGuide3">70초간 준비한 뒤 "삐" 소리 후 80초 안에 말하세요.</div>
 
-        <div class="sheet-label">시험지 (응시자가 본 화면)</div>
+        <div class="sheet-label" data-i18n="sheetLabel">시험지 (응시자가 본 화면)</div>
         <div class="sheet-graph">
           <div class="bars"><div class="bar" style="height:12%"></div><div class="bar" style="height:48%"></div><div class="bar" style="height:78%"></div></div>
           <div class="cap">스마트폰 과다 사용 비율 — 초4 0.9% · 중1 7.2% · 고1 8.9%</div>
         </div>
 
         <div class="ans-block">
-          <div class="sheet-label">응시자 답안</div>
+          <div class="sheet-label" data-i18n="ansLabel">응시자 답안</div>
           <div class="aud">
             <button class="aud-play" aria-label="재생">▶</button>
             <div class="aud-wave"></div>
             <span class="aud-time">01:12</span>
             <div class="aud-speed"><button>0.75×</button><button class="on">1×</button><button>1.5×</button></div>
-            <button class="aud-loop">구간 반복</button>
+            <button class="aud-loop" data-i18n="loop">구간 반복</button>
           </div>
           <div class="stt">
-            <span class="stt-tag">STT 변환 (편집 가능)</span>
+            <span class="stt-tag" data-i18n="sttTag2">STT 변환 (편집 가능)</span>
             자료를 보면 학년이 올라갈수록 스마트폰 과다 사용 비율이 늘어납니다. 초등학교 4학년은 0.9%지만 고등학교 1학년은 8.9%입니다. 저는 사용 시간을 관리해야 한다고 생각합니다.
           </div>
           <details class="model-toggle">
-            <summary>💡 모범답안 보기</summary>
+            <summary data-i18n="modelAnsBtn">💡 모범답안 보기</summary>
             <div class="model-ans">서론: 학년이 올라갈수록 과의존 비율이 증가. 본론: 두통·수면 장애 등 부작용. 결론: 사용 시간·횟수 관리 필요.</div>
           </details>
         </div>
       </div>
 
       <div class="score-panel" data-panel>
-        <div class="sp-head"><span class="sp-title">채점</span><span class="ai-grade">AI 참고</span></div>
-        <div class="ax"><span class="ax-name">어휘/문법</span><span class="ax-ai">AI <b>2</b></span><div class="ax-step"><button class="minus">−</button><input class="ax-input" type="number" min="0" max="3" value="2" data-ai="2"><button class="plus">+</button></div><span class="ax-max">/3</span></div>
-        <div class="ax"><span class="ax-name">내용</span><span class="ax-ai">AI <b>2</b></span><div class="ax-step"><button class="minus">−</button><input class="ax-input" type="number" min="0" max="3" value="2" data-ai="2"><button class="plus">+</button></div><span class="ax-max">/3</span></div>
-        <div class="ax"><span class="ax-name">구조/전개</span><span class="ax-ai">AI <b>2</b></span><div class="ax-step"><button class="minus">−</button><input class="ax-input" type="number" min="0" max="3" value="2" data-ai="2"><button class="plus">+</button></div><span class="ax-max">/3</span></div>
-        <div class="ax"><span class="ax-name">논리/설득력</span><span class="ax-ai">AI <b>1</b></span><div class="ax-step"><button class="minus">−</button><input class="ax-input" type="number" min="0" max="3" value="1" data-ai="1"><button class="plus">+</button></div><span class="ax-max">/3</span></div>
-        <div class="sp-sub"><span class="sp-sub-lab">문항 소계</span><span class="sp-sub-val"><span class="q-subtotal">7</span><span class="muted"> / 12</span></span></div>
+        <div class="sp-head"><span class="sp-title" data-i18n="spTitle">채점</span><span class="ai-grade" data-i18n="aiRef">AI 참고</span></div>
+        <div class="ax"><span class="ax-name" data-i18n="axVocab">어휘/문법</span><span class="ax-ai">AI <b>2</b></span><div class="ax-step"><button class="minus">−</button><input class="ax-input" type="number" min="0" max="3" value="2" data-ai="2"><button class="plus">+</button></div><span class="ax-max">/3</span></div>
+        <div class="ax"><span class="ax-name" data-i18n="axContent">내용</span><span class="ax-ai">AI <b>2</b></span><div class="ax-step"><button class="minus">−</button><input class="ax-input" type="number" min="0" max="3" value="2" data-ai="2"><button class="plus">+</button></div><span class="ax-max">/3</span></div>
+        <div class="ax"><span class="ax-name" data-i18n="axStruct">구조/전개</span><span class="ax-ai">AI <b>2</b></span><div class="ax-step"><button class="minus">−</button><input class="ax-input" type="number" min="0" max="3" value="2" data-ai="2"><button class="plus">+</button></div><span class="ax-max">/3</span></div>
+        <div class="ax"><span class="ax-name" data-i18n="axLogic">논리/설득력</span><span class="ax-ai">AI <b>1</b></span><div class="ax-step"><button class="minus">−</button><input class="ax-input" type="number" min="0" max="3" value="1" data-ai="1"><button class="plus">+</button></div><span class="ax-max">/3</span></div>
+        <div class="sp-sub"><span class="sp-sub-lab" data-i18n="subLab">문항 소계</span><span class="sp-sub-val"><span class="q-subtotal">7</span><span class="muted"> / 12</span></span></div>
         <div class="cmt">
-          <label>평가자 코멘트 <span class="hint">응시자 성적표에 노출</span></label>
-          <textarea placeholder="예) 자료 해석은 정확하나 의견의 근거가 부족합니다."></textarea>
+          <label data-i18n-html="fbLabel">AI 피드백 <span class="ai-grade">AI 초안</span> <span class="hint">관리자 수정 가능 · 응시자 성적표에 노출</span></label>
+          <textarea>자료 해석은 정확합니다. 다만 의견의 근거가 부족하니 '자료 해석 → 원인 → 의견' 순서로 근거를 한 문장 더 추가하면 설득력이 높아집니다.</textarea>
         </div>
       </div>
     </div>
@@ -301,8 +301,8 @@
 
   <!-- 하단 액션 -->
   <div style="display:flex; justify-content:flex-end; gap:8px; padding:8px 0 40px;">
-    <button class="btn btn-secondary">임시 저장</button>
-    <button class="btn btn-primary">채점 확정 · 결과 공개</button>
+    <button class="btn btn-secondary" data-i18n="tmpSave">임시 저장</button>
+    <button class="btn btn-primary" data-i18n="confirmGradeOpen">채점 확정 · 결과 공개</button>
   </div>
 
 </div>
@@ -311,7 +311,7 @@
   // 파형 막대 채우기 (정적 시각)
   document.querySelectorAll('.aud-wave').forEach(function(w){
     var h=[6,14,22,10,28,18,26,12,20,8,24,16,30,14,22,10,26,18,12,28,16,20,8,24,14,22];
-    w.innerHTML = h.map(function(v){ return '<i style="height:'+v+'px"></i>'; }).join('');
+    w.innerHTML = h.map(function(v){ return '<i style="height:'+Math.round(v*0.55)+'px"></i>'; }).join('');
   });
 
   // 재생 토글 (목업)
@@ -324,6 +324,13 @@
       btn.addEventListener('click', function(){ g.querySelectorAll('button').forEach(function(x){x.classList.remove('on');}); btn.classList.add('on'); });
     });
   });
+
+  // 로케일 헬퍼 (admin-shell.js 제공 window.adminLocale)
+  function L(k){
+    var loc = (window.adminLocale ? window.adminLocale() : 'ko');
+    var d = window.PAGE_I18N && window.PAGE_I18N[loc];
+    return (d && d[k]) || (window.PAGE_I18N && window.PAGE_I18N.ko && window.PAGE_I18N.ko[k]) || '';
+  }
 
   var cards = document.querySelectorAll('[data-q]');
   var maxTotal = 0;
@@ -346,7 +353,7 @@
     card.querySelector('.q-subtotal').textContent=sub;
     // 상태 배지: 보정하면 '보정됨'
     var st=card.querySelector('[data-state]');
-    if(card.dataset.done==='1' || touched){ card.dataset.done='1'; st.textContent='보정됨'; st.classList.remove('ai'); st.classList.add('done'); }
+    if(card.dataset.done==='1' || touched){ card.dataset.done='1'; st.textContent=L('stateDone'); st.classList.remove('ai'); st.classList.add('done'); }
     return sub;
   }
 
@@ -380,6 +387,95 @@
   });
 
   recalcAll();
+
+  // 로케일 전환 시: data-i18n 번역이 progText/상태배지 innerHTML을 덮어쓰므로 재계산
+  window.onLocaleChange = function(){ recalcAll(); };
+</script>
+<script>
+window.PAGE_I18N = {
+  ko: {
+    docTitle: "MaroPass Admin — 채점 보정",
+    pageTitle: "채점 보정 — 鈴木 花子",
+    pageSub: "한국어 말하기 · 중상급 (정기) · 응시 2026-05-07 16:40",
+    tmpSave: "임시 저장",
+    confirmGrade: "채점 확정",
+    confirmGradeOpen: "채점 확정 · 결과 공개",
+    sumScoreLab: "보정 총점",
+    aiScoreLab: "AI 총점",
+    progLab: "보정 진행률 <b id=\"progText\">0 / 3</b>",
+    grader: "채점자 구교환",
+    lock: "🔒 응시자 비노출 · 관리자만 조회",
+    demoNote: "AI 채점이 완료된 상태입니다. 각 문항의 <b>AI 점수·AI 피드백(초안)</b>이 미리 채워지며, 관리자가 검토·수정 후 확정합니다 — <b>베이직·프리미엄 공통</b>. (시안: 실제 18문항 중 대표 3문항만 발췌 · 유형마다 채점축·척도가 다름, 중상급 0~3점)",
+    lv: "중상급",
+    stateAi: "AI 채점 완료",
+    stateDone: "보정됨",
+    sheetLabel: "시험지 (응시자가 본 화면)",
+    ansLabel: "응시자 답안",
+    loop: "구간 반복",
+    sttTag1: "STT 변환 (편집 가능 · 저신뢰 구간 표시)",
+    sttTag2: "STT 변환 (편집 가능)",
+    modelAnsBtn: "💡 모범답안 보기",
+    spTitle: "채점",
+    aiRef: "AI 참고",
+    subLab: "문항 소계",
+    fbLabel: "AI 피드백 <span class=\"ai-grade\">AI 초안</span> <span class=\"hint\">관리자 수정 가능 · 응시자 성적표에 노출</span>",
+    qType1: "① 어휘 발음 구별",
+    qType2: "③-2 그림 설명",
+    qType3: "⑤-1 자료 해석",
+    qInstr1: "1. 화면에 보이는 문장을 읽어 주세요.",
+    qGuide1: "\"삐\" 소리 후 20초 안에 답하세요.",
+    qInstr2: "2. 그림을 보고 세 문장 이상 설명해 주세요.",
+    qGuide2: "40초간 준비한 뒤 \"삐\" 소리 후 60초 안에 말하세요.",
+    qInstr3: "3. 자료를 보고 설명한 후 자신의 의견을 제시해 주세요.",
+    qGuide3: "70초간 준비한 뒤 \"삐\" 소리 후 80초 안에 말하세요.",
+    axPron: "발음·억양",
+    axVocab: "어휘/문법",
+    axContent: "내용",
+    axStruct: "구조/전개",
+    axLogic: "논리/설득력"
+  },
+  ja: {
+    docTitle: "MaroPass Admin — 採点補正",
+    pageTitle: "採点補正 — 鈴木 花子",
+    pageSub: "韓国語スピーキング · 中上級（定期）· 受験 2026-05-07 16:40",
+    tmpSave: "一時保存",
+    confirmGrade: "採点確定",
+    confirmGradeOpen: "採点確定・結果公開",
+    sumScoreLab: "補正合計点",
+    aiScoreLab: "AI合計点",
+    progLab: "補正進捗 <b id=\"progText\">0 / 3</b>",
+    grader: "採点者 구교환",
+    lock: "🔒 受験者非表示・管理者のみ閲覧",
+    demoNote: "AI採点が完了した状態です。各問の<b>AIスコア・AIフィードバック（下書き）</b>があらかじめ入力され、管理者が確認・修正の上で確定します — <b>ベーシック・プレミアム共通</b>。（デモ：実際の18問のうち代表3問のみ抜粋・タイプごとに採点軸・尺度が異なる、中上級0〜3点）",
+    lv: "中上級",
+    stateAi: "AI採点完了",
+    stateDone: "補正済み",
+    sheetLabel: "試験問題（受験者が見た画面）",
+    ansLabel: "受験者の解答",
+    loop: "区間リピート",
+    sttTag1: "STT変換（編集可能・低信頼区間を表示）",
+    sttTag2: "STT変換（編集可能）",
+    modelAnsBtn: "💡 模範解答を見る",
+    spTitle: "採点",
+    aiRef: "AI参考",
+    subLab: "問の小計",
+    fbLabel: "AIフィードバック <span class=\"ai-grade\">AI下書き</span> <span class=\"hint\">管理者修正可能・受験者の成績表に表示</span>",
+    qType1: "① 語彙 発音区別",
+    qType2: "③-2 絵の説明",
+    qType3: "⑤-1 資料解釈",
+    qInstr1: "1. 画面に表示された文を読んでください。",
+    qGuide1: "「ピー」という音の後、20秒以内に答えてください。",
+    qInstr2: "2. 絵を見て3文以上で説明してください。",
+    qGuide2: "40秒間準備した後、「ピー」という音の後、60秒以内に話してください。",
+    qInstr3: "3. 資料を見て説明した後、自分の意見を述べてください。",
+    qGuide3: "70秒間準備した後、「ピー」という音の後、80秒以内に話してください。",
+    axPron: "発音・イントネーション",
+    axVocab: "語彙/文法",
+    axContent: "内容",
+    axStruct: "構成/展開",
+    axLogic: "論理/説得力"
+  }
+};
 </script>
 <script src="assets/admin-shell.js"></script>
 </body>

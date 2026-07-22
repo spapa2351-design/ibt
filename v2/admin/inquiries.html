@@ -11,25 +11,25 @@
 <div class="page">
   <div class="page-head">
     <div>
-      <h1 class="page-title">1:1 문의</h1>
-      <div class="page-sub">고객센터 · 미답변 5건</div>
+      <h1 class="page-title" data-i18n="pageTitle">1:1 문의</h1>
+      <div class="page-sub" data-i18n="pageSub">고객센터 · 미답변 5건</div>
     </div>
   </div>
 
   <!-- 상태 / 카테고리 필터 세그먼트 -->
   <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px; flex-wrap:wrap;">
     <div class="seg">
-      <button>전체</button>
-      <button class="active">미답변</button>
-      <button>답변완료</button>
+      <button data-i18n="segAll">전체</button>
+      <button class="active" data-i18n="segPending">미답변</button>
+      <button data-i18n="segDone">답변완료</button>
     </div>
     <div class="seg">
-      <button class="active">전체 카테고리</button>
-      <button>결제·환불</button>
-      <button>응시환경·기술</button>
-      <button>시험 콘텐츠</button>
-      <button>인증서·결과</button>
-      <button>회원·계정</button>
+      <button class="active" data-i18n="catAll">전체 카테고리</button>
+      <button data-i18n="catPayment">결제·환불</button>
+      <button data-i18n="catTech">응시환경·기술</button>
+      <button data-i18n="catContent">시험 콘텐츠</button>
+      <button data-i18n="catCert">인증서·결과</button>
+      <button data-i18n="catMember">회원·계정</button>
     </div>
   </div>
 
@@ -38,20 +38,20 @@
     <div class="filter-bar">
       <div class="filter-input">
         <span class="plus">+</span>
-        <span>제목, 회원, 카테고리 ...</span>
+        <span data-i18n="searchPh">제목, 회원, 카테고리 ...</span>
       </div>
     </div>
 
     <div class="table-tools">
-      <div class="total-count">총 <strong>1,204</strong> · 미답변 <strong style="color:var(--orange-500);">5</strong></div>
+      <div class="total-count" data-i18n-html="totalCount">총 <strong>1,204</strong> · 미답변 <strong style="color:var(--orange-500);">5</strong></div>
       <div class="tool-group">
         <button class="tool-btn" aria-label="필터 설정">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
-          필터
+          <span data-i18n="filterBtn">필터</span>
         </button>
         <button class="tool-btn" aria-label="목록 내보내기">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          내보내기
+          <span data-i18n="exportBtn">내보내기</span>
         </button>
       </div>
     </div>
@@ -60,129 +60,193 @@
     <table>
       <thead>
         <tr>
-          <th>상태</th>
-          <th>카테고리</th>
-          <th>제목</th>
-          <th>회원</th>
-          <th>접수일시 <span class="sort">▼</span></th>
-          <th>담당</th>
-          <th style="text-align:right;">관리</th>
+          <th data-i18n="thStatus">상태</th>
+          <th data-i18n="thCategory">카테고리</th>
+          <th data-i18n="thTitle">제목</th>
+          <th data-i18n="thMember">회원</th>
+          <th data-i18n-html="thDate">접수일시 <span class="sort">▼</span></th>
+          <th data-i18n="thOwner">담당</th>
+          <th style="text-align:right;" data-i18n="thManage">관리</th>
         </tr>
       </thead>
       <tbody>
         <!-- 미답변 5건 (상단) -->
         <tr>
-          <td><span class="badge badge-pending">미답변</span></td>
-          <td><span class="badge badge-grade-int">응시환경·기술</span></td>
+          <td><span class="badge badge-pending" data-i18n="badgePending">미답변</span></td>
+          <td><span class="badge badge-grade-int" data-i18n="catTech">응시환경·기술</span></td>
           <td class="cell-name">시험 응시 시 마이크가 인식되지 않습니다</td>
           <td>田中 美咲</td>
           <td class="cell-mono">2026-05-11 09:12</td>
-          <td><span class="badge badge-inactive">미지정</span></td>
-          <td class="cell-actions"><button class="btn btn-primary" style="padding:6px 12px; font-size:12px;">답변</button></td>
+          <td><span class="badge badge-inactive" data-i18n="badgeUnassigned">미지정</span></td>
+          <td class="cell-actions"><button class="btn btn-primary" style="padding:6px 12px; font-size:12px;" data-i18n="btnReply">답변</button></td>
         </tr>
         <tr>
-          <td><span class="badge badge-pending">미답변</span></td>
-          <td><span class="badge badge-grade-beg">결제·환불</span></td>
+          <td><span class="badge badge-pending" data-i18n="badgePending">미답변</span></td>
+          <td><span class="badge badge-grade-beg" data-i18n="catPayment">결제·환불</span></td>
           <td class="cell-name">결제 환불 가능 여부 문의</td>
           <td>山田 太郎</td>
           <td class="cell-mono">2026-05-11 06:41</td>
-          <td><span class="badge badge-inactive">미지정</span></td>
-          <td class="cell-actions"><button class="btn btn-primary" style="padding:6px 12px; font-size:12px;">답변</button></td>
+          <td><span class="badge badge-inactive" data-i18n="badgeUnassigned">미지정</span></td>
+          <td class="cell-actions"><button class="btn btn-primary" style="padding:6px 12px; font-size:12px;" data-i18n="btnReply">답변</button></td>
         </tr>
         <tr>
-          <td><span class="badge badge-pending">미답변</span></td>
-          <td><span class="badge badge-grade-beg">결제·환불</span></td>
+          <td><span class="badge badge-pending" data-i18n="badgePending">미답변</span></td>
+          <td><span class="badge badge-grade-beg" data-i18n="catPayment">결제·환불</span></td>
           <td class="cell-name">결제 영수증(適格請求書) 발행 문의</td>
           <td>渡辺 由美</td>
           <td class="cell-mono">2026-05-10 22:05</td>
           <td>이서준</td>
-          <td class="cell-actions"><button class="btn btn-primary" style="padding:6px 12px; font-size:12px;">답변</button></td>
+          <td class="cell-actions"><button class="btn btn-primary" style="padding:6px 12px; font-size:12px;" data-i18n="btnReply">답변</button></td>
         </tr>
         <tr>
-          <td><span class="badge badge-pending">미답변</span></td>
-          <td><span class="badge badge-grade-none">인증서·결과</span></td>
+          <td><span class="badge badge-pending" data-i18n="badgePending">미답변</span></td>
+          <td><span class="badge badge-grade-none" data-i18n="catCert">인증서·결과</span></td>
           <td class="cell-name">인증서 재발급 신청</td>
           <td>佐藤 健</td>
           <td class="cell-mono">2026-05-10 18:33</td>
           <td>박지민</td>
-          <td class="cell-actions"><button class="btn btn-primary" style="padding:6px 12px; font-size:12px;">답변</button></td>
+          <td class="cell-actions"><button class="btn btn-primary" style="padding:6px 12px; font-size:12px;" data-i18n="btnReply">답변</button></td>
         </tr>
         <tr>
-          <td><span class="badge badge-pending">미답변</span></td>
-          <td><span class="badge badge-inactive">회원·계정</span></td>
+          <td><span class="badge badge-pending" data-i18n="badgePending">미답변</span></td>
+          <td><span class="badge badge-inactive" data-i18n="catMember">회원·계정</span></td>
           <td class="cell-name">회원정보 이메일 변경 요청</td>
           <td>鈴木 花子</td>
           <td class="cell-mono">2026-05-10 15:48</td>
-          <td><span class="badge badge-inactive">미지정</span></td>
-          <td class="cell-actions"><button class="btn btn-primary" style="padding:6px 12px; font-size:12px;">답변</button></td>
+          <td><span class="badge badge-inactive" data-i18n="badgeUnassigned">미지정</span></td>
+          <td class="cell-actions"><button class="btn btn-primary" style="padding:6px 12px; font-size:12px;" data-i18n="btnReply">답변</button></td>
         </tr>
 
         <!-- 답변완료 -->
         <tr>
-          <td><span class="badge badge-active">답변완료</span></td>
-          <td><span class="badge badge-grade-int">시험 콘텐츠</span></td>
+          <td><span class="badge badge-active" data-i18n="segDone">답변완료</span></td>
+          <td><span class="badge badge-grade-int" data-i18n="catContent">시험 콘텐츠</span></td>
           <td class="cell-name">중상급 시험 응시 자격 문의</td>
           <td>高橋 直樹</td>
           <td class="cell-mono">2026-05-10 11:20</td>
           <td>이서준</td>
-          <td class="cell-actions"><span class="muted">2026-05-10 13:02 답변</span></td>
+          <td class="cell-actions"><span class="muted">2026-05-10 13:02 <span data-i18n="repliedLabel">답변</span></span></td>
         </tr>
         <tr>
-          <td><span class="badge badge-active">답변완료</span></td>
-          <td><span class="badge badge-grade-beg">결제·환불</span></td>
+          <td><span class="badge badge-active" data-i18n="segDone">답변완료</span></td>
+          <td><span class="badge badge-grade-beg" data-i18n="catPayment">결제·환불</span></td>
           <td class="cell-name">카드 결제가 두 번 청구되었습니다</td>
           <td>伊藤 沙織</td>
           <td class="cell-mono">2026-05-09 20:14</td>
           <td>박지민</td>
-          <td class="cell-actions"><span class="muted">2026-05-09 21:40 답변</span></td>
+          <td class="cell-actions"><span class="muted">2026-05-09 21:40 <span data-i18n="repliedLabel">답변</span></span></td>
         </tr>
         <tr>
-          <td><span class="badge badge-active">답변완료</span></td>
-          <td><span class="badge badge-grade-int">응시환경·기술</span></td>
+          <td><span class="badge badge-active" data-i18n="segDone">답변완료</span></td>
+          <td><span class="badge badge-grade-int" data-i18n="catTech">응시환경·기술</span></td>
           <td class="cell-name">시험 도중 화면이 멈췄습니다</td>
           <td>中村 拓也</td>
           <td class="cell-mono">2026-05-09 16:52</td>
           <td>이서준</td>
-          <td class="cell-actions"><span class="muted">2026-05-09 17:30 답변</span></td>
+          <td class="cell-actions"><span class="muted">2026-05-09 17:30 <span data-i18n="repliedLabel">답변</span></span></td>
         </tr>
         <tr>
-          <td><span class="badge badge-active">답변완료</span></td>
-          <td><span class="badge badge-grade-none">인증서·결과</span></td>
+          <td><span class="badge badge-active" data-i18n="segDone">답변완료</span></td>
+          <td><span class="badge badge-grade-none" data-i18n="catCert">인증서·결과</span></td>
           <td class="cell-name">시험 결과 발표일 안내 요청</td>
           <td>小林 香織</td>
           <td class="cell-mono">2026-05-09 10:08</td>
           <td>박지민</td>
-          <td class="cell-actions"><span class="muted">2026-05-09 10:45 답변</span></td>
+          <td class="cell-actions"><span class="muted">2026-05-09 10:45 <span data-i18n="repliedLabel">답변</span></span></td>
         </tr>
         <tr>
-          <td><span class="badge badge-active">답변완료</span></td>
-          <td><span class="badge badge-inactive">회원·계정</span></td>
+          <td><span class="badge badge-active" data-i18n="segDone">답변완료</span></td>
+          <td><span class="badge badge-inactive" data-i18n="catMember">회원·계정</span></td>
           <td class="cell-name">비밀번호 재설정 메일이 오지 않습니다</td>
           <td>加藤 大輔</td>
           <td class="cell-mono">2026-05-08 19:27</td>
           <td>이서준</td>
-          <td class="cell-actions"><span class="muted">2026-05-08 19:55 답변</span></td>
+          <td class="cell-actions"><span class="muted">2026-05-08 19:55 <span data-i18n="repliedLabel">답변</span></span></td>
         </tr>
       </tbody>
     </table>
     </div>
 
     <div class="pager">
-      <button class="pager-btn" disabled>‹ 이전</button>
+      <button class="pager-btn" disabled data-i18n="pagerPrev">‹ 이전</button>
       <button class="pager-btn active">1</button>
       <button class="pager-btn">2</button>
       <button class="pager-btn">3</button>
       <button class="pager-btn">4</button>
       <button class="pager-btn">…</button>
       <button class="pager-btn">121</button>
-      <button class="pager-btn">다음 ›</button>
+      <button class="pager-btn" data-i18n="pagerNext">다음 ›</button>
       <div class="pager-rows">
-        <span>페이지당</span>
+        <span data-i18n="pagerPerPage">페이지당</span>
         <select><option>10</option><option>20</option><option>50</option></select>
       </div>
     </div>
   </div>
 </div>
+<script>window.PAGE_I18N={
+  ko:{
+    pageTitle:"1:1 문의",
+    pageSub:"고객센터 · 미답변 5건",
+    segAll:"전체",
+    segPending:"미답변",
+    segDone:"답변완료",
+    catAll:"전체 카테고리",
+    catPayment:"결제·환불",
+    catTech:"응시환경·기술",
+    catContent:"시험 콘텐츠",
+    catCert:"인증서·결과",
+    catMember:"회원·계정",
+    searchPh:"제목, 회원, 카테고리 ...",
+    totalCount:"총 <strong>1,204</strong> · 미답변 <strong style=\"color:var(--orange-500);\">5</strong>",
+    filterBtn:"필터",
+    exportBtn:"내보내기",
+    thStatus:"상태",
+    thCategory:"카테고리",
+    thTitle:"제목",
+    thMember:"회원",
+    thDate:"접수일시 <span class=\"sort\">▼</span>",
+    thOwner:"담당",
+    thManage:"관리",
+    badgePending:"미답변",
+    badgeUnassigned:"미지정",
+    btnReply:"답변",
+    repliedLabel:"답변",
+    pagerPrev:"‹ 이전",
+    pagerNext:"다음 ›",
+    pagerPerPage:"페이지당"
+  },
+  ja:{
+    pageTitle:"1:1 お問い合わせ",
+    pageSub:"カスタマーセンター · 未回答5件",
+    segAll:"すべて",
+    segPending:"回答待ち",
+    segDone:"回答済み",
+    catAll:"すべてのカテゴリ",
+    catPayment:"決済・返金",
+    catTech:"受験・技術",
+    catContent:"試験コンテンツ",
+    catCert:"証明書・結果",
+    catMember:"会員・アカウント",
+    searchPh:"件名、会員、カテゴリ ...",
+    totalCount:"合計 <strong>1,204</strong> · 未回答 <strong style=\"color:var(--orange-500);\">5</strong>",
+    filterBtn:"フィルター",
+    exportBtn:"エクスポート",
+    thStatus:"ステータス",
+    thCategory:"カテゴリ",
+    thTitle:"件名",
+    thMember:"会員",
+    thDate:"受付日時 <span class=\"sort\">▼</span>",
+    thOwner:"担当",
+    thManage:"管理",
+    badgePending:"回答待ち",
+    badgeUnassigned:"未指定",
+    btnReply:"回答",
+    repliedLabel:"回答",
+    pagerPrev:"‹ 前へ",
+    pagerNext:"次へ ›",
+    pagerPerPage:"ページあたり"
+  }
+};</script>
 <script src="assets/admin-shell.js"></script>
 </body>
 </html>

@@ -15,50 +15,62 @@
     system: '<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>'
   };
 
+  // ── 로케일 (ko/ja) — 관리자 전용, localStorage 'kopass_admin_locale' ──
+  var locale = localStorage.getItem('kopass_admin_locale') || 'ko';
+  function L(ko, ja) { return (locale === 'ja' && ja) ? ja : ko; }
+  var CHROME = {
+    ko: { site: '사이트 바로가기', logout: '로그아웃', foot: '통합 관리자 · v0.1', cancel: '취소', ok: '확인' },
+    ja: { site: 'サイトへ移動', logout: 'ログアウト', foot: '統合管理者 · v0.1', cancel: 'キャンセル', ok: '確認' }
+  };
+  function c(k) { return (CHROME[locale] && CHROME[locale][k]) || CHROME.ko[k] || k; }
+  window.adminLocale = function () { return locale; };
+
   // 확정된 3그룹 통합 네비 (서비스 관리 / 시험 관리 / 문제 빌더)
   var NAV = [
     {
-      title: '대시보드', icon: ICON.dash, items: [
-        { key: 'dashboard', label: '대시보드', href: 'dashboard.html' }
+      title: '대시보드', titleJa: 'ダッシュボード', icon: ICON.dash, items: [
+        { key: 'dashboard', label: '대시보드', ja: 'ダッシュボード', href: 'dashboard.html' }
       ]
     },
     {
-      title: '회원', icon: ICON.service, items: [
-        { key: 'members', label: '회원', href: 'members.html' },
-        { key: 'admin-list', label: '관리자 관리', href: 'admin-list.html' }
+      title: '회원', titleJa: '会員', icon: ICON.service, items: [
+        { key: 'members', label: '회원', ja: '会員', href: 'members.html' },
+        { key: 'admin-list', label: '관리자 관리', ja: '管理者管理', href: 'admin-list.html' }
       ]
     },
     {
-      title: '시험 관리', icon: ICON.exam, items: [
-        { key: 'tests-list', label: '시험 목록', href: 'tests-list.html' },
-        { key: 'test-create', label: '시험 등록', href: 'test-create.html' },
-        { key: 'exam-grade-queue', label: '교수 채점 큐', href: 'exam-grade-queue.html', count: 4 }
+      title: '시험 관리', titleJa: '試験管理', icon: ICON.exam, items: [
+        { key: 'tests-list', label: '시험 목록', ja: '試験一覧', href: 'tests-list.html' },
+        { key: 'test-create', label: '시험 등록', ja: '試験登録', href: 'test-create.html' }
+        // 프리미엄=미래 기능 → 교수 채점 큐 일단 숨김 (되살릴 때 아래 주석 해제)
+        // , { key: 'exam-grade-queue', label: '교수 채점 큐', ja: '教授採点キュー', href: 'exam-grade-queue.html', count: 4 }
       ]
     },
     {
-      title: '상품 관리', icon: ICON.product, items: [
-        { key: 'products', label: '상품 목록', href: 'products.html' },
-        { key: 'product-create', label: '상품 등록', href: 'product-create.html' }
+      title: '상품 관리', titleJa: '商品管理', icon: ICON.product, items: [
+        { key: 'products', label: '상품 목록', ja: '商品一覧', href: 'products.html' },
+        { key: 'product-create', label: '상품 등록', ja: '商品登録', href: 'product-create.html' }
       ]
     },
     {
-      title: '문제 빌더', icon: ICON.build, items: [
-        { key: 'question-bank', label: '문제 은행', href: 'question-bank.html' },
-        { key: 'question-create', label: '문제 만들기', href: 'question-create.html', star: true }
+      title: '문제 빌더', titleJa: '問題ビルダー', icon: ICON.build, items: [
+        { key: 'question-bank', label: '문제 은행', ja: '問題バンク', href: 'question-bank.html' },
+        { key: 'question-create', label: '문제 만들기', ja: '問題作成', href: 'question-create.html', star: true }
+        // , { key: 'ai-prompt', label: 'AI 채점 프롬프트', ja: 'AI採点プロンプト', href: 'ai-prompt.html' }  // nav 숨김(페이지는 URL로 접근)
       ]
     },
     {
-      title: '서비스', icon: ICON.ops, items: [
-        { key: 'payments', label: '결제·매출', href: 'payments.html' },
-        { key: 'inquiries', label: '문의', href: 'inquiries.html', count: 5 },
-        { key: 'refunds', label: '환불', href: 'refunds.html', count: 3 },
-        { key: 'notices', label: '공지사항', href: 'notices.html' }
+      title: '서비스', titleJa: 'サービス', icon: ICON.ops, items: [
+        { key: 'payments', label: '결제·매출', ja: '決済・売上', href: 'payments.html' },
+        { key: 'inquiries', label: '문의', ja: 'お問い合わせ', href: 'inquiries.html', count: 5 },
+        { key: 'refunds', label: '환불', ja: '返金', href: 'refunds.html', count: 3 },
+        { key: 'notices', label: '공지사항', ja: 'お知らせ', href: 'notices.html' }
       ]
     },
     {
-      title: '시스템', icon: ICON.system, items: [
-        { key: 'legal-docs', label: '약관·정책', href: 'legal-docs.html' },
-        { key: 'activity-log', label: '활동 로그', href: 'activity-log.html' }
+      title: '시스템', titleJa: 'システム', icon: ICON.system, items: [
+        { key: 'legal-docs', label: '약관·정책', ja: '規約・ポリシー', href: 'legal-docs.html' },
+        { key: 'activity-log', label: '활동 로그', ja: '活動ログ', href: 'activity-log.html' }
       ]
     }
   ];
@@ -80,16 +92,16 @@
       + '<nav class="sb-nav">';
     for (var g = 0; g < NAV.length; g++) {
       var grp = NAV[g];
-      html += '<div class="sb-group"><div class="sb-group-title">' + grp.icon + '<span>' + grp.title + '</span></div>';
+      html += '<div class="sb-group"><div class="sb-group-title">' + grp.icon + '<span>' + L(grp.title, grp.titleJa) + '</span></div>';
       for (var i = 0; i < grp.items.length; i++) {
         var it = grp.items[i];
         var extra = it.count ? ' <span class="count">' + it.count + '</span>' : (it.star ? ' <span class="star">★</span>' : '');
-        html += '<a class="sb-item' + (it.key === activeKey ? ' active' : '') + '" href="' + it.href + '">' + it.label + extra + '</a>';
+        html += '<a class="sb-item' + (it.key === activeKey ? ' active' : '') + '" href="' + it.href + '">' + L(it.label, it.ja) + extra + '</a>';
       }
       html += '</div>';
     }
     html += '</nav>';
-    html += '<div class="sb-foot"><a href="login.html" style="color:var(--grey-500);text-decoration:none">로그아웃 →</a><div style="margin-top:6px">통합 관리자 · v0.1</div></div>';
+    html += '<div class="sb-foot"><a href="login.html" style="color:var(--grey-500);text-decoration:none">' + c('logout') + ' →</a><div style="margin-top:6px">' + c('foot') + '</div></div>';
 
     var aside = document.createElement('aside');
     aside.className = 'sidebar';
@@ -99,16 +111,25 @@
 
   function buildTopbar(activeKey, title) {
     var nav = findNav(activeKey);
-    var groupName = nav ? nav.group.title : '';
-    var crumb = (groupName ? '<span>' + groupName + '</span><span>›</span>' : '') + '<strong>' + (title || (nav ? nav.item.label : '')) + '</strong>';
+    var groupName = nav ? L(nav.group.title, nav.group.titleJa) : '';
+    var itemName = (locale === 'ja' && nav) ? L(nav.item.label, nav.item.ja) : (title || (nav ? nav.item.label : ''));
+    var crumb = (groupName ? '<span>' + groupName + '</span><span>›</span>' : '') + '<strong>' + itemName + '</strong>';
     var bar = document.createElement('header');
     bar.className = 'topbar';
     bar.innerHTML = ''
       + '<div class="topbar-crumb">' + crumb + '</div>'
       + '<div class="topbar-spacer"></div>'
+      + '<div class="adm-locale" style="display:inline-flex;background:var(--grey-100);border-radius:8px;padding:2px;margin-right:10px">'
+      + '  <button type="button" data-loc="ko"' + (locale === 'ko' ? ' class="on"' : '') + '>한국어</button>'
+      + '  <button type="button" data-loc="ja"' + (locale === 'ja' ? ' class="on"' : '') + '>日本語</button>'
+      + '</div>'
+      + '<a class="btn btn-secondary" href="../user/index.html" target="_blank" rel="noopener" title="' + c('site') + '" style="padding:7px 14px;font-size:13px;margin-right:8px">'
+      + '  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>'
+      + '  ' + c('site')
+      + '</a>'
       + '<a class="btn btn-secondary" href="login.html" style="padding:7px 14px;font-size:13px">'
       + '  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>'
-      + '  로그아웃'
+      + '  ' + c('logout')
       + '</a>';
     return bar;
   }
@@ -125,22 +146,68 @@
     });
   }
 
+  var _aside = null, _topbar = null;
+
+  // 로케일 토글 버튼 스타일 (셸 주입)
+  (function () {
+    var st = document.createElement('style');
+    st.textContent = '.adm-locale button{padding:4px 10px;font-size:11.5px;font-weight:700;background:transparent;border:none;color:var(--grey-600);cursor:pointer;border-radius:6px;font-family:inherit}'
+      + '.adm-locale button.on{background:#fff;color:var(--grey-900);box-shadow:0 1px 3px rgba(0,0,0,.08)}';
+    document.head.appendChild(st);
+  })();
+
+  function applyPageI18n(loc) {
+    if (!window.PAGE_I18N) return;
+    var d = window.PAGE_I18N[loc] || window.PAGE_I18N.ko || {};
+    document.querySelectorAll('[data-i18n]').forEach(function (el) { var k = el.getAttribute('data-i18n'); if (d[k] != null) el.textContent = d[k]; });
+    document.querySelectorAll('[data-i18n-html]').forEach(function (el) { var k = el.getAttribute('data-i18n-html'); if (d[k] != null) el.innerHTML = d[k]; });
+    document.querySelectorAll('[data-i18n-ph]').forEach(function (el) { var k = el.getAttribute('data-i18n-ph'); if (d[k] != null) el.placeholder = d[k]; });
+  }
+
+  function bindToggle() {
+    if (!_topbar) return;
+    _topbar.querySelectorAll('.adm-locale button').forEach(function (b) {
+      b.addEventListener('click', function () { window.setLocale(b.getAttribute('data-loc')); });
+    });
+  }
+
+  function rerenderChrome() {
+    var activeKey = document.body.getAttribute('data-page') || '';
+    var title = document.body.getAttribute('data-title') || '';
+    if (_aside) _aside.innerHTML = buildSidebar(activeKey).innerHTML;
+    if (_topbar) { _topbar.innerHTML = buildTopbar(activeKey, title).innerHTML; bindToggle(); }
+  }
+
+  window.setLocale = function (loc) {
+    locale = loc;
+    localStorage.setItem('kopass_admin_locale', loc);
+    document.documentElement.lang = loc;
+    rerenderChrome();
+    applyPageI18n(loc);
+    if (typeof window.onLocaleChange === 'function') window.onLocaleChange(loc);
+  };
+
   function init() {
     var activeKey = document.body.getAttribute('data-page') || '';
     var title = document.body.getAttribute('data-title') || '';
     var pageEl = document.querySelector('body > .page');
 
-    var aside = buildSidebar(activeKey);
+    _aside = buildSidebar(activeKey);
     var main = document.createElement('div');
     main.className = 'main';
-    main.appendChild(buildTopbar(activeKey, title));
+    _topbar = buildTopbar(activeKey, title);
+    main.appendChild(_topbar);
     if (pageEl) main.appendChild(pageEl); // 본문을 main 안으로 이동
 
     document.body.insertBefore(main, document.body.firstChild);
-    document.body.insertBefore(aside, document.body.firstChild);
+    document.body.insertBefore(_aside, document.body.firstChild);
     if (title) document.title = 'MaroPass Admin — ' + title;
 
+    document.documentElement.lang = locale;
+    bindToggle();
     bindSegTabs();
+    applyPageI18n(locale);
+    if (typeof window.onLocaleChange === 'function') window.onLocaleChange(locale);
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
@@ -210,12 +277,14 @@
 
   window.confirmAction = function (opts) {
     opts = opts || {};
+    var ja = (typeof window.adminLocale === 'function' && window.adminLocale() === 'ja');
     cf.classList.toggle('danger', !!opts.danger);
     cfIc.innerHTML = opts.danger ? BANG : (opts.icon || CHECK);
-    cfTitle.textContent = opts.title || '진행하시겠습니까?';
+    cfTitle.textContent = opts.title || (ja ? '実行しますか?' : '진행하시겠습니까?');
     cfDesc.textContent = opts.desc || '';
     cfDesc.style.display = opts.desc ? 'block' : 'none';
-    cfOk.textContent = opts.confirmText || '확인';
+    cfOk.textContent = opts.confirmText || (ja ? '確認' : '확인');
+    cfCancel.textContent = ja ? 'キャンセル' : '취소';
     pending = opts.onConfirm || null;
     ov.classList.add('open');
   };

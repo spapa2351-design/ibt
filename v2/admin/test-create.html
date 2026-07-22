@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MaroPass Admin — 시험 등록</title>
+<title data-i18n="title">MaroPass Admin — 시험 등록</title>
 <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
 <link rel="stylesheet" href="assets/admin.css">
 <style>
@@ -56,13 +56,14 @@
 
   /* 시험 구성 — 레벨별 유형 세트 */
   .lvl-note{font-size:12px;font-weight:700;color:var(--blue-600);background:var(--blue-50);border-radius:8px;padding:8px 12px;margin-bottom:12px;display:inline-flex;gap:8px;align-items:center}
-  .area-head{display:grid;grid-template-columns:1fr 130px 90px 160px;gap:12px;padding:0 16px 8px;font-size:11px;font-weight:700;color:var(--grey-500)}
+  .area-head{display:grid;grid-template-columns:1fr 96px 96px 76px 132px;gap:10px;padding:0 16px 8px;font-size:11px;font-weight:700;color:var(--grey-500)}
   .area-list{display:flex;flex-direction:column;gap:8px}
-  .area-row{display:grid;grid-template-columns:1fr 130px 90px 160px;gap:12px;align-items:center;padding:12px 16px;background:var(--grey-50);border:1px solid var(--grey-100);border-radius:10px}
+  .area-row{display:grid;grid-template-columns:1fr 96px 96px 76px 132px;gap:10px;align-items:center;padding:12px 16px;background:var(--grey-50);border:1px solid var(--grey-100);border-radius:10px}
   .ar-name{font-size:13px;font-weight:700;color:var(--grey-900);display:flex;align-items:center;gap:8px}
   .ar-badge{font-size:11px;font-weight:800;color:var(--blue-600);background:var(--blue-50);padding:2px 8px;border-radius:6px;flex-shrink:0;white-space:nowrap}
-  .ar-count{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--grey-500)}
-  .ar-input{width:64px;padding:7px 8px;border:1px solid var(--grey-200);border-radius:8px;font-size:14px;font-family:inherit;text-align:center;font-variant-numeric:tabular-nums;color:var(--grey-900)}
+  .ar-count,.ar-per{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--grey-500)}
+  .ar-input{width:54px;padding:7px 8px;border:1px solid var(--grey-200);border-radius:8px;font-size:14px;font-family:inherit;text-align:center;font-variant-numeric:tabular-nums;color:var(--grey-900)}
+  .ar-per .ar-input{background:var(--blue-50)}
   .ar-input:focus{border-color:var(--blue-500);outline:none}
   .ar-score{font-size:13px;font-weight:800;color:var(--grey-900);font-variant-numeric:tabular-nums}
   .ar-time{font-size:12px;color:var(--grey-500)}
@@ -148,45 +149,45 @@
 <div class="page">
   <div class="page-head">
     <div>
-      <h1 class="page-title">시험 등록</h1>
-      <div class="page-sub">새 IBT 시험지를 구성합니다 · 임시저장 후 검수 → 운영 전환</div>
+      <h1 class="page-title" data-i18n="pageTitle">시험 등록</h1>
+      <div class="page-sub" data-i18n="pageSub">새 IBT 시험지를 구성합니다 · 임시저장 후 검수 → 운영 전환</div>
     </div>
     <div class="page-actions">
-      <a class="btn btn-ghost" href="tests-list.html">← 목록</a>
-      <span class="badge badge-draft" style="align-self:center">임시저장</span>
+      <a class="btn btn-ghost" href="tests-list.html" data-i18n="btnList">← 목록</a>
+      <span class="badge badge-draft" style="align-self:center" data-i18n="badgeDraft">임시저장</span>
     </div>
   </div>
 
   <!-- 1. 기본 정보 -->
   <div class="form-card">
-    <h2>기본 정보</h2>
-    <p class="form-card-sub">응시자에게 노출되는 시험의 기본 정보입니다. <strong>레벨을 고르면 그 레벨의 고정 문제 유형 세트로 시험 구성이 바뀝니다.</strong></p>
+    <h2 data-i18n="h2Basic">기본 정보</h2>
+    <p class="form-card-sub" data-i18n-html="subBasic">응시자에게 노출되는 시험의 기본 정보입니다. <strong>레벨을 고르면 그 레벨의 고정 문제 유형 세트로 시험 구성이 바뀝니다.</strong></p>
 
     <div class="field">
-      <label>시험명 <span class="req">*</span></label>
-      <input class="input" type="text" placeholder="예) 한국어 말하기 · 초급 모의고사">
+      <label data-i18n-html="lblExamName">시험명 <span class="req">*</span></label>
+      <input class="input" type="text" placeholder="예) 한국어 말하기 · 초급 모의고사" data-i18n-ph="phExamName">
     </div>
 
     <div class="field">
-      <label>레벨 <span class="req">*</span></label>
+      <label data-i18n-html="lblLevel">레벨 <span class="req">*</span></label>
       <div class="chips" id="levelChips">
-        <button type="button" class="chip-opt on" data-level="beginner">초급</button>
-        <button type="button" class="chip-opt" data-level="mid">중상급</button>
+        <button type="button" class="chip-opt on" data-level="beginner" data-i18n="chipBeginner">초급</button>
+        <button type="button" class="chip-opt" data-level="mid" data-i18n="chipMid">중상급</button>
       </div>
-      <div class="hint">레벨이 문제 유형 세트(초급 5종 · 중상급 9종)와 채점 척도(0~2 · 0~3)를 결정합니다.</div>
+      <div class="hint" data-i18n="hintLevel">레벨이 문제 유형 세트(초급 5종 · 중상급 9종)와 채점 척도(0~2 · 0~3)를 결정합니다.</div>
     </div>
 
     <div class="field">
-      <label>시험 소개 <span style="font-weight:600;color:var(--grey-400)">· 관리자 전용</span></label>
-      <textarea class="textarea" rows="2" style="min-height:56px" placeholder="시험 목적·대상·구성 등 운영 참고 메모 (관리자만 봅니다)">중상급(3~6급) 대상 말하기 정기시험. 자료 해석·의견 제시 유형 포함. 채점 보정 시 참고용 내부 메모.</textarea>
-      <div class="hint">⚠ 판매 페이지의 <strong>상품 소개</strong>와 다른 데이터입니다. 이 소개는 <strong>관리자만</strong> 봅니다.</div>
+      <label data-i18n-html="lblIntro">시험 소개 <span style="font-weight:600;color:var(--grey-400)">· 관리자 전용</span></label>
+      <textarea class="textarea" rows="2" style="min-height:56px" placeholder="시험 목적·대상·구성 등 운영 참고 메모 (관리자만 봅니다)" data-i18n-ph="phIntro">중상급(3~6급) 대상 말하기 정기시험. 자료 해석·의견 제시 유형 포함. 채점 보정 시 참고용 내부 메모.</textarea>
+      <div class="hint" data-i18n-html="hintIntro">⚠ 판매 페이지의 <strong>상품 소개</strong>와 다른 데이터입니다. 이 소개는 <strong>관리자만</strong> 봅니다.</div>
     </div>
   </div>
 
   <!-- 2. 시험 구성 -->
   <div class="form-card">
-    <h2>시험 구성</h2>
-    <p class="form-card-sub">말하기 시험 · <strong>레벨별 고정 유형 세트</strong>. 유형별 문항 수를 입력하면 총 문항·배점·예상 시간이 자동 계산됩니다.</p>
+    <h2 data-i18n="h2Config">시험 구성</h2>
+    <p class="form-card-sub" data-i18n-html="subConfig">말하기 시험 · <strong>레벨별 고정 유형 세트</strong>. 유형별 문항 수와 <strong>점/문항(배점)</strong>을 입력하면 총 문항·총점·예상 시간이 자동 계산됩니다.</p>
 
     <div class="lvl-note" id="lvlNote">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
@@ -194,34 +195,35 @@
     </div>
 
     <div class="field">
-      <label>유형 구성 <span class="req">*</span></label>
+      <label data-i18n-html="lblTypeConfig">유형 구성 <span class="req">*</span></label>
       <div class="area-head">
-        <span>문제 유형</span><span>문항 수</span><span>배점</span><span>준비 · 녹음</span>
+        <span data-i18n="headType">문제 유형</span><span data-i18n="headCount">문항 수</span><span data-i18n="headPer">점/문항</span><span data-i18n="headTotal">유형 총점</span><span data-i18n="headTime">준비 · 녹음</span>
       </div>
       <div class="area-list" id="areaList"><!-- JS가 레벨별로 채움 --></div>
-      <div class="hint">유형 배점 = 문항 수 × (채점축 수 × 척도). 유형 세트는 레벨별 표준 구조로 고정됩니다.</div>
+      <div class="hint" data-i18n="hintTypeConfig">유형 총점 = 문항 수 × 점/문항. 점/문항 기본값은 채점축 수 × 척도로 채워지며, 관리자가 자유롭게 수정할 수 있습니다.</div>
     </div>
 
     <div class="area-sum" id="areaSum">
-      <div><span>총 문항</span><strong id="sumQ">0문항</strong></div>
-      <div><span>총점</span><strong id="sumScore">0점</strong></div>
-      <div><span>예상 소요</span><strong id="sumTime">약 0분</strong></div>
+      <div><span data-i18n="sumQLabel">총 문항</span><strong id="sumQ">0문항</strong></div>
+      <div><span data-i18n="sumScoreLabel">총점</span><strong id="sumScore">0점</strong></div>
+      <div><span data-i18n="sumTimeLabel">예상 소요</span><strong id="sumTime">약 0분</strong></div>
     </div>
+    <div id="scoreWarn" style="margin-top:8px;font-size:12.5px;font-weight:700;display:none;"></div>
 
     <div class="field" style="margin-top:18px">
-      <label>채점 방식</label>
+      <label data-i18n="lblScoring">채점 방식</label>
       <select class="select">
-        <option>AI 채점 + 관리자 보정</option>
-        <option>AI 채점 (자동)</option>
+        <option data-i18n="optScoring1">AI 채점 + 관리자 보정</option>
+        <option data-i18n="optScoring2">AI 채점 (자동)</option>
       </select>
-      <div class="hint">말하기는 AI 발음·유창성 채점 후 관리자가 보정합니다.</div>
+      <div class="hint" data-i18n="hintScoring">말하기는 AI 발음·유창성 채점 후 관리자가 보정합니다.</div>
     </div>
 
     <div class="field" style="margin-top:6px">
-      <label>진단 등급 구간 <span class="muted" style="font-weight:600">(선택 · 진단형)</span></label>
+      <label data-i18n-html="lblBand">진단 등급 구간 <span class="muted" style="font-weight:600">(선택 · 진단형)</span></label>
       <div class="band-list" id="bandList"></div>
-      <button type="button" class="add-row" id="addBand">+ 등급 추가</button>
-      <div class="hint">총점 기준 A·B·C 진단 등급을 부여합니다. 이 서비스는 모의고사(진단평가)라 합격/불합격 판정은 없습니다. 등급 구간은 시험 단위 관리자 설정입니다.</div>
+      <button type="button" class="add-row" id="addBand" data-i18n="btnAddBand">+ 등급 추가</button>
+      <div class="hint" data-i18n="hintBand">총점 기준 A·B·C 진단 등급을 부여합니다. 이 서비스는 모의고사(진단평가)라 합격/불합격 판정은 없습니다. 등급 구간은 시험 단위 관리자 설정입니다.</div>
     </div>
 
     <input type="hidden" id="totalQ" value="0">
@@ -229,8 +231,8 @@
 
   <!-- 3. 문제 구성 (유형별 슬롯) -->
   <div class="form-card">
-    <h2>문제 구성</h2>
-    <p class="form-card-sub">유형별로 문제 은행에서 문항을 꽂아 넣습니다. 각 유형의 "담기"를 누르면 <strong>같은 레벨·유형</strong> 문항만 필터되어 열립니다.</p>
+    <h2 data-i18n="h2Questions">문제 구성</h2>
+    <p class="form-card-sub" data-i18n-html="subQuestions">유형별로 문제 은행에서 문항을 꽂아 넣습니다. 각 유형의 "담기"를 누르면 <strong>같은 레벨·유형</strong> 문항만 필터되어 열립니다.</p>
 
     <div class="qc-progress">
       <div class="qc-num" id="qcNum"><strong>0</strong> / 0문항 배정됨</div>
@@ -241,20 +243,20 @@
     <div class="slot-list" id="slotList"></div>
 
     <div class="hstack" style="margin-top:2px">
-      <a class="btn btn-ghost" href="question-create.html">+ 새 문제 만들기</a>
-      <span class="muted">새로 만든 문항은 문제 은행에 저장되어 레벨·유형별로 담을 수 있습니다.</span>
+      <a class="btn btn-ghost" href="question-create.html" data-i18n="btnNewQ">+ 새 문제 만들기</a>
+      <span class="muted" data-i18n="mutedNewQ">새로 만든 문항은 문제 은행에 저장되어 레벨·유형별로 담을 수 있습니다.</span>
     </div>
   </div>
 
   <!-- 4. 인증서 -->
   <div class="form-card">
-    <h2>인증서</h2>
-    <p class="form-card-sub">응시 결과로 발급되는 인증서를 설정합니다. 인증서는 <strong>시험에 귀속</strong>됩니다(상품 아님). 우측에서 실제 발급 모양을 미리봅니다.</p>
+    <h2 data-i18n="h2Cert">인증서</h2>
+    <p class="form-card-sub" data-i18n-html="subCert">응시 결과로 발급되는 인증서를 설정합니다. 인증서는 <strong>시험에 귀속</strong>됩니다(상품 아님). 우측에서 실제 발급 모양을 미리봅니다.</p>
 
     <div class="cert-toggle-row">
       <div>
-        <div class="lbl">인증서 발급 사용</div>
-        <div class="sub">끄면 응시 후 인증서가 발급되지 않습니다.</div>
+        <div class="lbl" data-i18n="certToggleLbl">인증서 발급 사용</div>
+        <div class="sub" data-i18n="certToggleSub">끄면 응시 후 인증서가 발급되지 않습니다.</div>
       </div>
       <label class="switch"><input type="checkbox" id="certOn" checked><span class="track"></span></label>
     </div>
@@ -263,27 +265,27 @@
       <!-- 설정 -->
       <div>
         <div class="field">
-          <label>발급 기준</label>
+          <label data-i18n="lblCertBasis">발급 기준</label>
           <div class="chips" id="certBasis">
-            <button type="button" class="chip-opt on" data-basis="pass">지정 등급 이상</button>
-            <button type="button" class="chip-opt" data-basis="all">응시 완료 전원</button>
+            <button type="button" class="chip-opt on" data-basis="pass" data-i18n="chipBasisPass">지정 등급 이상</button>
+            <button type="button" class="chip-opt" data-basis="all" data-i18n="chipBasisAll">응시 완료 전원</button>
           </div>
-          <div class="hint">지정한 진단 등급 이상일 때 또는 응시 완료 시 발급.</div>
+          <div class="hint" data-i18n="hintCertBasis">지정한 진단 등급 이상일 때 또는 응시 완료 시 발급.</div>
         </div>
         <div class="field">
-          <label>인증서 제목</label>
+          <label data-i18n="lblCertTitle">인증서 제목</label>
           <input class="input" type="text" id="certTitle" value="한국어 말하기 능력 인증서">
         </div>
         <div class="field">
-          <label>발급 기관</label>
+          <label data-i18n="lblCertOrg">발급 기관</label>
           <input class="input" type="text" id="certOrg" value="한국어 말하기 평가원">
         </div>
         <div class="field">
-          <label>서명자 (직인)</label>
+          <label data-i18n="lblCertSigner">서명자 (직인)</label>
           <input class="input" type="text" id="certSigner" value="한국어 말하기 평가원장">
         </div>
         <div class="field">
-          <label>표시 항목</label>
+          <label data-i18n="lblCertFields">표시 항목</label>
           <div class="cert-chks" id="certFields">
             <label class="cert-chk on"><input type="checkbox" data-f="level" checked> 레벨</label>
             <label class="cert-chk on"><input type="checkbox" data-f="score" checked> 점수</label>
@@ -296,20 +298,20 @@
 
       <!-- 미리보기 (샘플) -->
       <div class="cert-preview-wrap">
-        <div class="cert-preview-label">미리보기 (샘플 응시자)</div>
+        <div class="cert-preview-label" data-i18n="certPreviewLabel">미리보기 (샘플 응시자)</div>
         <div class="certificate">
           <div class="cert-inner">
             <div class="cert-emblem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="9" r="6"/><path d="M8.5 14L7 22l5-3 5 3-1.5-8"/></svg></div>
             <div class="cert-title" id="pvTitle">한국어 말하기 능력 인증서</div>
             <div class="cert-title-sub">Certificate of Achievement</div>
-            <div class="cert-issued" data-f="date">발급일 2026-07-09</div>
-            <div class="cert-line">위 응시자의 진단 결과를<br>아래와 같이 인증합니다.</div>
+            <div class="cert-issued" data-f="date" data-i18n-html="certIssued">발급일 2026-07-09</div>
+            <div class="cert-line" data-i18n-html="certLine">위 응시자의 진단 결과를<br>아래와 같이 인증합니다.</div>
             <div class="cert-name">田中 美咲</div>
-            <div class="cert-exam">한국어 말하기 · 중상급</div>
+            <div class="cert-exam" data-i18n="certExam">한국어 말하기 · 중상급</div>
             <div class="cert-fields" id="pvFields">
-              <div class="cert-field" data-f="level">레벨 <span>중상급</span></div>
-              <div class="cert-field" data-f="score">점수 <span>112/147</span></div>
-              <div class="cert-field" data-f="grade">진단 등급 <span>B</span></div>
+              <div class="cert-field" data-f="level" data-i18n-html="certFieldLevel">레벨 <span>중상급</span></div>
+              <div class="cert-field" data-f="score" data-i18n-html="certFieldScore">점수 <span>112/147</span></div>
+              <div class="cert-field" data-f="grade" data-i18n-html="certFieldGrade">진단 등급 <span>B</span></div>
             </div>
             <div class="cert-spacer"></div>
             <div class="cert-sign">
@@ -318,7 +320,7 @@
             </div>
             <div class="cert-foot">
               <div class="cert-no" data-f="no">No. MP-2026-000482</div>
-              <div class="cert-seal"><span class="p">認</span><span class="s">인증</span></div>
+              <div class="cert-seal"><span class="p">認</span><span class="s" data-i18n="certSealSub">인증</span></div>
             </div>
           </div>
         </div>
@@ -328,12 +330,12 @@
 
   <div class="note-inline">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-    <span>가격·할인 등 <strong>판매 설정</strong>은 시험을 만든 뒤 <a href="product-create.html">상품 등록</a>에서 진행합니다.</span>
+    <span data-i18n-html="noteInline">가격·할인 등 <strong>판매 설정</strong>은 시험을 만든 뒤 <a href="product-create.html">상품 등록</a>에서 진행합니다.</span>
   </div>
 
   <div class="sticky-actions">
-    <a class="btn btn-secondary" href="tests-list.html">임시저장</a>
-    <button class="btn btn-primary" onclick="location.href='tests-list.html'">시험 등록 (운영 전환)</button>
+    <a class="btn btn-secondary" href="tests-list.html" data-i18n="stickyDraft">임시저장</a>
+    <button class="btn btn-primary" onclick="location.href='tests-list.html'" data-i18n="stickyRegister">시험 등록 (운영 전환)</button>
   </div>
 </div>
 
@@ -342,8 +344,8 @@
   <div class="modal" role="dialog" aria-modal="true" aria-label="문제 은행에서 선택">
     <div class="modal-head">
       <div>
-        <h3>문제 은행에서 선택</h3>
-        <div class="m-sub">담을 문항을 고르고 <strong>추가</strong>를 누르세요 · 이미 담은 문항은 "담김"으로 표시됩니다.</div>
+        <h3 data-i18n="modalTitle">문제 은행에서 선택</h3>
+        <div class="m-sub" data-i18n-html="modalSub">담을 문항을 고르고 <strong>추가</strong>를 누르세요 · 이미 담은 문항은 "담김"으로 표시됩니다.</div>
       </div>
       <button type="button" class="modal-close" id="closePicker" aria-label="닫기"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
     </div>
@@ -351,15 +353,15 @@
       <div class="mf-arealabel" id="pkAreaLabel">문항</div>
       <div class="mf-search">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        <input type="text" id="pkSearch" placeholder="질문 검색">
+        <input type="text" id="pkSearch" placeholder="질문 검색" data-i18n-ph="phSearch">
       </div>
     </div>
     <div class="modal-list" id="pkList"><!-- JS가 레벨·유형 스코프로 채움 --></div>
     <div class="modal-foot">
       <div class="m-count"><strong id="pkCount">0</strong>개 선택</div>
       <div class="hstack">
-        <button type="button" class="btn btn-secondary" id="cancelPicker">취소</button>
-        <button type="button" class="btn btn-primary" id="addPicker">추가</button>
+        <button type="button" class="btn btn-secondary" id="cancelPicker" data-i18n="btnCancel">취소</button>
+        <button type="button" class="btn btn-primary" id="addPicker" data-i18n="btnAdd">추가</button>
       </div>
     </div>
   </div>
@@ -369,23 +371,23 @@
   // ─── 레벨 → 고정 문제 유형 세트 (question-create.html LEVELS 모델과 동일 축) ───
   // perScore = axes × scaleMax (배점은 채점축에서 파생)
   var LEVELS = {
-    beginner: { label:'초급', scaleMax:2, types:[
-      { key:'read',      name:'① 짧은 문장 읽기', axes:1, prep:0,  rec:10, count:10 },
-      { key:'qa',        name:'② 질문 대답',      axes:3, prep:10, rec:20, count:5 },
-      { key:'dialog',    name:'③ 생활 속 대화',    axes:3, prep:20, rec:20, count:4 },
-      { key:'describe',  name:'④ 그림/사진 설명',  axes:3, prep:30, rec:40, count:3 },
-      { key:'pragmatic', name:'⑤ 화용 과제',      axes:4, prep:40, rec:50, count:1 },
+    beginner: { label:'초급', labelJa:'初級', scaleMax:2, types:[
+      { key:'read',      name:'① 짧은 문장 읽기', nameJa:'① 短い文の音読',   axes:1, prep:0,  rec:10, count:10 },
+      { key:'qa',        name:'② 질문 대답',      nameJa:'② 質問への回答',   axes:3, prep:10, rec:20, count:5 },
+      { key:'dialog',    name:'③ 생활 속 대화',    nameJa:'③ 生活の中の会話', axes:3, prep:20, rec:20, count:4 },
+      { key:'describe',  name:'④ 그림/사진 설명',  nameJa:'④ 絵・写真の説明',  axes:3, prep:30, rec:40, count:3 },
+      { key:'pragmatic', name:'⑤ 화용 과제',      nameJa:'⑤ 語用課題',       axes:4, prep:40, rec:50, count:1 },
     ]},
-    mid: { label:'중상급', scaleMax:3, types:[
-      { key:'m-read',    name:'① 어휘 발음 구별',   axes:1, prep:10, rec:20, count:5 },
-      { key:'m-qa',      name:'② 자신에 대해 말하기',axes:3, prep:20, rec:30, count:2 },
-      { key:'m-role',    name:'③-1 역할 수행',      axes:3, prep:30, rec:40, count:2 },
-      { key:'m-desc',    name:'③-2 그림 설명',      axes:3, prep:40, rec:60, count:2 },
-      { key:'m-seq',     name:'③-3 상황 설명(순서)', axes:3, prep:40, rec:60, count:2 },
-      { key:'m-act',     name:'④ 화용 능력',        axes:4, prep:40, rec:60, count:2 },
-      { key:'m-data',    name:'⑤-1 자료 해석',      axes:4, prep:70, rec:80, count:1 },
-      { key:'m-opdialog',name:'⑤-2 대화 듣고 의견',  axes:4, prep:40, rec:60, count:1 },
-      { key:'m-present', name:'⑥ 의견 프레젠테이션', axes:4, prep:60, rec:80, count:1 },
+    mid: { label:'중상급', labelJa:'中上級', scaleMax:3, types:[
+      { key:'m-read',    name:'① 어휘 발음 구별',   nameJa:'① 語彙の発音の区別',   axes:1, prep:10, rec:20, count:5 },
+      { key:'m-qa',      name:'② 자신에 대해 말하기',nameJa:'② 自分について話す',   axes:3, prep:20, rec:30, count:2 },
+      { key:'m-role',    name:'③-1 역할 수행',      nameJa:'③-1 ロールプレイ',     axes:3, prep:30, rec:40, count:2 },
+      { key:'m-desc',    name:'③-2 그림 설명',      nameJa:'③-2 絵の説明',         axes:3, prep:40, rec:60, count:2 },
+      { key:'m-seq',     name:'③-3 상황 설명(순서)', nameJa:'③-3 状況説明(順序)',   axes:3, prep:40, rec:60, count:2 },
+      { key:'m-act',     name:'④ 화용 능력',        nameJa:'④ 語用能力',           axes:4, prep:40, rec:60, count:2 },
+      { key:'m-data',    name:'⑤-1 자료 해석',      nameJa:'⑤-1 資料の解釈',       axes:4, prep:70, rec:80, count:1 },
+      { key:'m-opdialog',name:'⑤-2 대화 듣고 의견',  nameJa:'⑤-2 会話を聞いて意見', axes:4, prep:40, rec:60, count:1 },
+      { key:'m-present', name:'⑥ 의견 프레젠테이션', nameJa:'⑥ 意見プレゼンテーション', axes:4, prep:60, rec:80, count:1 },
     ]},
   };
 
@@ -412,7 +414,17 @@
   (function () {
     var currentLevel = 'beginner';
     function L() { return LEVELS[currentLevel]; }
-    function perScore(t) { return t.axes * L().scaleMax; }
+    // 문항당 배점(점/문항) — 관리자가 편집. 기본값 = 채점축 수 × 척도. 편집값은 relocalize 넘어 보존.
+    var perScores = {};
+    function defaultPer(t) { return t.axes * L().scaleMax; }
+    function resetPerScores() { perScores = {}; L().types.forEach(function (t) { perScores[t.key] = defaultPer(t); }); }
+    function perScore(t) { return (perScores[t.key] != null) ? perScores[t.key] : defaultPer(t); }
+
+    // ── 로케일 헬퍼 ──
+    function LOC() { return (typeof window.adminLocale === 'function') ? window.adminLocale() : 'ko'; }
+    function tj(ko, ja) { return LOC() === 'ja' ? ja : ko; }
+    function levLabel() { return tj(L().label, L().labelJa); }
+    function typeName(t) { return LOC() === 'ja' ? t.nameJa : t.name; }
 
     var areaList = document.getElementById('areaList');
     var slotList = document.getElementById('slotList');
@@ -426,21 +438,27 @@
 
     // ── 시험 구성 행 렌더 ──
     function renderRows() {
-      lvlNoteText.textContent = L().label + ' · 문제 유형 ' + L().types.length + '종 · 채점 척도 0~' + L().scaleMax + '점 (점/문항 = 채점축 × 척도)';
+      lvlNoteText.textContent = LOC() === 'ja'
+        ? (levLabel() + ' · 問題タイプ ' + L().types.length + '種 · 採点尺度 0~' + L().scaleMax + '点 (点/問の初期値 = 採点軸 × 尺度 · 編集可)')
+        : (L().label + ' · 문제 유형 ' + L().types.length + '종 · 채점 척도 0~' + L().scaleMax + '점 (점/문항 기본값 = 채점축 × 척도 · 수정 가능)');
       areaList.innerHTML = L().types.map(function (t, i) {
-        var per = perScore(t);
+        var per = perScore(t), nm = typeName(t);
         return '<div class="area-row" data-idx="' + i + '">'
-          + '<div class="ar-name"><span class="ar-badge">' + t.name.split(' ')[0] + '</span> ' + t.name.replace(/^\S+\s/, '') + '</div>'
-          + '<div class="ar-count"><input type="number" min="0" value="' + t.count + '" class="ar-input"><span>문항</span></div>'
-          + '<div class="ar-score">' + (t.count * per) + '점</div>'
-          + '<div class="ar-time">준비 ' + t.prep + '초 · 녹음 ' + t.rec + '초</div>'
+          + '<div class="ar-name"><span class="ar-badge">' + nm.split(' ')[0] + '</span> ' + nm.replace(/^\S+\s/, '') + '</div>'
+          + '<div class="ar-count"><input type="number" min="0" value="' + t.count + '" class="ar-input ar-count-input"><span>' + tj('문항', '問') + '</span></div>'
+          + '<div class="ar-per"><input type="number" min="0" value="' + per + '" class="ar-input ar-per-input"><span>' + tj('점', '点') + '</span></div>'
+          + '<div class="ar-score">' + (t.count * per) + tj('점', '点') + '</div>'
+          + '<div class="ar-time">' + tj('준비 ', '準備 ') + t.prep + tj('초 · 녹음 ', '秒 · 録音 ') + t.rec + tj('초', '秒') + '</div>'
           + '</div>';
       }).join('');
-      areaList.querySelectorAll('.ar-input').forEach(function (inp) { inp.addEventListener('input', recalc); });
+      areaList.querySelectorAll('.ar-count-input').forEach(function (inp) { inp.addEventListener('input', recalc); });
+      areaList.querySelectorAll('.ar-per-input').forEach(function (inp, i) {
+        inp.addEventListener('input', function () { perScores[L().types[i].key] = parseInt(inp.value, 10) || 0; recalc(); });
+      });
     }
 
     function typeCount(i) {
-      var inp = areaList.querySelectorAll('.ar-input')[i];
+      var inp = areaList.querySelectorAll('.ar-count-input')[i];
       return inp ? (parseInt(inp.value, 10) || 0) : 0;
     }
 
@@ -450,10 +468,23 @@
       L().types.forEach(function (t, i) {
         var n = typeCount(i), per = perScore(t);
         var row = areaList.querySelectorAll('.area-row')[i];
-        if (row) row.querySelector('.ar-score').textContent = (n * per) + '점';
+        if (row) row.querySelector('.ar-score').textContent = (n * per) + tj('점', '点');
         tq += n; ts += n * per; tsec += n * (t.prep + t.rec);
       });
-      sumQ.textContent = tq + '문항'; sumScore.textContent = ts + '점'; sumTime.textContent = '약 ' + Math.max(1, Math.ceil(tsec / 60)) + '분';
+      sumQ.textContent = tq + tj('문항', '問'); sumScore.textContent = ts + tj('점', '点'); sumTime.textContent = tj('약 ', '約 ') + Math.max(1, Math.ceil(tsec / 60)) + tj('분', '分');
+      // 총점 100점 권장 안내 (강제 아님 — 관리자가 배점을 자유롭게 설정)
+      var sw = document.getElementById('scoreWarn');
+      var ok = (ts === 100);
+      sumScore.style.color = ok ? 'var(--green-500)' : 'var(--grey-900)';
+      if (sw) {
+        sw.style.display = 'block';
+        if (ok) { sw.style.color = 'var(--green-500)'; sw.textContent = tj('✓ 총점 100점 (권장 배점과 일치)', '✓ 合計100点 (推奨配点と一致)'); }
+        else {
+          var d = ts - 100; sw.style.color = 'var(--orange-500)';
+          if (LOC() === 'ja') { sw.textContent = 'ⓘ 合計 ' + ts + '点 · 推奨100点と' + (d > 0 ? '+' + d + '点 (超過)' : (-d) + '点 (不足)') + ' — このまま登録できます'; }
+          else { sw.textContent = 'ⓘ 총점 ' + ts + '점 · 권장 100점과 ' + (d > 0 ? '+' + d + '점(초과)' : (-d) + '점(부족)') + ' — 이대로 등록할 수 있습니다'; }
+        }
+      }
       totalQ.value = tq;
       renderSlots();
     }
@@ -462,12 +493,13 @@
     function renderSlots() {
       slotList.innerHTML = L().types.map(function (t, i) {
         var cnt = typeCount(i), sel = selected[t.key] || [], full = cnt > 0 && sel.length >= cnt, over = sel.length > cnt;
+        var nm = typeName(t);
         var items = sel.length ? sel.map(function (s, j) {
-          return '<div class="slot-item"><span class="sel-idx">' + (j + 1) + '</span><span class="badge badge-cat">' + L().label + '</span><span class="slot-qtext">' + s.text + '</span><button type="button" class="row-action del" data-rm="' + t.key + ':' + s.id + '" title="제외"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>';
-        }).join('') : '<div class="slot-empty">담긴 문항 없음</div>';
-        return '<div class="slot"><div class="slot-head"><div class="slot-title"><span class="ar-badge">' + t.name.split(' ')[0] + '</span> ' + t.name.replace(/^\S+\s/, '')
-          + ' <span class="slot-count' + (over ? ' over' : full ? ' full' : '') + '">' + sel.length + ' / ' + cnt + '문항</span></div>'
-          + '<button type="button" class="btn btn-secondary" data-add="' + t.key + '" style="padding:7px 14px;font-size:12.5px">+ 담기</button></div>'
+          return '<div class="slot-item"><span class="sel-idx">' + (j + 1) + '</span><span class="badge badge-cat">' + levLabel() + '</span><span class="slot-qtext">' + s.text + '</span><button type="button" class="row-action del" data-rm="' + t.key + ':' + s.id + '" title="' + tj('제외', '除外') + '"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>';
+        }).join('') : '<div class="slot-empty">' + tj('담긴 문항 없음', '追加された問題なし') + '</div>';
+        return '<div class="slot"><div class="slot-head"><div class="slot-title"><span class="ar-badge">' + nm.split(' ')[0] + '</span> ' + nm.replace(/^\S+\s/, '')
+          + ' <span class="slot-count' + (over ? ' over' : full ? ' full' : '') + '">' + sel.length + ' / ' + cnt + tj('문항', '問') + '</span></div>'
+          + '<button type="button" class="btn btn-secondary" data-add="' + t.key + '" style="padding:7px 14px;font-size:12.5px">' + tj('+ 담기', '+ 追加') + '</button></div>'
           + '<div class="slot-items">' + items + '</div></div>';
       }).join('');
       slotList.querySelectorAll('[data-add]').forEach(function (b) { b.addEventListener('click', function () { openType(b.dataset.add); }); });
@@ -481,13 +513,13 @@
       var total = 0, sel = 0;
       L().types.forEach(function (t, i) { total += typeCount(i); sel += (selected[t.key] || []).length; });
       var over = sel > total;
-      qcNum.innerHTML = '<strong>' + sel + '</strong> / ' + total + '문항 배정됨';
+      qcNum.innerHTML = '<strong>' + sel + '</strong> / ' + total + tj('문항 배정됨', '問 割当済み');
       qcNum.classList.toggle('over', over);
       var pct = total > 0 ? Math.min(100, Math.round(sel / total * 100)) : 0;
       qcFill.style.width = pct + '%'; qcFill.classList.toggle('over', over);
-      qcHint.textContent = total === 0 ? '시험 구성에서 유형별 문항 수를 입력하세요.'
-        : (sel >= total) ? '모든 유형 문항을 채웠습니다. ✓'
-        : (total - sel) + '문항 더 필요합니다.';
+      qcHint.textContent = total === 0 ? tj('시험 구성에서 유형별 문항 수를 입력하세요.', '試験構成でタイプ別の問数を入力してください。')
+        : (sel >= total) ? tj('모든 유형 문항을 채웠습니다. ✓', 'すべてのタイプの問題を満たしました。✓')
+        : tj((total - sel) + '문항 더 필요합니다.', (total - sel) + '問 追加で必要です。');
     }
 
     // ── 모달 (레벨·유형 스코프) ──
@@ -504,7 +536,7 @@
     function openType(k) {
       activeType = k; filterQ = ''; search.value = '';
       var t = typeByKey(k);
-      areaLabel.textContent = L().label + ' · ' + (t ? t.name : '') + ' 문항';
+      areaLabel.textContent = levLabel() + ' · ' + (t ? typeName(t) : '') + tj(' 문항', ' 問題');
       modal.classList.add('open');
       renderPicker();
     }
@@ -520,15 +552,15 @@
         return b.level === currentLevel && b.type === activeType && (!q || b.text.indexOf(q) > -1);
       });
       if (!rows.length) {
-        pkList.innerHTML = '<div class="modal-empty">이 유형의 문항이 아직 없습니다. <br>「+ 새 문제 만들기」로 문제 은행에 추가하세요.</div>';
+        pkList.innerHTML = '<div class="modal-empty">' + tj('이 유형의 문항이 아직 없습니다. <br>「+ 새 문제 만들기」로 문제 은행에 추가하세요.', 'このタイプの問題はまだありません。<br>「+ 新しい問題を作成」で問題バンクに追加してください。') + '</div>';
       } else {
         pkList.innerHTML = rows.map(function (b) {
           var added = isAdded(activeType, b.id);
           return '<label class="q-item' + (added ? ' added' : '') + '" data-id="' + b.id + '">'
             + '<input type="checkbox"' + (added ? ' disabled' : '') + '>'
             + '<div class="q-main"><div class="q-text">' + b.text + '</div>'
-            + '<div class="q-meta"><span class="badge badge-cat">' + L().label + '</span>'
-            + '<span class="q-added" style="' + (added ? '' : 'display:none') + '">✓ 담김</span></div></div></label>';
+            + '<div class="q-meta"><span class="badge badge-cat">' + levLabel() + '</span>'
+            + '<span class="q-added" style="' + (added ? '' : 'display:none') + '">' + tj('✓ 담김', '✓ 追加済み') + '</span></div></div></label>';
         }).join('');
         pkList.querySelectorAll('.q-item input').forEach(function (cb) { cb.addEventListener('change', updateCount); });
       }
@@ -536,7 +568,8 @@
     }
     function updateCount() {
       var n = pkList.querySelectorAll('.q-item input:checked').length;
-      pkCount.textContent = n;
+      var mc = document.querySelector('.m-count');
+      if (mc) mc.innerHTML = '<strong id="pkCount">' + n + '</strong>' + tj('개 선택', '件選択');
     }
     search.addEventListener('input', function () { filterQ = search.value; renderPicker(); });
 
@@ -556,6 +589,7 @@
       if (level === currentLevel) return;
       currentLevel = level;
       resetSelected();
+      resetPerScores();
       renderRows();
       recalc();
     }
@@ -572,16 +606,46 @@
     function bandRow(name, min) {
       var row = document.createElement('div');
       row.className = 'band-row';
-      row.innerHTML = '<input class="band-name" type="text" value="' + name + '" placeholder="등급명">'
-        + '<input class="band-min" type="number" value="' + min + '" placeholder="최소점"><button type="button" class="band-del" title="삭제"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>';
+      row.innerHTML = '<input class="band-name" type="text" value="' + name + '" placeholder="' + tj('등급명', '等級名') + '">'
+        + '<input class="band-min" type="number" value="' + min + '" placeholder="' + tj('최소점', '最小点') + '"><button type="button" class="band-del" title="' + tj('삭제', '削除') + '"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>';
       row.querySelector('.band-del').addEventListener('click', function () { if (bandList.children.length > 1) row.remove(); });
       return row;
     }
     [['A', 80], ['B', 60], ['C', 0]].forEach(function (b) { bandList.appendChild(bandRow(b[0], b[1])); });
     document.getElementById('addBand').addEventListener('click', function () { bandList.appendChild(bandRow('', 0)); });
 
+    // ── 로케일 전환 시 JS 생성 부분 재렌더 (입력값·선택 문항 보존) ──
+    function relocalize() {
+      var counts = L().types.map(function (t, i) { return typeCount(i); });
+      renderRows(); // 점/문항 편집값은 perScores 맵에서 자동 복원
+      areaList.querySelectorAll('.ar-count-input').forEach(function (inp, i) { inp.value = counts[i]; });
+      recalc(); // → renderSlots → updateOverall (selected 보존)
+      // 모달 열려 있으면 갱신
+      if (modal.classList.contains('open') && activeType) {
+        var t = typeByKey(activeType);
+        areaLabel.textContent = levLabel() + ' · ' + (t ? typeName(t) : '') + tj(' 문항', ' 問題');
+        renderPicker();
+      }
+      // 진단 등급 구간 placeholder·title 갱신 (기존 값 보존)
+      document.querySelectorAll('#bandList .band-row').forEach(function (row) {
+        var nm = row.querySelector('.band-name'), mn = row.querySelector('.band-min'), dl = row.querySelector('.band-del');
+        if (nm) nm.placeholder = tj('등급명', '等級名');
+        if (mn) mn.placeholder = tj('최소점', '最小点');
+        if (dl) dl.title = tj('삭제', '削除');
+      });
+      // 인증서 표시 항목 칩 라벨 (input·리스너 보존, 텍스트 노드만 교체)
+      var cfMap = { level: ['레벨', 'レベル'], score: ['점수', '点数'], grade: ['진단 등급', '診断等級'], date: ['응시일', '受験日'], no: ['인증번호', '認証番号'] };
+      document.querySelectorAll('#certFields .cert-chk').forEach(function (lb) {
+        var inp = lb.querySelector('input'); if (!inp) return;
+        var m = cfMap[inp.dataset.f]; if (!m) return;
+        lb.lastChild.textContent = ' ' + (LOC() === 'ja' ? m[1] : m[0]);
+      });
+    }
+    window.onLocaleChange = relocalize;
+
     // ── 초기 ──
     resetSelected();
+    resetPerScores();
     renderRows();
     recalc();
   })();
@@ -617,6 +681,148 @@
       });
     });
   })();
+</script>
+<script>
+window.PAGE_I18N = {
+  ko: {
+    title: 'MaroPass Admin — 시험 등록',
+    pageTitle: '시험 등록',
+    pageSub: '새 IBT 시험지를 구성합니다 · 임시저장 후 검수 → 운영 전환',
+    btnList: '← 목록',
+    badgeDraft: '임시저장',
+    h2Basic: '기본 정보',
+    subBasic: '응시자에게 노출되는 시험의 기본 정보입니다. <strong>레벨을 고르면 그 레벨의 고정 문제 유형 세트로 시험 구성이 바뀝니다.</strong>',
+    lblExamName: '시험명 <span class="req">*</span>',
+    phExamName: '예) 한국어 말하기 · 초급 모의고사',
+    lblLevel: '레벨 <span class="req">*</span>',
+    chipBeginner: '초급',
+    chipMid: '중상급',
+    hintLevel: '레벨이 문제 유형 세트(초급 5종 · 중상급 9종)와 채점 척도(0~2 · 0~3)를 결정합니다.',
+    lblIntro: '시험 소개 <span style="font-weight:600;color:var(--grey-400)">· 관리자 전용</span>',
+    phIntro: '시험 목적·대상·구성 등 운영 참고 메모 (관리자만 봅니다)',
+    hintIntro: '⚠ 판매 페이지의 <strong>상품 소개</strong>와 다른 데이터입니다. 이 소개는 <strong>관리자만</strong> 봅니다.',
+    h2Config: '시험 구성',
+    subConfig: '말하기 시험 · <strong>레벨별 고정 유형 세트</strong>. 유형별 문항 수와 <strong>점/문항(배점)</strong>을 입력하면 총 문항·총점·예상 시간이 자동 계산됩니다.',
+    lblTypeConfig: '유형 구성 <span class="req">*</span>',
+    headType: '문제 유형',
+    headCount: '문항 수',
+    headPer: '점/문항',
+    headTotal: '유형 총점',
+    headTime: '준비 · 녹음',
+    hintTypeConfig: '유형 총점 = 문항 수 × 점/문항. 점/문항 기본값은 채점축 수 × 척도로 채워지며, 관리자가 자유롭게 수정할 수 있습니다.',
+    sumQLabel: '총 문항',
+    sumScoreLabel: '총점',
+    sumTimeLabel: '예상 소요',
+    lblScoring: '채점 방식',
+    optScoring1: 'AI 채점 + 관리자 보정',
+    optScoring2: 'AI 채점 (자동)',
+    hintScoring: '말하기는 AI 발음·유창성 채점 후 관리자가 보정합니다.',
+    lblBand: '진단 등급 구간 <span class="muted" style="font-weight:600">(선택 · 진단형)</span>',
+    btnAddBand: '+ 등급 추가',
+    hintBand: '총점 기준 A·B·C 진단 등급을 부여합니다. 이 서비스는 모의고사(진단평가)라 합격/불합격 판정은 없습니다. 등급 구간은 시험 단위 관리자 설정입니다.',
+    h2Questions: '문제 구성',
+    subQuestions: '유형별로 문제 은행에서 문항을 꽂아 넣습니다. 각 유형의 "담기"를 누르면 <strong>같은 레벨·유형</strong> 문항만 필터되어 열립니다.',
+    btnNewQ: '+ 새 문제 만들기',
+    mutedNewQ: '새로 만든 문항은 문제 은행에 저장되어 레벨·유형별로 담을 수 있습니다.',
+    h2Cert: '인증서',
+    subCert: '응시 결과로 발급되는 인증서를 설정합니다. 인증서는 <strong>시험에 귀속</strong>됩니다(상품 아님). 우측에서 실제 발급 모양을 미리봅니다.',
+    certToggleLbl: '인증서 발급 사용',
+    certToggleSub: '끄면 응시 후 인증서가 발급되지 않습니다.',
+    lblCertBasis: '발급 기준',
+    chipBasisPass: '지정 등급 이상',
+    chipBasisAll: '응시 완료 전원',
+    hintCertBasis: '지정한 진단 등급 이상일 때 또는 응시 완료 시 발급.',
+    lblCertTitle: '인증서 제목',
+    lblCertOrg: '발급 기관',
+    lblCertSigner: '서명자 (직인)',
+    lblCertFields: '표시 항목',
+    certPreviewLabel: '미리보기 (샘플 응시자)',
+    certIssued: '발급일 2026-07-09',
+    certLine: '위 응시자의 진단 결과를<br>아래와 같이 인증합니다.',
+    certExam: '한국어 말하기 · 중상급',
+    certFieldLevel: '레벨 <span>중상급</span>',
+    certFieldScore: '점수 <span>112/147</span>',
+    certFieldGrade: '진단 등급 <span>B</span>',
+    certSealSub: '인증',
+    noteInline: '가격·할인 등 <strong>판매 설정</strong>은 시험을 만든 뒤 <a href="product-create.html">상품 등록</a>에서 진행합니다.',
+    stickyDraft: '임시저장',
+    stickyRegister: '시험 등록 (운영 전환)',
+    modalTitle: '문제 은행에서 선택',
+    modalSub: '담을 문항을 고르고 <strong>추가</strong>를 누르세요 · 이미 담은 문항은 "담김"으로 표시됩니다.',
+    phSearch: '질문 검색',
+    btnCancel: '취소',
+    btnAdd: '추가'
+  },
+  ja: {
+    title: 'MaroPass Admin — 試験登録',
+    pageTitle: '試験登録',
+    pageSub: '新しいIBT試験を構成します · 一時保存後、検収 → 運用へ切替',
+    btnList: '← 一覧',
+    badgeDraft: '一時保存',
+    h2Basic: '基本情報',
+    subBasic: '受験者に表示される試験の基本情報です。<strong>レベルを選ぶと、そのレベルの固定問題タイプセットに試験構成が切り替わります。</strong>',
+    lblExamName: '試験名 <span class="req">*</span>',
+    phExamName: '例) 韓国語スピーキング · 初級 模擬試験',
+    lblLevel: 'レベル <span class="req">*</span>',
+    chipBeginner: '初級',
+    chipMid: '中上級',
+    hintLevel: 'レベルが問題タイプセット(初級5種 · 中上級9種)と採点尺度(0~2 · 0~3)を決定します。',
+    lblIntro: '試験の紹介 <span style="font-weight:600;color:var(--grey-400)">· 管理者専用</span>',
+    phIntro: '試験の目的·対象·構成など運用参考メモ (管理者のみ閲覧)',
+    hintIntro: '⚠ 販売ページの<strong>商品紹介</strong>とは別のデータです。この紹介は<strong>管理者のみ</strong>が閲覧します。',
+    h2Config: '試験構成',
+    subConfig: 'スピーキング試験 · <strong>レベル別固定タイプセット</strong>。タイプ別の問数と<strong>点/問(配点)</strong>を入力すると、合計問数·合計点·予想時間が自動計算されます。',
+    lblTypeConfig: 'タイプ構成 <span class="req">*</span>',
+    headType: '問題タイプ',
+    headCount: '問数',
+    headPer: '点/問',
+    headTotal: 'タイプ合計',
+    headTime: '準備 · 録音',
+    hintTypeConfig: 'タイプ合計 = 問数 × 点/問。点/問の初期値は採点軸数 × 尺度で埋められ、管理者が自由に修正できます。',
+    sumQLabel: '合計問数',
+    sumScoreLabel: '合計点',
+    sumTimeLabel: '予想所要',
+    lblScoring: '採点方式',
+    optScoring1: 'AI 採点 + 管理者補正',
+    optScoring2: 'AI 採点 (自動)',
+    hintScoring: 'スピーキングはAIが発音·流暢性を採点した後、管理者が補正します。',
+    lblBand: '診断等級区間 <span class="muted" style="font-weight:600">(任意 · 診断型)</span>',
+    btnAddBand: '+ 等級追加',
+    hintBand: '合計点を基準にA·B·C診断等級を付与します。本サービスは模擬試験(診断評価)のため、合格/不合格の判定はありません。等級区間は試験単位の管理者設定です。',
+    h2Questions: '問題構成',
+    subQuestions: 'タイプ別に問題バンクから問題を差し込みます。各タイプの「追加」を押すと、<strong>同じレベル·タイプ</strong>の問題のみがフィルタされて開きます。',
+    btnNewQ: '+ 新しい問題を作成',
+    mutedNewQ: '新しく作成した問題は問題バンクに保存され、レベル·タイプ別に追加できます。',
+    h2Cert: '証明書',
+    subCert: '受験結果として発行される証明書を設定します。証明書は<strong>試験に帰属</strong>します(商品ではありません)。右側で実際の発行イメージをプレビューします。',
+    certToggleLbl: '証明書発行を使用',
+    certToggleSub: 'オフにすると受験後に証明書が発行されません。',
+    lblCertBasis: '発行基準',
+    chipBasisPass: '指定等級以上',
+    chipBasisAll: '受験完了者全員',
+    hintCertBasis: '指定した診断等級以上の場合、または受験完了時に発行。',
+    lblCertTitle: '証明書タイトル',
+    lblCertOrg: '発行機関',
+    lblCertSigner: '署名者 (印鑑)',
+    lblCertFields: '表示項目',
+    certPreviewLabel: 'プレビュー (サンプル受験者)',
+    certIssued: '発行日 2026-07-09',
+    certLine: '上記受験者の診断結果を<br>下記のとおり認証します。',
+    certExam: '韓国語スピーキング · 中上級',
+    certFieldLevel: 'レベル <span>中上級</span>',
+    certFieldScore: '点数 <span>112/147</span>',
+    certFieldGrade: '診断等級 <span>B</span>',
+    certSealSub: '認証',
+    noteInline: '価格·割引などの<strong>販売設定</strong>は、試験を作成した後に<a href="product-create.html">商品登録</a>で行います。',
+    stickyDraft: '一時保存',
+    stickyRegister: '試験登録 (運用へ切替)',
+    modalTitle: '問題バンクから選択',
+    modalSub: '追加する問題を選び<strong>追加</strong>を押してください · すでに追加した問題は「追加済み」と表示されます。',
+    phSearch: '質問を検索',
+    btnCancel: 'キャンセル',
+    btnAdd: '追加'
+  }
+};
 </script>
 <script src="assets/admin-shell.js"></script>
 </body>

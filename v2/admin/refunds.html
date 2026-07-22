@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MaroPass Admin — 환불</title>
+<title data-i18n="page.title">MaroPass Admin — 환불</title>
 <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
 <link rel="stylesheet" href="assets/admin.css">
 <style>
@@ -16,45 +16,45 @@
 <div class="page">
   <div class="page-head">
     <div>
-      <h1 class="page-title">환불 관리</h1>
-      <div class="page-sub">환불 신청 검토·승인 (정책7: 접수기간 내 미응시 건만 신청 가능)</div>
+      <h1 class="page-title" data-i18n="page.heading">환불 관리</h1>
+      <div class="page-sub" data-i18n="page.sub">환불 신청 검토·승인 (정책7: 접수기간 내 미응시 건만 신청 가능)</div>
     </div>
     <div class="page-actions">
-      <button class="btn btn-secondary">새로고침</button>
+      <button class="btn btn-secondary" data-i18n="action.refresh">새로고침</button>
     </div>
   </div>
 
   <!-- 정책 안내 -->
   <div class="policy-note">
     <svg class="info-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--grey-500)" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-    <span class="muted">응시 후 변심·결과 불만족은 환불 대상 아님. 승인 시 PG 환불 호출 후 영업일 기준 3~5일 내 환원.</span>
+    <span class="muted" data-i18n="policy.note">응시 후 변심·결과 불만족은 환불 대상 아님. 승인 시 PG 환불 호출 후 영업일 기준 3~5일 내 환원.</span>
   </div>
 
   <!-- 세그먼트 탭 + 표 -->
   <div class="card">
     <div class="filter-bar">
       <div class="seg">
-        <button class="active">신청 대기</button>
-        <button>승인</button>
-        <button>완료</button>
-        <button>반려</button>
+        <button class="active" data-i18n="filter.pending">신청 대기</button>
+        <button data-i18n="filter.approved">승인</button>
+        <button data-i18n="filter.done">완료</button>
+        <button data-i18n="filter.rejected">반려</button>
       </div>
       <div class="filter-input">
         <span class="plus">+</span>
-        <span>회원명·주문번호·시험명으로 검색</span>
+        <span data-i18n="search.ph">회원명·주문번호·시험명으로 검색</span>
       </div>
     </div>
 
     <div class="table-tools">
-      <div class="total-count">총 <strong>3</strong> 대기</div>
+      <div class="total-count" data-i18n-html="total.count">총 <strong>3</strong> 대기</div>
       <div class="tool-group">
         <button class="tool-btn" aria-label="환불 목록 필터 열기">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 21v-7"/><path d="M4 10V3"/><path d="M12 21v-9"/><path d="M12 8V3"/><path d="M20 21v-5"/><path d="M20 12V3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>
-          필터
+          <span data-i18n="tool.filter">필터</span>
         </button>
         <button class="tool-btn" aria-label="환불 목록 내보내기">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          내보내기
+          <span data-i18n="tool.export">내보내기</span>
         </button>
       </div>
     </div>
@@ -63,88 +63,88 @@
     <table>
       <thead>
         <tr>
-          <th>상태</th>
-          <th>신청일시 <span class="sort">▼</span></th>
-          <th>회원</th>
-          <th>주문번호</th>
-          <th>시험명</th>
-          <th>금액</th>
-          <th>사유</th>
-          <th style="text-align:right;">처리</th>
+          <th data-i18n="th.status">상태</th>
+          <th><span data-i18n="th.date">신청일시</span> <span class="sort">▼</span></th>
+          <th data-i18n="th.member">회원</th>
+          <th data-i18n="th.order">주문번호</th>
+          <th data-i18n="th.exam">시험명</th>
+          <th data-i18n="th.amount">금액</th>
+          <th data-i18n="th.reason">사유</th>
+          <th style="text-align:right;" data-i18n="th.action">처리</th>
         </tr>
       </thead>
       <tbody>
         <!-- 대기 3건 -->
         <tr>
-          <td><span class="badge badge-pending">신청</span></td>
+          <td><span class="badge badge-pending" data-i18n="badge.pending">신청</span></td>
           <td>2026-05-11 09:24</td>
           <td class="cell-name">田中 美咲</td>
           <td class="cell-mono">ORD-20260428-0731</td>
           <td>KO 능력시험 3급 (5월 정기)</td>
           <td class="cell-amount">¥4,950</td>
-          <td>접수 기간 내 미응시</td>
+          <td data-i18n="reason.noShow">접수 기간 내 미응시</td>
           <td class="cell-actions">
-            <button class="btn btn-primary" style="padding:6px 12px; font-size:12px;">승인</button>
-            <button class="btn btn-secondary" style="padding:6px 12px; font-size:12px;">반려</button>
+            <button class="btn btn-primary" style="padding:6px 12px; font-size:12px;" data-action="approve" data-i18n="action.approve">승인</button>
+            <button class="btn btn-secondary" style="padding:6px 12px; font-size:12px;" data-action="reject" data-i18n="action.reject">반려</button>
           </td>
         </tr>
         <tr>
-          <td><span class="badge badge-pending">신청</span></td>
+          <td><span class="badge badge-pending" data-i18n="badge.pending">신청</span></td>
           <td>2026-05-10 21:07</td>
           <td class="cell-name">山田 太郎</td>
           <td class="cell-mono">ORD-20260503-1188</td>
           <td>KO 능력시험 2급 (5월 정기)</td>
           <td class="cell-amount">¥4,950</td>
-          <td>중복 결제</td>
+          <td data-i18n="reason.duplicate">중복 결제</td>
           <td class="cell-actions">
-            <button class="btn btn-primary" style="padding:6px 12px; font-size:12px;">승인</button>
-            <button class="btn btn-secondary" style="padding:6px 12px; font-size:12px;">반려</button>
+            <button class="btn btn-primary" style="padding:6px 12px; font-size:12px;" data-action="approve" data-i18n="action.approve">승인</button>
+            <button class="btn btn-secondary" style="padding:6px 12px; font-size:12px;" data-action="reject" data-i18n="action.reject">반려</button>
           </td>
         </tr>
         <tr>
-          <td><span class="badge badge-pending">신청</span></td>
+          <td><span class="badge badge-pending" data-i18n="badge.pending">신청</span></td>
           <td>2026-05-10 15:42</td>
           <td class="cell-name">佐藤 健</td>
           <td class="cell-mono">ORD-20260506-0942</td>
           <td>KO 능력시험 4급 (5월 정기)</td>
           <td class="cell-amount">¥4,950</td>
-          <td>시스템 장애로 응시 불가(정책6)</td>
+          <td data-i18n="reason.systemFail">시스템 장애로 응시 불가(정책6)</td>
           <td class="cell-actions">
-            <button class="btn btn-primary" style="padding:6px 12px; font-size:12px;">승인</button>
-            <button class="btn btn-secondary" style="padding:6px 12px; font-size:12px;">반려</button>
+            <button class="btn btn-primary" style="padding:6px 12px; font-size:12px;" data-action="approve" data-i18n="action.approve">승인</button>
+            <button class="btn btn-secondary" style="padding:6px 12px; font-size:12px;" data-action="reject" data-i18n="action.reject">반려</button>
           </td>
         </tr>
 
         <!-- 최근 처리 이력 -->
         <tr>
-          <td><span class="badge badge-paid">승인</span></td>
+          <td><span class="badge badge-paid" data-i18n="badge.approved">승인</span></td>
           <td>2026-05-09 11:18</td>
           <td class="cell-name">鈴木 花子</td>
           <td class="cell-mono">ORD-20260501-0655</td>
           <td>KO 능력시험 3급 (5월 정기)</td>
           <td class="cell-amount">¥4,950</td>
-          <td>접수 기간 내 미응시</td>
-          <td class="cell-actions"><span class="muted">조찬현 · 05-09 14:02 · PG 환불 진행중</span></td>
+          <td data-i18n="reason.noShow">접수 기간 내 미응시</td>
+          <td class="cell-actions"><span class="muted" data-i18n-html="hist.approved">조찬현 · 05-09 14:02 · PG 환불 진행중</span></td>
         </tr>
         <tr>
-          <td><span class="badge badge-refunded">환불완료</span></td>
+          <td><span class="badge badge-refunded" data-i18n="badge.refunded">환불완료</span></td>
           <td>2026-05-07 08:53</td>
           <td class="cell-name">高橋 直樹</td>
           <td class="cell-mono">ORD-20260429-0418</td>
           <td>KO 능력시험 2급 (5월 정기)</td>
           <td class="cell-amount">¥4,950</td>
-          <td>중복 결제</td>
-          <td class="cell-actions"><span class="muted">조찬현 · 05-07 10:31 · 05-12 환원 완료</span></td>
+          <td data-i18n="reason.duplicate">중복 결제</td>
+          <td class="cell-actions"><span class="muted" data-i18n-html="hist.refunded">조찬현 · 05-07 10:31 · 05-12 환원 완료</span></td>
         </tr>
         <tr>
-          <td><span class="badge badge-failed">반려</span></td>
+          <td><span class="badge badge-failed" data-i18n="badge.rejected">반려</span></td>
           <td>2026-05-06 19:26</td>
           <td class="cell-name">伊藤 さくら</td>
           <td class="cell-mono">ORD-20260430-0503</td>
           <td>KO 능력시험 1급 (5월 정기)</td>
           <td class="cell-amount">¥4,950</td>
-          <td>응시 후 결과 불만족</td>
-          <td class="cell-actions"><span class="muted">조찬현 · 05-06 20:10 · 정책 대상 아님</span></td>
+          <td data-i18n="reason.dissatisfied">응시 후 결과 불만족</td>
+          <td class="cell-actions"><span class="muted" data-i18n-html="hist.rejected">조찬현 · 05-06 20:10 · 정책 대상 아님</span></td>
         </tr>
       </tbody>
     </table>
@@ -155,12 +155,132 @@
       <button class="pager-btn active">1</button>
       <button class="pager-btn" disabled>›</button>
       <div class="pager-rows">
-        <span>페이지당</span>
+        <span data-i18n="pager.perPage">페이지당</span>
         <select><option>20</option><option>50</option><option>100</option></select>
       </div>
     </div>
   </div>
 </div>
+<script>
+  // 승인/반려 처리 (로케일 반영 confirmAction + toast)
+  (function(){
+    function jsL(){
+      var ja = (typeof window.adminLocale === 'function' && window.adminLocale() === 'ja');
+      return ja ? {
+        approveTitle:'返金を承認しますか?',
+        approveDesc:function(n){ return n + ' 様の返金申請を承認し、PG返金を実行します。'; },
+        approveOk:'承認',
+        approveToast:'返金を承認しました。PG返金を実行します。',
+        rejectTitle:'返金を却下しますか?',
+        rejectDesc:function(n){ return n + ' 様の返金申請を却下します。'; },
+        rejectOk:'却下',
+        rejectToast:'返金申請を却下しました。'
+      } : {
+        approveTitle:'환불을 승인하시겠습니까?',
+        approveDesc:function(n){ return n + ' 님의 환불 신청을 승인하고 PG 환불을 호출합니다.'; },
+        approveOk:'승인',
+        approveToast:'환불을 승인했습니다. PG 환불을 호출합니다.',
+        rejectTitle:'환불을 반려하시겠습니까?',
+        rejectDesc:function(n){ return n + ' 님의 환불 신청을 반려합니다.'; },
+        rejectOk:'반려',
+        rejectToast:'환불 신청을 반려했습니다.'
+      };
+    }
+    function nameOf(btn){
+      var tr = btn.closest('tr');
+      var c = tr && tr.querySelector('.cell-name');
+      return c ? c.textContent.trim() : '';
+    }
+    document.querySelectorAll('button[data-action="approve"]').forEach(function(b){
+      b.addEventListener('click', function(){
+        var L = jsL(), n = nameOf(b);
+        window.confirmAction({ title:L.approveTitle, desc:L.approveDesc(n), confirmText:L.approveOk, onConfirm:function(){ window.toast(L.approveToast, 'success'); } });
+      });
+    });
+    document.querySelectorAll('button[data-action="reject"]').forEach(function(b){
+      b.addEventListener('click', function(){
+        var L = jsL(), n = nameOf(b);
+        window.confirmAction({ title:L.rejectTitle, desc:L.rejectDesc(n), confirmText:L.rejectOk, danger:true, onConfirm:function(){ window.toast(L.rejectToast, 'info'); } });
+      });
+    });
+  })();
+</script>
+<script>window.PAGE_I18N={
+  ko:{
+    'page.title':'MaroPass Admin — 환불',
+    'page.heading':'환불 관리',
+    'page.sub':'환불 신청 검토·승인 (정책7: 접수기간 내 미응시 건만 신청 가능)',
+    'action.refresh':'새로고침',
+    'policy.note':'응시 후 변심·결과 불만족은 환불 대상 아님. 승인 시 PG 환불 호출 후 영업일 기준 3~5일 내 환원.',
+    'filter.pending':'신청 대기',
+    'filter.approved':'승인',
+    'filter.done':'완료',
+    'filter.rejected':'반려',
+    'search.ph':'회원명·주문번호·시험명으로 검색',
+    'total.count':'총 <strong>3</strong> 대기',
+    'tool.filter':'필터',
+    'tool.export':'내보내기',
+    'th.status':'상태',
+    'th.date':'신청일시',
+    'th.member':'회원',
+    'th.order':'주문번호',
+    'th.exam':'시험명',
+    'th.amount':'금액',
+    'th.reason':'사유',
+    'th.action':'처리',
+    'badge.pending':'신청',
+    'badge.approved':'승인',
+    'badge.refunded':'환불완료',
+    'badge.rejected':'반려',
+    'reason.noShow':'접수 기간 내 미응시',
+    'reason.duplicate':'중복 결제',
+    'reason.systemFail':'시스템 장애로 응시 불가(정책6)',
+    'reason.dissatisfied':'응시 후 결과 불만족',
+    'action.approve':'승인',
+    'action.reject':'반려',
+    'hist.approved':'조찬현 · 05-09 14:02 · PG 환불 진행중',
+    'hist.refunded':'조찬현 · 05-07 10:31 · 05-12 환원 완료',
+    'hist.rejected':'조찬현 · 05-06 20:10 · 정책 대상 아님',
+    'pager.perPage':'페이지당'
+  },
+  ja:{
+    'page.title':'MaroPass Admin — 返金',
+    'page.heading':'返金管理',
+    'page.sub':'返金申請の審査・承認 (ポリシー7: 受付期間内の未受験のみ申請可能)',
+    'action.refresh':'更新',
+    'policy.note':'受験後の心変わり・結果への不満は返金対象外。承認時はPG返金を呼び出し、営業日基準で3~5日以内に返金されます。',
+    'filter.pending':'申請保留',
+    'filter.approved':'承認',
+    'filter.done':'完了',
+    'filter.rejected':'却下',
+    'search.ph':'会員名・注文番号・試験名で検索',
+    'total.count':'計 <strong>3</strong> 件保留',
+    'tool.filter':'フィルター',
+    'tool.export':'エクスポート',
+    'th.status':'ステータス',
+    'th.date':'申請日時',
+    'th.member':'会員',
+    'th.order':'注文番号',
+    'th.exam':'試験名',
+    'th.amount':'金額',
+    'th.reason':'理由',
+    'th.action':'処理',
+    'badge.pending':'申請',
+    'badge.approved':'承認',
+    'badge.refunded':'返金完了',
+    'badge.rejected':'却下',
+    'reason.noShow':'受付期間内の未受験',
+    'reason.duplicate':'二重決済',
+    'reason.systemFail':'システム障害により受験不可(ポリシー6)',
+    'reason.dissatisfied':'受験後の結果に不満',
+    'action.approve':'承認',
+    'action.reject':'却下',
+    'hist.approved':'조찬현 · 05-09 14:02 · PG返金処理中',
+    'hist.refunded':'조찬현 · 05-07 10:31 · 05-12 返金完了',
+    'hist.rejected':'조찬현 · 05-06 20:10 · ポリシー対象外',
+    'pager.perPage':'1ページあたり'
+  }
+};</script>
 <script src="assets/admin-shell.js"></script>
 </body>
 </html>

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MaroPass Admin — 시험 관리</title>
+<title data-i18n="doc.title">MaroPass Admin — 시험 관리</title>
 <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
 <link rel="stylesheet" href="assets/admin.css">
 <style>
@@ -33,67 +33,65 @@
   <div class="page-head">
     <div>
       <h1 class="page-title" style="display:flex;align-items:center;gap:10px">
-        한국어 말하기 · 중상급 (정기)
-        <span class="badge badge-open" style="font-size:12px">운영중</span>
+        <span data-i18n="title.name">한국어 말하기 · 중상급 (정기)</span>
+        <span class="badge badge-open" style="font-size:12px" data-i18n="badge.running">운영중</span>
       </h1>
       <div class="meta-chips">
-        <span class="meta-chip">레벨 <strong>중상급</strong></span>
-        <span class="meta-chip"><strong>18</strong>문항 · 약 <strong>23</strong>분</span>
-        <span class="meta-chip">진단 등급 <strong>A·B·C</strong></span>
-        <span class="meta-chip">등록 <strong>2026-03-02</strong></span>
+        <span class="meta-chip" data-i18n-html="chip.level">레벨 <strong>중상급</strong></span>
+        <span class="meta-chip" data-i18n-html="chip.qtime"><strong>18</strong>문항 · 약 <strong>23</strong>분</span>
+        <span class="meta-chip" data-i18n-html="chip.grade">진단 등급 <strong>A·B·C</strong></span>
+        <span class="meta-chip" data-i18n-html="chip.reg">등록 <strong>2026-03-02</strong></span>
       </div>
     </div>
     <div class="page-actions">
-      <a class="btn btn-ghost" href="tests-list.html">← 목록</a>
-      <a class="btn btn-secondary" href="test-create.html">콘텐츠 편집</a>
-      <button class="btn btn-primary">결과 일괄 공개</button>
+      <a class="btn btn-ghost" href="tests-list.html" data-i18n="btn.list">← 목록</a>
     </div>
   </div>
 
   <!-- 요약 KPI -->
   <div class="kpi-row">
     <div class="kpi-card">
-      <div class="kpi-top"><span class="kpi-label">누적 응시자</span>
+      <div class="kpi-top"><span class="kpi-label" data-i18n="kpi.takers">누적 응시자</span>
         <span class="kpi-ic blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
       </div>
-      <div class="kpi-value">2,013<span class="kpi-unit">명</span></div>
-      <div class="kpi-trend"><span class="muted">이번 달 412명 응시</span></div>
+      <div class="kpi-value">2,013<span class="kpi-unit" data-i18n="unit.people">명</span></div>
+      <div class="kpi-trend"><span class="muted" data-i18n="kpi.takers.sub">이번 달 412명 응시</span></div>
     </div>
     <div class="kpi-card">
-      <div class="kpi-top"><span class="kpi-label">평균 점수</span>
+      <div class="kpi-top"><span class="kpi-label" data-i18n="kpi.avg">평균 점수</span>
         <span class="kpi-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span>
       </div>
       <div class="kpi-value">103.1<span class="kpi-unit">/ 147</span></div>
-      <div class="kpi-trend"><span class="muted">중앙값 105</span></div>
+      <div class="kpi-trend"><span class="muted" data-i18n="kpi.avg.sub">중앙값 105</span></div>
     </div>
     <div class="kpi-card">
-      <div class="kpi-top"><span class="kpi-label">A등급 비율</span>
+      <div class="kpi-top"><span class="kpi-label" data-i18n="kpi.aRate">A등급 비율</span>
         <span class="kpi-ic green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
       </div>
       <div class="kpi-value">11.8<span class="kpi-unit">%</span></div>
       <div class="kpi-trend"><span class="muted">B 56.1% · C 32.1%</span></div>
     </div>
     <div class="kpi-card">
-      <div class="kpi-top"><span class="kpi-label">결과 공개율</span>
+      <div class="kpi-top"><span class="kpi-label" data-i18n="kpi.disclose">결과 공개율</span>
         <span class="kpi-ic warn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg></span>
       </div>
       <div class="kpi-value">98.8<span class="kpi-unit">%</span></div>
-      <div class="kpi-trend"><span class="muted">채점중 24명 대기</span></div>
+      <div class="kpi-trend"><span class="muted" data-i18n="kpi.disclose.sub">채점중 24명 대기</span></div>
     </div>
   </div>
 
   <!-- 상세 탭 -->
   <div class="dtabs" id="dtabs">
-    <button class="active" data-tab="overview">개요</button>
-    <button data-tab="takers">응시자<span class="tab-count">2,013</span></button>
-    <button data-tab="sections">문항 · 유형</button>
+    <button class="active" data-tab="overview" data-i18n="tab.overview">개요</button>
+    <button data-tab="takers"><span data-i18n="tab.takers">응시자</span><span class="tab-count">2,013</span></button>
+    <button data-tab="sections" data-i18n="tab.sections">문항 · 유형</button>
   </div>
 
   <!-- 개요 -->
   <div class="dtab-panel active" id="tab-overview">
     <div class="dash-grid">
       <div class="dash-card">
-        <div class="dash-card-head"><h3>점수 분포</h3><span class="muted">응시 완료 1,847명 기준</span></div>
+        <div class="dash-card-head"><h3 data-i18n="card.dist">점수 분포</h3><span class="muted" data-i18n="card.dist.sub">응시 완료 1,847명 기준</span></div>
         <div class="trend-chart">
           <div class="bar-col"><div class="bar-area"><div class="bar" style="height:26%"></div></div><div class="bar-val">187</div><div class="bar-day">&lt;60</div></div>
           <div class="bar-col"><div class="bar-area"><div class="bar" style="height:56%"></div></div><div class="bar-val">406</div><div class="bar-day">60–89</div></div>
@@ -101,27 +99,27 @@
           <div class="bar-col"><div class="bar-area"><div class="bar" style="height:71%"></div></div><div class="bar-val">512</div><div class="bar-day">110–129</div></div>
           <div class="bar-col"><div class="bar-area"><div class="bar" style="height:30%"></div></div><div class="bar-val">218</div><div class="bar-day">130–147</div></div>
         </div>
-        <div class="passline-note">진단 등급 구간(예시): C ~89 · B 90–129 · A 130+ · 시험별 관리자 설정</div>
+        <div class="passline-note" data-i18n="passline.note">진단 등급 구간(예시): C ~89 · B 90–129 · A 130+ · 시험별 관리자 설정</div>
       </div>
       <div class="dash-card">
-        <div class="dash-card-head"><h3>응시 현황</h3></div>
-        <div class="sline"><span class="s-lab">응시 완료</span><span class="s-val">1,847</span></div>
-        <div class="sline"><span class="s-lab">채점 중 (주관식)</span><span class="s-val">24</span></div>
-        <div class="sline"><span class="s-lab">미응시 (결제 후)</span><span class="s-val">142</span></div>
-        <div class="sline"><span class="s-lab">A등급 (130+)</span><span class="s-val" style="color:var(--green-500)">218</span></div>
-        <div class="sline"><span class="s-lab">B등급 (90–129)</span><span class="s-val" style="color:var(--blue-500)">1,036</span></div>
-        <div class="sline"><span class="s-lab">C등급 (~89)</span><span class="s-val" style="color:var(--orange-500)">593</span></div>
+        <div class="dash-card-head"><h3 data-i18n="card.status">응시 현황</h3></div>
+        <div class="sline"><span class="s-lab" data-i18n="sline.done">응시 완료</span><span class="s-val">1,847</span></div>
+        <div class="sline"><span class="s-lab" data-i18n="sline.grading">채점 중 (주관식)</span><span class="s-val">24</span></div>
+        <div class="sline"><span class="s-lab" data-i18n="sline.notyet">미응시 (결제 후)</span><span class="s-val">142</span></div>
+        <div class="sline"><span class="s-lab" data-i18n="sline.gradeA">A등급 (130+)</span><span class="s-val" style="color:var(--green-500)">218</span></div>
+        <div class="sline"><span class="s-lab" data-i18n="sline.gradeB">B등급 (90–129)</span><span class="s-val" style="color:var(--blue-500)">1,036</span></div>
+        <div class="sline"><span class="s-lab" data-i18n="sline.gradeC">C등급 (~89)</span><span class="s-val" style="color:var(--orange-500)">593</span></div>
       </div>
     </div>
 
     <div class="dash-card" style="margin-top:14px">
-      <div class="dash-card-head"><h3>시험 정보</h3></div>
+      <div class="dash-card-head"><h3 data-i18n="card.info">시험 정보</h3></div>
       <div class="info-grid">
-        <div class="info-item"><div class="i-lab">레벨</div><div class="i-val">중상급</div></div>
-        <div class="info-item"><div class="i-lab">문항 / 시간</div><div class="i-val">18문항 · 약 23분</div></div>
-        <div class="info-item"><div class="i-lab">진단 등급</div><div class="i-val">A·B·C (총점 기반)</div></div>
-        <div class="info-item"><div class="i-lab">채점 방식</div><div class="i-val">자동 + 관리자 보정</div></div>
-        <div class="info-item"><div class="i-lab">응시 기간</div><div class="i-val">상시</div></div>
+        <div class="info-item"><div class="i-lab" data-i18n="info.level.l">레벨</div><div class="i-val" data-i18n="info.level.v">중상급</div></div>
+        <div class="info-item"><div class="i-lab" data-i18n="info.qtime.l">문항 / 시간</div><div class="i-val" data-i18n="info.qtime.v">18문항 · 약 23분</div></div>
+        <div class="info-item"><div class="i-lab" data-i18n="info.grade.l">진단 등급</div><div class="i-val" data-i18n="info.grade.v">A·B·C (총점 기반)</div></div>
+        <div class="info-item"><div class="i-lab" data-i18n="info.method.l">채점 방식</div><div class="i-val" data-i18n="info.method.v">자동 + 관리자 보정</div></div>
+        <div class="info-item"><div class="i-lab" data-i18n="info.period.l">응시 기간</div><div class="i-val" data-i18n="info.period.v">상시</div></div>
       </div>
     </div>
   </div>
@@ -131,21 +129,21 @@
     <div class="card">
       <div class="filter-bar">
         <div class="seg">
-          <button class="active">전체 2,013</button>
-          <button>응시완료 1,847</button>
-          <button>채점중 24</button>
-          <button>미응시 142</button>
+          <button class="active" data-i18n="seg.all">전체 2,013</button>
+          <button data-i18n="seg.done">응시완료 1,847</button>
+          <button data-i18n="seg.grading">채점중 24</button>
+          <button data-i18n="seg.notyet">미응시 142</button>
         </div>
         <div class="filter-input">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-          <input type="text" placeholder="회원명·이메일 검색">
+          <input type="text" placeholder="회원명·이메일 검색" data-i18n-ph="ph.search">
         </div>
       </div>
 
       <div class="table-tools">
-        <div class="total-count">응시자 <strong>2,013</strong>명</div>
+        <div class="total-count" data-i18n-html="tools.total">응시자 <strong>2,013</strong>명</div>
         <div class="tool-group">
-          <button class="tool-btn">결과 내보내기</button>
+          <button class="tool-btn" data-i18n="btn.export">결과 내보내기</button>
         </div>
       </div>
 
@@ -153,87 +151,87 @@
         <table>
           <thead>
             <tr>
-              <th>회원</th>
-              <th>응시일시 <span class="sort">▼</span></th>
-              <th>상태</th>
-              <th>점수</th>
-              <th>등급</th>
-              <th>결과 공개</th>
-              <th style="text-align:right">처리</th>
+              <th data-i18n="th.member">회원</th>
+              <th data-i18n-html="th.datetime">응시일시 <span class="sort">▼</span></th>
+              <th data-i18n="th.status">상태</th>
+              <th data-i18n="th.score">점수</th>
+              <th data-i18n="th.grade">등급</th>
+              <th data-i18n="th.disclose">결과 공개</th>
+              <th style="text-align:right" data-i18n="th.action">처리</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td class="cell-name">田中 美咲<div class="cell-sub" style="font-weight:400">misaki.tanaka@example.com</div></td>
               <td class="cell-mono">2026-05-08 14:22</td>
-              <td><span class="badge badge-open">응시완료</span></td>
+              <td><span class="badge badge-open" data-i18n="st.done">응시완료</span></td>
               <td class="cell-amount">112<span class="muted"> / 147</span></td>
               <td><span class="badge g-b">B</span></td>
-              <td><span class="badge badge-active">공개</span></td>
-              <td class="cell-actions"><a class="tool-btn" href="#">결과 보기</a></td>
+              <td><span class="badge badge-active" data-i18n="dc.public">공개</span></td>
+              <td class="cell-actions"><a class="tool-btn" href="test-grade.html" data-i18n="act.view">결과 보기</a></td>
             </tr>
             <tr>
               <td class="cell-name">高橋 大輔<div class="cell-sub" style="font-weight:400">daisuke.takahashi@example.com</div></td>
               <td class="cell-mono">2026-05-07 09:12</td>
-              <td><span class="badge badge-open">응시완료</span></td>
+              <td><span class="badge badge-open" data-i18n="st.done">응시완료</span></td>
               <td class="cell-amount">126<span class="muted"> / 147</span></td>
               <td><span class="badge g-b">B</span></td>
-              <td><span class="badge badge-active">공개</span></td>
-              <td class="cell-actions"><a class="tool-btn" href="#">결과 보기</a></td>
+              <td><span class="badge badge-active" data-i18n="dc.public">공개</span></td>
+              <td class="cell-actions"><a class="tool-btn" href="test-grade.html" data-i18n="act.view">결과 보기</a></td>
             </tr>
             <tr>
               <td class="cell-name">山田 太郎<div class="cell-sub" style="font-weight:400">taro.yamada@example.com</div></td>
               <td class="cell-mono">2026-05-08 10:05</td>
-              <td><span class="badge badge-open">응시완료</span></td>
+              <td><span class="badge badge-open" data-i18n="st.done">응시완료</span></td>
               <td class="cell-amount">78<span class="muted"> / 147</span></td>
               <td><span class="badge g-c">C</span></td>
-              <td><span class="badge badge-active">공개</span></td>
-              <td class="cell-actions"><a class="tool-btn" href="#">결과 보기</a></td>
+              <td><span class="badge badge-active" data-i18n="dc.public">공개</span></td>
+              <td class="cell-actions"><a class="tool-btn" href="test-grade.html" data-i18n="act.view">결과 보기</a></td>
             </tr>
             <tr>
               <td class="cell-name">鈴木 花子<div class="cell-sub" style="font-weight:400">hanako.suzuki@example.com</div></td>
               <td class="cell-mono">2026-05-07 16:40</td>
-              <td><span class="badge badge-pending">채점중</span></td>
+              <td><span class="badge badge-pending" data-i18n="st.grading">채점중</span></td>
               <td class="cell-amount muted">—</td>
               <td><span class="muted">—</span></td>
-              <td><span class="badge badge-inactive">비공개</span></td>
-              <td class="cell-actions"><a class="btn btn-primary" href="test-grade.html" style="padding:6px 12px;font-size:12px">채점 보정</a></td>
+              <td><span class="badge badge-inactive" data-i18n="dc.private">비공개</span></td>
+              <td class="cell-actions"><a class="btn btn-primary" href="test-grade.html" style="padding:6px 12px;font-size:12px" data-i18n="act.adjust">채점 보정</a></td>
             </tr>
             <tr>
               <td class="cell-name">伊藤 さくら<div class="cell-sub" style="font-weight:400">sakura.ito@example.com</div></td>
               <td class="cell-mono">2026-05-06 19:26</td>
-              <td><span class="badge badge-open">응시완료</span></td>
+              <td><span class="badge badge-open" data-i18n="st.done">응시완료</span></td>
               <td class="cell-amount">96<span class="muted"> / 147</span></td>
               <td><span class="badge g-b">B</span></td>
-              <td><span class="badge badge-inactive">비공개</span></td>
-              <td class="cell-actions"><button class="btn btn-secondary" style="padding:6px 12px;font-size:12px">결과 공개</button></td>
+              <td><span class="badge badge-inactive" data-i18n="dc.private">비공개</span></td>
+              <td class="cell-actions"><button class="btn btn-secondary" style="padding:6px 12px;font-size:12px" data-i18n="act.disclose">결과 공개</button></td>
             </tr>
             <tr>
               <td class="cell-name">中村 優<div class="cell-sub" style="font-weight:400">yu.nakamura@example.com</div></td>
               <td class="cell-mono">2026-05-06 11:33</td>
-              <td><span class="badge badge-open">응시완료</span></td>
+              <td><span class="badge badge-open" data-i18n="st.done">응시완료</span></td>
               <td class="cell-amount">58<span class="muted"> / 147</span></td>
               <td><span class="badge g-c">C</span></td>
-              <td><span class="badge badge-active">공개</span></td>
-              <td class="cell-actions"><a class="tool-btn" href="#">결과 보기</a></td>
+              <td><span class="badge badge-active" data-i18n="dc.public">공개</span></td>
+              <td class="cell-actions"><a class="tool-btn" href="test-grade.html" data-i18n="act.view">결과 보기</a></td>
             </tr>
             <tr>
               <td class="cell-name">小林 誠<div class="cell-sub" style="font-weight:400">makoto.kobayashi@example.com</div></td>
               <td class="cell-mono">2026-05-05 13:50</td>
-              <td><span class="badge badge-pending">채점중</span></td>
+              <td><span class="badge badge-pending" data-i18n="st.grading">채점중</span></td>
               <td class="cell-amount muted">—</td>
               <td><span class="muted">—</span></td>
-              <td><span class="badge badge-inactive">비공개</span></td>
-              <td class="cell-actions"><a class="btn btn-primary" href="test-grade.html" style="padding:6px 12px;font-size:12px">채점 보정</a></td>
+              <td><span class="badge badge-inactive" data-i18n="dc.private">비공개</span></td>
+              <td class="cell-actions"><a class="btn btn-primary" href="test-grade.html" style="padding:6px 12px;font-size:12px" data-i18n="act.adjust">채점 보정</a></td>
             </tr>
             <tr>
               <td class="cell-name">佐藤 健<div class="cell-sub" style="font-weight:400">ken.sato@example.com</div></td>
               <td class="cell-mono muted">—</td>
-              <td><span class="badge badge-inactive">미응시</span></td>
+              <td><span class="badge badge-inactive" data-i18n="st.notyet">미응시</span></td>
               <td class="cell-amount muted">—</td>
               <td><span class="muted">—</span></td>
               <td><span class="muted">—</span></td>
-              <td class="cell-actions"><a class="tool-btn" href="#">응시 안내</a></td>
+              <td class="cell-actions"><a class="tool-btn" href="#" data-i18n="act.guide">응시 안내</a></td>
             </tr>
           </tbody>
         </table>
@@ -245,7 +243,7 @@
         <button class="pager-btn">2</button>
         <button class="pager-btn">3</button>
         <button class="pager-btn">›</button>
-        <div class="pager-rows">페이지당 <select><option>20</option><option>50</option><option>100</option></select></div>
+        <div class="pager-rows" data-i18n-html="pager.rows">페이지당 <select><option>20</option><option>50</option><option>100</option></select></div>
       </div>
     </div>
   </div>
@@ -254,27 +252,27 @@
   <div class="dtab-panel" id="tab-sections">
     <div class="card">
       <div class="table-tools">
-        <div class="total-count">유형 <strong>9</strong> · 총 <strong>18</strong>문항 · <strong>147</strong>점</div>
+        <div class="total-count" data-i18n-html="sec.total">유형 <strong>9</strong> · 총 <strong>18</strong>문항 · <strong>147</strong>점</div>
         <div class="tool-group">
-          <a class="tool-btn" href="question-bank.html">문제 은행</a>
-          <a class="tool-btn" href="test-create.html">구성 편집</a>
+          <a class="tool-btn" href="question-bank.html" data-i18n="btn.bank">문제 은행</a>
+          <a class="tool-btn" href="test-create.html" data-i18n="btn.editcfg">구성 편집</a>
         </div>
       </div>
       <div class="table-wrap">
         <table>
           <thead>
-            <tr><th>문제 유형</th><th>문항 수</th><th>배점</th><th>준비 · 녹음</th><th>채점</th></tr>
+            <tr><th data-i18n="sth.type">문제 유형</th><th data-i18n="sth.count">문항 수</th><th data-i18n="sth.points">배점</th><th data-i18n="sth.prep">준비 · 녹음</th><th data-i18n="sth.grading">채점</th></tr>
           </thead>
           <tbody>
-            <tr><td class="cell-name">① 어휘 발음 구별</td><td class="cell-mono">5문항</td><td class="cell-mono">15점</td><td class="cell-mono">10 · 20초</td><td>AI 자동</td></tr>
-            <tr><td class="cell-name">② 자신에 대해 말하기</td><td class="cell-mono">2문항</td><td class="cell-mono">18점</td><td class="cell-mono">20 · 30초</td><td><span class="badge badge-pending">AI + 보정</span></td></tr>
-            <tr><td class="cell-name">③-1 역할 수행</td><td class="cell-mono">2문항</td><td class="cell-mono">18점</td><td class="cell-mono">30 · 40초</td><td><span class="badge badge-pending">AI + 보정</span></td></tr>
-            <tr><td class="cell-name">③-2 그림 설명</td><td class="cell-mono">2문항</td><td class="cell-mono">18점</td><td class="cell-mono">40 · 60초</td><td><span class="badge badge-pending">AI + 보정</span></td></tr>
-            <tr><td class="cell-name">③-3 상황 설명(순서)</td><td class="cell-mono">2문항</td><td class="cell-mono">18점</td><td class="cell-mono">40 · 60초</td><td><span class="badge badge-pending">AI + 보정</span></td></tr>
-            <tr><td class="cell-name">④ 화용 능력</td><td class="cell-mono">2문항</td><td class="cell-mono">24점</td><td class="cell-mono">40 · 60초</td><td><span class="badge badge-pending">AI + 보정</span></td></tr>
-            <tr><td class="cell-name">⑤-1 자료 해석</td><td class="cell-mono">1문항</td><td class="cell-mono">12점</td><td class="cell-mono">70 · 80초</td><td><span class="badge badge-pending">AI + 보정</span></td></tr>
-            <tr><td class="cell-name">⑤-2 대화 듣고 의견</td><td class="cell-mono">1문항</td><td class="cell-mono">12점</td><td class="cell-mono">40 · 60초</td><td><span class="badge badge-pending">AI + 보정</span></td></tr>
-            <tr><td class="cell-name">⑥ 의견 프레젠테이션</td><td class="cell-mono">1문항</td><td class="cell-mono">12점</td><td class="cell-mono">60 · 80초</td><td><span class="badge badge-pending">AI + 보정</span></td></tr>
+            <tr><td class="cell-name" data-i18n="type.1">① 어휘 발음 구별</td><td class="cell-mono" data-i18n="cnt.5">5문항</td><td class="cell-mono" data-i18n="pt.15">15점</td><td class="cell-mono" data-i18n="prep.1020">10 · 20초</td><td data-i18n="grade.ai">AI 자동</td></tr>
+            <tr><td class="cell-name" data-i18n="type.2">② 자신에 대해 말하기</td><td class="cell-mono" data-i18n="cnt.2">2문항</td><td class="cell-mono" data-i18n="pt.18">18점</td><td class="cell-mono" data-i18n="prep.2030">20 · 30초</td><td><span class="badge badge-pending" data-i18n="grade.aic">AI + 보정</span></td></tr>
+            <tr><td class="cell-name" data-i18n="type.3-1">③-1 역할 수행</td><td class="cell-mono" data-i18n="cnt.2">2문항</td><td class="cell-mono" data-i18n="pt.18">18점</td><td class="cell-mono" data-i18n="prep.3040">30 · 40초</td><td><span class="badge badge-pending" data-i18n="grade.aic">AI + 보정</span></td></tr>
+            <tr><td class="cell-name" data-i18n="type.3-2">③-2 그림 설명</td><td class="cell-mono" data-i18n="cnt.2">2문항</td><td class="cell-mono" data-i18n="pt.18">18점</td><td class="cell-mono" data-i18n="prep.4060">40 · 60초</td><td><span class="badge badge-pending" data-i18n="grade.aic">AI + 보정</span></td></tr>
+            <tr><td class="cell-name" data-i18n="type.3-3">③-3 상황 설명(순서)</td><td class="cell-mono" data-i18n="cnt.2">2문항</td><td class="cell-mono" data-i18n="pt.18">18점</td><td class="cell-mono" data-i18n="prep.4060">40 · 60초</td><td><span class="badge badge-pending" data-i18n="grade.aic">AI + 보정</span></td></tr>
+            <tr><td class="cell-name" data-i18n="type.4">④ 화용 능력</td><td class="cell-mono" data-i18n="cnt.2">2문항</td><td class="cell-mono" data-i18n="pt.24">24점</td><td class="cell-mono" data-i18n="prep.4060">40 · 60초</td><td><span class="badge badge-pending" data-i18n="grade.aic">AI + 보정</span></td></tr>
+            <tr><td class="cell-name" data-i18n="type.5-1">⑤-1 자료 해석</td><td class="cell-mono" data-i18n="cnt.1">1문항</td><td class="cell-mono" data-i18n="pt.12">12점</td><td class="cell-mono" data-i18n="prep.7080">70 · 80초</td><td><span class="badge badge-pending" data-i18n="grade.aic">AI + 보정</span></td></tr>
+            <tr><td class="cell-name" data-i18n="type.5-2">⑤-2 대화 듣고 의견</td><td class="cell-mono" data-i18n="cnt.1">1문항</td><td class="cell-mono" data-i18n="pt.12">12점</td><td class="cell-mono" data-i18n="prep.4060">40 · 60초</td><td><span class="badge badge-pending" data-i18n="grade.aic">AI + 보정</span></td></tr>
+            <tr><td class="cell-name" data-i18n="type.6">⑥ 의견 프레젠테이션</td><td class="cell-mono" data-i18n="cnt.1">1문항</td><td class="cell-mono" data-i18n="pt.12">12점</td><td class="cell-mono" data-i18n="prep.6080">60 · 80초</td><td><span class="badge badge-pending" data-i18n="grade.aic">AI + 보정</span></td></tr>
           </tbody>
         </table>
       </div>
@@ -298,6 +296,206 @@
       });
     });
   })();
+</script>
+<script>
+window.PAGE_I18N = {
+  ko: {
+    "doc.title": "MaroPass Admin — 시험 관리",
+    "title.name": "한국어 말하기 · 중상급 (정기)",
+    "badge.running": "운영중",
+    "chip.level": "레벨 <strong>중상급</strong>",
+    "chip.qtime": "<strong>18</strong>문항 · 약 <strong>23</strong>분",
+    "chip.grade": "진단 등급 <strong>A·B·C</strong>",
+    "chip.reg": "등록 <strong>2026-03-02</strong>",
+    "btn.list": "← 목록",
+    "kpi.takers": "누적 응시자",
+    "unit.people": "명",
+    "kpi.takers.sub": "이번 달 412명 응시",
+    "kpi.avg": "평균 점수",
+    "kpi.avg.sub": "중앙값 105",
+    "kpi.aRate": "A등급 비율",
+    "kpi.disclose": "결과 공개율",
+    "kpi.disclose.sub": "채점중 24명 대기",
+    "tab.overview": "개요",
+    "tab.takers": "응시자",
+    "tab.sections": "문항 · 유형",
+    "card.dist": "점수 분포",
+    "card.dist.sub": "응시 완료 1,847명 기준",
+    "passline.note": "진단 등급 구간(예시): C ~89 · B 90–129 · A 130+ · 시험별 관리자 설정",
+    "card.status": "응시 현황",
+    "sline.done": "응시 완료",
+    "sline.grading": "채점 중 (주관식)",
+    "sline.notyet": "미응시 (결제 후)",
+    "sline.gradeA": "A등급 (130+)",
+    "sline.gradeB": "B등급 (90–129)",
+    "sline.gradeC": "C등급 (~89)",
+    "card.info": "시험 정보",
+    "info.level.l": "레벨",
+    "info.level.v": "중상급",
+    "info.qtime.l": "문항 / 시간",
+    "info.qtime.v": "18문항 · 약 23분",
+    "info.grade.l": "진단 등급",
+    "info.grade.v": "A·B·C (총점 기반)",
+    "info.method.l": "채점 방식",
+    "info.method.v": "자동 + 관리자 보정",
+    "info.period.l": "응시 기간",
+    "info.period.v": "상시",
+    "seg.all": "전체 2,013",
+    "seg.done": "응시완료 1,847",
+    "seg.grading": "채점중 24",
+    "seg.notyet": "미응시 142",
+    "ph.search": "회원명·이메일 검색",
+    "tools.total": "응시자 <strong>2,013</strong>명",
+    "btn.export": "결과 내보내기",
+    "th.member": "회원",
+    "th.datetime": "응시일시 <span class=\"sort\">▼</span>",
+    "th.status": "상태",
+    "th.score": "점수",
+    "th.grade": "등급",
+    "th.disclose": "결과 공개",
+    "th.action": "처리",
+    "st.done": "응시완료",
+    "st.grading": "채점중",
+    "st.notyet": "미응시",
+    "dc.public": "공개",
+    "dc.private": "비공개",
+    "act.view": "결과 보기",
+    "act.adjust": "채점 보정",
+    "act.disclose": "결과 공개",
+    "act.guide": "응시 안내",
+    "pager.rows": "페이지당 <select><option>20</option><option>50</option><option>100</option></select>",
+    "sec.total": "유형 <strong>9</strong> · 총 <strong>18</strong>문항 · <strong>147</strong>점",
+    "btn.bank": "문제 은행",
+    "btn.editcfg": "구성 편집",
+    "sth.type": "문제 유형",
+    "sth.count": "문항 수",
+    "sth.points": "배점",
+    "sth.prep": "준비 · 녹음",
+    "sth.grading": "채점",
+    "type.1": "① 어휘 발음 구별",
+    "type.2": "② 자신에 대해 말하기",
+    "type.3-1": "③-1 역할 수행",
+    "type.3-2": "③-2 그림 설명",
+    "type.3-3": "③-3 상황 설명(순서)",
+    "type.4": "④ 화용 능력",
+    "type.5-1": "⑤-1 자료 해석",
+    "type.5-2": "⑤-2 대화 듣고 의견",
+    "type.6": "⑥ 의견 프레젠테이션",
+    "cnt.5": "5문항",
+    "cnt.2": "2문항",
+    "cnt.1": "1문항",
+    "pt.15": "15점",
+    "pt.18": "18점",
+    "pt.24": "24점",
+    "pt.12": "12점",
+    "prep.1020": "10 · 20초",
+    "prep.2030": "20 · 30초",
+    "prep.3040": "30 · 40초",
+    "prep.4060": "40 · 60초",
+    "prep.7080": "70 · 80초",
+    "prep.6080": "60 · 80초",
+    "grade.ai": "AI 자동",
+    "grade.aic": "AI + 보정"
+  },
+  ja: {
+    "doc.title": "MaroPass Admin — 試験管理",
+    "title.name": "韓国語スピーキング · 中上級 (定期)",
+    "badge.running": "運営中",
+    "chip.level": "レベル <strong>中上級</strong>",
+    "chip.qtime": "<strong>18</strong>問 · 約<strong>23</strong>分",
+    "chip.grade": "診断グレード <strong>A·B·C</strong>",
+    "chip.reg": "登録 <strong>2026-03-02</strong>",
+    "btn.list": "← 一覧",
+    "kpi.takers": "累計受験者",
+    "unit.people": "名",
+    "kpi.takers.sub": "今月412名が受験",
+    "kpi.avg": "平均点数",
+    "kpi.avg.sub": "中央値 105",
+    "kpi.aRate": "Aグレード比率",
+    "kpi.disclose": "結果公開率",
+    "kpi.disclose.sub": "採点中 24名待機",
+    "tab.overview": "概要",
+    "tab.takers": "受験者",
+    "tab.sections": "問・タイプ",
+    "card.dist": "点数分布",
+    "card.dist.sub": "受験完了 1,847名基準",
+    "passline.note": "診断グレード区間(例): C ~89 · B 90–129 · A 130+ · 試験別に管理者が設定",
+    "card.status": "受験状況",
+    "sline.done": "受験完了",
+    "sline.grading": "採点中(記述式)",
+    "sline.notyet": "未受験(決済後)",
+    "sline.gradeA": "Aグレード(130+)",
+    "sline.gradeB": "Bグレード(90–129)",
+    "sline.gradeC": "Cグレード(~89)",
+    "card.info": "試験情報",
+    "info.level.l": "レベル",
+    "info.level.v": "中上級",
+    "info.qtime.l": "問 / 時間",
+    "info.qtime.v": "18問 · 約23分",
+    "info.grade.l": "診断グレード",
+    "info.grade.v": "A·B·C(総点ベース)",
+    "info.method.l": "採点方式",
+    "info.method.v": "自動 + 管理者補正",
+    "info.period.l": "受験期間",
+    "info.period.v": "常時",
+    "seg.all": "全体 2,013",
+    "seg.done": "受験完了 1,847",
+    "seg.grading": "採点中 24",
+    "seg.notyet": "未受験 142",
+    "ph.search": "会員名・メール検索",
+    "tools.total": "受験者 <strong>2,013</strong>名",
+    "btn.export": "結果エクスポート",
+    "th.member": "会員",
+    "th.datetime": "受験日時 <span class=\"sort\">▼</span>",
+    "th.status": "ステータス",
+    "th.score": "点数",
+    "th.grade": "グレード",
+    "th.disclose": "結果公開",
+    "th.action": "処理",
+    "st.done": "受験完了",
+    "st.grading": "採点中",
+    "st.notyet": "未受験",
+    "dc.public": "公開",
+    "dc.private": "非公開",
+    "act.view": "結果を見る",
+    "act.adjust": "採点補正",
+    "act.disclose": "結果公開",
+    "act.guide": "受験案内",
+    "pager.rows": "ページごと <select><option>20</option><option>50</option><option>100</option></select>",
+    "sec.total": "タイプ <strong>9</strong> · 計<strong>18</strong>問 · <strong>147</strong>点",
+    "btn.bank": "問題バンク",
+    "btn.editcfg": "構成編集",
+    "sth.type": "問題タイプ",
+    "sth.count": "問数",
+    "sth.points": "配点",
+    "sth.prep": "準備・録音",
+    "sth.grading": "採点",
+    "type.1": "① 語彙・発音の区別",
+    "type.2": "② 自分について話す",
+    "type.3-1": "③-1 役割遂行",
+    "type.3-2": "③-2 絵の説明",
+    "type.3-3": "③-3 状況説明(順序)",
+    "type.4": "④ 語用能力",
+    "type.5-1": "⑤-1 資料の解釈",
+    "type.5-2": "⑤-2 対話を聞いて意見",
+    "type.6": "⑥ 意見プレゼンテーション",
+    "cnt.5": "5問",
+    "cnt.2": "2問",
+    "cnt.1": "1問",
+    "pt.15": "15点",
+    "pt.18": "18点",
+    "pt.24": "24点",
+    "pt.12": "12点",
+    "prep.1020": "10 · 20秒",
+    "prep.2030": "20 · 30秒",
+    "prep.3040": "30 · 40秒",
+    "prep.4060": "40 · 60秒",
+    "prep.7080": "70 · 80秒",
+    "prep.6080": "60 · 80秒",
+    "grade.ai": "AI自動",
+    "grade.aic": "AI + 補正"
+  }
+};
 </script>
 <script src="assets/admin-shell.js"></script>
 </body>

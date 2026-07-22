@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MaroPass Admin — 문제 은행</title>
+<title data-i18n="docTitle">MaroPass Admin — 문제 은행</title>
 <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
 <link rel="stylesheet" href="assets/admin.css">
 <style>
@@ -36,6 +36,8 @@
   .filter-input .plus { width: 24px; height: 24px; border-radius: 50%; background: var(--blue-50); color: var(--blue-500); display: flex; align-items: center; justify-content: center; font-weight: 700; }
 
   td.cell-question { color: var(--grey-900); max-width: 480px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  td.cell-qtitle { cursor: pointer; }
+  td.cell-qtitle:hover { color: var(--blue-600); text-decoration: underline; }
 
   /* 레벨 뱃지 */
   .badge-lv-beg { background: var(--blue-50); color: var(--blue-600); }
@@ -51,11 +53,6 @@
   .k-dialogcont{ background: #ecfeff; color: #0891b2; }
   .k-data      { background: #f0fdfa; color: #0d9488; }
   .k-opinion   { background: #fdf4ff; color: #c026d3; }
-
-  /* 태그 (유형별 분류축 값) */
-  .topic-chips { display: flex; flex-wrap: wrap; gap: 4px; }
-  .topic-chip { display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 600; background: var(--grey-100); color: var(--grey-700); border: 1px solid transparent; white-space: nowrap; }
-  .topic-chip::before { content: '#'; opacity: 0.5; margin-right: 1px; font-weight: 700; }
 
   /* 유형 필터 칩 (필터바 내부) */
   .area-filter-list { display: flex; flex-wrap: wrap; gap: 6px; }
@@ -131,11 +128,11 @@
 <div class="page">
 
   <div class="page-head">
-    <div class="page-title">문제 은행 <span class="star-btn" title="즐겨찾기">☆</span></div>
+    <div class="page-title"><span data-i18n="pageHeading">문제 은행</span> <span class="star-btn" title="즐겨찾기">☆</span></div>
     <div class="page-actions">
       <a href="question-create.html" class="btn btn-primary">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-        등록
+        <span data-i18n="btnRegister">등록</span>
       </a>
     </div>
   </div>
@@ -145,7 +142,7 @@
     <!-- 좌: 분류 트리 (기존 터치클래스 문제은행과 동일) -->
     <aside class="tree-card">
       <div class="tree-head">
-        <div class="tree-title">분류</div>
+        <div class="tree-title" data-i18n="treeTitle">분류</div>
         <button class="tree-cog" id="catManageBtn" title="분류 관리"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>
       </div>
       <div class="tree-list" id="cat-tree"><!-- JS --></div>
@@ -155,28 +152,28 @@
     <div class="card">
       <!-- 레벨: 좌측 트리 대신 상단 세그먼트로 이동 -->
       <div class="qb-level-bar">
-        <span class="lbl">레벨</span>
+        <span class="lbl" data-i18n="lblLevel">레벨</span>
         <div class="seg" id="levelSeg">
-          <button data-level="all" class="active">전체</button>
-          <button data-level="beginner">초급</button>
-          <button data-level="mid">중상급</button>
+          <button data-level="all" class="active" data-i18n="segAll">전체</button>
+          <button data-level="beginner" data-i18n="segBeg">초급</button>
+          <button data-level="mid" data-i18n="segMid">중상급</button>
         </div>
       </div>
       <div class="filter-bar" style="flex-direction: column; align-items: stretch; gap: 10px;">
         <div style="display:flex; align-items:center; gap:12px;">
           <div class="filter-input" style="flex:1;">
             <span class="plus">+</span>
-            <span>필터 추가 (레벨, 등록일, 사용 시험 ...)</span>
+            <span data-i18n="filterAdd">필터 추가 (레벨, 등록일, 사용 시험 ...)</span>
           </div>
           <button class="tool-btn" style="width:32px;height:32px;padding:0;justify-content:center;">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
           </button>
         </div>
         <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
-          <span style="font-size:11px; font-weight:800; color:var(--grey-700); margin-right:4px;">유형 <span id="typeScopeLabel" style="font-weight:600; color:var(--grey-400);">전체 레벨</span></span>
+          <span style="font-size:11px; font-weight:800; color:var(--grey-700); margin-right:4px;"><span data-i18n="lblType">유형</span> <span id="typeScopeLabel" style="font-weight:600; color:var(--grey-400);">전체 레벨</span></span>
           <div class="area-filter-list" id="typeFilterList" style="flex:1;"><!-- JS --></div>
           <span class="area-filter-summary" id="areaSummary"><strong>0</strong>개 선택됨</span>
-          <button class="area-filter-reset" id="areaReset">초기화</button>
+          <button class="area-filter-reset" id="areaReset" data-i18n="areaReset">초기화</button>
         </div>
       </div>
 
@@ -185,7 +182,7 @@
         <div class="tool-group">
           <button class="tool-btn">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-            다운로드
+            <span data-i18n="btnDownload">다운로드</span>
           </button>
           <button class="tool-btn" title="컬럼 설정"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></button>
         </div>
@@ -196,13 +193,12 @@
         <thead>
           <tr>
             <th style="width:48px;"><input type="checkbox"></th>
-            <th style="width:120px;">분류</th>
-            <th style="width:76px;">레벨</th>
-            <th style="min-width:150px;">문제 유형</th>
-            <th>질문</th>
-            <th style="min-width:150px;">태그</th>
-            <th style="width:110px;">등록일 <span class="sort">▾</span></th>
-            <th style="width:90px; text-align:right;">관리</th>
+            <th style="width:120px;" data-i18n="thCat">분류</th>
+            <th style="width:76px;" data-i18n="thLevel">레벨</th>
+            <th style="min-width:150px;" data-i18n="thType">문제 유형</th>
+            <th data-i18n="thQuestion">문제</th>
+            <th style="width:110px;"><span data-i18n="thDate">등록일</span> <span class="sort">▾</span></th>
+            <th style="width:90px; text-align:right;" data-i18n="thManage">관리</th>
           </tr>
         </thead>
         <tbody id="qb-body"><!-- JS --></tbody>
@@ -231,17 +227,17 @@
   <div class="cm-card cm-manage">
     <div class="cm-head">
       <div class="cm-titles">
-        <h3>분류 관리</h3>
-        <p>드래그 앤 드롭하여 순서를 변경할 수 있습니다.</p>
+        <h3 data-i18n="cmManageTitle">분류 관리</h3>
+        <p data-i18n="cmManageDesc">드래그 앤 드롭하여 순서를 변경할 수 있습니다.</p>
       </div>
       <button class="cm-x" id="cmManageClose" title="닫기"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
     </div>
     <div class="cm-toolbar">
       <div class="cm-search">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        <input type="text" id="cmSearch" placeholder="분류 검색">
+        <input type="text" id="cmSearch" placeholder="분류 검색" data-i18n-ph="cmSearchPh">
       </div>
-      <button class="cm-new-btn" id="cmNewBtn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> 새 분류</button>
+      <button class="cm-new-btn" id="cmNewBtn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> <span data-i18n="cmNewBtn">새 분류</span></button>
     </div>
     <div class="cm-list" id="cmList"><!-- JS --></div>
   </div>
@@ -251,43 +247,101 @@
 <div class="cm-overlay" id="catCreateOverlay">
   <div class="cm-card cm-create">
     <div class="cm-head">
-      <div class="cm-titles"><h3>새 분류 등록</h3></div>
+      <div class="cm-titles"><h3 data-i18n="cmCreateTitle">새 분류 등록</h3></div>
       <button class="cm-x" id="cmCreateClose" title="닫기"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
     </div>
     <div class="cm-body">
       <div class="cm-fields">
-        <input class="cm-inp" type="text" id="cmName" placeholder="분류명" maxlength="40">
-        <input class="cm-inp" type="text" id="cmDesc" placeholder="설명" maxlength="80">
+        <input class="cm-inp" type="text" id="cmName" placeholder="분류명" maxlength="40" data-i18n-ph="cmNamePh">
+        <input class="cm-inp" type="text" id="cmDesc" placeholder="설명" maxlength="80" data-i18n-ph="cmDescPh">
       </div>
     </div>
     <div class="cm-foot">
       <button class="cm-submit" id="cmSubmit" disabled>
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-        등록
+        <span data-i18n="btnSubmit">등록</span>
       </button>
     </div>
   </div>
 </div>
 
+<script>window.PAGE_I18N = {
+  ko: {
+    docTitle: 'MaroPass Admin — 문제 은행',
+    pageHeading: '문제 은행',
+    btnRegister: '등록',
+    treeTitle: '분류',
+    lblLevel: '레벨',
+    segAll: '전체',
+    segBeg: '초급',
+    segMid: '중상급',
+    filterAdd: '필터 추가 (레벨, 등록일, 사용 시험 ...)',
+    lblType: '유형',
+    areaReset: '초기화',
+    btnDownload: '다운로드',
+    thCat: '분류',
+    thLevel: '레벨',
+    thType: '문제 유형',
+    thQuestion: '문제',
+    thDate: '등록일',
+    thManage: '관리',
+    cmManageTitle: '분류 관리',
+    cmManageDesc: '드래그 앤 드롭하여 순서를 변경할 수 있습니다.',
+    cmSearchPh: '분류 검색',
+    cmNewBtn: '새 분류',
+    cmCreateTitle: '새 분류 등록',
+    cmNamePh: '분류명',
+    cmDescPh: '설명',
+    btnSubmit: '등록',
+  },
+  ja: {
+    docTitle: 'MaroPass Admin — 問題バンク',
+    pageHeading: '問題バンク',
+    btnRegister: '登録',
+    treeTitle: '分類',
+    lblLevel: 'レベル',
+    segAll: 'すべて',
+    segBeg: '初級',
+    segMid: '中上級',
+    filterAdd: 'フィルタ追加 (レベル、登録日、使用試験 ...)',
+    lblType: 'タイプ',
+    areaReset: 'リセット',
+    btnDownload: 'ダウンロード',
+    thCat: '分類',
+    thLevel: 'レベル',
+    thType: '問題タイプ',
+    thQuestion: '問題',
+    thDate: '登録日',
+    thManage: '管理',
+    cmManageTitle: '分類管理',
+    cmManageDesc: 'ドラッグ＆ドロップで並び順を変更できます。',
+    cmSearchPh: '分類を検索',
+    cmNewBtn: '新しい分類',
+    cmCreateTitle: '新しい分類の登録',
+    cmNamePh: '分類名',
+    cmDescPh: '説明',
+    btnSubmit: '登録',
+  },
+};</script>
 <script src="assets/admin-shell.js"></script>
 <script>
 // ─── 문제 은행 SSOT — 문제 만들기(question-create.html)의 LEVELS 모델과 정렬 ───
 // 레벨(초급 유형5 / 중상급 유형9) → 유형 → 유형별 분류축. "영역"→"유형" 용어 통일.
 const LEVELS = {
-  beginner: { label:'초급', badgeCls:'badge-lv-beg', short:'초', total:238 },
-  mid:      { label:'중상급', badgeCls:'badge-lv-mid', short:'중', total:174 },
+  beginner: { label:'초급', labelJa:'初級', badgeCls:'badge-lv-beg', short:'초', shortJa:'初', total:238 },
+  mid:      { label:'중상급', labelJa:'中上級', badgeCls:'badge-lv-mid', short:'중', shortJa:'中', total:174 },
 };
 
 // ─── 분류(카테고리) — 기존 터치클래스 문제은행의 좌측 분류 트리와 동일 개념 ───
 // 사용자가 자유롭게 만드는 폴더형 분류. 레벨과 별개의 교차 축.
 const CATEGORIES = {
-  reg1: { label:'정기시험 1회',   total:96, fav:true, desc:'상반기 정기 평가 출제 문항' },
-  reg2: { label:'정기시험 2회',   total:88, desc:'하반기 정기 평가 출제 문항' },
-  mock: { label:'모의고사',       total:74, desc:'실전 대비 모의 문항' },
-  pron: { label:'발음·읽기 연습', total:52, desc:'발음·낭독 훈련용' },
-  conv: { label:'회화·역할극',    total:61, desc:'상황별 역할 수행 과제' },
-  prag: { label:'화용 과제',      total:33, desc:'의뢰·거절 등 화행 과제' },
-  none: { label:'미분류',         total:8,  desc:'' },
+  reg1: { label:'정기시험 1회',   labelJa:'定期試験 第1回', total:96, fav:true, desc:'상반기 정기 평가 출제 문항', descJa:'上半期定期評価の出題問題' },
+  reg2: { label:'정기시험 2회',   labelJa:'定期試験 第2回', total:88, desc:'하반기 정기 평가 출제 문항', descJa:'下半期定期評価の出題問題' },
+  mock: { label:'모의고사',       labelJa:'模擬試験', total:74, desc:'실전 대비 모의 문항', descJa:'実戦対策の模擬問題' },
+  pron: { label:'발음·읽기 연습', labelJa:'発音・読み練習', total:52, desc:'발음·낭독 훈련용', descJa:'発音・朗読トレーニング用' },
+  conv: { label:'회화·역할극',    labelJa:'会話・ロールプレイ', total:61, desc:'상황별 역할 수행 과제', descJa:'状況別ロールプレイ課題' },
+  prag: { label:'화용 과제',      labelJa:'語用課題', total:33, desc:'의뢰·거절 등 화행 과제', descJa:'依頼・拒否など発話行為課題' },
+  none: { label:'미분류',         labelJa:'未分類', total:8,  desc:'', descJa:'' },
 };
 // 분류 표시 순서 (드래그로 재정렬)
 let CAT_ORDER = Object.keys(CATEGORIES);
@@ -296,21 +350,21 @@ let catSeq = 0; // 신규 분류 키 생성용
 // 유형 카탈로그 (create의 types와 동일 키/라벨/kind/분류축)
 const TYPES = [
   // 초급 5
-  { key:'read',      level:'beginner', badge:'① 짧은 문장 읽기',   kind:'read',      axis:'문장 유형·음운' },
-  { key:'qa',        level:'beginner', badge:'② 질문 대답',        kind:'qa',        axis:'질문 기능' },
-  { key:'dialog',    level:'beginner', badge:'③ 생활 속 대화',     kind:'dialog',    axis:'장소·상황' },
-  { key:'describe',  level:'beginner', badge:'④ 그림/사진 설명',   kind:'describe',  axis:'묘사 대상' },
-  { key:'pragmatic', level:'beginner', badge:'⑤ 화용 과제',        kind:'pragmatic', axis:'화행' },
+  { key:'read',      level:'beginner', badge:'① 짧은 문장 읽기',   badgeJa:'① 短い文の音読',   kind:'read',      axis:'문장 유형·음운' },
+  { key:'qa',        level:'beginner', badge:'② 질문 대답',        badgeJa:'② 質問応答',        kind:'qa',        axis:'질문 기능' },
+  { key:'dialog',    level:'beginner', badge:'③ 생활 속 대화',     badgeJa:'③ 日常会話',     kind:'dialog',    axis:'장소·상황' },
+  { key:'describe',  level:'beginner', badge:'④ 그림/사진 설명',   badgeJa:'④ 絵・写真の説明',   kind:'describe',  axis:'묘사 대상' },
+  { key:'pragmatic', level:'beginner', badge:'⑤ 화용 과제',        badgeJa:'⑤ 語用課題',        kind:'pragmatic', axis:'화행' },
   // 중상급 9
-  { key:'m-read',    level:'mid', badge:'① 어휘 발음 구별',       kind:'read',       axis:'문장 유형·음운' },
-  { key:'m-qa',      level:'mid', badge:'② 자신에 대해 말하기',   kind:'qa',         axis:'주제' },
-  { key:'m-role',    level:'mid', badge:'③-1 역할 수행',          kind:'dialog',     axis:'장소·상황' },
-  { key:'m-desc',    level:'mid', badge:'③-2 그림 설명',          kind:'describe',   axis:'그림 주제' },
-  { key:'m-seq',     level:'mid', badge:'③-3 상황 설명(순서)',    kind:'describe',   axis:'상황 순서' },
-  { key:'m-act',     level:'mid', badge:'④ 화용 능력',            kind:'dialogcont', axis:'화행' },
-  { key:'m-data',    level:'mid', badge:'⑤-1 자료 해석',          kind:'data',       axis:'자료 주제' },
-  { key:'m-opdialog',level:'mid', badge:'⑤-2 대화 듣고 의견',     kind:'dialogcont', axis:'논제' },
-  { key:'m-present', level:'mid', badge:'⑥ 의견 프레젠테이션',    kind:'opinion',    axis:'논제' },
+  { key:'m-read',    level:'mid', badge:'① 어휘 발음 구별',       badgeJa:'① 語彙の発音区別',       kind:'read',       axis:'문장 유형·음운' },
+  { key:'m-qa',      level:'mid', badge:'② 자신에 대해 말하기',   badgeJa:'② 自分について話す',   kind:'qa',         axis:'주제' },
+  { key:'m-role',    level:'mid', badge:'③-1 역할 수행',          badgeJa:'③-1 ロールプレイ',          kind:'dialog',     axis:'장소·상황' },
+  { key:'m-desc',    level:'mid', badge:'③-2 그림 설명',          badgeJa:'③-2 絵の説明',          kind:'describe',   axis:'그림 주제' },
+  { key:'m-seq',     level:'mid', badge:'③-3 상황 설명(순서)',    badgeJa:'③-3 状況説明(順序)',    kind:'describe',   axis:'상황 순서' },
+  { key:'m-act',     level:'mid', badge:'④ 화용 능력',            badgeJa:'④ 語用能力',            kind:'dialogcont', axis:'화행' },
+  { key:'m-data',    level:'mid', badge:'⑤-1 자료 해석',          badgeJa:'⑤-1 資料の解釈',          kind:'data',       axis:'자료 주제' },
+  { key:'m-opdialog',level:'mid', badge:'⑤-2 대화 듣고 의견',     badgeJa:'⑤-2 会話を聞いて意見',     kind:'dialogcont', axis:'논제' },
+  { key:'m-present', level:'mid', badge:'⑥ 의견 프레젠테이션',    badgeJa:'⑥ 意見プレゼンテーション',    kind:'opinion',    axis:'논제' },
 ];
 const TYPE_MAP = Object.fromEntries(TYPES.map(t => [t.key, t]));
 
@@ -334,6 +388,19 @@ const QUESTIONS = [
   { id:'Q-0953', type:'m-opdialog',cat:'prag', q:'공공장소 예절에 대한 대화를 듣고 자신의 의견을 제시해 보세요.',      tags:['공공 예절'],            date:'2026-03-22' },
   { id:'Q-0947', type:'m-present', cat:'reg2', q:'여자 대학의 남녀공학 전환에 대한 의견을 근거를 들어 발표해 보세요.',  tags:['사회','교육'],          date:'2026-03-19' },
 ];
+
+// ─── 로케일 헬퍼 ───
+function LOC() { return (window.adminLocale ? window.adminLocale() : document.documentElement.lang) === 'ja' ? 'ja' : 'ko'; }
+const TT = {
+  ko: { all:'전체', allLevels:'전체 레벨', typeSep:' · 유형 ', typeUnit:'종', selected:'개 선택됨', total:'총', filterResult:'필터 결과', cases:'건', uncat:'미분류', noResult:'검색 결과가 없습니다.', edit:'편집', del:'삭제', delTitle:'분류를 삭제할까요?', delConfirm:'삭제', delToast:'분류를 삭제했습니다.', createToast:'새 분류를 등록했습니다.' },
+  ja: { all:'すべて', allLevels:'すべてのレベル', typeSep:' ・タイプ ', typeUnit:'種', selected:'件選択', total:'合計', filterResult:'フィルタ結果', cases:'件', uncat:'未分類', noResult:'検索結果がありません。', edit:'編集', del:'削除', delTitle:'分類を削除しますか？', delConfirm:'削除', delToast:'分類を削除しました。', createToast:'新しい分類を登録しました。' },
+};
+function tt(k) { return TT[LOC()][k]; }
+function lvLabel(k) { return LOC() === 'ja' ? LEVELS[k].labelJa : LEVELS[k].label; }
+function lvShort(k) { return LOC() === 'ja' ? LEVELS[k].shortJa : LEVELS[k].short; }
+function tyBadge(t) { return LOC() === 'ja' && t.badgeJa ? t.badgeJa : t.badge; }
+function catLabel(c) { return LOC() === 'ja' && c.labelJa ? c.labelJa : c.label; }
+function catDesc(c) { return (LOC() === 'ja' && c.descJa ? c.descJa : c.desc) || ''; }
 
 // ─── 상태 ───
 const state = { category: 'all', level: 'all', types: new Set() };
@@ -365,7 +432,7 @@ function renderCatTree() {
     const active = state.category === key ? ' active' : '';
     const pin = cfg && cfg.fav ? '<span class="pin" title="즐겨찾기">📌</span>' : '';
     const cnt = key === 'all' ? TOTAL_ALL : cfg.total;
-    return `<div class="tree-item${active}" data-cat="${key}">${pin}<span class="cat-name">${key === 'all' ? '전체' : cfg.label}</span><span class="count">${cnt}</span></div>`;
+    return `<div class="tree-item${active}" data-cat="${key}">${pin}<span class="cat-name">${key === 'all' ? tt('all') : catLabel(cfg)}</span><span class="count">${cnt}</span></div>`;
   };
   $tree.innerHTML =
     item('all') +
@@ -393,22 +460,22 @@ function initLevelSeg() {
 
 // ─── 유형 필터 칩 (레벨 스코프) ───
 function renderTypeFilter() {
-  $typeScope.textContent = state.level === 'all' ? '전체 레벨' : LEVELS[state.level].label + ' · 유형 ' + typesForScope().length + '종';
+  $typeScope.textContent = state.level === 'all' ? tt('allLevels') : lvLabel(state.level) + tt('typeSep') + typesForScope().length + tt('typeUnit');
   $typeList.innerHTML = '';
   typesForScope().forEach(t => {
     const n = QUESTIONS.filter(q => q.type === t.key).length;
-    const lvTag = state.level === 'all' ? `<span class="lv">${LEVELS[t.level].short}</span>` : '';
+    const lvTag = state.level === 'all' ? `<span class="lv">${lvShort(t.level)}</span>` : '';
     const btn = document.createElement('button');
     btn.className = 'area-filter-chip' + (state.types.has(t.key) ? ' active' : '');
     btn.dataset.type = t.key;
-    btn.innerHTML = `${lvTag}${t.badge} <span class="count">${n}</span>`;
+    btn.innerHTML = `${lvTag}${tyBadge(t)} <span class="count">${n}</span>`;
     btn.addEventListener('click', () => {
       state.types.has(t.key) ? state.types.delete(t.key) : state.types.add(t.key);
       renderTypeFilter(); renderTable();
     });
     $typeList.appendChild(btn);
   });
-  $summary.innerHTML = `<strong>${state.types.size}</strong>개 선택됨`;
+  $summary.innerHTML = `<strong>${state.types.size}</strong>${tt('selected')}`;
 }
 
 // ─── 테이블 ───
@@ -418,26 +485,24 @@ function renderTable() {
     const t = TYPE_MAP[q.type];
     const lv = LEVELS[t.level];
     const cat = CATEGORIES[q.cat];
-    const tags = q.tags.map(tag => `<span class="topic-chip">${tag}</span>`).join('');
     return `<tr>
       <td><input type="checkbox"></td>
-      <td class="cell-question" title="${cat ? cat.label : '미분류'}">${cat ? cat.label : '미분류'}</td>
-      <td><span class="badge ${lv.badgeCls}">${lv.label}</span></td>
-      <td><span class="badge badge-k k-${t.kind}">${t.badge}</span></td>
-      <td class="cell-question" title="${q.q}">${q.q}</td>
-      <td><div class="topic-chips">${tags}</div></td>
+      <td class="cell-question" title="${cat ? catLabel(cat) : tt('uncat')}">${cat ? catLabel(cat) : tt('uncat')}</td>
+      <td><span class="badge ${lv.badgeCls}">${lvLabel(t.level)}</span></td>
+      <td><span class="badge badge-k k-${t.kind}">${tyBadge(t)}</span></td>
+      <td class="cell-question cell-qtitle" title="${q.q}" onclick="location.href='question-edit.html?id=${q.id}'">${q.q}</td>
       <td class="cell-mono">${q.date}</td>
       <td class="cell-actions">
-        <a href="question-edit.html" class="row-action" title="편집"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></a>
-        <button class="row-action del" title="삭제"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg></button>
+        <a href="question-edit.html" class="row-action" title="${tt('edit')}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></a>
+        <button class="row-action del" title="${tt('del')}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg></button>
       </td>
     </tr>`;
   }).join('');
 
   const narrowed = state.category !== 'all' || state.level !== 'all' || state.types.size > 0;
   $total.innerHTML = narrowed
-    ? `필터 결과 <strong>${rows.length}</strong>건 / ${TOTAL_ALL}`
-    : `총 <strong>${TOTAL_ALL}</strong>`;
+    ? `${tt('filterResult')} <strong>${rows.length}</strong>${tt('cases')} / ${TOTAL_ALL}`
+    : `${tt('total')} <strong>${TOTAL_ALL}</strong>`;
 }
 
 document.getElementById('areaReset').addEventListener('click', () => {
@@ -466,17 +531,17 @@ function renderManageList() {
   const kw = ($cmSearch.value || '').trim().toLowerCase();
   const keys = CAT_ORDER.filter(k => {
     const c = CATEGORIES[k];
-    return !kw || c.label.toLowerCase().includes(kw) || (c.desc || '').toLowerCase().includes(kw);
+    return !kw || catLabel(c).toLowerCase().includes(kw) || catDesc(c).toLowerCase().includes(kw);
   });
-  if (!keys.length) { $cmList.innerHTML = '<div class="cm-empty">검색 결과가 없습니다.</div>'; return; }
+  if (!keys.length) { $cmList.innerHTML = `<div class="cm-empty">${tt('noResult')}</div>`; return; }
   const canDrag = !kw; // 검색 중에는 재정렬 비활성
   $cmList.innerHTML = keys.map(k => {
     const c = CATEGORIES[k];
     const pin = c.fav ? '<span class="pin" title="즐겨찾기">📌</span>' : '';
     return `<div class="cm-row" data-key="${k}" ${canDrag ? 'draggable="true"' : ''}>
       <span class="cm-grip"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="6" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="18" r="1"/><circle cx="15" cy="6" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="18" r="1"/></svg></span>
-      <span class="cm-name">${pin}${c.label}</span>
-      <span class="cm-desc">${c.desc || ''}</span>
+      <span class="cm-name">${pin}${catLabel(c)}</span>
+      <span class="cm-desc">${catDesc(c)}</span>
       <button class="cm-del" data-del="${k}" title="삭제"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg></button>
     </div>`;
   }).join('');
@@ -500,18 +565,21 @@ function renderManageList() {
   $cmList.querySelectorAll('.cm-del').forEach(btn => {
     btn.addEventListener('click', () => {
       const k = btn.dataset.del, c = CATEGORIES[k];
+      const nm = catLabel(c);
       window.confirmAction({
-        title: '분류를 삭제할까요?', danger: true,
-        desc: `"${c.label}" 분류를 삭제합니다. 소속 문항은 미분류로 이동합니다.`,
-        confirmText: '삭제',
+        title: tt('delTitle'), danger: true,
+        desc: LOC() === 'ja'
+          ? `「${nm}」分類を削除します。所属の問題は未分類に移動します。`
+          : `"${nm}" 분류를 삭제합니다. 소속 문항은 미분류로 이동합니다.`,
+        confirmText: tt('delConfirm'),
         onConfirm: () => {
           QUESTIONS.forEach(q => { if (q.cat === k) q.cat = 'none'; });
-          if (!CATEGORIES.none) { CATEGORIES.none = { label:'미분류', total:0, desc:'' }; if (!CAT_ORDER.includes('none')) CAT_ORDER.push('none'); }
+          if (!CATEGORIES.none) { CATEGORIES.none = { label:'미분류', labelJa:'未分類', total:0, desc:'', descJa:'' }; if (!CAT_ORDER.includes('none')) CAT_ORDER.push('none'); }
           delete CATEGORIES[k];
           CAT_ORDER = CAT_ORDER.filter(x => x !== k);
           if (state.category === k) state.category = 'all';
           renderManageList(); renderCatTree(); renderTable();
-          window.toast('분류를 삭제했습니다.');
+          window.toast(tt('delToast'));
         }
       });
     });
@@ -526,7 +594,7 @@ function submitCreate() {
   CATEGORIES[key] = { label: name, total: 0, desc: $cmDesc.value.trim() };
   CAT_ORDER.push(key);
   closeCreate(); renderManageList(); renderCatTree();
-  window.toast('새 분류를 등록했습니다.');
+  window.toast(tt('createToast'));
 }
 
 document.getElementById('catManageBtn').addEventListener('click', openManage);
@@ -544,6 +612,14 @@ document.addEventListener('keydown', e => {
   if ($createOv.classList.contains('open')) closeCreate();
   else if ($manageOv.classList.contains('open')) closeManage();
 });
+
+// 로케일 전환 시 JS 렌더 부분 재생성 (admin-shell가 로드 시 1회 + 토글 시 호출)
+window.onLocaleChange = function () {
+  renderCatTree();
+  renderTypeFilter();
+  renderTable();
+  if ($manageOv.classList.contains('open')) renderManageList();
+};
 
 // 초기화
 renderCatTree();

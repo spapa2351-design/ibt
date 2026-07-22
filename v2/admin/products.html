@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MaroPass Admin — 상품 관리</title>
+<title data-i18n="title">MaroPass Admin — 상품 관리</title>
 <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
 <link rel="stylesheet" href="assets/admin.css">
 <style>
@@ -29,11 +29,11 @@
 <div class="page">
   <div class="page-head">
     <div>
-      <h1 class="page-title">상품 관리</h1>
-      <div class="page-sub">시험 = 판매 상품. 가격·판매기간·할인·매출을 운영합니다 (콘텐츠 편집은 시험 관리에서)</div>
+      <h1 class="page-title" data-i18n="page_title">상품 관리</h1>
+      <div class="page-sub" data-i18n="page_sub">시험 = 판매 상품. 가격·판매기간·할인·매출을 운영합니다 (콘텐츠 편집은 시험 관리에서)</div>
     </div>
     <div class="page-actions">
-      <a class="btn btn-primary" href="product-create.html">+ 상품 등록</a>
+      <a class="btn btn-primary" href="product-create.html" data-i18n="btn_create">+ 상품 등록</a>
     </div>
   </div>
 
@@ -41,45 +41,45 @@
   <div class="kpi-row" style="grid-template-columns:repeat(2,minmax(0,300px));">
     <div class="kpi-card">
       <div class="kpi-top">
-        <span class="kpi-label">판매중 상품</span>
+        <span class="kpi-label" data-i18n="kpi_open_label">판매중 상품</span>
         <span class="kpi-ic green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg></span>
       </div>
       <div class="kpi-value">4<span class="kpi-unit">/ 6</span></div>
-      <div class="kpi-trend"><span class="muted">일시중지 1 · 종료 1</span></div>
+      <div class="kpi-trend"><span class="muted" data-i18n="kpi_open_trend">일시중지 1 · 종료 1</span></div>
     </div>
     <div class="kpi-card">
       <div class="kpi-top">
-        <span class="kpi-label">할인 진행중</span>
+        <span class="kpi-label" data-i18n="kpi_disc_label">할인 진행중</span>
         <span class="kpi-ic warn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="5" x2="5" y2="19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg></span>
       </div>
-      <div class="kpi-value">1<span class="kpi-unit">개 상품</span></div>
-      <div class="kpi-trend"><span class="muted">오픈 기념 15% 할인</span></div>
+      <div class="kpi-value">1<span class="kpi-unit" data-i18n="kpi_disc_unit">개 상품</span></div>
+      <div class="kpi-trend"><span class="muted" data-i18n="kpi_disc_trend">오픈 기념 15% 할인</span></div>
     </div>
   </div>
 
   <div class="card">
     <div class="filter-bar">
       <div class="seg" id="statusFilter">
-        <button class="active" data-status="all">전체 6</button>
-        <button data-status="open">판매중 4</button>
-        <button data-status="inactive">일시중지 1</button>
-        <button data-status="closed">종료 1</button>
+        <button class="active" data-status="all" data-i18n="f_all">전체 6</button>
+        <button data-status="open" data-i18n="f_open">판매중 4</button>
+        <button data-status="inactive" data-i18n="f_inactive">일시중지 1</button>
+        <button data-status="closed" data-i18n="f_closed">종료 1</button>
       </div>
       <div class="filter-input">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        <input type="text" placeholder="상품명 검색">
+        <input type="text" placeholder="상품명 검색" data-i18n-ph="search_ph">
       </div>
     </div>
 
     <div class="table-tools">
       <div class="seg plan-seg" id="planFilter">
-        <button class="active" data-plan="all">전체 플랜</button>
-        <button data-plan="basic">베이직</button>
-        <button data-plan="premium">프리미엄</button>
+        <button class="active" data-plan="all" data-i18n="plan_all">전체 플랜</button>
+        <button data-plan="basic" data-i18n="plan_basic">베이직</button>
+        <button data-plan="premium" data-i18n="plan_premium">프리미엄</button>
       </div>
       <div class="tool-group">
-        <button class="tool-btn">레벨 ▾</button>
-        <button class="tool-btn">정렬: 등록순 ▾</button>
+        <button class="tool-btn" data-i18n="tool_level">레벨 ▾</button>
+        <button class="tool-btn" data-i18n="tool_sort">정렬: 등록순 ▾</button>
       </div>
     </div>
 
@@ -87,116 +87,116 @@
       <table>
         <thead>
           <tr>
-            <th>판매 상태</th>
-            <th>상품 (시험)</th>
-            <th>플랜</th>
-            <th>가격</th>
-            <th>할인</th>
-            <th>판매 기간</th>
-            <th style="text-align:right">관리</th>
+            <th data-i18n="th_status">판매 상태</th>
+            <th data-i18n="th_product">상품 (시험)</th>
+            <th data-i18n="th_plan">플랜</th>
+            <th data-i18n="th_price">가격</th>
+            <th data-i18n="th_disc">할인</th>
+            <th data-i18n="th_period">판매 기간</th>
+            <th style="text-align:right" data-i18n="th_manage">관리</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td><span class="badge badge-open">판매중</span></td>
+            <td><span class="badge badge-open" data-i18n="st_open">판매중</span></td>
             <td>
               <div class="prod-cell">
                 <span class="p-name">TOPIK 모의고사 · 중상급 (3~6급)</span>
                 <span class="p-meta">중상급 · 104문항 · 180분</span>
               </div>
             </td>
-            <td><span class="plan-badge plan-premium">프리미엄</span></td>
+            <td><span class="plan-badge plan-premium" data-i18n="plan_premium">프리미엄</span></td>
             <td class="cell-amount">¥6,600</td>
             <td><span class="disc disc-none">—</span></td>
-            <td class="cell-mono">상시</td>
+            <td class="cell-mono" data-i18n="val_always">상시</td>
             <td class="cell-actions">
-              <a class="tool-btn" href="test-manage.html">상세</a>
-              <button class="btn btn-danger" style="padding:6px 12px;font-size:12px">일시중지</button>
+              <a class="tool-btn" href="test-manage.html" data-i18n="act_detail">상세</a>
+              <button class="btn btn-danger" style="padding:6px 12px;font-size:12px" data-i18n="act_pause">일시중지</button>
             </td>
           </tr>
           <tr>
-            <td><span class="badge badge-open">판매중</span></td>
+            <td><span class="badge badge-open" data-i18n="st_open">판매중</span></td>
             <td>
               <div class="prod-cell">
                 <span class="p-name">TOPIK 모의고사 · 초급 (1·2급)</span>
                 <span class="p-meta">초급 · 70문항 · 100분</span>
               </div>
             </td>
-            <td><span class="plan-badge plan-basic">베이직</span></td>
+            <td><span class="plan-badge plan-basic" data-i18n="plan_basic">베이직</span></td>
             <td class="cell-amount"><span class="price-was">¥5,830</span>¥4,950</td>
-            <td><span class="disc">오픈 15%↓</span></td>
-            <td class="cell-mono">상시</td>
+            <td><span class="disc" data-i18n="disc_open">오픈 15%↓</span></td>
+            <td class="cell-mono" data-i18n="val_always">상시</td>
             <td class="cell-actions">
-              <a class="tool-btn" href="test-manage.html">상세</a>
-              <button class="btn btn-danger" style="padding:6px 12px;font-size:12px">일시중지</button>
+              <a class="tool-btn" href="test-manage.html" data-i18n="act_detail">상세</a>
+              <button class="btn btn-danger" style="padding:6px 12px;font-size:12px" data-i18n="act_pause">일시중지</button>
             </td>
           </tr>
           <tr>
-            <td><span class="badge badge-open">판매중</span></td>
+            <td><span class="badge badge-open" data-i18n="st_open">판매중</span></td>
             <td>
               <div class="prod-cell">
                 <span class="p-name">비즈니스 한국어 진단평가</span>
                 <span class="p-meta">중상급 · 60문항 · 90분</span>
               </div>
             </td>
-            <td><span class="plan-badge plan-premium">프리미엄</span></td>
+            <td><span class="plan-badge plan-premium" data-i18n="plan_premium">프리미엄</span></td>
             <td class="cell-amount">¥5,500</td>
             <td><span class="disc disc-none">—</span></td>
             <td class="cell-mono">~2026-08-31</td>
             <td class="cell-actions">
-              <a class="tool-btn" href="test-manage.html">상세</a>
-              <button class="btn btn-danger" style="padding:6px 12px;font-size:12px">일시중지</button>
+              <a class="tool-btn" href="test-manage.html" data-i18n="act_detail">상세</a>
+              <button class="btn btn-danger" style="padding:6px 12px;font-size:12px" data-i18n="act_pause">일시중지</button>
             </td>
           </tr>
           <tr>
-            <td><span class="badge badge-open">판매중</span></td>
+            <td><span class="badge badge-open" data-i18n="st_open">판매중</span></td>
             <td>
               <div class="prod-cell">
                 <span class="p-name">TOPIK 모의고사 · 초급 (2026 개정판)</span>
                 <span class="p-meta">초급 · 70문항 · 100분</span>
               </div>
             </td>
-            <td><span class="plan-badge plan-basic">베이직</span></td>
+            <td><span class="plan-badge plan-basic" data-i18n="plan_basic">베이직</span></td>
             <td class="cell-amount">¥4,950</td>
             <td><span class="disc disc-none">—</span></td>
-            <td class="cell-mono">상시</td>
+            <td class="cell-mono" data-i18n="val_always">상시</td>
             <td class="cell-actions">
-              <a class="tool-btn" href="test-manage.html">상세</a>
-              <button class="btn btn-danger" style="padding:6px 12px;font-size:12px">일시중지</button>
+              <a class="tool-btn" href="test-manage.html" data-i18n="act_detail">상세</a>
+              <button class="btn btn-danger" style="padding:6px 12px;font-size:12px" data-i18n="act_pause">일시중지</button>
             </td>
           </tr>
           <tr>
-            <td><span class="badge badge-inactive">일시중지</span></td>
+            <td><span class="badge badge-inactive" data-i18n="st_inactive">일시중지</span></td>
             <td>
               <div class="prod-cell">
                 <span class="p-name">발음·말하기 평가 (베타)</span>
                 <span class="p-meta">미분류 · 25문항 · 40분</span>
               </div>
             </td>
-            <td><span class="plan-badge plan-basic">베이직</span></td>
-            <td class="cell-amount muted">미설정</td>
+            <td><span class="plan-badge plan-basic" data-i18n="plan_basic">베이직</span></td>
+            <td class="cell-amount muted" data-i18n="val_unset">미설정</td>
             <td><span class="disc disc-none">—</span></td>
             <td class="cell-mono">—</td>
             <td class="cell-actions">
-              <a class="tool-btn" href="test-manage.html">상세</a>
-              <button class="btn btn-secondary" style="padding:6px 12px;font-size:12px">재개</button>
+              <a class="tool-btn" href="test-manage.html" data-i18n="act_detail">상세</a>
+              <button class="btn btn-secondary" style="padding:6px 12px;font-size:12px" data-i18n="act_resume">재개</button>
             </td>
           </tr>
           <tr>
-            <td><span class="badge badge-closed">종료</span></td>
+            <td><span class="badge badge-closed" data-i18n="st_closed">종료</span></td>
             <td>
               <div class="prod-cell">
                 <span class="p-name">TOPIK 모의고사 · 중상급 (2025)</span>
                 <span class="p-meta">중상급 · 104문항 · 180분</span>
               </div>
             </td>
-            <td><span class="plan-badge plan-premium">프리미엄</span></td>
+            <td><span class="plan-badge plan-premium" data-i18n="plan_premium">프리미엄</span></td>
             <td class="cell-amount">¥6,600</td>
             <td><span class="disc disc-none">—</span></td>
             <td class="cell-mono">~2026-04-30</td>
             <td class="cell-actions">
-              <a class="tool-btn" href="test-manage.html">상세</a>
-              <button class="btn btn-secondary" style="padding:6px 12px;font-size:12px">다시 판매</button>
+              <a class="tool-btn" href="test-manage.html" data-i18n="act_detail">상세</a>
+              <button class="btn btn-secondary" style="padding:6px 12px;font-size:12px" data-i18n="act_resell">다시 판매</button>
             </td>
           </tr>
         </tbody>
@@ -207,7 +207,7 @@
       <button class="pager-btn" disabled>‹</button>
       <button class="pager-btn active">1</button>
       <button class="pager-btn" disabled>›</button>
-      <div class="pager-rows">페이지당 <select><option>10</option><option>20</option><option>50</option></select></div>
+      <div class="pager-rows"><span data-i18n="pager_rows">페이지당</span> <select><option>10</option><option>20</option><option>50</option></select></div>
     </div>
   </div>
 </div>
@@ -238,6 +238,86 @@
     });
   })();
 </script>
+<script>window.PAGE_I18N={
+  ko:{
+    title:"MaroPass Admin — 상품 관리",
+    page_title:"상품 관리",
+    page_sub:"시험 = 판매 상품. 가격·판매기간·할인·매출을 운영합니다 (콘텐츠 편집은 시험 관리에서)",
+    btn_create:"+ 상품 등록",
+    kpi_open_label:"판매중 상품",
+    kpi_open_trend:"일시중지 1 · 종료 1",
+    kpi_disc_label:"할인 진행중",
+    kpi_disc_unit:"개 상품",
+    kpi_disc_trend:"오픈 기념 15% 할인",
+    f_all:"전체 6",
+    f_open:"판매중 4",
+    f_inactive:"일시중지 1",
+    f_closed:"종료 1",
+    search_ph:"상품명 검색",
+    plan_all:"전체 플랜",
+    plan_basic:"베이직",
+    plan_premium:"프리미엄",
+    tool_level:"레벨 ▾",
+    tool_sort:"정렬: 등록순 ▾",
+    th_status:"판매 상태",
+    th_product:"상품 (시험)",
+    th_plan:"플랜",
+    th_price:"가격",
+    th_disc:"할인",
+    th_period:"판매 기간",
+    th_manage:"관리",
+    st_open:"판매중",
+    st_inactive:"일시중지",
+    st_closed:"종료",
+    act_detail:"상세",
+    act_pause:"일시중지",
+    act_resume:"재개",
+    act_resell:"다시 판매",
+    val_always:"상시",
+    val_unset:"미설정",
+    disc_open:"오픈 15%↓",
+    pager_rows:"페이지당"
+  },
+  ja:{
+    title:"MaroPass Admin — 商品管理",
+    page_title:"商品管理",
+    page_sub:"試験 = 販売商品。価格・販売期間・割引・売上を運用します（コンテンツ編集は試験管理から）",
+    btn_create:"+ 商品登録",
+    kpi_open_label:"販売中の商品",
+    kpi_open_trend:"一時停止 1 · 終了 1",
+    kpi_disc_label:"割引実施中",
+    kpi_disc_unit:"件の商品",
+    kpi_disc_trend:"オープン記念 15% 割引",
+    f_all:"すべて 6",
+    f_open:"販売中 4",
+    f_inactive:"一時停止 1",
+    f_closed:"終了 1",
+    search_ph:"商品名で検索",
+    plan_all:"すべてのプラン",
+    plan_basic:"ベーシック",
+    plan_premium:"プレミアム",
+    tool_level:"レベル ▾",
+    tool_sort:"並び替え: 登録順 ▾",
+    th_status:"販売ステータス",
+    th_product:"商品（試験）",
+    th_plan:"プラン",
+    th_price:"価格",
+    th_disc:"割引",
+    th_period:"販売期間",
+    th_manage:"管理",
+    st_open:"販売中",
+    st_inactive:"一時停止",
+    st_closed:"終了",
+    act_detail:"詳細",
+    act_pause:"一時停止",
+    act_resume:"再開",
+    act_resell:"再販売",
+    val_always:"常時",
+    val_unset:"未設定",
+    disc_open:"オープン 15%↓",
+    pager_rows:"ページあたり"
+  }
+};</script>
 <script src="assets/admin-shell.js"></script>
 </body>
 </html>

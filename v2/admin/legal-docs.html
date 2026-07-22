@@ -52,26 +52,26 @@
 <div class="page">
   <div class="page-head">
     <div>
-      <h1 class="page-title">약관·정책 관리</h1>
-      <div class="page-sub">여기서 저장한 문서가 사용자 페이지 하단·가입/결제 단계에 그대로 노출됩니다.</div>
+      <h1 class="page-title" data-i18n="page.title">약관·정책 관리</h1>
+      <div class="page-sub" data-i18n="page.sub">여기서 저장한 문서가 사용자 페이지 하단·가입/결제 단계에 그대로 노출됩니다.</div>
     </div>
   </div>
 
   <div class="dtabs" id="dtabs">
-    <button class="active" data-tab="terms">이용약관</button>
-    <button data-tab="privacy">개인정보처리방침</button>
-    <button data-tab="sct">특정상거래법 표기<span class="req-badge">일본 필수</span></button>
+    <button class="active" data-tab="terms" data-i18n="tab.terms">이용약관</button>
+    <button data-tab="privacy" data-i18n="tab.privacy">개인정보처리방침</button>
+    <button data-tab="sct"><span data-i18n="tab.sct">특정상거래법 표기</span><span class="req-badge" data-i18n="badge.jpReq">일본 필수</span></button>
   </div>
 
   <!-- 1. 이용약관 -->
   <div class="dtab-panel active" id="tab-terms">
     <div class="form-card">
-      <h2>이용약관 <span style="font-weight:600;color:var(--blue-500);font-size:12px">· 사용자 페이지 노출</span></h2>
-      <p class="form-card-sub">利用規約 — 서비스 이용 조건, 회원 권리·의무, 책임 범위를 규정합니다.</p>
+      <h2><span data-i18n="terms.h2">이용약관</span> <span style="font-weight:600;color:var(--blue-500);font-size:12px" data-i18n="tag.userExposed">· 사용자 페이지 노출</span></h2>
+      <p class="form-card-sub" data-i18n="terms.sub">利用規約 — 서비스 이용 조건, 회원 권리·의무, 책임 범위를 규정합니다.</p>
       <div class="editor-card">
         <div class="editor-toolbar">
           <button type="button" class="tb-btn" data-cmd="formatBlock" data-val="h2" title="제목">H2</button>
-          <button type="button" class="tb-btn" data-cmd="formatBlock" data-val="p" title="본문">본문</button>
+          <button type="button" class="tb-btn" data-cmd="formatBlock" data-val="p" title="본문" data-i18n="tb.body">본문</button>
           <span class="tb-sep"></span>
           <button type="button" class="tb-btn" data-cmd="bold" title="굵게"><span>B</span></button>
           <button type="button" class="tb-btn" data-cmd="italic" title="기울임"><span class="i-italic">I</span></button>
@@ -83,12 +83,12 @@
           <button type="button" class="tb-btn" data-cmd="createLink" title="링크">🔗</button>
           <button type="button" class="tb-btn" data-cmd="insertHorizontalRule" title="구분선">―</button>
         </div>
-        <div class="editor-area" contenteditable="true" data-editor data-placeholder="이용약관 본문을 입력하세요."><h2>제1조 (목적)</h2><p>이 약관은 주식회사 뉴인(이하 "회사")이 제공하는 MaroPass 서비스(이하 "서비스")의 이용과 관련하여 회사와 이용자 간의 권리, 의무 및 책임사항, 기타 필요한 사항을 규정함을 목적으로 합니다.</p><h2>제2조 (정의)</h2><ul><li><strong>서비스</strong>: 회사가 제공하는 온라인 한국어 능력 진단·모의고사 응시 및 결과 제공 플랫폼을 의미합니다.</li><li><strong>이용자</strong>: 서비스에 접속하여 이 약관에 따라 회사가 제공하는 서비스를 이용하는 회원을 말합니다.</li><li><strong>응시권</strong>: 이용자가 상품을 결제하여 취득하는, 특정 시험을 정해진 기간 내에 응시할 수 있는 권리를 말합니다.</li></ul></div>
-        <div class="editor-foot"><span>사용자 페이지 「이용약관」에 그대로 노출됩니다.</span><span class="editor-charcount">0자</span></div>
+        <div class="editor-area" contenteditable="true" data-editor data-placeholder="이용약관 본문을 입력하세요." data-ph-ko="이용약관 본문을 입력하세요." data-ph-ja="利用規約の本文を入力してください。"><h2>제1조 (목적)</h2><p>이 약관은 주식회사 뉴인(이하 "회사")이 제공하는 MaroPass 서비스(이하 "서비스")의 이용과 관련하여 회사와 이용자 간의 권리, 의무 및 책임사항, 기타 필요한 사항을 규정함을 목적으로 합니다.</p><h2>제2조 (정의)</h2><ul><li><strong>서비스</strong>: 회사가 제공하는 온라인 한국어 능력 진단·모의고사 응시 및 결과 제공 플랫폼을 의미합니다.</li><li><strong>이용자</strong>: 서비스에 접속하여 이 약관에 따라 회사가 제공하는 서비스를 이용하는 회원을 말합니다.</li><li><strong>응시권</strong>: 이용자가 상품을 결제하여 취득하는, 특정 시험을 정해진 기간 내에 응시할 수 있는 권리를 말합니다.</li></ul></div>
+        <div class="editor-foot"><span data-i18n="terms.footNote">사용자 페이지 「이용약관」에 그대로 노출됩니다.</span><span class="editor-charcount" data-count="0">0자</span></div>
       </div>
       <div class="doc-foot">
-        <span class="saved">마지막 저장: 2026-07-18 14:22</span>
-        <button class="btn btn-primary doc-save" data-doc="이용약관">완료</button>
+        <span class="saved"><span data-i18n="foot.lastSaved">마지막 저장:</span> 2026-07-18 14:22</span>
+        <button class="btn btn-primary doc-save" data-doc="이용약관" data-doc-ja="利用規約" data-i18n="btn.done">완료</button>
       </div>
     </div>
   </div>
@@ -96,12 +96,12 @@
   <!-- 2. 개인정보처리방침 -->
   <div class="dtab-panel" id="tab-privacy">
     <div class="form-card">
-      <h2>개인정보처리방침 <span style="font-weight:600;color:var(--blue-500);font-size:12px">· 사용자 페이지 노출</span></h2>
-      <p class="form-card-sub">プライバシーポリシー — 수집 항목, 이용 목적, 보관 기간, 제3자 제공, 이용자 권리를 고지합니다.</p>
+      <h2><span data-i18n="privacy.h2">개인정보처리방침</span> <span style="font-weight:600;color:var(--blue-500);font-size:12px" data-i18n="tag.userExposed">· 사용자 페이지 노출</span></h2>
+      <p class="form-card-sub" data-i18n="privacy.sub">プライバシーポリシー — 수집 항목, 이용 목적, 보관 기간, 제3자 제공, 이용자 권리를 고지합니다.</p>
       <div class="editor-card">
         <div class="editor-toolbar">
           <button type="button" class="tb-btn" data-cmd="formatBlock" data-val="h2" title="제목">H2</button>
-          <button type="button" class="tb-btn" data-cmd="formatBlock" data-val="p" title="본문">본문</button>
+          <button type="button" class="tb-btn" data-cmd="formatBlock" data-val="p" title="본문" data-i18n="tb.body">본문</button>
           <span class="tb-sep"></span>
           <button type="button" class="tb-btn" data-cmd="bold" title="굵게"><span>B</span></button>
           <button type="button" class="tb-btn" data-cmd="italic" title="기울임"><span class="i-italic">I</span></button>
@@ -113,12 +113,12 @@
           <button type="button" class="tb-btn" data-cmd="createLink" title="링크">🔗</button>
           <button type="button" class="tb-btn" data-cmd="insertHorizontalRule" title="구분선">―</button>
         </div>
-        <div class="editor-area" contenteditable="true" data-editor data-placeholder="개인정보처리방침 본문을 입력하세요."><h2>1. 수집하는 개인정보 항목</h2><p>회사는 회원가입, 상품 결제, 시험 응시 및 결과 제공을 위해 다음의 개인정보를 수집합니다.</p><ul><li>필수: 이름, 이메일 주소, 결제 정보</li><li>응시 과정에서 생성: 응답 데이터, 음성 녹음(말하기 평가 상품), 채점 결과</li></ul><h2>2. 개인정보의 이용 목적</h2><p>수집한 개인정보는 서비스 제공, 본인 확인, 결제 처리, 채점 및 결과 통지, 고객 문의 대응의 목적으로만 이용합니다.</p><h2>3. 개인정보의 보관 및 파기</h2><p>관련 법령이 정한 기간 동안 보관하며, 목적 달성 후 지체 없이 파기합니다.</p></div>
-        <div class="editor-foot"><span>사용자 페이지 「개인정보처리방침」에 그대로 노출됩니다.</span><span class="editor-charcount">0자</span></div>
+        <div class="editor-area" contenteditable="true" data-editor data-placeholder="개인정보처리방침 본문을 입력하세요." data-ph-ko="개인정보처리방침 본문을 입력하세요." data-ph-ja="プライバシーポリシーの本文を入力してください。"><h2>1. 수집하는 개인정보 항목</h2><p>회사는 회원가입, 상품 결제, 시험 응시 및 결과 제공을 위해 다음의 개인정보를 수집합니다.</p><ul><li>필수: 이름, 이메일 주소, 결제 정보</li><li>응시 과정에서 생성: 응답 데이터, 음성 녹음(말하기 평가 상품), 채점 결과</li></ul><h2>2. 개인정보의 이용 목적</h2><p>수집한 개인정보는 서비스 제공, 본인 확인, 결제 처리, 채점 및 결과 통지, 고객 문의 대응의 목적으로만 이용합니다.</p><h2>3. 개인정보의 보관 및 파기</h2><p>관련 법령이 정한 기간 동안 보관하며, 목적 달성 후 지체 없이 파기합니다.</p></div>
+        <div class="editor-foot"><span data-i18n="privacy.footNote">사용자 페이지 「개인정보처리방침」에 그대로 노출됩니다.</span><span class="editor-charcount" data-count="0">0자</span></div>
       </div>
       <div class="doc-foot">
-        <span class="saved">마지막 저장: 2026-07-18 14:25</span>
-        <button class="btn btn-primary doc-save" data-doc="개인정보처리방침">완료</button>
+        <span class="saved"><span data-i18n="foot.lastSaved">마지막 저장:</span> 2026-07-18 14:25</span>
+        <button class="btn btn-primary doc-save" data-doc="개인정보처리방침" data-doc-ja="プライバシーポリシー" data-i18n="btn.done">완료</button>
       </div>
     </div>
   </div>
@@ -126,32 +126,32 @@
   <!-- 3. 특정상거래법에 근거한 표기 -->
   <div class="dtab-panel" id="tab-sct">
     <div class="form-card">
-      <h2>특정상거래법에 근거한 표기 <span style="font-weight:600;color:var(--blue-500);font-size:12px">· 사용자 페이지 노출</span></h2>
-      <p class="form-card-sub">特定商取引法に基づく表記 — 일본에서 상품을 판매하려면 법적으로 아래 항목을 고지해야 합니다.</p>
+      <h2><span data-i18n="sct.h2">특정상거래법에 근거한 표기</span> <span style="font-weight:600;color:var(--blue-500);font-size:12px" data-i18n="tag.userExposed">· 사용자 페이지 노출</span></h2>
+      <p class="form-card-sub" data-i18n="sct.sub">特定商取引法に基づく表記 — 일본에서 상품을 판매하려면 법적으로 아래 항목을 고지해야 합니다.</p>
 
       <div class="info-banner">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-        <div>일본 <strong>특정상거래법(특상법) 제11조</strong>에 따라 통신판매 사업자는 아래 항목을 표시할 의무가 있습니다. 특히 <strong>반품·환불(취소) 조건</strong>은 미기재 시 소비자가 8일 이내 무조건 반품 가능하므로 반드시 명시하세요.</div>
+        <div data-i18n-html="sct.banner">일본 <strong>특정상거래법(특상법) 제11조</strong>에 따라 통신판매 사업자는 아래 항목을 표시할 의무가 있습니다. 특히 <strong>반품·환불(취소) 조건</strong>은 미기재 시 소비자가 8일 이내 무조건 반품 가능하므로 반드시 명시하세요.</div>
       </div>
 
       <div class="sct-grid">
-        <div class="sct-row"><div class="sct-key">판매 사업자명<span class="ja">販売業者</span><span class="req">*</span></div><div class="sct-val"><input type="text" value="주식회사 뉴인 (株式会社 Newin)"></div></div>
-        <div class="sct-row"><div class="sct-key">운영 총괄 책임자<span class="ja">運営統括責任者</span><span class="req">*</span></div><div class="sct-val"><input type="text" value="이성민"></div></div>
-        <div class="sct-row"><div class="sct-key">소재지<span class="ja">所在地</span><span class="req">*</span></div><div class="sct-val"><input type="text" value="예) 東京都○○区○○ 1-2-3 ○○ビル 4F"></div></div>
-        <div class="sct-row"><div class="sct-key">전화번호<span class="ja">電話番号</span><span class="req">*</span></div><div class="sct-val"><input type="text" value="예) 03-0000-0000 (평일 10:00–18:00)"></div></div>
-        <div class="sct-row"><div class="sct-key">이메일 주소<span class="ja">メールアドレス</span><span class="req">*</span></div><div class="sct-val"><input type="text" value="support@maropass.jp"></div></div>
-        <div class="sct-row"><div class="sct-key">판매 가격<span class="ja">販売価格</span><span class="req">*</span></div><div class="sct-val"><input type="text" value="각 상품 페이지에 표시된 금액 (소비세 포함)"></div></div>
-        <div class="sct-row"><div class="sct-key">상품 대금 외 필요 요금<span class="ja">商品代金以外の必要料金</span></div><div class="sct-val"><input type="text" value="없음 (인터넷 접속에 필요한 통신비는 이용자 부담)"></div></div>
-        <div class="sct-row"><div class="sct-key">지불 방법<span class="ja">お支払い方法</span><span class="req">*</span></div><div class="sct-val"><input type="text" value="신용카드, ○○페이 등"></div></div>
-        <div class="sct-row"><div class="sct-key">지불 시기<span class="ja">お支払い時期</span><span class="req">*</span></div><div class="sct-val"><input type="text" value="주문 시 즉시 결제"></div></div>
-        <div class="sct-row"><div class="sct-key">상품 인도 시기<span class="ja">商品の引渡し時期</span><span class="req">*</span></div><div class="sct-val"><input type="text" value="결제 완료 즉시 응시권이 부여되어 이용 가능 (디지털 서비스)"></div></div>
-        <div class="sct-row"><div class="sct-key">반품·환불(취소) 조건<span class="ja">返品・キャンセル</span><span class="req">*</span></div><div class="sct-val"><textarea>디지털 콘텐츠 특성상 응시(콘텐츠 열람)를 시작한 후에는 환불이 불가합니다. 미응시 상태에 한해 결제일로부터 ○일 이내 취소·환불 가능합니다. 자세한 내용은 환불 정책을 따릅니다.</textarea></div></div>
-        <div class="sct-row"><div class="sct-key">동작 환경<span class="ja">動作環境</span></div><div class="sct-val"><input type="text" value="최신 버전의 Chrome / Safari / Edge, 마이크(말하기 평가 상품)"></div></div>
+        <div class="sct-row"><div class="sct-key"><span data-i18n="sct.seller">판매 사업자명</span><span class="ja">販売業者</span><span class="req">*</span></div><div class="sct-val"><input type="text" value="주식회사 뉴인 (株式会社 Newin)"></div></div>
+        <div class="sct-row"><div class="sct-key"><span data-i18n="sct.manager">운영 총괄 책임자</span><span class="ja">運営統括責任者</span><span class="req">*</span></div><div class="sct-val"><input type="text" value="이성민"></div></div>
+        <div class="sct-row"><div class="sct-key"><span data-i18n="sct.address">소재지</span><span class="ja">所在地</span><span class="req">*</span></div><div class="sct-val"><input type="text" value="예) 東京都○○区○○ 1-2-3 ○○ビル 4F"></div></div>
+        <div class="sct-row"><div class="sct-key"><span data-i18n="sct.phone">전화번호</span><span class="ja">電話番号</span><span class="req">*</span></div><div class="sct-val"><input type="text" value="예) 03-0000-0000 (평일 10:00–18:00)"></div></div>
+        <div class="sct-row"><div class="sct-key"><span data-i18n="sct.email">이메일 주소</span><span class="ja">メールアドレス</span><span class="req">*</span></div><div class="sct-val"><input type="text" value="support@maropass.jp"></div></div>
+        <div class="sct-row"><div class="sct-key"><span data-i18n="sct.price">판매 가격</span><span class="ja">販売価格</span><span class="req">*</span></div><div class="sct-val"><input type="text" value="각 상품 페이지에 표시된 금액 (소비세 포함)"></div></div>
+        <div class="sct-row"><div class="sct-key"><span data-i18n="sct.extra">상품 대금 외 필요 요금</span><span class="ja">商品代金以外の必要料金</span></div><div class="sct-val"><input type="text" value="없음 (인터넷 접속에 필요한 통신비는 이용자 부담)"></div></div>
+        <div class="sct-row"><div class="sct-key"><span data-i18n="sct.pay">지불 방법</span><span class="ja">お支払い方法</span><span class="req">*</span></div><div class="sct-val"><input type="text" value="신용카드, ○○페이 등"></div></div>
+        <div class="sct-row"><div class="sct-key"><span data-i18n="sct.payTime">지불 시기</span><span class="ja">お支払い時期</span><span class="req">*</span></div><div class="sct-val"><input type="text" value="주문 시 즉시 결제"></div></div>
+        <div class="sct-row"><div class="sct-key"><span data-i18n="sct.delivery">상품 인도 시기</span><span class="ja">商品の引渡し時期</span><span class="req">*</span></div><div class="sct-val"><input type="text" value="결제 완료 즉시 응시권이 부여되어 이용 가능 (디지털 서비스)"></div></div>
+        <div class="sct-row"><div class="sct-key"><span data-i18n="sct.refund">반품·환불(취소) 조건</span><span class="ja">返品・キャンセル</span><span class="req">*</span></div><div class="sct-val"><textarea>디지털 콘텐츠 특성상 응시(콘텐츠 열람)를 시작한 후에는 환불이 불가합니다. 미응시 상태에 한해 결제일로부터 ○일 이내 취소·환불 가능합니다. 자세한 내용은 환불 정책을 따릅니다.</textarea></div></div>
+        <div class="sct-row"><div class="sct-key"><span data-i18n="sct.env">동작 환경</span><span class="ja">動作環境</span></div><div class="sct-val"><input type="text" value="최신 버전의 Chrome / Safari / Edge, 마이크(말하기 평가 상품)"></div></div>
       </div>
 
       <div class="doc-foot">
-        <span class="saved">마지막 저장: 없음 (미게시)</span>
-        <button class="btn btn-primary doc-save" data-doc="특정상거래법 표기">완료</button>
+        <span class="saved" data-i18n="foot.notSaved">마지막 저장: 없음 (미게시)</span>
+        <button class="btn btn-primary doc-save" data-doc="특정상거래법 표기" data-doc-ja="特定商取引法に基づく表記" data-i18n="btn.done">완료</button>
       </div>
     </div>
   </div>
@@ -184,7 +184,7 @@
         b.addEventListener('click', function () {
           var cmd = b.getAttribute('data-cmd'), val = b.getAttribute('data-val') || null;
           ed.focus();
-          if (cmd === 'createLink') { var u = window.prompt('링크 URL을 입력하세요', 'https://'); if (u) document.execCommand('createLink', false, u); }
+          if (cmd === 'createLink') { var _ja = (window.adminLocale && window.adminLocale() === 'ja'); var u = window.prompt(_ja ? 'リンクURLを入力してください' : '링크 URL을 입력하세요', 'https://'); if (u) document.execCommand('createLink', false, u); }
           else if (cmd === 'formatBlock') { document.execCommand('formatBlock', false, val); }
           else document.execCommand(cmd, false, val);
           active(); count();
@@ -197,7 +197,7 @@
           b.classList.toggle('active', on);
         });
       }
-      function count() { if (cc) cc.textContent = (ed.textContent || '').replace(/\s/g, '').length + '자'; }
+      function count() { if (!cc) return; var n = (ed.textContent || '').replace(/\s/g, '').length; cc.setAttribute('data-count', n); var ja = (window.adminLocale && window.adminLocale() === 'ja'); cc.textContent = n + (ja ? '文字' : '자'); }
       document.addEventListener('selectionchange', function () { if (document.activeElement === ed) active(); });
       ed.addEventListener('input', count); count();
     });
@@ -208,22 +208,112 @@
   (function () {
     document.querySelectorAll('.doc-save').forEach(function (btn) {
       btn.addEventListener('click', function () {
-        var doc = btn.getAttribute('data-doc');
+        var ja = (window.adminLocale && window.adminLocale() === 'ja');
+        var doc = ja ? (btn.getAttribute('data-doc-ja') || btn.getAttribute('data-doc')) : btn.getAttribute('data-doc');
         var save = function () {
-          if (window.toast) toast('「' + doc + '」이(가) 저장되어 사용자 페이지에 게시되었습니다.', 'success');
+          if (window.toast) toast(ja ? ('「' + doc + '」を保存し、ユーザーページに掲載しました。') : ('「' + doc + '」이(가) 저장되어 사용자 페이지에 게시되었습니다.'), 'success');
           var foot = btn.closest('.doc-foot').querySelector('.saved');
-          if (foot) foot.textContent = '마지막 저장: 방금';
+          if (foot) { foot.removeAttribute('data-i18n'); foot.setAttribute('data-just', '1'); foot.textContent = ja ? '最終保存: ただ今' : '마지막 저장: 방금'; }
         };
         if (!window.confirmAction) { save(); return; }
         confirmAction({
-          title: '「' + doc + '」을(를) 게시할까요?',
-          desc: '저장 즉시 사용자 페이지에 반영됩니다.',
-          confirmText: '게시',
+          title: ja ? ('「' + doc + '」を掲載しますか?') : ('「' + doc + '」을(를) 게시할까요?'),
+          desc: ja ? '保存すると即座にユーザーページに反映されます。' : '저장 즉시 사용자 페이지에 반영됩니다.',
+          confirmText: ja ? '掲載' : '게시',
           onConfirm: save
         });
       });
     });
   })();
+</script>
+<script>
+  // ── 페이지 i18n 사전 (ko/ja) ──
+  window.PAGE_I18N = {
+    ko: {
+      'page.title': '약관·정책 관리',
+      'page.sub': '여기서 저장한 문서가 사용자 페이지 하단·가입/결제 단계에 그대로 노출됩니다.',
+      'tab.terms': '이용약관',
+      'tab.privacy': '개인정보처리방침',
+      'tab.sct': '특정상거래법 표기',
+      'badge.jpReq': '일본 필수',
+      'tag.userExposed': '· 사용자 페이지 노출',
+      'tb.body': '본문',
+      'btn.done': '완료',
+      'foot.lastSaved': '마지막 저장:',
+      'foot.notSaved': '마지막 저장: 없음 (미게시)',
+      'terms.h2': '이용약관',
+      'terms.sub': '利用規約 — 서비스 이용 조건, 회원 권리·의무, 책임 범위를 규정합니다.',
+      'terms.footNote': '사용자 페이지 「이용약관」에 그대로 노출됩니다.',
+      'privacy.h2': '개인정보처리방침',
+      'privacy.sub': 'プライバシーポリシー — 수집 항목, 이용 목적, 보관 기간, 제3자 제공, 이용자 권리를 고지합니다.',
+      'privacy.footNote': '사용자 페이지 「개인정보처리방침」에 그대로 노출됩니다.',
+      'sct.h2': '특정상거래법에 근거한 표기',
+      'sct.sub': '特定商取引法に基づく表記 — 일본에서 상품을 판매하려면 법적으로 아래 항목을 고지해야 합니다.',
+      'sct.banner': '일본 <strong>특정상거래법(특상법) 제11조</strong>에 따라 통신판매 사업자는 아래 항목을 표시할 의무가 있습니다. 특히 <strong>반품·환불(취소) 조건</strong>은 미기재 시 소비자가 8일 이내 무조건 반품 가능하므로 반드시 명시하세요.',
+      'sct.seller': '판매 사업자명',
+      'sct.manager': '운영 총괄 책임자',
+      'sct.address': '소재지',
+      'sct.phone': '전화번호',
+      'sct.email': '이메일 주소',
+      'sct.price': '판매 가격',
+      'sct.extra': '상품 대금 외 필요 요금',
+      'sct.pay': '지불 방법',
+      'sct.payTime': '지불 시기',
+      'sct.delivery': '상품 인도 시기',
+      'sct.refund': '반품·환불(취소) 조건',
+      'sct.env': '동작 환경'
+    },
+    ja: {
+      'page.title': '規約・ポリシー管理',
+      'page.sub': 'ここで保存した文書が、ユーザーページ下部・登録／決済ステップにそのまま表示されます。',
+      'tab.terms': '利用規約',
+      'tab.privacy': 'プライバシーポリシー',
+      'tab.sct': '特定商取引法に基づく表記',
+      'badge.jpReq': '日本必須',
+      'tag.userExposed': '・ユーザーページに表示',
+      'tb.body': '本文',
+      'btn.done': '完了',
+      'foot.lastSaved': '最終保存:',
+      'foot.notSaved': '最終保存: なし(未掲載)',
+      'terms.h2': '利用規約',
+      'terms.sub': '利用規約 — サービス利用条件、会員の権利・義務、責任範囲を定めます。',
+      'terms.footNote': 'ユーザーページ「利用規約」にそのまま表示されます。',
+      'privacy.h2': 'プライバシーポリシー',
+      'privacy.sub': 'プライバシーポリシー — 収集項目、利用目的、保管期間、第三者提供、ユーザーの権利を告知します。',
+      'privacy.footNote': 'ユーザーページ「プライバシーポリシー」にそのまま表示されます。',
+      'sct.h2': '特定商取引法に基づく表記',
+      'sct.sub': '特定商取引法に基づく表記 — 日本で商品を販売するには、法的に以下の項目を告知する必要があります。',
+      'sct.banner': '日本の<strong>特定商取引法(特商法)第11条</strong>により、通信販売事業者は以下の項目を表示する義務があります。特に<strong>返品・キャンセル条件</strong>は未記載の場合、消費者が8日以内に無条件で返品できるため、必ず明記してください。',
+      'sct.seller': '販売業者名',
+      'sct.manager': '運営統括責任者',
+      'sct.address': '所在地',
+      'sct.phone': '電話番号',
+      'sct.email': 'メールアドレス',
+      'sct.price': '販売価格',
+      'sct.extra': '商品代金以外の必要料金',
+      'sct.pay': 'お支払い方法',
+      'sct.payTime': 'お支払い時期',
+      'sct.delivery': '商品の引渡し時期',
+      'sct.refund': '返品・キャンセル条件',
+      'sct.env': '動作環境'
+    }
+  };
+
+  // 사전으로 처리되지 않는 동적 요소(에디터 플레이스홀더·글자수·저장상태) 로케일 반영
+  window.onLocaleChange = function (loc) {
+    var ja = (loc === 'ja');
+    document.querySelectorAll('.editor-area[data-editor]').forEach(function (ed) {
+      var ko = ed.getAttribute('data-ph-ko'), j = ed.getAttribute('data-ph-ja');
+      if (ko) ed.setAttribute('data-placeholder', (ja && j) ? j : ko);
+    });
+    document.querySelectorAll('.editor-charcount').forEach(function (cc) {
+      var n = cc.getAttribute('data-count') || '0';
+      cc.textContent = n + (ja ? '文字' : '자');
+    });
+    document.querySelectorAll('.saved[data-just="1"]').forEach(function (s) {
+      s.textContent = ja ? '最終保存: ただ今' : '마지막 저장: 방금';
+    });
+  };
 </script>
 <script src="assets/admin-shell.js"></script>
 </body>

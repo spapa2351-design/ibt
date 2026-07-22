@@ -43,13 +43,13 @@
 <div class="page">
   <div class="page-head">
     <div>
-      <h1 class="page-title">결제 · 매출</h1>
-      <div class="page-sub">개별 결제 처리와 매출 통계 · 매출은 <strong>매출 열람 권한</strong>이 있는 관리자에게만 표시</div>
+      <h1 class="page-title" data-i18n="pay.title">결제 · 매출</h1>
+      <div class="page-sub" data-i18n-html="pay.sub">개별 결제 처리와 매출 통계 · 매출은 <strong>매출 열람 권한</strong>이 있는 관리자에게만 표시</div>
     </div>
     <div class="page-actions">
       <button class="btn btn-secondary" aria-label="목록 내보내기">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        내보내기
+        <span data-i18n="pay.export">내보내기</span>
       </button>
     </div>
   </div>
@@ -58,52 +58,52 @@
   <div class="kpi-row">
     <div class="kpi-card perm-revenue">
       <div class="kpi-top">
-        <span class="kpi-label">이번 달 매출</span>
+        <span class="kpi-label" data-i18n="pay.kpi.rev">이번 달 매출</span>
         <span class="kpi-ic blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span>
       </div>
       <div class="kpi-value">¥4,496,250</div>
       <div class="kpi-trend up">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"/></svg>
-        전월 대비 <span class="kpi-pct">+12.4%</span>
+        <span data-i18n="pay.mom">전월 대비</span> <span class="kpi-pct">+12.4%</span>
       </div>
     </div>
     <div class="kpi-card">
       <div class="kpi-top">
-        <span class="kpi-label">이번 달 결제</span>
+        <span class="kpi-label" data-i18n="pay.kpi.pay">이번 달 결제</span>
         <span class="kpi-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></span>
       </div>
-      <div class="kpi-value">764<span class="kpi-unit">건</span></div>
+      <div class="kpi-value">764<span class="kpi-unit" data-i18n="pay.unit.cases">건</span></div>
       <div class="kpi-trend up">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"/></svg>
-        전월 대비 <span class="kpi-pct">+8.1%</span>
+        <span data-i18n="pay.mom">전월 대비</span> <span class="kpi-pct">+8.1%</span>
       </div>
     </div>
     <div class="kpi-card">
       <div class="kpi-top">
-        <span class="kpi-label">이번 달 환불</span>
+        <span class="kpi-label" data-i18n="pay.kpi.refund">이번 달 환불</span>
         <span class="kpi-ic warn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg></span>
       </div>
       <div class="kpi-value">¥53,460</div>
-      <div class="kpi-trend"><span class="muted">9건 · 환불률 1.2%</span></div>
+      <div class="kpi-trend"><span class="muted" data-i18n="pay.kpi.refund.sub">9건 · 환불률 1.2%</span></div>
     </div>
     <div class="kpi-card perm-revenue">
       <div class="kpi-top">
-        <span class="kpi-label">정산 예정</span>
+        <span class="kpi-label" data-i18n="pay.kpi.settle">정산 예정</span>
         <span class="kpi-ic green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18"/><path d="M5 21V8l7-4 7 4v13"/><line x1="9" y1="21" x2="9" y2="13"/><line x1="15" y1="21" x2="15" y2="13"/></svg></span>
       </div>
       <div class="kpi-value">¥4,442,790</div>
-      <div class="kpi-trend"><span class="muted">매출 − 환불 · PG 정산 T+7</span></div>
+      <div class="kpi-trend"><span class="muted" data-i18n="pay.kpi.settle.sub">매출 − 환불 · PG 정산 T+7</span></div>
     </div>
   </div>
 
   <!-- 탭 + 매출 권한 미리보기 토글 -->
   <div class="pay-tabbar">
     <div class="dtabs" id="dtabs">
-      <button class="active" data-tab="payments">결제 내역</button>
-      <button class="perm-revenue" data-tab="stats">매출 통계</button>
+      <button class="active" data-tab="payments" data-i18n="pay.tab.history">결제 내역</button>
+      <button class="perm-revenue" data-tab="stats" data-i18n="pay.tab.stats">매출 통계</button>
     </div>
     <label class="perm-preview" title="매출 열람 권한이 없는 부관리자 화면을 미리보기">
-      <span class="switch-lbl">🔒 매출 열람 권한</span>
+      <span class="switch-lbl" data-i18n="pay.perm.toggle">🔒 매출 열람 권한</span>
       <span class="mini-switch"><input type="checkbox" id="revToggle" checked><span class="ms-track"></span></span>
       <span class="ms-state" id="revState">ON</span>
     </label>
@@ -113,11 +113,11 @@
   <div class="dtab-panel active" id="tab-payments">
   <!-- 상태 세그먼트 -->
   <div class="seg" style="margin-bottom:16px;">
-    <button class="active">전체</button>
-    <button>결제완료</button>
-    <button>환불요청</button>
-    <button>환불완료</button>
-    <button>실패</button>
+    <button class="active" data-i18n="pay.seg.all">전체</button>
+    <button data-i18n="pay.st.paid">결제완료</button>
+    <button data-i18n="pay.st.refundReq">환불요청</button>
+    <button data-i18n="pay.st.refunded">환불완료</button>
+    <button data-i18n="pay.st.failed">실패</button>
   </div>
 
   <!-- 결제 내역 카드 -->
@@ -137,41 +137,41 @@
       </select>
       <div class="filter-input">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        <span>주문번호, 회원, 시험명 ...</span>
+        <span data-i18n="pay.search">주문번호, 회원, 시험명 ...</span>
       </div>
       <button class="tool-btn" aria-label="필터 열기">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
-        필터
+        <span data-i18n="pay.filter">필터</span>
       </button>
     </div>
 
     <div class="table-tools">
-      <div class="total-count">전체 결제<strong>3,182</strong></div>
-      <div class="muted perm-revenue"><span id="monthLabel">2026년 7월 (이번 달)</span> 매출 <strong style="color:var(--grey-900);font-weight:800;">¥4,496,250</strong> · 764건</div>
+      <div class="total-count"><span data-i18n="pay.totalCount">전체 결제</span><strong>3,182</strong></div>
+      <div class="muted perm-revenue"><span id="monthLabel">2026년 7월 (이번 달)</span> <span data-i18n="pay.revLabel">매출</span> <strong style="color:var(--grey-900);font-weight:800;">¥4,496,250</strong> <span data-i18n="pay.revCount">· 764건</span></div>
     </div>
 
     <div class="table-wrap">
       <table>
         <thead>
           <tr>
-            <th>상태</th>
-            <th>주문번호</th>
-            <th>회원</th>
-            <th>시험명</th>
-            <th>결제수단</th>
-            <th>금액</th>
-            <th>결제일시</th>
-            <th>영수증</th>
-            <th style="text-align:right;">관리</th>
+            <th data-i18n="pay.th.status">상태</th>
+            <th data-i18n="pay.th.order">주문번호</th>
+            <th data-i18n="pay.th.member">회원</th>
+            <th data-i18n="pay.th.exam">시험명</th>
+            <th data-i18n="pay.th.method">결제수단</th>
+            <th data-i18n="pay.th.amount">금액</th>
+            <th data-i18n="pay.th.paidAt">결제일시</th>
+            <th data-i18n="pay.th.receipt">영수증</th>
+            <th style="text-align:right;" data-i18n="pay.th.manage">관리</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td><span class="badge badge-paid">결제완료</span></td>
+            <td><span class="badge badge-paid" data-i18n="pay.st.paid">결제완료</span></td>
             <td class="cell-mono">MP-2026-0512-0031</td>
             <td class="cell-name">田中 美咲</td>
-            <td>TOPIK 말하기 중상급</td>
-            <td><span class="badge badge-grade-beg">카드</span></td>
+            <td data-i18n="pay.exam.int">TOPIK 말하기 중상급</td>
+            <td><span class="badge badge-grade-beg" data-i18n="pay.pm.card">카드</span></td>
             <td class="cell-amount">¥4,950</td>
             <td>2026-05-12 14:32</td>
             <td>
@@ -186,10 +186,10 @@
             </td>
           </tr>
           <tr>
-            <td><span class="badge badge-paid">결제완료</span></td>
+            <td><span class="badge badge-paid" data-i18n="pay.st.paid">결제완료</span></td>
             <td class="cell-mono">MP-2026-0512-0030</td>
             <td class="cell-name">山田 太郎</td>
-            <td>TOPIK 말하기 초급</td>
+            <td data-i18n="pay.exam.beg">TOPIK 말하기 초급</td>
             <td><span class="badge badge-grade-int">QR</span></td>
             <td class="cell-amount">¥4,950</td>
             <td>2026-05-12 13:07</td>
@@ -205,11 +205,11 @@
             </td>
           </tr>
           <tr>
-            <td><span class="badge badge-refund-req">환불요청</span></td>
+            <td><span class="badge badge-refund-req" data-i18n="pay.st.refundReq">환불요청</span></td>
             <td class="cell-mono">MP-2026-0512-0028</td>
             <td class="cell-name">佐藤 健</td>
-            <td>TOPIK 말하기 중상급</td>
-            <td><span class="badge badge-grade-beg">카드</span></td>
+            <td data-i18n="pay.exam.int">TOPIK 말하기 중상급</td>
+            <td><span class="badge badge-grade-beg" data-i18n="pay.pm.card">카드</span></td>
             <td class="cell-amount">¥4,950</td>
             <td>2026-05-12 11:45</td>
             <td>
@@ -224,11 +224,11 @@
             </td>
           </tr>
           <tr>
-            <td><span class="badge badge-paid">결제완료</span></td>
+            <td><span class="badge badge-paid" data-i18n="pay.st.paid">결제완료</span></td>
             <td class="cell-mono">MP-2026-0511-0094</td>
             <td class="cell-name">鈴木 花子</td>
-            <td>TOPIK 말하기 초급</td>
-            <td><span class="badge badge-grade-beg">카드</span></td>
+            <td data-i18n="pay.exam.beg">TOPIK 말하기 초급</td>
+            <td><span class="badge badge-grade-beg" data-i18n="pay.pm.card">카드</span></td>
             <td class="cell-amount">¥4,950</td>
             <td>2026-05-11 22:18</td>
             <td>
@@ -243,10 +243,10 @@
             </td>
           </tr>
           <tr>
-            <td><span class="badge badge-failed">실패</span></td>
+            <td><span class="badge badge-failed" data-i18n="pay.st.failed">실패</span></td>
             <td class="cell-mono">MP-2026-0511-0088</td>
             <td class="cell-name">高橋 真理</td>
-            <td>TOPIK 말하기 중상급</td>
+            <td data-i18n="pay.exam.int">TOPIK 말하기 중상급</td>
             <td><span class="badge badge-grade-int">QR</span></td>
             <td class="cell-amount">¥4,950</td>
             <td>2026-05-11 20:52</td>
@@ -262,10 +262,10 @@
             </td>
           </tr>
           <tr>
-            <td><span class="badge badge-paid">결제완료</span></td>
+            <td><span class="badge badge-paid" data-i18n="pay.st.paid">결제완료</span></td>
             <td class="cell-mono">MP-2026-0511-0071</td>
             <td class="cell-name">渡辺 大輔</td>
-            <td>TOPIK 말하기 초급</td>
+            <td data-i18n="pay.exam.beg">TOPIK 말하기 초급</td>
             <td><span class="badge badge-grade-int">QR</span></td>
             <td class="cell-amount">¥4,950</td>
             <td>2026-05-11 18:33</td>
@@ -281,11 +281,11 @@
             </td>
           </tr>
           <tr>
-            <td><span class="badge badge-refunded">환불완료</span></td>
+            <td><span class="badge badge-refunded" data-i18n="pay.st.refunded">환불완료</span></td>
             <td class="cell-mono">MP-2026-0510-0142</td>
             <td class="cell-name">伊藤 さくら</td>
-            <td>TOPIK 말하기 중상급</td>
-            <td><span class="badge badge-grade-beg">카드</span></td>
+            <td data-i18n="pay.exam.int">TOPIK 말하기 중상급</td>
+            <td><span class="badge badge-grade-beg" data-i18n="pay.pm.card">카드</span></td>
             <td class="cell-amount">¥4,950</td>
             <td>2026-05-10 16:20</td>
             <td>
@@ -300,10 +300,10 @@
             </td>
           </tr>
           <tr>
-            <td><span class="badge badge-pending">대기</span></td>
+            <td><span class="badge badge-pending" data-i18n="pay.st.pending">대기</span></td>
             <td class="cell-mono">MP-2026-0510-0138</td>
             <td class="cell-name">中村 陽介</td>
-            <td>TOPIK 말하기 초급</td>
+            <td data-i18n="pay.exam.beg">TOPIK 말하기 초급</td>
             <td><span class="badge badge-grade-int">QR</span></td>
             <td class="cell-amount">¥4,950</td>
             <td>2026-05-10 15:04</td>
@@ -319,11 +319,11 @@
             </td>
           </tr>
           <tr>
-            <td><span class="badge badge-refund-req">환불요청</span></td>
+            <td><span class="badge badge-refund-req" data-i18n="pay.st.refundReq">환불요청</span></td>
             <td class="cell-mono">MP-2026-0510-0119</td>
             <td class="cell-name">小林 由美</td>
-            <td>TOPIK 말하기 초급</td>
-            <td><span class="badge badge-grade-beg">카드</span></td>
+            <td data-i18n="pay.exam.beg">TOPIK 말하기 초급</td>
+            <td><span class="badge badge-grade-beg" data-i18n="pay.pm.card">카드</span></td>
             <td class="cell-amount">¥4,950</td>
             <td>2026-05-10 12:41</td>
             <td>
@@ -338,11 +338,11 @@
             </td>
           </tr>
           <tr>
-            <td><span class="badge badge-paid">결제완료</span></td>
+            <td><span class="badge badge-paid" data-i18n="pay.st.paid">결제완료</span></td>
             <td class="cell-mono">MP-2026-0509-0203</td>
             <td class="cell-name">加藤 翔太</td>
-            <td>TOPIK 말하기 중상급</td>
-            <td><span class="badge badge-grade-beg">카드</span></td>
+            <td data-i18n="pay.exam.int">TOPIK 말하기 중상급</td>
+            <td><span class="badge badge-grade-beg" data-i18n="pay.pm.card">카드</span></td>
             <td class="cell-amount">¥4,950</td>
             <td>2026-05-09 21:12</td>
             <td>
@@ -361,16 +361,16 @@
     </div>
 
     <div class="pager">
-      <button class="pager-btn" disabled>← 이전</button>
+      <button class="pager-btn" disabled data-i18n="pay.prev">← 이전</button>
       <button class="pager-btn active">1</button>
       <button class="pager-btn">2</button>
       <button class="pager-btn">3</button>
       <button class="pager-btn">4</button>
       <button class="pager-btn">…</button>
       <button class="pager-btn">319</button>
-      <button class="pager-btn">다음 →</button>
+      <button class="pager-btn" data-i18n="pay.next">다음 →</button>
       <div class="pager-rows">
-        페이지당
+        <span data-i18n="pay.perPage">페이지당</span>
         <select><option>10</option><option>20</option><option>50</option></select>
       </div>
     </div>
@@ -381,44 +381,44 @@
   <div class="dtab-panel perm-revenue" id="tab-stats">
     <div class="dash-grid">
       <div class="dash-card">
-        <div class="dash-card-head"><h3>월별 매출 추이</h3><span class="muted">최근 6개월</span></div>
+        <div class="dash-card-head"><h3 data-i18n="pay.chart.title">월별 매출 추이</h3><span class="muted" data-i18n="pay.chart.range">최근 6개월</span></div>
         <div class="trend-chart">
-          <div class="bar-col"><div class="bar-area"><div class="bar" style="height:52%"></div></div><div class="bar-val">3.2M</div><div class="bar-day">2월</div></div>
-          <div class="bar-col"><div class="bar-area"><div class="bar" style="height:60%"></div></div><div class="bar-val">3.6M</div><div class="bar-day">3월</div></div>
-          <div class="bar-col"><div class="bar-area"><div class="bar" style="height:66%"></div></div><div class="bar-val">3.9M</div><div class="bar-day">4월</div></div>
-          <div class="bar-col"><div class="bar-area"><div class="bar" style="height:70%"></div></div><div class="bar-val">4.0M</div><div class="bar-day">5월</div></div>
-          <div class="bar-col"><div class="bar-area"><div class="bar" style="height:67%"></div></div><div class="bar-val">3.9M</div><div class="bar-day">6월</div></div>
-          <div class="bar-col current"><div class="bar-area"><div class="bar" style="height:76%"></div></div><div class="bar-val">4.5M</div><div class="bar-day">7월</div></div>
+          <div class="bar-col"><div class="bar-area"><div class="bar" style="height:52%"></div></div><div class="bar-val">3.2M</div><div class="bar-day" data-i18n="pay.m.2">2월</div></div>
+          <div class="bar-col"><div class="bar-area"><div class="bar" style="height:60%"></div></div><div class="bar-val">3.6M</div><div class="bar-day" data-i18n="pay.m.3">3월</div></div>
+          <div class="bar-col"><div class="bar-area"><div class="bar" style="height:66%"></div></div><div class="bar-val">3.9M</div><div class="bar-day" data-i18n="pay.m.4">4월</div></div>
+          <div class="bar-col"><div class="bar-area"><div class="bar" style="height:70%"></div></div><div class="bar-val">4.0M</div><div class="bar-day" data-i18n="pay.m.5">5월</div></div>
+          <div class="bar-col"><div class="bar-area"><div class="bar" style="height:67%"></div></div><div class="bar-val">3.9M</div><div class="bar-day" data-i18n="pay.m.6">6월</div></div>
+          <div class="bar-col current"><div class="bar-area"><div class="bar" style="height:76%"></div></div><div class="bar-val">4.5M</div><div class="bar-day" data-i18n="pay.m.7">7월</div></div>
         </div>
-        <div class="passline-note" style="text-align:center;font-size:11.5px;color:var(--grey-500);margin-top:10px;">단위: 백만 엔 · 7월은 진행 중</div>
+        <div class="passline-note" style="text-align:center;font-size:11.5px;color:var(--grey-500);margin-top:10px;" data-i18n="pay.chart.note">단위: 백만 엔 · 7월은 진행 중</div>
       </div>
       <div class="dash-card">
-        <div class="dash-card-head"><h3>매출 요약</h3></div>
-        <div class="sline"><span class="s-lab">연 누적 매출</span><span class="s-val">¥24,318,900</span></div>
-        <div class="sline"><span class="s-lab">이번 달 매출</span><span class="s-val">¥4,496,250</span></div>
-        <div class="sline"><span class="s-lab">평균 객단가</span><span class="s-val">¥5,885</span></div>
-        <div class="sline"><span class="s-lab">환불액 (누적)</span><span class="s-val" style="color:var(--red-500)">−¥312,400</span></div>
-        <div class="sline"><span class="s-lab">순매출</span><span class="s-val" style="color:var(--green-500)">¥24,006,500</span></div>
+        <div class="dash-card-head"><h3 data-i18n="pay.sum.title">매출 요약</h3></div>
+        <div class="sline"><span class="s-lab" data-i18n="pay.sum.ytd">연 누적 매출</span><span class="s-val">¥24,318,900</span></div>
+        <div class="sline"><span class="s-lab" data-i18n="pay.sum.month">이번 달 매출</span><span class="s-val">¥4,496,250</span></div>
+        <div class="sline"><span class="s-lab" data-i18n="pay.sum.aov">평균 객단가</span><span class="s-val">¥5,885</span></div>
+        <div class="sline"><span class="s-lab" data-i18n="pay.sum.refund">환불액 (누적)</span><span class="s-val" style="color:var(--red-500)">−¥312,400</span></div>
+        <div class="sline"><span class="s-lab" data-i18n="pay.sum.net">순매출</span><span class="s-val" style="color:var(--green-500)">¥24,006,500</span></div>
       </div>
     </div>
 
     <div class="card" style="margin-top:14px">
       <div class="table-tools">
-        <div class="total-count">상품별 판매·매출</div>
-        <div class="muted">2026년 누적 기준 · 상품 관리에서 이동</div>
+        <div class="total-count" data-i18n="pay.prod.title">상품별 판매·매출</div>
+        <div class="muted" data-i18n="pay.prod.sub">2026년 누적 기준 · 상품 관리에서 이동</div>
       </div>
       <div class="table-wrap">
         <table>
           <thead>
-            <tr><th>상품 (시험)</th><th>플랜</th><th>레벨</th><th>판매 수량</th><th>매출</th><th style="min-width:140px;">비중</th></tr>
+            <tr><th data-i18n="pay.pth.product">상품 (시험)</th><th data-i18n="pay.pth.plan">플랜</th><th data-i18n="pay.pth.level">레벨</th><th data-i18n="pay.pth.qty">판매 수량</th><th data-i18n="pay.pth.revenue">매출</th><th style="min-width:140px;" data-i18n="pay.pth.share">비중</th></tr>
           </thead>
           <tbody>
-            <tr><td class="cell-name">TOPIK 모의고사 · 중상급 (3~6급)</td><td><span class="plan-badge plan-premium">프리미엄</span></td><td><span class="badge badge-grade-int">중상급</span></td><td class="cell-mono">2,013</td><td class="cell-amount">¥13,285,800</td><td><div style="display:flex;align-items:center;gap:8px;"><div class="rev-bar" style="flex:1;"><i style="width:56%"></i></div><span class="cell-mono" style="font-size:12px;">56.4%</span></div></td></tr>
-            <tr><td class="cell-name">TOPIK 모의고사 · 초급 (1·2급)</td><td><span class="plan-badge plan-basic">베이직</span></td><td><span class="badge badge-grade-beg">초급</span></td><td class="cell-mono">1,284</td><td class="cell-amount">¥6,355,800</td><td><div style="display:flex;align-items:center;gap:8px;"><div class="rev-bar" style="flex:1;"><i style="width:27%"></i></div><span class="cell-mono" style="font-size:12px;">27.0%</span></div></td></tr>
-            <tr><td class="cell-name">비즈니스 한국어 진단평가</td><td><span class="plan-badge plan-premium">프리미엄</span></td><td><span class="badge badge-grade-int">중상급</span></td><td class="cell-mono">327</td><td class="cell-amount">¥1,798,500</td><td><div style="display:flex;align-items:center;gap:8px;"><div class="rev-bar" style="flex:1;"><i style="width:8%"></i></div><span class="cell-mono" style="font-size:12px;">7.6%</span></div></td></tr>
-            <tr><td class="cell-name">TOPIK 모의고사 · 중상급 (2025)<span class="muted" style="font-size:11px;font-weight:600;"> · 종료</span></td><td><span class="plan-badge plan-premium">프리미엄</span></td><td><span class="badge badge-grade-int">중상급</span></td><td class="cell-mono">232</td><td class="cell-amount">¥1,500,800</td><td><div style="display:flex;align-items:center;gap:8px;"><div class="rev-bar" style="flex:1;"><i style="width:6%"></i></div><span class="cell-mono" style="font-size:12px;">6.4%</span></div></td></tr>
-            <tr><td class="cell-name">TOPIK 모의고사 · 초급 (2026 개정판)</td><td><span class="plan-badge plan-basic">베이직</span></td><td><span class="badge badge-grade-beg">초급</span></td><td class="cell-mono">128</td><td class="cell-amount">¥633,600</td><td><div style="display:flex;align-items:center;gap:8px;"><div class="rev-bar" style="flex:1;"><i style="width:3%"></i></div><span class="cell-mono" style="font-size:12px;">2.7%</span></div></td></tr>
-            <tr><td class="cell-name">발음·말하기 평가 (베타)<span class="muted" style="font-size:11px;font-weight:600;"> · 일시중지</span></td><td><span class="plan-badge plan-basic">베이직</span></td><td><span class="badge badge-grade-none">미분류</span></td><td class="cell-mono muted">—</td><td class="cell-amount muted">—</td><td><div style="display:flex;align-items:center;gap:8px;"><div class="rev-bar" style="flex:1;"><i style="width:0%"></i></div><span class="cell-mono muted" style="font-size:12px;">0%</span></div></td></tr>
+            <tr><td class="cell-name" data-i18n="pay.p.int">TOPIK 모의고사 · 중상급 (3~6급)</td><td><span class="plan-badge plan-premium" data-i18n="pay.plan.premium">프리미엄</span></td><td><span class="badge badge-grade-int" data-i18n="pay.lv.int">중상급</span></td><td class="cell-mono">2,013</td><td class="cell-amount">¥13,285,800</td><td><div style="display:flex;align-items:center;gap:8px;"><div class="rev-bar" style="flex:1;"><i style="width:56%"></i></div><span class="cell-mono" style="font-size:12px;">56.4%</span></div></td></tr>
+            <tr><td class="cell-name" data-i18n="pay.p.beg">TOPIK 모의고사 · 초급 (1·2급)</td><td><span class="plan-badge plan-basic" data-i18n="pay.plan.basic">베이직</span></td><td><span class="badge badge-grade-beg" data-i18n="pay.lv.beg">초급</span></td><td class="cell-mono">1,284</td><td class="cell-amount">¥6,355,800</td><td><div style="display:flex;align-items:center;gap:8px;"><div class="rev-bar" style="flex:1;"><i style="width:27%"></i></div><span class="cell-mono" style="font-size:12px;">27.0%</span></div></td></tr>
+            <tr><td class="cell-name" data-i18n="pay.p.biz">비즈니스 한국어 진단평가</td><td><span class="plan-badge plan-premium" data-i18n="pay.plan.premium">프리미엄</span></td><td><span class="badge badge-grade-int" data-i18n="pay.lv.int">중상급</span></td><td class="cell-mono">327</td><td class="cell-amount">¥1,798,500</td><td><div style="display:flex;align-items:center;gap:8px;"><div class="rev-bar" style="flex:1;"><i style="width:8%"></i></div><span class="cell-mono" style="font-size:12px;">7.6%</span></div></td></tr>
+            <tr><td class="cell-name"><span data-i18n="pay.p.int2025">TOPIK 모의고사 · 중상급 (2025)</span><span class="muted" style="font-size:11px;font-weight:600;" data-i18n="pay.p.ended"> · 종료</span></td><td><span class="plan-badge plan-premium" data-i18n="pay.plan.premium">프리미엄</span></td><td><span class="badge badge-grade-int" data-i18n="pay.lv.int">중상급</span></td><td class="cell-mono">232</td><td class="cell-amount">¥1,500,800</td><td><div style="display:flex;align-items:center;gap:8px;"><div class="rev-bar" style="flex:1;"><i style="width:6%"></i></div><span class="cell-mono" style="font-size:12px;">6.4%</span></div></td></tr>
+            <tr><td class="cell-name" data-i18n="pay.p.beg2026">TOPIK 모의고사 · 초급 (2026 개정판)</td><td><span class="plan-badge plan-basic" data-i18n="pay.plan.basic">베이직</span></td><td><span class="badge badge-grade-beg" data-i18n="pay.lv.beg">초급</span></td><td class="cell-mono">128</td><td class="cell-amount">¥633,600</td><td><div style="display:flex;align-items:center;gap:8px;"><div class="rev-bar" style="flex:1;"><i style="width:3%"></i></div><span class="cell-mono" style="font-size:12px;">2.7%</span></div></td></tr>
+            <tr><td class="cell-name"><span data-i18n="pay.p.pron">발음·말하기 평가 (베타)</span><span class="muted" style="font-size:11px;font-weight:600;" data-i18n="pay.p.paused"> · 일시중지</span></td><td><span class="plan-badge plan-basic" data-i18n="pay.plan.basic">베이직</span></td><td><span class="badge badge-grade-none" data-i18n="pay.lv.none">미분류</span></td><td class="cell-mono muted">—</td><td class="cell-amount muted">—</td><td><div style="display:flex;align-items:center;gap:8px;"><div class="rev-bar" style="flex:1;"><i style="width:0%"></i></div><span class="cell-mono muted" style="font-size:12px;">0%</span></div></td></tr>
           </tbody>
         </table>
       </div>
@@ -487,7 +487,7 @@
 <div class="rc-overlay" id="rcOverlay" onclick="if(event.target===this)closeReceipt()">
   <div class="rc-modal" role="dialog" aria-modal="true" aria-label="영수증">
     <div class="rc-bar">
-      <span class="t">영수증 · 適格請求書</span>
+      <span class="t" data-i18n="pay.rc.title">영수증 · 適格請求書</span>
       <button class="rc-close" onclick="closeReceipt()" aria-label="닫기">✕</button>
     </div>
     <div class="rc-doc">
@@ -531,9 +531,9 @@
       </div>
     </div>
     <div class="rc-foot">
-      <button class="btn btn-secondary" onclick="window.print()">인쇄</button>
-      <button class="btn btn-secondary" onclick="closeReceipt()">닫기</button>
-      <button class="btn btn-primary" onclick="alert('PDF 다운로드는 PG/백엔드 연동 후 제공됩니다.')">PDF 다운로드</button>
+      <button class="btn btn-secondary" onclick="window.print()" data-i18n="pay.rc.print">인쇄</button>
+      <button class="btn btn-secondary" onclick="closeReceipt()" data-i18n="pay.rc.close">닫기</button>
+      <button class="btn btn-primary" onclick="rcDownloadNotice()" data-i18n="pay.rc.pdf">PDF 다운로드</button>
     </div>
   </div>
 </div>
@@ -556,7 +556,7 @@
     document.getElementById('rcOrder').textContent  = order;
     document.getElementById('rcName').textContent   = name;
     document.getElementById('rcItem').textContent   = item;
-    document.getElementById('rcMethod').textContent = (method === '카드' ? 'クレジットカード' : method === 'QR' ? 'QR（コード決済）' : method);
+    document.getElementById('rcMethod').textContent = ((method === '카드' || method === 'カード') ? 'クレジットカード' : method === 'QR' ? 'QR（コード決済）' : method);
     document.getElementById('rcPaid').textContent   = paid;
     document.getElementById('rcDate').textContent   = issue;
     document.getElementById('rcTotal').textContent  = yen(total);
@@ -573,6 +573,178 @@
     document.body.style.overflow = '';
   }
   document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeReceipt(); });
+  function rcDownloadNotice(){
+    var ja = (window.adminLocale && window.adminLocale() === 'ja');
+    alert(ja ? 'PDFダウンロードはPG/バックエンド連携後に提供されます。' : 'PDF 다운로드는 PG/백엔드 연동 후 제공됩니다.');
+  }
+</script>
+<script>
+window.PAGE_I18N = {
+  ko: {
+    "pay.title": "결제 · 매출",
+    "pay.sub": "개별 결제 처리와 매출 통계 · 매출은 <strong>매출 열람 권한</strong>이 있는 관리자에게만 표시",
+    "pay.export": "내보내기",
+    "pay.kpi.rev": "이번 달 매출",
+    "pay.mom": "전월 대비",
+    "pay.kpi.pay": "이번 달 결제",
+    "pay.unit.cases": "건",
+    "pay.kpi.refund": "이번 달 환불",
+    "pay.kpi.refund.sub": "9건 · 환불률 1.2%",
+    "pay.kpi.settle": "정산 예정",
+    "pay.kpi.settle.sub": "매출 − 환불 · PG 정산 T+7",
+    "pay.tab.history": "결제 내역",
+    "pay.tab.stats": "매출 통계",
+    "pay.perm.toggle": "🔒 매출 열람 권한",
+    "pay.seg.all": "전체",
+    "pay.st.paid": "결제완료",
+    "pay.st.refundReq": "환불요청",
+    "pay.st.refunded": "환불완료",
+    "pay.st.failed": "실패",
+    "pay.st.pending": "대기",
+    "pay.search": "주문번호, 회원, 시험명 ...",
+    "pay.filter": "필터",
+    "pay.totalCount": "전체 결제",
+    "pay.revLabel": "매출",
+    "pay.revCount": "· 764건",
+    "pay.th.status": "상태",
+    "pay.th.order": "주문번호",
+    "pay.th.member": "회원",
+    "pay.th.exam": "시험명",
+    "pay.th.method": "결제수단",
+    "pay.th.amount": "금액",
+    "pay.th.paidAt": "결제일시",
+    "pay.th.receipt": "영수증",
+    "pay.th.manage": "관리",
+    "pay.exam.int": "TOPIK 말하기 중상급",
+    "pay.exam.beg": "TOPIK 말하기 초급",
+    "pay.pm.card": "카드",
+    "pay.prev": "← 이전",
+    "pay.next": "다음 →",
+    "pay.perPage": "페이지당",
+    "pay.chart.title": "월별 매출 추이",
+    "pay.chart.range": "최근 6개월",
+    "pay.m.2": "2월",
+    "pay.m.3": "3월",
+    "pay.m.4": "4월",
+    "pay.m.5": "5월",
+    "pay.m.6": "6월",
+    "pay.m.7": "7월",
+    "pay.chart.note": "단위: 백만 엔 · 7월은 진행 중",
+    "pay.sum.title": "매출 요약",
+    "pay.sum.ytd": "연 누적 매출",
+    "pay.sum.month": "이번 달 매출",
+    "pay.sum.aov": "평균 객단가",
+    "pay.sum.refund": "환불액 (누적)",
+    "pay.sum.net": "순매출",
+    "pay.prod.title": "상품별 판매·매출",
+    "pay.prod.sub": "2026년 누적 기준 · 상품 관리에서 이동",
+    "pay.pth.product": "상품 (시험)",
+    "pay.pth.plan": "플랜",
+    "pay.pth.level": "레벨",
+    "pay.pth.qty": "판매 수량",
+    "pay.pth.revenue": "매출",
+    "pay.pth.share": "비중",
+    "pay.plan.premium": "프리미엄",
+    "pay.plan.basic": "베이직",
+    "pay.lv.int": "중상급",
+    "pay.lv.beg": "초급",
+    "pay.lv.none": "미분류",
+    "pay.p.int": "TOPIK 모의고사 · 중상급 (3~6급)",
+    "pay.p.beg": "TOPIK 모의고사 · 초급 (1·2급)",
+    "pay.p.biz": "비즈니스 한국어 진단평가",
+    "pay.p.int2025": "TOPIK 모의고사 · 중상급 (2025)",
+    "pay.p.ended": " · 종료",
+    "pay.p.beg2026": "TOPIK 모의고사 · 초급 (2026 개정판)",
+    "pay.p.pron": "발음·말하기 평가 (베타)",
+    "pay.p.paused": " · 일시중지",
+    "pay.rc.title": "영수증 · 適格請求書",
+    "pay.rc.print": "인쇄",
+    "pay.rc.close": "닫기",
+    "pay.rc.pdf": "PDF 다운로드"
+  },
+  ja: {
+    "pay.title": "決済・売上",
+    "pay.sub": "個別の決済処理と売上統計 · 売上は<strong>売上閲覧権限</strong>を持つ管理者にのみ表示されます",
+    "pay.export": "エクスポート",
+    "pay.kpi.rev": "今月の売上",
+    "pay.mom": "前月比",
+    "pay.kpi.pay": "今月の決済",
+    "pay.unit.cases": "件",
+    "pay.kpi.refund": "今月の返金",
+    "pay.kpi.refund.sub": "9件 · 返金率 1.2%",
+    "pay.kpi.settle": "精算予定",
+    "pay.kpi.settle.sub": "売上 − 返金 · PG精算 T+7",
+    "pay.tab.history": "決済履歴",
+    "pay.tab.stats": "売上統計",
+    "pay.perm.toggle": "🔒 売上閲覧権限",
+    "pay.seg.all": "すべて",
+    "pay.st.paid": "決済完了",
+    "pay.st.refundReq": "返金申請",
+    "pay.st.refunded": "返金完了",
+    "pay.st.failed": "失敗",
+    "pay.st.pending": "保留",
+    "pay.search": "注文番号、会員、試験名 ...",
+    "pay.filter": "フィルター",
+    "pay.totalCount": "決済全件",
+    "pay.revLabel": "売上",
+    "pay.revCount": "· 764件",
+    "pay.th.status": "ステータス",
+    "pay.th.order": "注文番号",
+    "pay.th.member": "会員",
+    "pay.th.exam": "試験名",
+    "pay.th.method": "決済方法",
+    "pay.th.amount": "金額",
+    "pay.th.paidAt": "決済日時",
+    "pay.th.receipt": "領収書",
+    "pay.th.manage": "管理",
+    "pay.exam.int": "TOPIK スピーキング 中上級",
+    "pay.exam.beg": "TOPIK スピーキング 初級",
+    "pay.pm.card": "カード",
+    "pay.prev": "← 前へ",
+    "pay.next": "次へ →",
+    "pay.perPage": "1ページあたり",
+    "pay.chart.title": "月別売上推移",
+    "pay.chart.range": "直近6ヶ月",
+    "pay.m.2": "2月",
+    "pay.m.3": "3月",
+    "pay.m.4": "4月",
+    "pay.m.5": "5月",
+    "pay.m.6": "6月",
+    "pay.m.7": "7月",
+    "pay.chart.note": "単位: 百万円 · 7月は進行中",
+    "pay.sum.title": "売上サマリー",
+    "pay.sum.ytd": "年間累計売上",
+    "pay.sum.month": "今月の売上",
+    "pay.sum.aov": "平均客単価",
+    "pay.sum.refund": "返金額（累計）",
+    "pay.sum.net": "純売上",
+    "pay.prod.title": "商品別 販売・売上",
+    "pay.prod.sub": "2026年 累計基準 · 商品管理から移動",
+    "pay.pth.product": "商品（試験）",
+    "pay.pth.plan": "プラン",
+    "pay.pth.level": "レベル",
+    "pay.pth.qty": "販売数量",
+    "pay.pth.revenue": "売上",
+    "pay.pth.share": "構成比",
+    "pay.plan.premium": "プレミアム",
+    "pay.plan.basic": "ベーシック",
+    "pay.lv.int": "中上級",
+    "pay.lv.beg": "初級",
+    "pay.lv.none": "未分類",
+    "pay.p.int": "TOPIK 模擬試験 · 中上級 (3~6級)",
+    "pay.p.beg": "TOPIK 模擬試験 · 初級 (1·2級)",
+    "pay.p.biz": "ビジネス韓国語 診断評価",
+    "pay.p.int2025": "TOPIK 模擬試験 · 中上級 (2025)",
+    "pay.p.ended": " · 終了",
+    "pay.p.beg2026": "TOPIK 模擬試験 · 初級 (2026 改訂版)",
+    "pay.p.pron": "発音・スピーキング評価 (ベータ)",
+    "pay.p.paused": " · 一時停止",
+    "pay.rc.title": "領収書 · 適格請求書",
+    "pay.rc.print": "印刷",
+    "pay.rc.close": "閉じる",
+    "pay.rc.pdf": "PDFダウンロード"
+  }
+};
 </script>
 <script src="assets/admin-shell.js"></script>
 </body>

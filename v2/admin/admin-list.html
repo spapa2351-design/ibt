@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MaroPass Admin — 관리자 관리</title>
+<title data-i18n="docTitle">MaroPass Admin — 관리자 관리</title>
 <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
 <link rel="stylesheet" href="assets/admin.css">
 <style>
@@ -84,19 +84,57 @@
   .acct-type button:hover { border-color:var(--grey-300); }
   .acct-type button.active { border-color:var(--blue-500); background:var(--blue-50); color:var(--blue-600); }
   .acct-type button.active .at-sub { color:var(--blue-500); }
+
+  /* 2단계 인증 (이메일) */
+  .cell-2fa { white-space:nowrap; }
+  .cell-2fa .tfa-wrap { display:inline-flex; align-items:center; gap:8px; flex-wrap:nowrap; }
+  .badge.tfa-off { background:#eef1fb; color:#5566cc; flex-shrink:0; }
+  .badge.tfa-on { background:var(--green-50); color:var(--green-500); flex-shrink:0; }
+  .tfa-set { white-space:nowrap; flex-shrink:0; }
+  .tfa-set svg { flex-shrink:0; }
+
+  .t2-overlay { position:fixed; inset:0; background:rgba(15,23,42,.5); display:none; align-items:center; justify-content:center; z-index:200; padding:24px; }
+  .t2-overlay.open { display:flex; }
+  .t2-modal { background:#fff; border-radius:18px; width:100%; max-width:540px; box-shadow:0 24px 70px rgba(15,23,42,.3); overflow:hidden; }
+  .t2-head { padding:22px 26px; display:flex; align-items:flex-start; justify-content:space-between; gap:12px; border-bottom:1px solid var(--grey-100); }
+  .t2-head h3 { font-size:19px; font-weight:800; margin:0; color:var(--grey-900); }
+  .t2-head p { font-size:13px; color:var(--grey-500); margin:6px 0 0; line-height:1.5; }
+  .t2-x { width:34px; height:34px; border-radius:9px; border:none; background:var(--grey-100); color:var(--grey-600); cursor:pointer; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .t2-x:hover { background:var(--grey-200); color:var(--grey-900); }
+  .t2-body { padding:20px 26px; }
+  .t2-toggle-row { display:flex; align-items:center; justify-content:space-between; padding-bottom:18px; margin-bottom:6px; border-bottom:1px solid var(--grey-100); }
+  .t2-tt { font-size:15px; font-weight:800; color:var(--grey-900); }
+  .t2-state { font-size:13px; font-weight:700; margin-top:4px; }
+  .t2-state.on { color:var(--blue-600); }
+  .t2-state.off { color:var(--grey-400); }
+  .t2-info-row { display:flex; align-items:center; gap:16px; padding:11px 2px; }
+  .t2-info-row .lab { width:56px; font-size:13.5px; color:var(--grey-500); font-weight:600; }
+  .t2-info-row .val { font-size:14px; font-weight:700; color:var(--grey-900); }
+  .t2-mail-box { background:var(--grey-50); border-radius:12px; padding:16px 18px; margin-top:10px; }
+  .t2-mail-note { display:flex; align-items:center; gap:6px; font-size:13px; color:var(--blue-600); font-weight:600; margin-bottom:12px; }
+  .t2-mail-note svg { width:15px; height:15px; flex-shrink:0; }
+  .t2-mail-box input { width:100%; padding:12px 14px; border:1px solid var(--grey-200); border-radius:10px; font-size:14px; font-family:inherit; outline:none; background:#fff; }
+  .t2-mail-box input:focus { border-color:var(--blue-500); }
+  .t2-foot { display:flex; gap:10px; justify-content:flex-end; padding:16px 26px; border-top:1px solid var(--grey-100); }
+  .t2-foot .btn { min-width:92px; justify-content:center; }
+  .t2-ok:disabled { background:var(--grey-100); color:var(--grey-400); cursor:not-allowed; box-shadow:none; }
+  .tfa-switch { position:relative; width:48px; height:28px; border-radius:999px; background:var(--grey-300,#cbd5e1); cursor:pointer; transition:background .18s; flex-shrink:0; border:none; padding:0; }
+  .tfa-switch.on { background:var(--blue-500); }
+  .tfa-switch::after { content:''; position:absolute; top:3px; left:3px; width:22px; height:22px; border-radius:50%; background:#fff; transition:left .18s; box-shadow:0 1px 3px rgba(0,0,0,.25); }
+  .tfa-switch.on::after { left:23px; }
 </style>
 </head>
 <body data-page="admin-list" data-title="관리자 관리">
 <div class="page">
   <div class="page-head">
     <div>
-      <h1 class="page-title">관리자 관리</h1>
-      <div class="page-sub">최고관리자·부관리자 계정과 권한을 관리합니다 · 부관리자는 권한 설정으로 역할이 결정됩니다</div>
+      <h1 class="page-title" data-i18n="pageTitle">관리자 관리</h1>
+      <div class="page-sub" data-i18n="pageSub">최고관리자·부관리자 계정과 권한을 관리합니다 · 부관리자는 권한 설정으로 역할이 결정됩니다</div>
     </div>
     <div class="page-actions">
       <button class="btn btn-primary" id="addBtn">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-        관리자 추가
+        <span data-i18n="addAdmin">관리자 추가</span>
       </button>
     </div>
   </div>
@@ -104,19 +142,19 @@
   <div class="card">
     <div class="filter-bar">
       <div class="seg" id="acctFilter">
-        <button class="active" data-filter="all">전체 8</button>
-        <button data-filter="super">최고관리자 1</button>
-        <button data-filter="sub">부관리자 7</button>
-        <button data-filter="stop">정지 1</button>
+        <button class="active" data-filter="all" data-i18n="filterAll">전체 8</button>
+        <button data-filter="super" data-i18n="filterSuper">최고관리자 1</button>
+        <button data-filter="sub" data-i18n="filterSub">부관리자 7</button>
+        <button data-filter="stop" data-i18n="filterStop">정지 1</button>
       </div>
       <div class="filter-input">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        <input type="text" placeholder="이름·이메일 검색">
+        <input type="text" data-i18n-ph="searchPh" placeholder="이름·이메일 검색">
       </div>
     </div>
 
     <div class="table-tools">
-      <div class="total-count">전체 <strong>8</strong>명</div>
+      <div class="total-count" data-i18n-html="totalCount">전체 <strong>8</strong>명</div>
     </div>
 
     <div class="table-wrap">
@@ -124,13 +162,14 @@
         <thead>
           <tr>
             <th style="width:40px;"><input type="checkbox"></th>
-            <th>상태</th>
-            <th>이름</th>
-            <th>이메일</th>
-            <th>유형</th>
-            <th>등록일</th>
-            <th>최근 접속</th>
-            <th style="text-align:right;">관리</th>
+            <th data-i18n="thStatus">상태</th>
+            <th data-i18n="thName">이름</th>
+            <th data-i18n="thEmail">이메일</th>
+            <th data-i18n="thType">유형</th>
+            <th data-i18n="thRegDate">등록일</th>
+            <th data-i18n="thLastAccess">최근 접속</th>
+            <th style="width:150px;" data-i18n="th2fa">2단계 인증</th>
+            <th style="text-align:right;" data-i18n="thManage">관리</th>
           </tr>
         </thead>
         <tbody>
@@ -140,12 +179,12 @@
             <td><span class="badge badge-active">활성</span></td>
             <td class="cell-name">홍길동</td>
             <td class="cell-id">admin01@example.com</td>
-            <td><span class="badge type-super">최고관리자</span></td>
+            <td><span class="badge type-super" data-i18n="typeSuper">최고관리자</span></td>
             <td class="cell-mono">2025-11-01</td>
             <td class="cell-mono">2026-07-20</td>
             <td>
               <div class="cell-acct-actions">
-                <span class="perm-set locked" title="최고관리자는 전체 권한이 고정됩니다"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>권한 고정</span>
+                <span class="perm-set locked" title="최고관리자는 전체 권한이 고정됩니다"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span data-i18n="permLocked">권한 고정</span>
               </div>
             </td>
           </tr>
@@ -155,12 +194,12 @@
             <td><span class="badge badge-active">활성</span></td>
             <td class="cell-name">김민수</td>
             <td class="cell-id">op001@example.com</td>
-            <td><span class="badge type-sub">부관리자</span></td>
+            <td><span class="badge type-sub" data-i18n="typeSub">부관리자</span></td>
             <td class="cell-mono">2026-05-02</td>
             <td class="cell-mono">2026-07-19</td>
             <td>
               <div class="cell-acct-actions">
-                <a class="perm-set" href="admin-perm.html"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>권한 설정</a>
+                <a class="perm-set" href="admin-perm.html"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg><span data-i18n="permSet">권한 설정</span></a>
                 <button class="row-action del" title="삭제"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg></button>
               </div>
             </td>
@@ -170,12 +209,12 @@
             <td><span class="badge badge-active">활성</span></td>
             <td class="cell-name">이지은</td>
             <td class="cell-id">op002@example.com</td>
-            <td><span class="badge type-sub">부관리자</span></td>
+            <td><span class="badge type-sub" data-i18n="typeSub">부관리자</span></td>
             <td class="cell-mono">2026-03-11</td>
             <td class="cell-mono">2026-07-20</td>
             <td>
               <div class="cell-acct-actions">
-                <a class="perm-set" href="admin-perm.html"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>권한 설정</a>
+                <a class="perm-set" href="admin-perm.html"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg><span data-i18n="permSet">권한 설정</span></a>
                 <button class="row-action del" title="삭제"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg></button>
               </div>
             </td>
@@ -185,12 +224,12 @@
             <td><span class="badge badge-active">활성</span></td>
             <td class="cell-name">박서준</td>
             <td class="cell-id">op003@example.com</td>
-            <td><span class="badge type-sub">부관리자</span></td>
+            <td><span class="badge type-sub" data-i18n="typeSub">부관리자</span></td>
             <td class="cell-mono">2026-03-11</td>
             <td class="cell-mono">2026-07-18</td>
             <td>
               <div class="cell-acct-actions">
-                <a class="perm-set" href="admin-perm.html"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>권한 설정</a>
+                <a class="perm-set" href="admin-perm.html"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg><span data-i18n="permSet">권한 설정</span></a>
                 <button class="row-action del" title="삭제"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg></button>
               </div>
             </td>
@@ -200,12 +239,12 @@
             <td><span class="badge badge-active">활성</span></td>
             <td class="cell-name">정예린</td>
             <td class="cell-id">op004@example.com</td>
-            <td><span class="badge type-sub">부관리자</span></td>
+            <td><span class="badge type-sub" data-i18n="typeSub">부관리자</span></td>
             <td class="cell-mono">2026-02-20</td>
             <td class="cell-mono">2026-07-17</td>
             <td>
               <div class="cell-acct-actions">
-                <a class="perm-set" href="admin-perm.html"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>권한 설정</a>
+                <a class="perm-set" href="admin-perm.html"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg><span data-i18n="permSet">권한 설정</span></a>
                 <button class="row-action del" title="삭제"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg></button>
               </div>
             </td>
@@ -215,12 +254,12 @@
             <td><span class="badge badge-active">활성</span></td>
             <td class="cell-name">최현우</td>
             <td class="cell-id">op005@example.com</td>
-            <td><span class="badge type-sub">부관리자</span></td>
+            <td><span class="badge type-sub" data-i18n="typeSub">부관리자</span></td>
             <td class="cell-mono">2026-02-20</td>
             <td class="cell-mono">2026-07-16</td>
             <td>
               <div class="cell-acct-actions">
-                <a class="perm-set" href="admin-perm.html"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>권한 설정</a>
+                <a class="perm-set" href="admin-perm.html"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg><span data-i18n="permSet">권한 설정</span></a>
                 <button class="row-action del" title="삭제"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg></button>
               </div>
             </td>
@@ -230,12 +269,12 @@
             <td><span class="badge badge-active">활성</span></td>
             <td class="cell-name">강태현</td>
             <td class="cell-id">ext01@partner.example.com</td>
-            <td><span class="badge type-sub">부관리자</span></td>
+            <td><span class="badge type-sub" data-i18n="typeSub">부관리자</span></td>
             <td class="cell-mono">2026-04-05</td>
             <td class="cell-mono">2026-07-15</td>
             <td>
               <div class="cell-acct-actions">
-                <a class="perm-set" href="admin-perm.html"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>권한 설정</a>
+                <a class="perm-set" href="admin-perm.html"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg><span data-i18n="permSet">권한 설정</span></a>
                 <button class="row-action del" title="삭제"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg></button>
               </div>
             </td>
@@ -245,12 +284,12 @@
             <td><span class="badge badge-inactive">정지</span></td>
             <td class="cell-name">윤하늘</td>
             <td class="cell-id">op006@example.com</td>
-            <td><span class="badge type-sub">부관리자</span></td>
+            <td><span class="badge type-sub" data-i18n="typeSub">부관리자</span></td>
             <td class="cell-mono">2026-01-30</td>
             <td class="cell-mono">2026-06-02</td>
             <td>
               <div class="cell-acct-actions">
-                <a class="perm-set" href="admin-perm.html"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>권한 설정</a>
+                <a class="perm-set" href="admin-perm.html"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg><span data-i18n="permSet">권한 설정</span></a>
                 <button class="row-action del" title="삭제"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg></button>
               </div>
             </td>
@@ -263,7 +302,7 @@
       <button class="pager-btn" disabled>‹</button>
       <button class="pager-btn active">1</button>
       <button class="pager-btn" disabled>›</button>
-      <div class="pager-rows">페이지당 <select><option>10</option><option>20</option></select></div>
+      <div class="pager-rows"><span data-i18n="perPage">페이지당</span> <select><option>10</option><option>20</option></select></div>
     </div>
   </div>
 </div>
@@ -272,33 +311,33 @@
 <div class="fm-overlay" id="addOverlay" aria-hidden="true">
   <div class="fm-modal" role="dialog" aria-modal="true" aria-label="관리자 추가">
     <div class="fm-head">
-      <h3>관리자 추가</h3>
-      <p>계정을 만들면 임시 비밀번호가 자동 발급됩니다. 본인이 첫 로그인 시 비밀번호를 변경합니다.</p>
+      <h3 data-i18n="addAdmin">관리자 추가</h3>
+      <p data-i18n="addDesc">계정을 만들면 임시 비밀번호가 자동 발급됩니다. 본인이 첫 로그인 시 비밀번호를 변경합니다.</p>
     </div>
     <div class="fm-body">
       <div class="fm-field">
-        <label>계정 유형 <span class="req">*</span></label>
+        <label data-i18n-html="acctTypeLabel">계정 유형 <span class="req">*</span></label>
         <div class="acct-type" id="acctType">
-          <button type="button" class="active" data-type="sub">부관리자<span class="at-sub">권한 설정으로 역할 지정</span></button>
-          <button type="button" data-type="super">최고관리자<span class="at-sub">전체 권한 자동 부여</span></button>
+          <button type="button" class="active" data-type="sub" data-i18n-html="addTypeSub">부관리자<span class="at-sub">권한 설정으로 역할 지정</span></button>
+          <button type="button" data-type="super" data-i18n-html="addTypeSuper">최고관리자<span class="at-sub">전체 권한 자동 부여</span></button>
         </div>
       </div>
-      <div class="fm-field"><label>이름 <span class="req">*</span></label><input type="text" placeholder="예: 홍길동"></div>
-      <div class="fm-field"><label>이메일 <span class="req">*</span> <span class="muted">(로그인 아이디)</span></label><input type="email" placeholder="name@example.com"></div>
+      <div class="fm-field"><label data-i18n-html="nameLabel">이름 <span class="req">*</span></label><input type="text" data-i18n-ph="namePh" placeholder="예: 홍길동"></div>
+      <div class="fm-field"><label data-i18n-html="emailLabel">이메일 <span class="req">*</span> <span class="muted">(로그인 아이디)</span></label><input type="email" placeholder="name@example.com"></div>
       <div class="fm-field">
-        <label>임시 비밀번호 <span class="muted">(시스템 자동 발급)</span></label>
+        <label data-i18n-html="tempPwLabel">임시 비밀번호 <span class="muted">(시스템 자동 발급)</span></label>
         <div class="fm-temp">
           <span class="t-pw" id="tempPw">Kp7x9Qm2a</span>
-          <button type="button" class="t-btn" id="regenPw">재발급</button>
+          <button type="button" class="t-btn" id="regenPw" data-i18n="regenPw">재발급</button>
         </div>
         <div class="fm-note">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-          <span>이 비밀번호는 지금만 표시됩니다. 안전하게 전달하세요. <b>첫 로그인 시 변경 필수</b> · 72시간 내 미접속 시 만료.</span>
+          <span data-i18n-html="pwNote">이 비밀번호는 지금만 표시됩니다. 안전하게 전달하세요. <b>첫 로그인 시 변경 필수</b> · 72시간 내 미접속 시 만료.</span>
         </div>
       </div>
     </div>
     <div class="fm-foot">
-      <button type="button" class="btn btn-secondary" id="addCancel">취소</button>
+      <button type="button" class="btn btn-secondary" id="addCancel" data-i18n="cancel">취소</button>
       <button type="button" class="btn btn-primary" id="addConfirm">생성하고 권한 설정 →</button>
     </div>
   </div>
@@ -308,32 +347,33 @@
 <div class="del-overlay" id="delOverlay" aria-hidden="true">
   <div class="del-modal" role="dialog" aria-modal="true" aria-label="부관리자 삭제 확인">
     <div class="del-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
-    <h3 class="del-title">정말 삭제하시겠습니까?</h3>
-    <p class="del-sub">선택한 계정과 관련된 모든 데이터가 삭제되며,<br>삭제 후에는 복구할 수 없습니다.</p>
+    <h3 class="del-title" data-i18n="delTitle">정말 삭제하시겠습니까?</h3>
+    <p class="del-sub" data-i18n-html="delSub">선택한 계정과 관련된 모든 데이터가 삭제되며,<br>삭제 후에는 복구할 수 없습니다.</p>
     <div class="del-target">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
-      삭제할 관리자: <b id="delTarget">김민수 (op001@example.com)</b>
+      <span data-i18n="delTargetLabel">삭제할 관리자:</span> <b id="delTarget">김민수 (op001@example.com)</b>
     </div>
     <div class="del-info">
       <ul>
-        <li>삭제: 계정 · 로그인 접근 · 권한 설정</li>
-        <li>유지: 작성 이력(공지·문항·채점 기록) · 감사 로그</li>
+        <li data-i18n="delInfoRemove">삭제: 계정 · 로그인 접근 · 권한 설정</li>
+        <li data-i18n="delInfoKeep">유지: 작성 이력(공지·문항·채점 기록) · 감사 로그</li>
       </ul>
     </div>
     <div class="del-confirm-label">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-      계속하려면 <b>삭제</b>를 입력하세요.
+      <span data-i18n-html="delConfirmLabel">계속하려면 <b>삭제</b>를 입력하세요.</span>
     </div>
-    <input class="del-input" id="delInput" placeholder="삭제" autocomplete="off">
+    <input class="del-input" id="delInput" data-i18n-ph="delWord" placeholder="삭제" autocomplete="off">
     <div class="del-actions">
-      <button class="btn btn-cancel" id="delCancel">취소</button>
-      <button class="btn btn-del" id="delConfirm">삭제</button>
+      <button class="btn btn-cancel" id="delCancel" data-i18n="cancel">취소</button>
+      <button class="btn btn-del" id="delConfirm" data-i18n="delWord">삭제</button>
     </div>
   </div>
 </div>
 
 <script>
 (function(){
+  var L = function(ko,ja){ return (window.adminLocale && window.adminLocale()==='ja') ? ja : ko; };
   var overlay = document.getElementById('delOverlay');
   var input = document.getElementById('delInput');
   var confirmBtn = document.getElementById('delConfirm');
@@ -361,7 +401,7 @@
     b.addEventListener('click', function(){ open(b.closest('tr')); });
   });
   input.addEventListener('input', function(){
-    confirmBtn.classList.toggle('ready', input.value.trim() === '삭제');
+    confirmBtn.classList.toggle('ready', input.value.trim() === L('삭제','削除'));
   });
   document.getElementById('delCancel').addEventListener('click', close);
   overlay.addEventListener('click', function(e){ if(e.target === overlay) close(); });
@@ -370,12 +410,13 @@
     if(!confirmBtn.classList.contains('ready')) return;
     if(pendingRow) pendingRow.remove();
     close();
-    if(window.toast) toast((pendingName || '관리자') + ' 계정을 삭제했습니다.', 'success');
+    if(window.toast) toast(L((pendingName || '관리자') + ' 계정을 삭제했습니다.', (pendingName || '管理者') + ' アカウントを削除しました。'), 'success');
   });
 })();
 </script>
 <script>
 (function(){
+  var L = function(ko,ja){ return (window.adminLocale && window.adminLocale()==='ja') ? ja : ko; };
   var overlay = document.getElementById('addOverlay');
   function genPw(){
     var chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789';
@@ -387,7 +428,7 @@
     document.getElementById('tempPw').textContent = genPw();
     acctType = 'sub';
     document.querySelectorAll('#acctType button').forEach(function(x,i){ x.classList.toggle('active', i===0); });
-    document.getElementById('addConfirm').textContent = '생성하고 권한 설정 →';
+    document.getElementById('addConfirm').textContent = L('생성하고 권한 설정 →','作成して権限設定 →');
     overlay.classList.add('open'); overlay.setAttribute('aria-hidden','false');
     document.body.style.overflow = 'hidden';
   }
@@ -399,7 +440,7 @@
   document.getElementById('addCancel').addEventListener('click', close);
   document.getElementById('regenPw').addEventListener('click', function(){
     document.getElementById('tempPw').textContent = genPw();
-    if(window.toast) toast('임시 비밀번호를 재발급했습니다.', 'info');
+    if(window.toast) toast(L('임시 비밀번호를 재발급했습니다.','仮パスワードを再発行しました。'), 'info');
   });
   overlay.addEventListener('click', function(e){ if(e.target === overlay) close(); });
   document.addEventListener('keydown', function(e){ if(e.key==='Escape' && overlay.classList.contains('open')) close(); });
@@ -410,7 +451,7 @@
       document.querySelectorAll('#acctType button').forEach(function(x){ x.classList.remove('active'); });
       b.classList.add('active');
       acctType = b.dataset.type;
-      document.getElementById('addConfirm').textContent = (acctType === 'super') ? '최고관리자 생성' : '생성하고 권한 설정 →';
+      document.getElementById('addConfirm').textContent = (acctType === 'super') ? L('최고관리자 생성','最高管理者を作成') : L('생성하고 권한 설정 →','作成して権限設定 →');
     });
   });
 
@@ -419,15 +460,15 @@
     var name = (inps[0] && inps[0].value.trim()) || '';
     var email = (inps[1] && inps[1].value.trim()) || '';
     if(!name || !email){
-      if(window.toast) toast('이름·이메일을 모두 입력해 주세요.', 'error');
+      if(window.toast) toast(L('이름·이메일을 모두 입력해 주세요.','氏名・メールアドレスをすべて入力してください。'), 'error');
       return;
     }
     close();
     if(acctType === 'super'){
       // 최고관리자 = 전체 권한 고정 → 권한 설정 단계 없이 목록 유지
-      if(window.toast) toast(name + ' 최고관리자가 생성되었습니다. (전체 권한 · 임시 비밀번호 발급)', 'success');
+      if(window.toast) toast(L(name + ' 최고관리자가 생성되었습니다. (전체 권한 · 임시 비밀번호 발급)', name + ' 最高管理者を作成しました。(全権限・仮パスワード発行)'), 'success');
     } else {
-      if(window.toast) toast(name + ' 부관리자가 생성되었습니다. (임시 비밀번호 발급)', 'success');
+      if(window.toast) toast(L(name + ' 부관리자가 생성되었습니다. (임시 비밀번호 발급)', name + ' 副管理者を作成しました。(仮パスワード発行)'), 'success');
       // 부관리자는 생성 후 권한 설정으로 이동 (데모)
       setTimeout(function(){ location.href = 'admin-perm.html'; }, 900);
     }
@@ -468,6 +509,7 @@
 <script>
   // 관리자 정지 / 활성화 토글 (부관리자만 · 최고관리자 제외)
   (function () {
+    var L = function(ko,ja){ return (window.adminLocale && window.adminLocale()==='ja') ? ja : ko; };
     document.querySelectorAll('tbody tr').forEach(function (tr) {
       if (tr.querySelector('.type-super')) return;            // 최고관리자 제외
       var actions = tr.querySelector('.cell-acct-actions');
@@ -482,14 +524,14 @@
 
       function render() {
         var suspended = badge.classList.contains('badge-inactive');
-        btn.textContent = suspended ? '활성화' : '정지';
+        btn.textContent = suspended ? L('활성화','有効化') : L('정지','停止');
         btn.style.color = suspended ? 'var(--green-500)' : 'var(--red-500)';
         btn.style.borderColor = suspended ? 'var(--green-500)' : 'var(--red-500)';
       }
       function setStatus(susp) {
         badge.classList.toggle('badge-inactive', susp);
         badge.classList.toggle('badge-active', !susp);
-        badge.textContent = susp ? '정지' : '활성';
+        badge.textContent = susp ? L('정지','停止') : L('활성','有効');
         render();
       }
       render();
@@ -497,22 +539,22 @@
       btn.addEventListener('click', function () {
         var suspended = badge.classList.contains('badge-inactive');
         var nameCell = tr.querySelector('.cell-name');
-        var name = nameCell ? nameCell.childNodes[0].textContent.trim() : '이 관리자';
+        var name = nameCell ? nameCell.childNodes[0].textContent.trim() : L('이 관리자','この管理者');
         if (!window.confirmAction) { setStatus(!suspended); return; }
         if (suspended) {
           confirmAction({
-            title: '계정을 활성화하시겠습니까?',
-            desc: name + ' 계정의 로그인·접근을 다시 허용합니다.',
-            confirmText: '활성화',
-            onConfirm: function () { setStatus(false); if (window.toast) toast(name + ' 계정을 활성화했습니다.', 'success'); }
+            title: L('계정을 활성화하시겠습니까?','アカウントを有効化しますか?'),
+            desc: L(name + ' 계정의 로그인·접근을 다시 허용합니다.', name + ' アカウントのログイン・アクセスを再び許可します。'),
+            confirmText: L('활성화','有効化'),
+            onConfirm: function () { setStatus(false); if (window.toast) toast(L(name + ' 계정을 활성화했습니다.', name + ' アカウントを有効化しました。'), 'success'); }
           });
         } else {
           confirmAction({
             danger: true,
-            title: '계정을 정지하시겠습니까?',
-            desc: name + ' 계정의 로그인·접근을 차단합니다. (삭제 아님 · 언제든 다시 활성화 가능)',
-            confirmText: '정지',
-            onConfirm: function () { setStatus(true); if (window.toast) toast(name + ' 계정을 정지했습니다.', 'success'); }
+            title: L('계정을 정지하시겠습니까?','アカウントを停止しますか?'),
+            desc: L(name + ' 계정의 로그인·접근을 차단합니다. (삭제 아님 · 언제든 다시 활성화 가능)', name + ' アカウントのログイン・アクセスを遮断します。(削除ではありません・いつでも再有効化可能)'),
+            confirmText: L('정지','停止'),
+            onConfirm: function () { setStatus(true); if (window.toast) toast(L(name + ' 계정을 정지했습니다.', name + ' アカウントを停止しました。'), 'success'); }
           });
         }
       });
@@ -521,12 +563,258 @@
 </script>
 <script>
   // 최고관리자 '권한 고정' 클릭 → 안내 토스트
+  (function(){
+  var L = function(ko,ja){ return (window.adminLocale && window.adminLocale()==='ja') ? ja : ko; };
   document.querySelectorAll('.perm-set.locked').forEach(function(b){
     b.addEventListener('click', function(e){
       e.preventDefault();
-      if(window.toast) toast('최고관리자는 전체 권한이 고정되어 수정할 수 없습니다.', 'info');
+      if(window.toast) toast(L('최고관리자는 전체 권한이 고정되어 수정할 수 없습니다.','最高管理者は全権限が固定されており変更できません。'), 'info');
     });
   });
+  })();
+</script>
+<!-- 2단계 인증 설정 모달 (이메일 인증) -->
+<div class="t2-overlay" id="t2Overlay" aria-hidden="true">
+  <div class="t2-modal" role="dialog" aria-modal="true" aria-label="2단계 인증 설정">
+    <div class="t2-head">
+      <div>
+        <h3 data-i18n="t2Title">2단계 인증 설정</h3>
+        <p data-i18n="t2Desc">이메일로 전송된 인증번호를 입력해야 로그인을 완료할 수 있습니다.</p>
+      </div>
+      <button type="button" class="t2-x" id="t2Close" aria-label="닫기"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+    <div class="t2-body">
+      <div class="t2-toggle-row">
+        <div>
+          <div class="t2-tt" data-i18n="t2Toggle">2단계 인증</div>
+          <div class="t2-state off" id="t2State">사용 안 함</div>
+        </div>
+        <button type="button" class="tfa-switch" id="t2Switch" role="switch" aria-checked="false" aria-label="2단계 인증 사용"></button>
+      </div>
+      <div id="t2Details">
+        <div class="t2-info-row"><span class="lab" data-i18n="t2LabName">이름</span><span class="val" id="t2Name">—</span></div>
+        <div class="t2-info-row" style="padding-top:0;"><span class="lab" data-i18n="t2LabId">아이디</span><span class="val" id="t2Id">—</span></div>
+        <div class="t2-mail-box">
+          <div class="t2-mail-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg><span data-i18n="t2MailNote">이메일을 수정하면 회원정보의 '이메일'에 업데이트됩니다.</span></div>
+          <input type="email" id="t2Mail" data-i18n-ph="t2MailPh" placeholder="이메일" autocomplete="off">
+        </div>
+      </div>
+    </div>
+    <div class="t2-foot">
+      <button type="button" class="btn btn-secondary" id="t2Cancel" data-i18n="cancel">취소</button>
+      <button type="button" class="btn btn-primary t2-ok" id="t2Ok" disabled>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        <span data-i18n="confirm">확인</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+// 2단계 인증 (이메일) — 목록에 컬럼 주입 + 설정 모달
+(function(){
+  var L = function(ko,ja){ return (window.adminLocale && window.adminLocale()==='ja') ? ja : ko; };
+  var tbody = document.querySelector('tbody');
+  if(!tbody) return;
+  var GEAR = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>';
+
+  // 관리 열 앞에 2단계 인증 셀 주입 (기본: 사용 안 함)
+  tbody.querySelectorAll('tr').forEach(function(tr){
+    var manageTd = tr.querySelector('td:last-child');
+    if(!manageTd) return;
+    var td = document.createElement('td');
+    td.className = 'cell-2fa';
+    td.dataset.tfa = 'off';
+    td.innerHTML = '<div class="tfa-wrap"><span class="badge tfa-off">' + L('사용 안 함','使用しない') + '</span>'
+      + '<button type="button" class="perm-set tfa-set">' + GEAR + '<span class="tfa-set-label">' + L('설정','設定') + '</span></button></div>';
+    tr.insertBefore(td, manageTd);
+  });
+
+  var ov = document.getElementById('t2Overlay');
+  var sw = document.getElementById('t2Switch');
+  var stateEl = document.getElementById('t2State');
+  var nameEl = document.getElementById('t2Name');
+  var idEl = document.getElementById('t2Id');
+  var mailIn = document.getElementById('t2Mail');
+  var okBtn = document.getElementById('t2Ok');
+  var details = document.getElementById('t2Details');
+  var pending = null;
+
+  function validEmail(v){ return /.+@.+\..+/.test(v); }
+  function syncOk(){
+    var on = sw.classList.contains('on');
+    okBtn.disabled = on && !validEmail(mailIn.value.trim());
+  }
+  function setSwitch(on){
+    sw.classList.toggle('on', on);
+    sw.setAttribute('aria-checked', on ? 'true' : 'false');
+    stateEl.textContent = on ? L('사용함','使用する') : L('사용 안 함','使用しない');
+    stateEl.className = 't2-state ' + (on ? 'on' : 'off');
+    details.style.display = on ? '' : 'none';   // OFF면 이름·아이디·이메일 숨김
+    syncOk();
+  }
+  function open(cell){
+    pending = cell;
+    var tr = cell.closest('tr');
+    nameEl.textContent = tr.querySelector('.cell-name').childNodes[0].textContent.trim();
+    idEl.textContent = tr.querySelector('.cell-id').textContent.trim();
+    mailIn.value = '';
+    setSwitch(cell.dataset.tfa === 'on');
+    ov.classList.add('open'); ov.setAttribute('aria-hidden','false');
+    document.body.style.overflow = 'hidden';
+    setTimeout(function(){ mailIn.focus(); }, 30);
+  }
+  function close(){
+    ov.classList.remove('open'); ov.setAttribute('aria-hidden','true');
+    document.body.style.overflow = ''; pending = null;
+  }
+
+  tbody.addEventListener('click', function(e){
+    var b = e.target.closest('.tfa-set');
+    if(b) open(b.closest('.cell-2fa'));
+  });
+  sw.addEventListener('click', function(){ setSwitch(!sw.classList.contains('on')); });
+  mailIn.addEventListener('input', syncOk);
+  mailIn.addEventListener('keydown', function(e){ if(e.key === 'Enter' && !okBtn.disabled) okBtn.click(); });
+  document.getElementById('t2Cancel').addEventListener('click', close);
+  document.getElementById('t2Close').addEventListener('click', close);
+  ov.addEventListener('click', function(e){ if(e.target === ov) close(); });
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape' && ov.classList.contains('open')) close(); });
+
+  okBtn.addEventListener('click', function(){
+    if(okBtn.disabled || !pending) return;
+    var on = sw.classList.contains('on');
+    pending.dataset.tfa = on ? 'on' : 'off';
+    var badge = pending.querySelector('.badge');
+    badge.className = 'badge ' + (on ? 'tfa-on' : 'tfa-off');
+    badge.textContent = on ? L('사용 중','使用中') : L('사용 안 함','使用しない');
+    var tr = pending.closest('tr');
+    var email = mailIn.value.trim();
+    if(on && email){ tr.querySelector('.cell-id').textContent = email; } // 회원정보 이메일 업데이트(시뮬)
+    var name = tr.querySelector('.cell-name').childNodes[0].textContent.trim();
+    close();
+    if(window.toast) toast(on ? L(name + ' 2단계 인증(이메일)을 사용합니다.', name + ' 2段階認証(メール)を使用します。') : L(name + ' 2단계 인증을 해제했습니다.', name + ' 2段階認証を解除しました。'), on ? 'success' : 'info');
+  });
+})();
+</script>
+<script>
+window.PAGE_I18N = {
+  ko: {
+    docTitle: 'MaroPass Admin — 관리자 관리',
+    pageTitle: '관리자 관리',
+    pageSub: "최고관리자·부관리자 계정과 권한을 관리합니다 · 부관리자는 권한 설정으로 역할이 결정됩니다",
+    addAdmin: '관리자 추가',
+    filterAll: '전체 8', filterSuper: '최고관리자 1', filterSub: '부관리자 7', filterStop: '정지 1',
+    searchPh: '이름·이메일 검색',
+    totalCount: '전체 <strong>8</strong>명',
+    thStatus: '상태', thName: '이름', thEmail: '이메일', thType: '유형', thRegDate: '등록일', thLastAccess: '최근 접속', th2fa: '2단계 인증', thManage: '관리',
+    typeSub: '부관리자', typeSuper: '최고관리자',
+    permSet: '권한 설정', permLocked: '권한 고정',
+    perPage: '페이지당',
+    addDesc: '계정을 만들면 임시 비밀번호가 자동 발급됩니다. 본인이 첫 로그인 시 비밀번호를 변경합니다.',
+    acctTypeLabel: '계정 유형 <span class="req">*</span>',
+    addTypeSub: '부관리자<span class="at-sub">권한 설정으로 역할 지정</span>',
+    addTypeSuper: '최고관리자<span class="at-sub">전체 권한 자동 부여</span>',
+    nameLabel: '이름 <span class="req">*</span>',
+    namePh: '예: 홍길동',
+    emailLabel: '이메일 <span class="req">*</span> <span class="muted">(로그인 아이디)</span>',
+    tempPwLabel: '임시 비밀번호 <span class="muted">(시스템 자동 발급)</span>',
+    regenPw: '재발급',
+    pwNote: '이 비밀번호는 지금만 표시됩니다. 안전하게 전달하세요. <b>첫 로그인 시 변경 필수</b> · 72시간 내 미접속 시 만료.',
+    cancel: '취소',
+    delTitle: '정말 삭제하시겠습니까?',
+    delSub: '선택한 계정과 관련된 모든 데이터가 삭제되며,<br>삭제 후에는 복구할 수 없습니다.',
+    delTargetLabel: '삭제할 관리자:',
+    delInfoRemove: '삭제: 계정 · 로그인 접근 · 권한 설정',
+    delInfoKeep: '유지: 작성 이력(공지·문항·채점 기록) · 감사 로그',
+    delConfirmLabel: '계속하려면 <b>삭제</b>를 입력하세요.',
+    delWord: '삭제',
+    t2Title: '2단계 인증 설정',
+    t2Desc: '이메일로 전송된 인증번호를 입력해야 로그인을 완료할 수 있습니다.',
+    t2Toggle: '2단계 인증',
+    t2LabName: '이름', t2LabId: '아이디',
+    t2MailNote: "이메일을 수정하면 회원정보의 '이메일'에 업데이트됩니다.",
+    t2MailPh: '이메일',
+    confirm: '확인'
+  },
+  ja: {
+    docTitle: 'MaroPass Admin — 管理者管理',
+    pageTitle: '管理者管理',
+    pageSub: '最高管理者・副管理者アカウントと権限を管理します · 副管理者は権限設定で役割が決まります',
+    addAdmin: '管理者追加',
+    filterAll: '全体 8', filterSuper: '最高管理者 1', filterSub: '副管理者 7', filterStop: '停止 1',
+    searchPh: '氏名・メールで検索',
+    totalCount: '全体 <strong>8</strong>名',
+    thStatus: 'ステータス', thName: '氏名', thEmail: 'メールアドレス', thType: '種別', thRegDate: '登録日', thLastAccess: '最終アクセス', th2fa: '2段階認証', thManage: '管理',
+    typeSub: '副管理者', typeSuper: '最高管理者',
+    permSet: '権限設定', permLocked: '権限固定',
+    perPage: '1ページあたり',
+    addDesc: 'アカウントを作成すると仮パスワードが自動発行されます。本人が初回ログイン時にパスワードを変更します。',
+    acctTypeLabel: 'アカウント種別 <span class="req">*</span>',
+    addTypeSub: '副管理者<span class="at-sub">権限設定で役割を指定</span>',
+    addTypeSuper: '最高管理者<span class="at-sub">全権限を自動付与</span>',
+    nameLabel: '氏名 <span class="req">*</span>',
+    namePh: '例: 山田太郎',
+    emailLabel: 'メールアドレス <span class="req">*</span> <span class="muted">(ログインID)</span>',
+    tempPwLabel: '仮パスワード <span class="muted">(システム自動発行)</span>',
+    regenPw: '再発行',
+    pwNote: 'このパスワードは今だけ表示されます。安全に受け渡してください。<b>初回ログイン時に変更必須</b> · 72時間以内に未接続の場合は失効。',
+    cancel: 'キャンセル',
+    delTitle: '本当に削除しますか?',
+    delSub: '選択したアカウントに関連するすべてのデータが削除され、<br>削除後は復元できません。',
+    delTargetLabel: '削除する管理者:',
+    delInfoRemove: '削除: アカウント · ログインアクセス · 権限設定',
+    delInfoKeep: '保持: 作成履歴(お知らせ・問題・採点記録) · 監査ログ',
+    delConfirmLabel: '続行するには <b>削除</b> と入力してください。',
+    delWord: '削除',
+    t2Title: '2段階認証設定',
+    t2Desc: 'メールで送信された認証番号を入力するとログインが完了します。',
+    t2Toggle: '2段階認証',
+    t2LabName: '氏名', t2LabId: 'ID',
+    t2MailNote: 'メールアドレスを変更すると会員情報の「メールアドレス」に更新されます。',
+    t2MailPh: 'メールアドレス',
+    confirm: '確認'
+  }
+};
+
+// 상태·동적 텍스트 로케일 반영 (data-i18n으로 처리 불가한 상태성 요소)
+window.onLocaleChange = function (loc) {
+  var ja = loc === 'ja';
+  // 상태 컬럼 배지 (활성/정지)
+  document.querySelectorAll('tbody tr td:nth-child(2) .badge').forEach(function (b) {
+    b.textContent = b.classList.contains('badge-inactive') ? (ja ? '停止' : '정지') : (ja ? '有効' : '활성');
+  });
+  // 정지/활성화 토글 버튼
+  document.querySelectorAll('tbody tr .susp-btn').forEach(function (btn) {
+    var tr = btn.closest('tr');
+    var b = tr ? tr.querySelector('td:nth-child(2) .badge') : null;
+    var suspended = b && b.classList.contains('badge-inactive');
+    btn.textContent = suspended ? (ja ? '有効化' : '활성화') : (ja ? '停止' : '정지');
+  });
+  // 2단계 인증 배지 + 설정 버튼 라벨
+  document.querySelectorAll('.cell-2fa').forEach(function (td) {
+    var badge = td.querySelector('.badge');
+    if (badge) {
+      var on = td.dataset.tfa === 'on';
+      badge.textContent = on ? (ja ? '使用中' : '사용 중') : (ja ? '使用しない' : '사용 안 함');
+    }
+    var lab = td.querySelector('.tfa-set-label');
+    if (lab) lab.textContent = ja ? '設定' : '설정';
+  });
+  // 삭제 버튼 / 권한 고정 title
+  document.querySelectorAll('.row-action.del').forEach(function (b) { b.title = ja ? '削除' : '삭제'; });
+  document.querySelectorAll('.perm-set.locked').forEach(function (b) { b.title = ja ? '最高管理者は全権限が固定されます' : '최고관리자는 전체 권한이 고정됩니다'; });
+  // 2단계 인증 상태 라벨 (모달)
+  var st = document.getElementById('t2State');
+  if (st) { var swOn = st.classList.contains('on'); st.textContent = swOn ? (ja ? '使用する' : '사용함') : (ja ? '使用しない' : '사용 안 함'); }
+  // 관리자 추가 모달 생성 버튼 라벨
+  var addC = document.getElementById('addConfirm');
+  if (addC) {
+    var sup = document.querySelector('#acctType button.active');
+    var isSuper = sup && sup.dataset.type === 'super';
+    addC.textContent = isSuper ? (ja ? '最高管理者を作成' : '최고관리자 생성') : (ja ? '作成して権限設定 →' : '생성하고 권한 설정 →');
+  }
+};
 </script>
 <script src="assets/admin-shell.js"></script>
 </body>

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MaroPass Admin — 대시보드</title>
+<title data-i18n="doc_title">MaroPass Admin — 대시보드</title>
 <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
 <link rel="stylesheet" href="assets/admin.css">
 </head>
@@ -12,12 +12,11 @@
 <div class="page">
   <div class="page-head">
     <div>
-      <h1 class="page-title">통합 대시보드</h1>
-      <div class="page-sub">2026년 5월 11일 (월) · 마지막 갱신 1분 전 · 서비스 운영 + 시험 관리</div>
+      <h1 class="page-title" data-i18n="page_title">통합 대시보드</h1>
+      <div class="page-sub" data-i18n="page_sub">2026년 5월 11일 (월) · 마지막 갱신 1분 전 · 서비스 운영 + 시험 관리</div>
     </div>
     <div class="page-actions">
-      <button class="btn btn-secondary">새로고침</button>
-      <a class="btn btn-primary" href="test-create.html">+ 시험 등록</a>
+      <button class="btn btn-secondary" data-i18n="btn_refresh">새로고침</button>
     </div>
   </div>
 
@@ -25,52 +24,52 @@
   <div class="kpi-row">
     <a class="kpi-card" href="tests-list.html">
       <div class="kpi-top">
-        <span class="kpi-label">오늘 응시자</span>
+        <span class="kpi-label" data-i18n="kpi1_label">오늘 응시자</span>
         <span class="kpi-ic blue">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
         </span>
       </div>
-      <div class="kpi-value">23<span class="kpi-unit">명</span></div>
-      <div class="kpi-trend up">
+      <div class="kpi-value">23<span class="kpi-unit" data-i18n="unit_myeong">명</span></div>
+      <div class="kpi-trend up" data-i18n-html="kpi1_trend">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 15 12 9 18 15"/></svg>
         어제 대비 5명 <span class="kpi-pct">+27%</span>
       </div>
     </a>
     <a class="kpi-card" href="tests-list.html">
       <div class="kpi-top">
-        <span class="kpi-label">채점 대기</span>
+        <span class="kpi-label" data-i18n="kpi2_label">채점 대기</span>
         <span class="kpi-ic blue">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/><path d="m9 14 2 2 4-4"/></svg>
         </span>
       </div>
-      <div class="kpi-value">24<span class="kpi-unit">건</span></div>
-      <div class="kpi-badge">
+      <div class="kpi-value">24<span class="kpi-unit" data-i18n="unit_gun">건</span></div>
+      <div class="kpi-badge" data-i18n-html="kpi2_badge">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 14"/></svg>
         결과 공개 대기
       </div>
     </a>
     <a class="kpi-card" href="refunds.html">
       <div class="kpi-top">
-        <span class="kpi-label">환불 대기</span>
+        <span class="kpi-label" data-i18n="kpi3_label">환불 대기</span>
         <span class="kpi-ic warn">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
         </span>
       </div>
-      <div class="kpi-value">3<span class="kpi-unit">건</span></div>
-      <div class="kpi-badge">
+      <div class="kpi-value">3<span class="kpi-unit" data-i18n="unit_gun">건</span></div>
+      <div class="kpi-badge" data-i18n-html="kpi3_badge">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
         검토 필요
       </div>
     </a>
     <a class="kpi-card" href="inquiries.html">
       <div class="kpi-top">
-        <span class="kpi-label">미답변 문의</span>
+        <span class="kpi-label" data-i18n="unanswered_inquiries">미답변 문의</span>
         <span class="kpi-ic warn">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
         </span>
       </div>
-      <div class="kpi-value">5<span class="kpi-unit">건</span></div>
-      <div class="kpi-badge">
+      <div class="kpi-value">5<span class="kpi-unit" data-i18n="unit_gun">건</span></div>
+      <div class="kpi-badge" data-i18n-html="kpi4_badge">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 14"/></svg>
         최장 대기 2시간
       </div>
@@ -81,66 +80,66 @@
   <div class="dash-grid">
     <div class="dash-card">
       <div class="dash-card-head">
-        <h2>미답변 문의</h2>
-        <a class="see-all" href="inquiries.html">전체 보기 →</a>
+        <h2 data-i18n="unanswered_inquiries">미답변 문의</h2>
+        <a class="see-all" href="inquiries.html" data-i18n="see_all">전체 보기 →</a>
       </div>
       <div class="inquiry-list">
         <div class="inquiry-row" onclick="location.href='inquiries.html'">
           <div class="inquiry-info">
-            <div class="inquiry-title">시험 응시 시 마이크가 인식되지 않습니다</div>
-            <div class="inquiry-meta">田中 美咲 · 2시간 전 · 응시환경·기술</div>
+            <div class="inquiry-title" data-i18n="inq1_title">시험 응시 시 마이크가 인식되지 않습니다</div>
+            <div class="inquiry-meta" data-i18n="inq1_meta">田中 美咲 · 2시간 전 · 응시환경·기술</div>
           </div>
-          <span class="inquiry-tag urgent">긴급</span>
+          <span class="inquiry-tag urgent" data-i18n="tag_urgent">긴급</span>
         </div>
         <div class="inquiry-row" onclick="location.href='inquiries.html'">
           <div class="inquiry-info">
-            <div class="inquiry-title">결제 환불 가능 여부 문의</div>
-            <div class="inquiry-meta">山田 太郎 · 5시간 전 · 결제·환불</div>
+            <div class="inquiry-title" data-i18n="inq2_title">결제 환불 가능 여부 문의</div>
+            <div class="inquiry-meta" data-i18n="inq2_meta">山田 太郎 · 5시간 전 · 결제·환불</div>
           </div>
-          <span class="inquiry-tag normal">일반</span>
+          <span class="inquiry-tag normal" data-i18n="tag_normal">일반</span>
         </div>
         <div class="inquiry-row" onclick="location.href='inquiries.html'">
           <div class="inquiry-info">
-            <div class="inquiry-title">인증서 재발급 신청</div>
-            <div class="inquiry-meta">佐藤 健 · 어제 · 인증서·결과</div>
+            <div class="inquiry-title" data-i18n="inq3_title">인증서 재발급 신청</div>
+            <div class="inquiry-meta" data-i18n="inq3_meta">佐藤 健 · 어제 · 인증서·결과</div>
           </div>
-          <span class="inquiry-tag normal">일반</span>
+          <span class="inquiry-tag normal" data-i18n="tag_normal">일반</span>
         </div>
         <div class="inquiry-row" onclick="location.href='inquiries.html'">
           <div class="inquiry-info">
-            <div class="inquiry-title">중상급 시험 응시 자격 문의</div>
-            <div class="inquiry-meta">鈴木 花子 · 어제 · 시험·응시</div>
+            <div class="inquiry-title" data-i18n="inq4_title">중상급 시험 응시 자격 문의</div>
+            <div class="inquiry-meta" data-i18n="inq4_meta">鈴木 花子 · 어제 · 시험·응시</div>
           </div>
-          <span class="inquiry-tag normal">일반</span>
+          <span class="inquiry-tag normal" data-i18n="tag_normal">일반</span>
         </div>
       </div>
     </div>
 
     <div class="dash-card quick-actions">
-      <div class="dash-card-head"><h2>빠른 액션</h2></div>
+      <div class="dash-card-head"><h2 data-i18n="sec_quick">빠른 액션</h2></div>
       <a class="action-btn" href="test-create.html">
         <div class="action-icon blue">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
         </div>
-        <div><div class="action-title">시험 등록</div><div class="action-desc">새 시험지 만들기</div></div>
+        <div><div class="action-title" data-i18n="qa1_title">시험 등록</div><div class="action-desc" data-i18n="qa1_desc">새 시험지 만들기</div></div>
       </a>
       <a class="action-btn" href="question-create.html">
         <div class="action-icon green">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
         </div>
-        <div><div class="action-title">문제 만들기</div><div class="action-desc">단일 문항 등록</div></div>
+        <div><div class="action-title" data-i18n="qa2_title">문제 만들기</div><div class="action-desc" data-i18n="qa2_desc">단일 문항 등록</div></div>
       </a>
       <a class="action-btn" href="refunds.html">
         <div class="action-icon orange">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
         </div>
-        <div><div class="action-title">환불 처리</div><div class="action-desc">신청 검토·승인</div></div>
+        <div><div class="action-title" data-i18n="qa3_title">환불 처리</div><div class="action-desc" data-i18n="qa3_desc">신청 검토·승인</div></div>
       </a>
       <a class="action-btn" href="inquiries.html">
         <div class="action-icon violet">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
         </div>
-        <div><div class="action-title">문의 답변</div><div class="action-desc">1:1 문의 응대</div></div>
+        <div><div class="action-title" data-i18n="qa4_title">문의 답변</div><div class="action-desc" data-i18n="qa4_desc">1:1 문의 응대</div></div>
       </a>
     </div>
   </div>
@@ -148,21 +147,115 @@
   <!-- 최근 7일 응시 추이 -->
   <div class="dash-card">
     <div class="dash-card-head">
-      <h2>최근 7일 응시 추이</h2>
-      <span class="muted">5/5 ~ 5/11 · 총 109명</span>
+      <h2 data-i18n="sec_trend">최근 7일 응시 추이</h2>
+      <span class="muted" data-i18n="trend_range">5/5 ~ 5/11 · 총 109명</span>
     </div>
     <div class="trend-chart">
-      <div class="bar-col"><div class="bar-area"><div class="bar" style="height:52%"></div></div><div class="bar-val">12</div><div class="bar-day">월</div></div>
-      <div class="bar-col"><div class="bar-area"><div class="bar" style="height:78%"></div></div><div class="bar-val">18</div><div class="bar-day">화</div></div>
-      <div class="bar-col"><div class="bar-area"><div class="bar" style="height:39%"></div></div><div class="bar-val">9</div><div class="bar-day">수</div></div>
-      <div class="bar-col"><div class="bar-area"><div class="bar" style="height:91%"></div></div><div class="bar-val">21</div><div class="bar-day">목</div></div>
-      <div class="bar-col"><div class="bar-area"><div class="bar" style="height:65%"></div></div><div class="bar-val">15</div><div class="bar-day">금</div></div>
-      <div class="bar-col"><div class="bar-area"><div class="bar" style="height:48%"></div></div><div class="bar-val">11</div><div class="bar-day">토</div></div>
-      <div class="bar-col current"><div class="bar-area"><div class="bar" style="height:100%"></div></div><div class="bar-val">23</div><div class="bar-day">오늘</div></div>
+      <div class="bar-col"><div class="bar-area"><div class="bar" style="height:52%"></div></div><div class="bar-val">12</div><div class="bar-day" data-i18n="day_mon">월</div></div>
+      <div class="bar-col"><div class="bar-area"><div class="bar" style="height:78%"></div></div><div class="bar-val">18</div><div class="bar-day" data-i18n="day_tue">화</div></div>
+      <div class="bar-col"><div class="bar-area"><div class="bar" style="height:39%"></div></div><div class="bar-val">9</div><div class="bar-day" data-i18n="day_wed">수</div></div>
+      <div class="bar-col"><div class="bar-area"><div class="bar" style="height:91%"></div></div><div class="bar-val">21</div><div class="bar-day" data-i18n="day_thu">목</div></div>
+      <div class="bar-col"><div class="bar-area"><div class="bar" style="height:65%"></div></div><div class="bar-val">15</div><div class="bar-day" data-i18n="day_fri">금</div></div>
+      <div class="bar-col"><div class="bar-area"><div class="bar" style="height:48%"></div></div><div class="bar-val">11</div><div class="bar-day" data-i18n="day_sat">토</div></div>
+      <div class="bar-col current"><div class="bar-area"><div class="bar" style="height:100%"></div></div><div class="bar-val">23</div><div class="bar-day" data-i18n="day_today">오늘</div></div>
     </div>
   </div>
 </div>
 
+<script>
+window.PAGE_I18N = {
+  ko: {
+    doc_title: "MaroPass Admin — 대시보드",
+    page_title: "통합 대시보드",
+    page_sub: "2026년 5월 11일 (월) · 마지막 갱신 1분 전 · 서비스 운영 + 시험 관리",
+    btn_refresh: "새로고침",
+    kpi1_label: "오늘 응시자",
+    unit_myeong: "명",
+    unit_gun: "건",
+    kpi1_trend: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 15 12 9 18 15"/></svg> 어제 대비 5명 <span class="kpi-pct">+27%</span>',
+    kpi2_label: "채점 대기",
+    kpi2_badge: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 14"/></svg> 결과 공개 대기',
+    kpi3_label: "환불 대기",
+    kpi3_badge: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> 검토 필요',
+    unanswered_inquiries: "미답변 문의",
+    kpi4_badge: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 14"/></svg> 최장 대기 2시간',
+    see_all: "전체 보기 →",
+    inq1_title: "시험 응시 시 마이크가 인식되지 않습니다",
+    inq1_meta: "田中 美咲 · 2시간 전 · 응시환경·기술",
+    tag_urgent: "긴급",
+    inq2_title: "결제 환불 가능 여부 문의",
+    inq2_meta: "山田 太郎 · 5시간 전 · 결제·환불",
+    tag_normal: "일반",
+    inq3_title: "인증서 재발급 신청",
+    inq3_meta: "佐藤 健 · 어제 · 인증서·결과",
+    inq4_title: "중상급 시험 응시 자격 문의",
+    inq4_meta: "鈴木 花子 · 어제 · 시험·응시",
+    sec_quick: "빠른 액션",
+    qa1_title: "시험 등록",
+    qa1_desc: "새 시험지 만들기",
+    qa2_title: "문제 만들기",
+    qa2_desc: "단일 문항 등록",
+    qa3_title: "환불 처리",
+    qa3_desc: "신청 검토·승인",
+    qa4_title: "문의 답변",
+    qa4_desc: "1:1 문의 응대",
+    sec_trend: "최근 7일 응시 추이",
+    trend_range: "5/5 ~ 5/11 · 총 109명",
+    day_mon: "월",
+    day_tue: "화",
+    day_wed: "수",
+    day_thu: "목",
+    day_fri: "금",
+    day_sat: "토",
+    day_today: "오늘"
+  },
+  ja: {
+    doc_title: "MaroPass Admin — ダッシュボード",
+    page_title: "統合ダッシュボード",
+    page_sub: "2026年5月11日(月)・最終更新 1分前・サービス運営 + 試験管理",
+    btn_refresh: "更新",
+    kpi1_label: "本日の受験者",
+    unit_myeong: "名",
+    unit_gun: "件",
+    kpi1_trend: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 15 12 9 18 15"/></svg> 昨日比 5名 <span class="kpi-pct">+27%</span>',
+    kpi2_label: "採点待ち",
+    kpi2_badge: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 14"/></svg> 結果公開待ち',
+    kpi3_label: "返金待ち",
+    kpi3_badge: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> 確認が必要',
+    unanswered_inquiries: "未回答のお問い合わせ",
+    kpi4_badge: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 14"/></svg> 最長待ち 2時間',
+    see_all: "すべて見る →",
+    inq1_title: "試験受験時にマイクが認識されません",
+    inq1_meta: "田中 美咲 · 2時間前 · 受験環境・技術",
+    tag_urgent: "緊急",
+    inq2_title: "決済返金の可否についてのお問い合わせ",
+    inq2_meta: "山田 太郎 · 5時間前 · 決済・返金",
+    tag_normal: "一般",
+    inq3_title: "証明書の再発行申請",
+    inq3_meta: "佐藤 健 · 昨日 · 証明書・結果",
+    inq4_title: "中上級試験の受験資格についてのお問い合わせ",
+    inq4_meta: "鈴木 花子 · 昨日 · 試験・受験",
+    sec_quick: "クイックアクション",
+    qa1_title: "試験登録",
+    qa1_desc: "新しい試験問題を作成",
+    qa2_title: "問題作成",
+    qa2_desc: "単一問題の登録",
+    qa3_title: "返金処理",
+    qa3_desc: "申請の確認・承認",
+    qa4_title: "お問い合わせ回答",
+    qa4_desc: "1:1お問い合わせ対応",
+    sec_trend: "直近7日間の受験推移",
+    trend_range: "5/5 ~ 5/11 · 合計109名",
+    day_mon: "月",
+    day_tue: "火",
+    day_wed: "水",
+    day_thu: "木",
+    day_fri: "金",
+    day_sat: "土",
+    day_today: "本日"
+  }
+};
+</script>
 <script src="assets/admin-shell.js"></script>
 </body>
 </html>

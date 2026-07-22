@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MaroPass Admin — AI 채점 프롬프트</title>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+<link rel="stylesheet" href="assets/admin.css">
+<style>
+  .ap-note{background:var(--blue-50);border:1px solid rgba(46,132,255,.2);border-radius:12px;padding:14px 16px;display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;font-size:13px;color:var(--grey-700);line-height:1.6}
+  .ap-note svg{flex-shrink:0;color:var(--blue-500);margin-top:1px}
+  .ap-note code{background:#fff;border:1px solid var(--grey-200);border-radius:5px;padding:1px 6px;font-size:12px;color:var(--blue-600);font-family:'SF Mono',Menlo,Consolas,monospace}
+
+  .ap-layout{display:grid;grid-template-columns:300px minmax(0,1fr);gap:16px;align-items:start}
+  @media (max-width:900px){.ap-layout{grid-template-columns:1fr}}
+
+  /* 좌: 유형 리스트 */
+  .ap-types{padding:14px}
+  .ap-type{display:flex;align-items:center;gap:10px;padding:11px 12px;border-radius:10px;cursor:pointer;border:1px solid transparent;transition:background-color .15s,border-color .15s}
+  .ap-type:hover{background:var(--grey-50)}
+  .ap-type.active{background:var(--blue-50);border-color:rgba(46,132,255,.3)}
+  .ap-type .t-name{flex:1;font-size:13.5px;font-weight:700;color:var(--grey-800)}
+  .ap-type.active .t-name{color:var(--blue-700,#1d4ed8)}
+  .ap-type .t-status{font-size:10.5px;font-weight:700;padding:2px 7px;border-radius:999px;white-space:nowrap}
+  .st-pub{background:#e6f7ee;color:#087443}
+  .st-draft{background:#fff4e5;color:#a15c00}
+  .ap-group-label{font-size:11px;font-weight:800;color:var(--grey-400);letter-spacing:.4px;padding:10px 12px 6px}
+
+  /* 우: 에디터 */
+  .ap-editor{padding:22px 24px}
+  .ap-ed-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:4px}
+  .ap-ed-title{font-size:18px;font-weight:800;color:var(--grey-900)}
+  .ap-ed-meta{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 18px}
+  .axis-chip{font-size:11.5px;font-weight:700;background:var(--grey-100);color:var(--grey-700);border-radius:999px;padding:3px 10px}
+  .axis-chip.rep{background:#f3eaff;color:#7c3aed}
+  .pts-chip{font-size:11.5px;font-weight:700;background:#e6f7ee;color:#087443;border-radius:999px;padding:3px 10px}
+
+  .ap-varbar{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 14px}
+  .var-chip{font-size:12px;font-weight:700;font-family:'SF Mono',Menlo,Consolas,monospace;background:#fff;border:1px solid var(--grey-200);color:var(--blue-600);border-radius:7px;padding:5px 10px;cursor:pointer;transition:.15s}
+  .var-chip:hover{border-color:var(--blue-500);background:var(--blue-50)}
+
+  .ap-code{width:100%;min-height:220px;border:1px solid var(--grey-200);border-radius:12px;padding:14px 16px;font-size:13px;line-height:1.65;font-family:'SF Mono',Menlo,Consolas,monospace;color:var(--grey-800);resize:vertical;background:var(--grey-50)}
+  .ap-code:focus{outline:none;border-color:var(--blue-500);box-shadow:0 0 0 3px rgba(46,132,255,.1);background:#fff}
+
+  .ap-rubric-banner{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--grey-600);background:var(--grey-50);border:1px dashed var(--grey-300);border-radius:9px;padding:9px 12px;margin-top:10px}
+  .ap-rubric-banner b{color:var(--grey-800)}
+
+  .ap-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px;align-items:center}
+  .ap-actions .spacer{flex:1}
+  .link-btn{background:transparent;border:none;color:var(--grey-500);font-size:12.5px;font-weight:700;cursor:pointer;text-decoration:underline;text-underline-offset:2px}
+  .link-btn:hover{color:var(--blue-600)}
+
+  /* 테스트 콘솔 */
+  .ap-console{margin-top:16px;border:1px solid var(--grey-200);border-radius:12px;overflow:hidden}
+  .ap-console-head{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:var(--grey-50);cursor:pointer;font-size:13px;font-weight:700;color:var(--grey-800)}
+  .ap-console-body{padding:16px;display:none;border-top:1px solid var(--grey-200)}
+  .ap-console.open .ap-console-body{display:block}
+  .ap-console.open .chev{transform:rotate(90deg)}
+  .chev{transition:transform .2s}
+  .console-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media (max-width:720px){.console-grid{grid-template-columns:1fr}}
+  .con-result{background:#0f172a;border-radius:10px;padding:14px 16px;font-family:'SF Mono',Menlo,Consolas,monospace;font-size:12px;line-height:1.7;color:#cbd5e1;white-space:pre-wrap;min-height:150px}
+  .con-result .k{color:#7dd3fc}.con-result .n{color:#86efac}.con-result .s{color:#fca5a5}
+  .con-cost{font-size:11.5px;color:var(--grey-500);margin-top:8px;text-align:right}
+</style>
+</head>
+<body data-page="ai-prompt" data-title="AI 채점 프롬프트">
+<div class="page">
+  <div class="page-head">
+    <div>
+      <h1 class="page-title" data-i18n="pageTitle">AI 채점 프롬프트</h1>
+      <div class="page-sub" data-i18n="pageSub">유형별 채점 로직을 중앙에서 관리합니다. 문항의 지시문·답안은 변수로 자동 주입됩니다.</div>
+    </div>
+    <div class="page-actions"></div>
+  </div>
+
+  <div class="ap-note">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+    <div data-i18n-html="note">중앙관리 대상은 <b>"어떻게 채점할지(로직)"</b> 이며, 문항마다 다른 <b>지시문·문장·모범답안</b>은 <code>{{모범답안}}</code> 같은 변수로 채점 시 자동 치환됩니다. 유형당 프롬프트 1개로 그 유형의 모든 문항을 채점합니다.</div>
+  </div>
+
+  <div class="ap-layout">
+    <!-- 좌: 유형 리스트 -->
+    <div class="card ap-types">
+      <div class="seg" id="levelSeg" style="margin-bottom:8px;width:100%">
+        <button class="active" data-level="beginner" style="flex:1" data-i18n="lvBeg">초급</button>
+        <button data-level="advanced" style="flex:1" data-i18n="lvAdv">중상급</button>
+      </div>
+      <div id="typeList"></div>
+    </div>
+
+    <!-- 우: 프롬프트 에디터 -->
+    <div class="card ap-editor" id="editor"></div>
+  </div>
+</div>
+
+<script>
+// ── 유형 정의 (question-create.html 유형 세트와 동일 축) ──
+const TYPES = [
+  // 초급 5유형
+  { key:'read', level:'beginner', tab:'① 짧은 문장 읽기', axes:['발음·문장 특성'], rep:'발음·문장 특성', pts:'0~2점', status:'pub', ver:3,
+    vars:['지시문','지문','표준발음','채점축','배점','응시자_STT','피드백_언어'],
+    prompt:`당신은 한국어 말하기 초급 시험의 채점관입니다.
+[과제] 응시자는 화면의 문장을 소리 내어 읽습니다.
+[기준 발음] {{표준발음}}
+[응시자 발화 전사] {{응시자_STT}}
+
+위 두 발화를 비교해 발음 정확도·연음·억양·문장 완성도를 평가하세요.
+- 채점축: {{채점축}} (각 0~2점 척도, {{배점}})
+- 채점 근거는 한국어로, 응시자용 피드백은 {{피드백_언어}}로 작성.
+[출력] JSON: { "scores": {축:점수}, "rationale_ko": "...", "feedback": "..." }` },
+
+  { key:'qa', level:'beginner', tab:'② 질문 대답', axes:['발음·문장 특성','어휘/문법','내용/구성'], rep:'내용/구성', pts:'0~2점', status:'pub', ver:2,
+    vars:['지시문','질문','모범답안','채점축','배점','응시자_STT','피드백_언어'],
+    prompt:`당신은 한국어 말하기 초급 시험의 채점관입니다.
+[질문] {{질문}}
+[모범 답안(복수)] {{모범답안}}
+[응시자 발화 전사] {{응시자_STT}}
+
+응시자 답변이 질문에 적절히 대답했는지 의미 유사도 기준으로 평가하세요.
+- 채점축: {{채점축}} (대표축: 내용/구성, 각 0~2점, {{배점}})
+- 모범답안과 표현이 달라도 의미가 통하면 정답 처리.
+- 근거는 한국어, 피드백은 {{피드백_언어}}.
+[출력] JSON: { "scores": {축:점수}, "rationale_ko": "...", "feedback": "..." }` },
+
+  { key:'dialog', level:'beginner', tab:'③ 생활 속 대화', axes:['발음·문장 특성','어휘/문법','내용/구성'], rep:'내용/구성', pts:'0~2점', status:'draft', ver:1,
+    vars:['지시문','모범답안','채점축','배점','응시자_STT','피드백_언어'],
+    prompt:`당신은 한국어 말하기 초급 시험의 채점관입니다.
+[상황] 생활 속 대화에서 응시자가 자신의 차례에 응답합니다.
+[기대 응답(키워드/모범답안)] {{모범답안}}
+[응시자 발화 전사] {{응시자_STT}}
+
+상황에 맞는 자연스러운 대화 응답인지 평가하세요.
+- 채점축: {{채점축}} (대표축: 내용/구성, 각 0~2점, {{배점}})
+- 근거는 한국어, 피드백은 {{피드백_언어}}.
+[출력] JSON: { "scores": {축:점수}, "rationale_ko": "...", "feedback": "..." }` },
+
+  { key:'describe', level:'beginner', tab:'④ 그림/사진 설명', axes:['발음·문장 특성','어휘/문법','내용/구성'], rep:'내용/구성', pts:'0~2점', status:'draft', ver:1,
+    vars:['지시문','모범답안','채점축','배점','응시자_STT','피드백_언어'],
+    prompt:`당신은 한국어 말하기 초급 시험의 채점관입니다.
+[과제] 응시자는 제시된 그림/사진을 보고 설명합니다.
+[설명 포인트(모범답안)] {{모범답안}}
+[응시자 발화 전사] {{응시자_STT}}
+
+그림의 핵심 요소를 정확히·풍부하게 설명했는지 평가하세요.
+- 채점축: {{채점축}} (대표축: 내용/구성, 각 0~2점, {{배점}})
+- 근거는 한국어, 피드백은 {{피드백_언어}}.
+[출력] JSON: { "scores": {축:점수}, "rationale_ko": "...", "feedback": "..." }` },
+
+  { key:'pragmatic', level:'beginner', tab:'⑤ 화용 과제', axes:['발음·문장 특성','어휘/문법','내용/구성','화용 능력'], rep:'화용 능력', pts:'0~2점', status:'draft', ver:1,
+    vars:['지시문','모범답안','채점축','배점','응시자_STT','피드백_언어'],
+    prompt:`당신은 한국어 말하기 초급 시험의 채점관입니다.
+[과제] 특정 상황에서 요청·사과·제안 등 화행을 수행합니다.
+[상황/요구 화행] {{지시문}}
+[모범 답안] {{모범답안}}
+[응시자 발화 전사] {{응시자_STT}}
+
+상황에 맞는 적절한 화행·공손 표현을 사용했는지 평가하세요.
+- 채점축: {{채점축}} (대표축: 화용 능력, 각 0~2점, {{배점}})
+- 근거는 한국어, 피드백은 {{피드백_언어}}.
+[출력] JSON: { "scores": {축:점수}, "rationale_ko": "...", "feedback": "..." }` },
+
+  // 중상급 (대표 유형)
+  { key:'m-read', level:'advanced', tab:'① 발음·억양 읽기', axes:['발음·억양'], rep:'발음·억양', pts:'0~3점', status:'pub', ver:2,
+    vars:['지시문','지문','표준발음','채점축','배점','응시자_STT','피드백_언어'],
+    prompt:`당신은 한국어 말하기 중상급 시험의 채점관입니다.
+[기준 발음] {{표준발음}}
+[응시자 발화 전사] {{응시자_STT}}
+발음·억양·끊어읽기·유창성을 {{배점}} 척도로 평가. 채점축 {{채점축}}.
+근거는 한국어, 피드백은 {{피드백_언어}}.
+[출력] JSON: { "scores": {축:점수}, "rationale_ko":"...", "feedback":"..." }` },
+
+  { key:'m-qa', level:'advanced', tab:'② 질문 대답', axes:['어휘/문법','내용','구조/전개'], rep:'내용', pts:'0~3점', status:'draft', ver:1,
+    vars:['지시문','질문','모범답안','채점축','배점','응시자_STT','피드백_언어'],
+    prompt:`당신은 한국어 말하기 중상급 시험의 채점관입니다.
+[질문] {{질문}}
+[모범 답안] {{모범답안}}
+[응시자 발화 전사] {{응시자_STT}}
+어휘·문법의 정확성/다양성, 내용의 충실성, 논리적 구조를 {{배점}}로 평가. 채점축 {{채점축}}.
+근거는 한국어, 피드백은 {{피드백_언어}}.
+[출력] JSON: { "scores": {축:점수}, "rationale_ko":"...", "feedback":"..." }` },
+
+  { key:'m-desc', level:'advanced', tab:'③ 그림 설명', axes:['어휘/문법','내용','구조/전개'], rep:'내용', pts:'0~3점', status:'draft', ver:1,
+    vars:['지시문','모범답안','채점축','배점','응시자_STT','피드백_언어'],
+    prompt:`당신은 한국어 말하기 중상급 시험의 채점관입니다.
+[과제] 그림을 보고 세 문장 이상 설명/이야기 전개.
+[설명 포인트] {{모범답안}}
+[응시자 발화 전사] {{응시자_STT}}
+어휘·문법, 내용 충실성, 전개 구조를 {{배점}}로 평가. 채점축 {{채점축}}.
+근거는 한국어, 피드백은 {{피드백_언어}}.
+[출력] JSON: { "scores": {축:점수}, "rationale_ko":"...", "feedback":"..." }` },
+
+  { key:'m-act', level:'advanced', tab:'④ 화용 능력', axes:['어휘/문법','내용','구조/전개','화행 능력'], rep:'화행 능력', pts:'0~3점', status:'draft', ver:1,
+    vars:['지시문','모범답안','채점축','배점','응시자_STT','피드백_언어'],
+    prompt:`당신은 한국어 말하기 중상급 시험의 채점관입니다.
+[과제] 대화를 듣고 상황에 맞게 이어 말하기(화행 수행).
+[요구 화행/모범답안] {{모범답안}}
+[응시자 발화 전사] {{응시자_STT}}
+화행의 적절성, 어휘·문법, 전개를 {{배점}}로 평가. 채점축 {{채점축}}.
+근거는 한국어, 피드백은 {{피드백_언어}}.
+[출력] JSON: { "scores": {축:점수}, "rationale_ko":"...", "feedback":"..." }` },
+
+  { key:'m-opinion', level:'advanced', tab:'⑤ 의견·논리 제시', axes:['어휘/문법','내용','구조/전개','논리/설득력'], rep:'논리/설득력', pts:'0~3점', status:'draft', ver:1,
+    vars:['지시문','모범답안','채점축','배점','응시자_STT','피드백_언어'],
+    prompt:`당신은 한국어 말하기 중상급 시험의 채점관입니다.
+[과제] 주제에 대해 자신의 의견을 논리적으로 제시.
+[논점/모범답안] {{모범답안}}
+[응시자 발화 전사] {{응시자_STT}}
+주장의 명료성, 근거의 타당성, 설득력·논리 전개를 {{배점}}로 평가. 채점축 {{채점축}}.
+근거는 한국어, 피드백은 {{피드백_언어}}.
+[출력] JSON: { "scores": {축:점수}, "rationale_ko":"...", "feedback":"..." }` }
+];
+
+const VAR_DESC = {
+  '지시문':'응시자에게 보여준 지시문', '지문':'읽기 문장/지문', '질문':'재생된 질문',
+  '모범답안':'등록된 모범답안(복수 가능)', '표준발음':'표준 발음 기준(연음 반영)',
+  '채점축':'이 유형의 채점축 목록', '배점':'문항 배점·척도',
+  '응시자_STT':'응시자 발화 음성인식 전사', '피드백_언어':'응시자 피드백 언어 (ja/ko)'
+};
+
+// ── i18n: chrome/label 전용. 프롬프트 본문(t.prompt)·{{변수}} 토큰·숫자는 유지 ──
+const L = (ko, ja) => (document.documentElement.lang === 'ja' ? ja : ko);
+
+// 탭 라벨 일본어 (key 기준)
+const TAB_JA = {
+  'read':'① 短い文の音読', 'qa':'② 質問への回答', 'dialog':'③ 日常の会話',
+  'describe':'④ 絵・写真の説明', 'pragmatic':'⑤ 語用課題',
+  'm-read':'① 発音・イントネーション音読', 'm-qa':'② 質問への回答', 'm-desc':'③ 絵の説明',
+  'm-act':'④ 語用能力', 'm-opinion':'⑤ 意見・論理の提示'
+};
+// 채점축 표시 라벨 일본어 (로직 키는 한국어 유지)
+const AX_JA = {
+  '발음·문장 특성':'発音・文の特性', '어휘/문법':'語彙/文法', '내용/구성':'内容/構成',
+  '화용 능력':'語用能力', '발음·억양':'発音・イントネーション', '내용':'内容',
+  '구조/전개':'構造/展開', '화행 능력':'発話行為の能力', '논리/설득력':'論理/説得力'
+};
+// 변수 설명 일본어
+const VAR_DESC_JA = {
+  '지시문':'受験者に提示した指示文', '지문':'読み上げ文/本文', '질문':'再生された質問',
+  '모범답안':'登録された模範解答(複数可)', '표준발음':'標準発音基準(連音反映)',
+  '채점축':'このタイプの採点軸リスト', '배점':'設問の配点・尺度',
+  '응시자_STT':'受験者の発話音声認識の書き起こし', '피드백_언어':'受験者フィードバックの言語 (ja/ko)'
+};
+const tabLabel = t => L(t.tab, TAB_JA[t.key] || t.tab);
+const axLabel = a => L(a, AX_JA[a] || a);
+const ptsLabel = p => L(p, p.replace('점','点'));
+const varDesc = v => L(VAR_DESC[v] || '', VAR_DESC_JA[v] || VAR_DESC[v] || '');
+
+let curLevel = 'beginner', curKey = null;
+const $ = id => document.getElementById(id);
+
+function renderTypeList(){
+  const list = TYPES.filter(t => t.level === curLevel);
+  let html = '<div class="ap-group-label">' + (curLevel === 'beginner' ? L('초급 · 5유형','初級 · 5タイプ') : L('중상급 · 대표 유형','中上級 · 代表タイプ')) + '</div>';
+  list.forEach(t => {
+    const stCls = t.status === 'pub' ? 'st-pub' : 'st-draft';
+    const stTxt = t.status === 'pub' ? L('게시 v','公開 v') + t.ver : L('초안','下書き');
+    html += '<div class="ap-type' + (t.key === curKey ? ' active' : '') + '" data-key="' + t.key + '">'
+      + '<span class="t-name">' + tabLabel(t) + '</span>'
+      + '<span class="t-status ' + stCls + '">' + stTxt + '</span></div>';
+  });
+  $('typeList').innerHTML = html;
+  $('typeList').querySelectorAll('.ap-type').forEach(el =>
+    el.addEventListener('click', () => { curKey = el.dataset.key; renderTypeList(); renderEditor(); }));
+}
+
+function renderEditor(){
+  const t = TYPES.find(x => x.key === curKey);
+  if (!t){ $('editor').innerHTML = '<div style="padding:40px;text-align:center;color:var(--grey-400)">' + L('왼쪽에서 유형을 선택하세요.','左側からタイプを選択してください。') + '</div>'; return; }
+  const repTxt = L(' · 대표',' · 代表');
+  const axes = t.axes.map(a => '<span class="axis-chip' + (a === t.rep ? ' rep' : '') + '">' + axLabel(a) + (a === t.rep ? repTxt : '') + '</span>').join('');
+  const chips = t.vars.map(v => '<button class="var-chip" data-var="{{' + v + '}}" title="' + varDesc(v) + '">{{' + v + '}}</button>').join('');
+  const stTxt = t.status === 'pub' ? L('게시됨 · v','公開済み · v') + t.ver : L('초안','下書き');
+  const stCls = t.status === 'pub' ? 'st-pub' : 'st-draft';
+  $('editor').innerHTML =
+    '<div class="ap-ed-head">'
+    + '<div><div class="ap-ed-title">' + tabLabel(t) + '</div></div>'
+    + '<span class="t-status ' + stCls + '" style="font-size:12px;padding:5px 12px">' + stTxt + '</span>'
+    + '</div>'
+    + '<div class="ap-ed-meta">' + axes + '<span class="pts-chip">' + ptsLabel(t.pts) + '</span></div>'
+    + '<div class="label" style="margin-bottom:6px">' + L('변수','変数') + ' <span class="hint" style="display:inline;margin-left:4px">' + L('클릭하면 커서 위치에 삽입됩니다 · 채점 시 문항 값으로 치환','クリックするとカーソル位置に挿入されます · 採点時に設問値へ置換') + '</span></div>'
+    + '<div class="ap-varbar" id="varbar">' + chips + '</div>'
+    + '<div class="label" style="margin-bottom:6px">' + L('채점 프롬프트 (이 유형 공통)','採点プロンプト(このタイプ共通)') + '</div>'
+    + '<textarea class="ap-code" id="promptText">' + t.prompt + '</textarea>'
+    + '<div class="ap-rubric-banner"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>'
+    + ' <span>' + L('이 유형의 <b>채점 rubric(점수 구간)</b>은 채점 시 <code style="font-family:inherit">{{채점축}}</code> 위치에 자동 주입됩니다.','このタイプの<b>採点ルーブリック(点数区間)</b>は採点時に<code style="font-family:inherit">{{채점축}}</code>の位置へ自動注入されます。') + '</span></div>'
+    + '<div class="ap-actions">'
+    + '<button class="link-btn" id="btnHistory">' + L('버전 이력','バージョン履歴') + '</button>'
+    + '<span class="spacer"></span>'
+    + '<button class="btn btn-secondary" id="btnDraft">' + L('임시 저장','一時保存') + '</button>'
+    + '<button class="btn btn-primary" id="btnPublish">' + L('게시','公開') + '</button>'
+    + '</div>'
+    + consoleHTML();
+
+  // 변수 칩 → textarea 삽입
+  $('varbar').querySelectorAll('.var-chip').forEach(c =>
+    c.addEventListener('click', () => insertAtCursor($('promptText'), c.dataset.var)));
+  $('btnDraft').addEventListener('click', () => saveType('draft'));
+  $('btnPublish').addEventListener('click', () => saveType('pub'));
+  $('btnHistory').addEventListener('click', () => { if(window.toast) toast(L('버전 이력은 백엔드 연동 후 제공됩니다. (v1~v','バージョン履歴はバックエンド連携後に提供されます。(v1〜v') + t.ver + ')', 'info'); });
+  wireConsole(t);
+}
+
+function consoleHTML(){
+  return '<div class="ap-console" id="console">'
+    + '<div class="ap-console-head" id="consoleHead"><span>' + L('🧪 테스트 콘솔 — 샘플 답안으로 채점 미리보기','🧪 テストコンソール — サンプル解答で採点プレビュー') + '</span>'
+    + '<svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div>'
+    + '<div class="ap-console-body"><div class="console-grid">'
+    + '<div><div class="label" style="margin-bottom:6px">' + L('샘플 응시자 발화 (STT)','サンプル受験者の発話 (STT)') + '</div>'
+    + '<textarea class="textarea" id="sampleStt" style="min-height:90px" placeholder="' + L('예: 만나서 반갑습니다','例: はじめまして') + '">만나서 반갑습니다</textarea>'
+    + '<button class="btn btn-primary" id="btnRun" style="margin-top:10px">' + L('채점 실행 (미리보기)','採点実行(プレビュー)') + '</button></div>'
+    + '<div><div class="label" style="margin-bottom:6px">' + L('예상 채점 결과','予想採点結果') + '</div>'
+    + '<div class="con-result" id="conResult">' + L('실행하면 프롬프트에 변수를 치환해 채점 결과를 미리 보여줍니다.','実行するとプロンプトの変数を置換して採点結果をプレビューします。') + '</div>'
+    + '<div class="con-cost" id="conCost"></div></div>'
+    + '</div></div></div>';
+}
+
+function wireConsole(t){
+  $('consoleHead').addEventListener('click', () => $('console').classList.toggle('open'));
+  $('btnRun').addEventListener('click', () => {
+    const stt = ($('sampleStt').value || '').trim() || L('(빈 발화)','(発話なし)');
+    const scores = {}; t.axes.forEach((a,i) => scores[a] = (t.pts.indexOf('3') > -1 ? [3,2,3,2][i%4] : [2,1,2,2][i%4]));
+    const fb = t.level === 'beginner' ? '発音は概ね自然ですが、語尾をもう少しはっきり発音しましょう。' : '論理展開は明確です。接続表現を増やすとさらに良くなります。';
+    const rationale = L('기준 발화와 비교해 정확도 양호, 대표축 감점 요인 소폭.','基準発話と比較して精度は良好、代表軸の減点要因は軽微。');
+    const out = '{\n  <span class="k">"scores"</span>: '
+      + JSON.stringify(scores).replace(/"([^"]+)":(\d)/g, '<span class="k">"$1"</span>: <span class="n">$2</span>')
+      + ',\n  <span class="k">"rationale_ko"</span>: <span class="s">"' + rationale + '"</span>,\n  <span class="k">"feedback"</span>: <span class="s">"' + fb + '"</span>\n}';
+    $('conResult').innerHTML = out;
+    const tok = 320 + stt.length * 3;
+    $('conCost').textContent = L('입력 토큰 ≈ ','入力トークン ≈ ') + tok + L(' · 예상 비용 ≈ $',' · 予想コスト ≈ $') + (tok/1000*0.003).toFixed(4) + L(' (데모 추정)',' (デモ推定)');
+  });
+}
+
+function insertAtCursor(ta, text){
+  const s = ta.selectionStart, e = ta.selectionEnd;
+  ta.value = ta.value.slice(0,s) + text + ta.value.slice(e);
+  ta.focus(); ta.selectionStart = ta.selectionEnd = s + text.length;
+}
+
+function saveType(mode){
+  const t = TYPES.find(x => x.key === curKey);
+  t.prompt = $('promptText').value;
+  const run = () => {
+    t.status = mode;
+    if (mode === 'pub') t.ver += 1;
+    renderTypeList();
+    if (window.toast) toast(mode === 'pub' ? (L('게시되었습니다 · ','公開しました · ') + tabLabel(t) + ' v' + t.ver) : L('초안으로 저장했습니다.','下書きとして保存しました。'), 'success');
+    renderEditor();
+  };
+  if (mode === 'pub' && window.confirmAction){
+    confirmAction({ title:L('채점 프롬프트를 게시할까요?','採点プロンプトを公開しますか？'), desc:L('"' + tabLabel(t) + '" 유형의 모든 문항 채점에 즉시 적용됩니다.','「' + tabLabel(t) + '」タイプのすべての設問採点に即時適用されます。'), confirmText:L('게시','公開'), onConfirm:run });
+  } else { run(); }
+}
+
+// 레벨 탭
+$('levelSeg').querySelectorAll('button').forEach(b =>
+  b.addEventListener('click', () => {
+    $('levelSeg').querySelectorAll('button').forEach(x => x.classList.remove('active'));
+    b.classList.add('active');
+    curLevel = b.dataset.level;
+    curKey = TYPES.find(t => t.level === curLevel).key;
+    renderTypeList(); renderEditor();
+  }));
+
+// 로케일 토글 시 JS 렌더 부분 재생성 (초기 로드 시에도 admin-shell이 1회 호출)
+window.onLocaleChange = function(){
+  document.title = L('MaroPass Admin — AI 채점 프롬프트','MaroPass Admin — AI採点プロンプト');
+  renderTypeList();
+  renderEditor();
+};
+
+// 초기화
+curKey = TYPES.find(t => t.level === curLevel).key;
+renderTypeList();
+renderEditor();
+</script>
+<script>
+window.PAGE_I18N = {
+  ko: {
+    pageTitle: 'AI 채점 프롬프트',
+    pageSub: '유형별 채점 로직을 중앙에서 관리합니다. 문항의 지시문·답안은 변수로 자동 주입됩니다.',
+    note: '중앙관리 대상은 <b>"어떻게 채점할지(로직)"</b> 이며, 문항마다 다른 <b>지시문·문장·모범답안</b>은 <code>{{모범답안}}</code> 같은 변수로 채점 시 자동 치환됩니다. 유형당 프롬프트 1개로 그 유형의 모든 문항을 채점합니다.',
+    lvBeg: '초급',
+    lvAdv: '중상급'
+  },
+  ja: {
+    pageTitle: 'AI採点プロンプト',
+    pageSub: 'タイプ別の採点ロジックを中央で管理します。設問の指示文・解答は変数として自動注入されます。',
+    note: '中央管理の対象は<b>「どう採点するか(ロジック)」</b>であり、設問ごとに異なる<b>指示文・文章・模範解答</b>は<code>{{모범답안}}</code>のような変数として採点時に自動置換されます。タイプごとにプロンプト1つで、そのタイプのすべての設問を採点します。',
+    lvBeg: '初級',
+    lvAdv: '中上級'
+  }
+};
+</script>
+<script src="assets/admin-shell.js"></script>
+</body>
+</html>

@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap');
 /* ═══════════════════════════════════════════════════════════
    MaroPass Admin — 통합 관리자 사이트 공유 스타일
    (service-site 블루 테마 기반 · 좌측 사이드바 콘솔)
@@ -13,7 +14,9 @@
 }
 *,*::before,*::after{box-sizing:border-box}
 html,body{margin:0;padding:0}
-html,body{font-family:"Pretendard Variable","Pretendard JP Variable",Pretendard,"Pretendard JP",-apple-system,BlinkMacSystemFont,system-ui,sans-serif;}
+html,body{font-family:"Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,sans-serif;}
+/* 일본어(운영자 언어)는 Noto Sans JP, 한국어(기획·개발용)는 Pretendard */
+html[lang="ja"] body,html[lang="ja"] input,html[lang="ja"] textarea,html[lang="ja"] select,html[lang="ja"] button{font-family:"Noto Sans JP","Pretendard Variable",sans-serif;}
 body{background:var(--grey-100);color:var(--grey-900);display:flex;min-height:100vh;min-width:1400px}
 img,svg{max-width:100%}
 a{color:inherit}
